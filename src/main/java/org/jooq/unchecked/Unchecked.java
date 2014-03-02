@@ -79,7 +79,7 @@ public final class Unchecked {
     }
 
     /**
-     * Wrap a {@link CheckedConsumer} in a {@link Consumer} with a custom handler for checked exceptions.
+     * Wrap a {@link CheckedBiConsumer} in a {@link BiConsumer} with a custom handler for checked exceptions.
      * <p>
      * Example:
      * <code><pre>
@@ -95,6 +95,69 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T, U> BiConsumer<T, U> biConsumer(CheckedBiConsumer<T, U> consumer, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                consumer.accept(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedObjIntConsumer} in a {@link ObjIntConsumer}.
+     */
+    public static <T> ObjIntConsumer<T> objIntConsumer(CheckedObjIntConsumer<T> consumer) {
+        return objIntConsumer(consumer, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedObjIntConsumer} in a {@link ObjIntConsumer} with a custom handler for checked exceptions.
+     */
+    public static <T> ObjIntConsumer<T> objIntConsumer(CheckedObjIntConsumer<T> consumer, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                consumer.accept(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedObjLongConsumer} in a {@link ObjLongConsumer}.
+     */
+    public static <T> ObjLongConsumer<T> objLongConsumer(CheckedObjLongConsumer<T> consumer) {
+        return objLongConsumer(consumer, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedObjLongConsumer} in a {@link ObjLongConsumer} with a custom handler for checked exceptions.
+     */
+    public static <T> ObjLongConsumer<T> objLongConsumer(CheckedObjLongConsumer<T> consumer, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                consumer.accept(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedObjDoubleConsumer} in a {@link ObjDoubleConsumer}.
+     */
+    public static <T> ObjDoubleConsumer<T> objDoubleConsumer(CheckedObjDoubleConsumer<T> consumer) {
+        return objDoubleConsumer(consumer, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedObjDoubleConsumer} in a {@link ObjDoubleConsumer} with a custom handler for checked exceptions.
+     */
+    public static <T> ObjDoubleConsumer<T> objDoubleConsumer(CheckedObjDoubleConsumer<T> consumer, Consumer<Throwable> handler) {
         return (t, u) -> {
             try {
                 consumer.accept(t, u);

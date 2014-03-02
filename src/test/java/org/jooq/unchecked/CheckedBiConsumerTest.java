@@ -75,6 +75,81 @@ public class CheckedBiConsumerTest {
         assertBiConsumer(test, IllegalStateException.class);
     }
 
+    @Test
+    public void testCheckedObjIntConsumer() {
+        ObjIntConsumer<Object> test = Unchecked.objIntConsumer(
+            (o1, o2) -> {
+                throw new Exception(o1 + ":" + o2);
+            }
+        );
+
+        assertObjIntConsumer(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedObjIntConsumerWithCustomHandler() {
+        ObjIntConsumer<Object> test = Unchecked.objIntConsumer(
+            (o1, o2) -> {
+                throw new Exception(o1 + ":" + o2);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertObjIntConsumer(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedObjLongConsumer() {
+        ObjLongConsumer<Object> test = Unchecked.objLongConsumer(
+            (o1, o2) -> {
+                throw new Exception(o1 + ":" + o2);
+            }
+        );
+
+        assertObjLongConsumer(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedObjLongConsumerWithCustomHandler() {
+        ObjLongConsumer<Object> test = Unchecked.objLongConsumer(
+            (o1, o2) -> {
+                throw new Exception(o1 + ":" + o2);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertObjLongConsumer(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedObjDoubleConsumer() {
+        ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(
+            (o1, o2) -> {
+                throw new Exception(o1 + ":" + o2);
+            }
+        );
+
+        assertObjDoubleConsumer(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedObjDoubleConsumerWithCustomHandler() {
+        ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(
+            (o1, o2) -> {
+                throw new Exception(o1 + ":" + o2);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertObjDoubleConsumer(test, IllegalStateException.class);
+    }
+
     private <E extends RuntimeException> void assertBiConsumer(BiConsumer<Object, Object> test, Class<E> type) {
         assertNotNull(test);
         try {
@@ -94,6 +169,39 @@ public class CheckedBiConsumerTest {
         }
         catch (RuntimeException e) {
             assertException(type, e, "a:1");
+        }
+    }
+
+    private <E extends RuntimeException> void assertObjIntConsumer(ObjIntConsumer<Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.accept(null, 0);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null:0");
+        }
+    }
+
+    private <E extends RuntimeException> void assertObjLongConsumer(ObjLongConsumer<Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.accept(null, 0L);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null:0");
+        }
+    }
+
+    private <E extends RuntimeException> void assertObjDoubleConsumer(ObjDoubleConsumer<Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.accept(null, 0.0);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null:0.0");
         }
     }
 
