@@ -106,6 +106,54 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for BiFunctions
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedBiFunction} in a {@link BiFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.forEach(Unchecked.biConsumer((k, v) -> {
+     *     if (k == null || v == null)
+     *         throw new Exception("No nulls allowed in map");
+     * }));
+     * </pre></code>
+     */
+    public static <T, U, R> BiFunction<T, U, R> biFunction(CheckedBiFunction<T, U, R> function) {
+        return biFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedBiFunction} in a {@link BiFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.forEach(Unchecked.biConsumer(
+     *     (k, v) -> {
+     *         if (k == null || v == null)
+     *             throw new Exception("No nulls allowed in map");
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T, U, R> BiFunction<T, U, R> biFunction(CheckedBiFunction<T, U, R> function, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                return function.apply(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
     // Wrappers for Consumers
     // -----------------------------------------------------------------------------------------------------------------
 
