@@ -114,9 +114,11 @@ public final class Unchecked {
      * <p>
      * Example:
      * <code><pre>
-     * map.forEach(Unchecked.biConsumer((k, v) -> {
+     * map.computeIfPresent("key", Unchecked.biFunction((k, v) -> {
      *     if (k == null || v == null)
      *         throw new Exception("No nulls allowed in map");
+     *
+     *     return 42;
      * }));
      * </pre></code>
      */
@@ -129,10 +131,12 @@ public final class Unchecked {
      * <p>
      * Example:
      * <code><pre>
-     * map.forEach(Unchecked.biConsumer(
+     * map.forEach(Unchecked.biFunction(
      *     (k, v) -> {
      *         if (k == null || v == null)
      *             throw new Exception("No nulls allowed in map");
+     *
+     *         return 42;
      *     },
      *     e -> {
      *         throw new IllegalStateException(e);
@@ -512,6 +516,202 @@ public final class Unchecked {
         return t -> {
             try {
                 return function.apply(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for Predicates
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedPredicate} in a {@link Predicate}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Stream.of("a", "b", "c").filter(Unchecked.predicate(s -> {
+     *     if (s.length() > 10)
+     *         throw new Exception("Only short strings allowed");
+     *
+     *     return true;
+     * }));
+     * </pre></code>
+     */
+    public static <T> Predicate<T> predicate(CheckedPredicate<T> predicate) {
+        return predicate(predicate, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedPredicate} in a {@link Predicate} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Stream.of("a", "b", "c").filter(Unchecked.predicate(
+     *     s -> {
+     *         if (s.length() > 10)
+     *             throw new Exception("Only short strings allowed");
+     *
+     *         return true;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T> Predicate<T> predicate(CheckedPredicate<T> function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.test(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedPredicate} in a {@link IntPredicate}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).filter(Unchecked.intPredicate(i -> {
+     *     if (i < 0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return true;
+     * }));
+     * </pre></code>
+     */
+    public static IntPredicate intPredicate(CheckedIntPredicate predicate) {
+        return intPredicate(predicate, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedPredicate} in a {@link IntPredicate} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).filter(Unchecked.intPredicate(
+     *     i -> {
+     *         if (i < 0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return true;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static IntPredicate intPredicate(CheckedIntPredicate function, Consumer<Throwable> handler) {
+        return i -> {
+            try {
+                return function.test(i);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedLongPredicate} in a {@link LongPredicate}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).filter(Unchecked.longPredicate(l -> {
+     *     if (l < 0L)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return true;
+     * }));
+     * </pre></code>
+     */
+    public static LongPredicate longPredicate(CheckedLongPredicate predicate) {
+        return longPredicate(predicate, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedLongPredicate} in a {@link LongPredicate} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).filter(Unchecked.longPredicate(
+     *     l -> {
+     *         if (l < 0L)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return true;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static LongPredicate longPredicate(CheckedLongPredicate function, Consumer<Throwable> handler) {
+        return l -> {
+            try {
+                return function.test(l);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedDoublePredicate} in a {@link DoublePredicate}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).filter(Unchecked.doublePredicate(d -> {
+     *     if (d < 0.0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return true;
+     * }));
+     * </pre></code>
+     */
+    public static DoublePredicate doublePredicate(CheckedDoublePredicate predicate) {
+        return doublePredicate(predicate, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedDoublePredicate} in a {@link DoublePredicate} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).filter(Unchecked.doublePredicate(
+     *     d -> {
+     *         if (d < 0.0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return true;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static DoublePredicate doublePredicate(CheckedDoublePredicate function, Consumer<Throwable> handler) {
+        return d -> {
+            try {
+                return function.test(d);
             }
             catch (Throwable e) {
                 handler.accept(e);
