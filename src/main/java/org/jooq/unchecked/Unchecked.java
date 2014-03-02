@@ -1441,6 +1441,202 @@ public final class Unchecked {
         };
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for UnaryOperators
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedUnaryOperator} in a {@link UnaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Stream.of("a", "b", "c").map(Unchecked.unaryOperator(s -> {
+     *     if (s.length() > 10)
+     *         throw new Exception("Only short strings allowed");
+     *
+     *     return s;
+     * }));
+     * </pre></code>
+     */
+    public static <T> UnaryOperator<T> unaryOperator(CheckedUnaryOperator<T> operator) {
+        return unaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedUnaryOperator} in a {@link UnaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Stream.of("a", "b", "c").map(Unchecked.unaryOperator(
+     *     s -> {
+     *         if (s.length() > 10)
+     *             throw new Exception("Only short strings allowed");
+     *
+     *         return s;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T> UnaryOperator<T> unaryOperator(CheckedUnaryOperator<T> operator, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return operator.apply(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedIntUnaryOperator} in a {@link IntUnaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).map(Unchecked.intUnaryOperator(i -> {
+     *     if (i < 0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return i;
+     * }));
+     * </pre></code>
+     */
+    public static IntUnaryOperator intUnaryOperator(CheckedIntUnaryOperator operator) {
+        return intUnaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedIntUnaryOperator} in a {@link IntUnaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).map(Unchecked.intUnaryOperator(
+     *     i -> {
+     *         if (i < 0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return i;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static IntUnaryOperator intUnaryOperator(CheckedIntUnaryOperator operator, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return operator.applyAsInt(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedLongUnaryOperator} in a {@link LongUnaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).map(Unchecked.longUnaryOperator(l -> {
+     *     if (l < 0L)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return l;
+     * }));
+     * </pre></code>
+     */
+    public static LongUnaryOperator longUnaryOperator(CheckedLongUnaryOperator operator) {
+        return longUnaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedLongUnaryOperator} in a {@link LongUnaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).map(Unchecked.longUnaryOperator(
+     *     l -> {
+     *         if (l < 0L)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return l;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static LongUnaryOperator longUnaryOperator(CheckedLongUnaryOperator operator, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return operator.applyAsLong(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleUnaryOperator} in a {@link DoubleUnaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1.0, 2.0, 3.0).map(Unchecked.doubleUnaryOperator(d -> {
+     *     if (d < 0.0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return d;
+     * }));
+     * </pre></code>
+     */
+    public static DoubleUnaryOperator doubleUnaryOperator(CheckedDoubleUnaryOperator operator) {
+        return doubleUnaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleUnaryOperator} in a {@link DoubleUnaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1.0, 2.0, 3.0).map(Unchecked.doubleUnaryOperator(
+     *     d -> {
+     *         if (d < 0.0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return d;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static DoubleUnaryOperator doubleUnaryOperator(CheckedDoubleUnaryOperator operator, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return operator.applyAsDouble(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
     /**
      * No instances
      */
