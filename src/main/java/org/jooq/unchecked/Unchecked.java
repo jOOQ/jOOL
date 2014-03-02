@@ -158,6 +158,33 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for BiPredicates
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedBiPredicate} in a {@link BiPredicate}.
+     */
+    public static <T, U> BiPredicate<T, U> biPredicate(CheckedBiPredicate<T, U> predicate) {
+        return biPredicate(predicate, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedBiPredicate} in a {@link BiPredicate} with a custom handler for checked exceptions.
+     */
+    public static <T, U> BiPredicate<T, U> biPredicate(CheckedBiPredicate<T, U> predicate, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                return predicate.test(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
     // Wrappers for Consumers
     // -----------------------------------------------------------------------------------------------------------------
 
