@@ -605,6 +605,150 @@ public final class Unchecked {
     }
 
     /**
+     * Wrap a {@link CheckedToIntFunction} in a {@link ToIntFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.computeIfAbsent("key", Unchecked.toIntFunction(k -> {
+     *     if (k.length() > 10)
+     *         throw new Exception("Only short strings allowed");
+     *
+     *     return 42;
+     * }));
+     * </pre></code>
+     */
+    public static <T> ToIntFunction<T> toIntFunction(CheckedToIntFunction<T> function) {
+        return toIntFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedToIntFunction} in a {@link ToIntFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.forEach(Unchecked.toIntFunction(
+     *     k -> {
+     *         if (k.length() > 10)
+     *             throw new Exception("Only short strings allowed");
+     *
+     *         return 42;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T> ToIntFunction<T> toIntFunction(CheckedToIntFunction<T> function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsInt(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedToLongFunction} in a {@link ToLongFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.computeIfAbsent("key", Unchecked.toLongFunction(k -> {
+     *     if (k.length() > 10)
+     *         throw new Exception("Only short strings allowed");
+     *
+     *     return 42L;
+     * }));
+     * </pre></code>
+     */
+    public static <T> ToLongFunction<T> toLongFunction(CheckedToLongFunction<T> function) {
+        return toLongFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedToLongFunction} in a {@link ToLongFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.forEach(Unchecked.toLongFunction(
+     *     k -> {
+     *         if (k.length() > 10)
+     *             throw new Exception("Only short strings allowed");
+     *
+     *         return 42L;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T> ToLongFunction<T> toLongFunction(CheckedToLongFunction<T> function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsLong(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedToDoubleFunction} in a {@link ToDoubleFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.computeIfAbsent("key", Unchecked.toDoubleFunction(k -> {
+     *     if (k.length() > 10)
+     *         throw new Exception("Only short strings allowed");
+     *
+     *     return 42.0;
+     * }));
+     * </pre></code>
+     */
+    public static <T> ToDoubleFunction<T> toDoubleFunction(CheckedToDoubleFunction<T> function) {
+        return toDoubleFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedToDoubleFunction} in a {@link ToDoubleFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * map.forEach(Unchecked.toDoubleFunction(
+     *     k -> {
+     *         if (k.length() > 10)
+     *             throw new Exception("Only short strings allowed");
+     *
+     *         return 42.0;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T> ToDoubleFunction<T> toDoubleFunction(CheckedToDoubleFunction<T> function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsDouble(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
      * Wrap a {@link CheckedIntFunction} in a {@link IntFunction}.
      * <p>
      * Example:

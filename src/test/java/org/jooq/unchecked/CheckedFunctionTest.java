@@ -43,6 +43,7 @@ import java.util.function.*;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
@@ -76,6 +77,81 @@ public class CheckedFunctionTest {
         );
 
         assertFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedToIntFunction() {
+        ToIntFunction<Object> test = Unchecked.toIntFunction(
+            t -> {
+                throw new Exception("" + t);
+            }
+        );
+
+        assertToIntFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedToIntFunctionWithCustomHandler() {
+        ToIntFunction<Object> test = Unchecked.toIntFunction(
+            t -> {
+                throw new Exception("" + t);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertToIntFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedToLongFunction() {
+        ToLongFunction<Object> test = Unchecked.toLongFunction(
+            t -> {
+                throw new Exception("" + t);
+            }
+        );
+
+        assertToLongFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedToLongFunctionWithCustomHandler() {
+        ToLongFunction<Object> test = Unchecked.toLongFunction(
+            t -> {
+                throw new Exception("" + t);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertToLongFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedToDoubleFunction() {
+        ToDoubleFunction<Object> test = Unchecked.toDoubleFunction(
+            t -> {
+                throw new Exception("" + t);
+            }
+        );
+
+        assertToDoubleFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedToDoubleunctionWithCustomHandler() {
+        ToDoubleFunction<Object> test = Unchecked.toDoubleFunction(
+            t -> {
+                throw new Exception("" + t);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertToDoubleFunction(test, IllegalStateException.class);
     }
 
     @Test
@@ -316,6 +392,60 @@ public class CheckedFunctionTest {
         try {
             Map<Object, Object> map = new LinkedHashMap<>();
             map.computeIfAbsent("a", test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "a");
+        }
+    }
+
+    private <E extends RuntimeException> void assertToIntFunction(ToIntFunction<Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsInt(null);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null");
+        }
+
+        try {
+            Stream.of("1", "2", "3").mapToInt(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "a");
+        }
+    }
+
+    private <E extends RuntimeException> void assertToLongFunction(ToLongFunction<Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsLong(null);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null");
+        }
+
+        try {
+            Stream.of("1", "2", "3").mapToLong(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "a");
+        }
+    }
+
+    private <E extends RuntimeException> void assertToDoubleFunction(ToDoubleFunction<Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsDouble(null);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null");
+        }
+
+        try {
+            Stream.of("1", "2", "3").mapToDouble(test);
         }
         catch (RuntimeException e) {
             assertException(type, e, "a");
