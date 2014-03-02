@@ -39,10 +39,7 @@ import org.junit.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.DoubleFunction;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.LongFunction;
+import java.util.function.*;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -107,6 +104,56 @@ public class CheckedFunctionTest {
     }
 
     @Test
+    public void testCheckedIntToLongFunction() {
+        IntToLongFunction test = Unchecked.intToLongFunction(
+            i -> {
+                throw new Exception("" + i);
+            }
+        );
+
+        assertIntToLongFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedIntToLongFunctionWithCustomHandler() {
+        IntToLongFunction test = Unchecked.intToLongFunction(
+            i -> {
+                throw new Exception("" + i);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertIntToLongFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedIntToDoubleFunction() {
+        IntToDoubleFunction test = Unchecked.intToDoubleFunction(
+            i -> {
+                throw new Exception("" + i);
+            }
+        );
+
+        assertIntToDoubleFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedIntToDoubleFunctionWithCustomHandler() {
+        IntToDoubleFunction test = Unchecked.intToDoubleFunction(
+            i -> {
+                throw new Exception("" + i);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertIntToDoubleFunction(test, IllegalStateException.class);
+    }
+
+    @Test
     public void testCheckedLongFunction() {
         LongFunction<Object> test = Unchecked.longFunction(
             l -> {
@@ -132,6 +179,56 @@ public class CheckedFunctionTest {
     }
 
     @Test
+    public void testCheckedLongToIntFunction() {
+        LongToIntFunction test = Unchecked.longToIntFunction(
+            l -> {
+                throw new Exception("" + l);
+            }
+        );
+
+        assertLongToIntFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedLongToIntFunctionWithCustomHandler() {
+        LongToIntFunction test = Unchecked.longToIntFunction(
+            l -> {
+                throw new Exception("" + l);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertLongToIntFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedLongToDoubleFunction() {
+        LongToDoubleFunction test = Unchecked.longToDoubleFunction(
+            l -> {
+                throw new Exception("" + l);
+            }
+        );
+
+        assertLongToDoubleFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedLongToDoubleFunctionWithCustomHandler() {
+        LongToDoubleFunction test = Unchecked.longToDoubleFunction(
+            l -> {
+                throw new Exception("" + l);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertLongToDoubleFunction(test, IllegalStateException.class);
+    }
+
+    @Test
     public void testCheckedDoubleFunction() {
         DoubleFunction<Object> test = Unchecked.doubleFunction(
             d -> {
@@ -154,6 +251,56 @@ public class CheckedFunctionTest {
         );
 
         assertDoubleFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedDoubleToIntFunction() {
+        DoubleToIntFunction test = Unchecked.doubleToIntFunction(
+            d -> {
+                throw new Exception("" + d);
+            }
+        );
+
+        assertDoubleToIntFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedDoubleToIntFunctionWithCustomHandler() {
+        DoubleToIntFunction test = Unchecked.doubleToIntFunction(
+            d -> {
+                throw new Exception("" + d);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertDoubleToIntFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedDoubleToLongFunction() {
+        DoubleToLongFunction test = Unchecked.doubleToLongFunction(
+            d -> {
+                throw new Exception("" + d);
+            }
+        );
+
+        assertDoubleToLongFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedDoubleToLongFunctionWithCustomHandler() {
+        DoubleToLongFunction test = Unchecked.doubleToLongFunction(
+            d -> {
+                throw new Exception("" + d);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertDoubleToLongFunction(test, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertFunction(Function<Object, Object> test, Class<E> type) {
@@ -193,6 +340,42 @@ public class CheckedFunctionTest {
         }
     }
 
+    private <E extends RuntimeException> void assertIntToLongFunction(IntToLongFunction test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsLong(0);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "0");
+        }
+
+        try {
+            IntStream.of(1, 2, 3).mapToLong(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "1");
+        }
+    }
+
+    private <E extends RuntimeException> void assertIntToDoubleFunction(IntToDoubleFunction test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsDouble(0);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "0");
+        }
+
+        try {
+            IntStream.of(1, 2, 3).mapToDouble(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "1");
+        }
+    }
+
     private <E extends RuntimeException> void assertLongFunction(LongFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
@@ -211,6 +394,42 @@ public class CheckedFunctionTest {
         }
     }
 
+    private <E extends RuntimeException> void assertLongToIntFunction(LongToIntFunction test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsInt(0L);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "0");
+        }
+
+        try {
+            LongStream.of(1L, 2L, 3L).mapToInt(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "1");
+        }
+    }
+
+    private <E extends RuntimeException> void assertLongToDoubleFunction(LongToDoubleFunction test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsDouble(0L);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "0");
+        }
+
+        try {
+            LongStream.of(1L, 2L, 3L).mapToDouble(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "1");
+        }
+    }
+
     private <E extends RuntimeException> void assertDoubleFunction(DoubleFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
@@ -223,6 +442,42 @@ public class CheckedFunctionTest {
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).mapToObj(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "1.0");
+        }
+    }
+
+    private <E extends RuntimeException> void assertDoubleToIntFunction(DoubleToIntFunction test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsInt(0.0);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "0.0");
+        }
+
+        try {
+            DoubleStream.of(1.0, 2.0, 3.0).mapToInt(test);
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "1.0");
+        }
+    }
+
+    private <E extends RuntimeException> void assertDoubleToLongFunction(DoubleToLongFunction test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsLong(0.0);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "0.0");
+        }
+
+        try {
+            DoubleStream.of(1.0, 2.0, 3.0).mapToLong(test);
         }
         catch (RuntimeException e) {
             assertException(type, e, "1.0");

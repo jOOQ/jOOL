@@ -653,6 +653,102 @@ public final class Unchecked {
     }
 
     /**
+     * Wrap a {@link CheckedIntToLongFunction} in a {@link IntToLongFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).mapToLong(Unchecked.intToLongFunction(i -> {
+     *     if (i < 0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return (long) i;
+     * });
+     * </pre></code>
+     */
+    public static IntToLongFunction intToLongFunction(CheckedIntToLongFunction function) {
+        return intToLongFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedIntToLongFunction} in a {@link IntToLongFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).mapToLong(Unchecked.intToLongFunction(
+     *     i -> {
+     *         if (i < 0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return (long) i;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static IntToLongFunction intToLongFunction(CheckedIntToLongFunction function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsLong(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedIntToDoubleFunction} in a {@link IntToDoubleFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).mapToDouble(Unchecked.intToDoubleFunction(i -> {
+     *     if (i < 0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return (double) i;
+     * });
+     * </pre></code>
+     */
+    public static IntToDoubleFunction intToDoubleFunction(CheckedIntToDoubleFunction function) {
+        return intToDoubleFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedIntToDoubleFunction} in a {@link IntToDoubleFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).mapToDouble(Unchecked.intToDoubleFunction(
+     *     i -> {
+     *         if (i < 0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return (double) i;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static IntToDoubleFunction intToDoubleFunction(CheckedIntToDoubleFunction function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsDouble(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
      * Wrap a {@link CheckedLongFunction} in a {@link LongFunction}.
      * <p>
      * Example:
@@ -701,6 +797,102 @@ public final class Unchecked {
     }
 
     /**
+     * Wrap a {@link CheckedLongToIntFunction} in a {@link LongToIntFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToIntFunction(l -> {
+     *     if (l < 0L)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return (int) l;
+     * });
+     * </pre></code>
+     */
+    public static LongToIntFunction longToIntFunction(CheckedLongToIntFunction function) {
+        return longToIntFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedLongToIntFunction} in a {@link LongToIntFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToIntFunction(
+     *     l -> {
+     *         if (l < 0L)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return (int) l;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static LongToIntFunction longToIntFunction(CheckedLongToIntFunction function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsInt(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedLongToDoubleFunction} in a {@link LongToDoubleFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToDoubleFunction(l -> {
+     *     if (l < 0L)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return (double) l;
+     * });
+     * </pre></code>
+     */
+    public static LongToDoubleFunction longToDoubleFunction(CheckedLongToDoubleFunction function) {
+        return longToDoubleFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedLongToDoubleFunction} in a {@link LongToDoubleFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToDoubleFunction(
+     *     l -> {
+     *         if (l < 0L)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return (double) l;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static LongToDoubleFunction longToDoubleFunction(CheckedLongToDoubleFunction function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsDouble(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
      * Wrap a {@link CheckedDoubleFunction} in a {@link DoubleFunction}.
      * <p>
      * Example:
@@ -739,6 +931,102 @@ public final class Unchecked {
         return t -> {
             try {
                 return function.apply(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleToIntFunction} in a {@link DoubleToIntFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).mapToInt(Unchecked.doubleToIntFunction(d -> {
+     *     if (d < 0.0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return (int) d;
+     * });
+     * </pre></code>
+     */
+    public static DoubleToIntFunction doubleToIntFunction(CheckedDoubleToIntFunction function) {
+        return doubleToIntFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleToIntFunction} in a {@link DoubleToIntFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).mapToInt(Unchecked.doubleToIntFunction(
+     *     d -> {
+     *         if (d < 0.0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return (int) d;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static DoubleToIntFunction doubleToIntFunction(CheckedDoubleToIntFunction function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsInt(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleToLongFunction} in a {@link DoubleToLongFunction}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).mapToLong(Unchecked.doubleToLongFunction(d -> {
+     *     if (d < 0.0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return (long) d;
+     * });
+     * </pre></code>
+     */
+    public static DoubleToLongFunction doubleToLongFunction(CheckedDoubleToLongFunction function) {
+        return doubleToLongFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleToLongFunction} in a {@link DoubleToLongFunction} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).mapToLong(Unchecked.doubleToLongFunction(
+     *     d -> {
+     *         if (d < 0.0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return (long) d;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static DoubleToLongFunction doubleToLongFunction(CheckedDoubleToLongFunction function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.applyAsLong(t);
             }
             catch (Throwable e) {
                 handler.accept(e);
