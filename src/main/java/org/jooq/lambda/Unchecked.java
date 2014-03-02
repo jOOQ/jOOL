@@ -38,7 +38,9 @@ package org.jooq.lambda;
 
 import org.jooq.lambda.function.*;
 import org.jooq.lambda.lang.CheckedRunnable;
+import org.jooq.lambda.util.CheckedComparator;
 
+import java.util.Comparator;
 import java.util.function.*;
 
 /**
@@ -99,6 +101,33 @@ public final class Unchecked {
         return () -> {
             try {
                 runnable.run();
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for java.util.Comparator
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedComparator} in a {@link Comparator}.
+     */
+    public static <T> Comparator<T> comparator(CheckedComparator<T> comparator) {
+        return comparator(comparator, THROWABLE_TO_RUNTIME_EXCEPTION);
+    }
+
+    /**
+     * Wrap a {@link CheckedComparator} in a {@link Comparator} with a custom handler for checked exceptions.
+     */
+    public static <T> Comparator<T> comparator(CheckedComparator<T> comparator, Consumer<Throwable> handler) {
+        return (t1, t2) -> {
+            try {
+                return comparator.compare(t1, t2);
             }
             catch (Throwable e) {
                 handler.accept(e);
