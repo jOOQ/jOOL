@@ -185,6 +185,202 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for BinaryOperators
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedBinaryOperator} in a {@link BinaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Stream.of("a", "b", "c").reduce(Unchecked.binaryOperator((s1, s2) -> {
+     *     if (s2.length() > 10)
+     *         throw new Exception("Only short strings allowed");
+     *
+     *     return s1 + s2;
+     * }));
+     * </pre></code>
+     */
+    public static <T> BinaryOperator<T> binaryOperator(CheckedBinaryOperator<T> operator) {
+        return binaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedBinaryOperator} in a {@link BinaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Stream.of("a", "b", "c").reduce(Unchecked.binaryOperator(
+     *     (s1, s2) -> {
+     *         if (s2.length() > 10)
+     *             throw new Exception("Only short strings allowed");
+     *
+     *         return s1 + s2;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static <T> BinaryOperator<T> binaryOperator(CheckedBinaryOperator<T> operator, Consumer<Throwable> handler) {
+        return (t1, t2) -> {
+            try {
+                return operator.apply(t1, t2);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedIntBinaryOperator} in a {@link IntBinaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).reduce(Unchecked.intBinaryOperator((i1, i2) -> {
+     *     if (i2 < 0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return i1 + i2;
+     * }));
+     * </pre></code>
+     */
+    public static IntBinaryOperator intBinaryOperator(CheckedIntBinaryOperator operator) {
+        return intBinaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedIntBinaryOperator} in a {@link IntBinaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * IntStream.of(1, 2, 3).reduce(Unchecked.intBinaryOperator(
+     *     (i1, i2) -> {
+     *         if (i2 < 0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return i1 + i2;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static  IntBinaryOperator intBinaryOperator(CheckedIntBinaryOperator operator, Consumer<Throwable> handler) {
+        return (i1, i2) -> {
+            try {
+                return operator.applyAsInt(i1, i2);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedLongBinaryOperator} in a {@link LongBinaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).reduce(Unchecked.longBinaryOperator((l1, l2) -> {
+     *     if (l2 < 0L)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return l1 + l2;
+     * }));
+     * </pre></code>
+     */
+    public static LongBinaryOperator longBinaryOperator(CheckedLongBinaryOperator operator) {
+        return longBinaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedLongBinaryOperator} in a {@link LongBinaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * LongStream.of(1L, 2L, 3L).reduce(Unchecked.longBinaryOperator(
+     *     (l1, l2) -> {
+     *         if (l2 < 0L)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return l1 + l2;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static LongBinaryOperator longBinaryOperator(CheckedLongBinaryOperator operator, Consumer<Throwable> handler) {
+        return (l1, l2) -> {
+            try {
+                return operator.applyAsLong(l1, l2);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleBinaryOperator} in a {@link DoubleBinaryOperator}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).reduce(Unchecked.doubleBinaryOperator((d1, d2) -> {
+     *     if (d2 < 0.0)
+     *         throw new Exception("Only positive numbers allowed");
+     *
+     *     return d1 + d2;
+     * }));
+     * </pre></code>
+     */
+    public static DoubleBinaryOperator doubleBinaryOperator(CheckedDoubleBinaryOperator operator) {
+        return doubleBinaryOperator(operator, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedDoubleBinaryOperator} in a {@link DoubleBinaryOperator} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * DoubleStream.of(1.0, 2.0, 3.0).reduce(Unchecked.doubleBinaryOperator(
+     *     (d1, d2) -> {
+     *         if (d2 < 0.0)
+     *             throw new Exception("Only positive numbers allowed");
+     *
+     *         return d1 + d2;
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * ));
+     * </pre></code>
+     */
+    public static DoubleBinaryOperator doubleBinaryOperator(CheckedDoubleBinaryOperator operator, Consumer<Throwable> handler) {
+        return (d1, d2) -> {
+            try {
+                return operator.applyAsDouble(d1, d2);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
     // Wrappers for Consumers
     // -----------------------------------------------------------------------------------------------------------------
 
