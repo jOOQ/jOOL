@@ -35,7 +35,11 @@
  */
 package org.jooq.lambda;
 
+import java.util.function.LongPredicate;
+
 /**
+ * A {@link LongPredicate} that allows for checked exceptions.
+ *
  * @author Lukas Eder
  */
 @FunctionalInterface

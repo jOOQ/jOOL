@@ -35,7 +35,11 @@
  */
 package org.jooq.lambda;
 
+import java.util.function.IntSupplier;
+
 /**
+ * A {@link IntSupplier} that allows for checked exceptions.
+ *
  * @author Lukas Eder
  */
 @FunctionalInterface

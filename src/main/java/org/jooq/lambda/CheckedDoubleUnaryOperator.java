@@ -35,7 +35,11 @@
  */
 package org.jooq.lambda;
 
+import java.util.function.DoubleUnaryOperator;
+
 /**
+ * A {@link DoubleUnaryOperator} that allows for checked exceptions.
+ *
  * @author Lukas Eder
  */
 @FunctionalInterface

@@ -35,7 +35,11 @@
  */
 package org.jooq.lambda;
 
+import java.util.function.ToIntBiFunction;
+
 /**
+ * A {@link ToIntBiFunction} that allows for checked exceptions.
+ *
  * @author Lukas Eder
  */
 @FunctionalInterface

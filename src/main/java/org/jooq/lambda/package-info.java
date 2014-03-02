@@ -33,23 +33,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.jooq.lambda;
-
-import java.util.function.IntToLongFunction;
 
 /**
- * A {@link IntToLongFunction} that allows for checked exceptions.
+ * This package contains useful extensions for interoperation with Java 8's lambda expressions and
+ * {@link FunctionalInterface} types.
  *
  * @author Lukas Eder
  */
-@FunctionalInterface
-public interface CheckedIntToLongFunction {
-
-    /**
-     * Applies this function to the given argument.
-     *
-     * @param value the function argument
-     * @return the function result
-     */
-    long applyAsLong(int value) throws Throwable;
-}
+package org.jooq.lambda;

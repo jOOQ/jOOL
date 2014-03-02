@@ -35,7 +35,11 @@
  */
 package org.jooq.lambda;
 
+import java.util.function.LongFunction;
+
 /**
+ * A {@link LongFunction} that allows for checked exceptions.
+ *
  * @author Lukas Eder
  */
 @FunctionalInterface

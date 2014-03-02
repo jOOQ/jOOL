@@ -35,7 +35,11 @@
  */
 package org.jooq.lambda;
 
+import java.util.function.BinaryOperator;
+
 /**
+ * A {@link BinaryOperator} that allows for checked exceptions.
+ *
  * @author Lukas Eder
  */
 @FunctionalInterface
