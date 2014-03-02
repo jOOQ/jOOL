@@ -40,9 +40,6 @@ import org.junit.Test;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.*;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
@@ -78,6 +75,81 @@ public class CheckedBiFunctionTest {
         assertBiFunction(test, IllegalStateException.class);
     }
 
+    @Test
+    public void testCheckedToIntBiFunction() {
+        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(
+            (t, u) -> {
+                throw new Exception(t + ":" + u);
+            }
+        );
+
+        assertToIntBiFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedToIntBiFunctionWithCustomHandler() {
+        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(
+            (t, u) -> {
+                throw new Exception(t + ":" + u);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertToIntBiFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedToLongBiFunction() {
+        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(
+            (t, u) -> {
+                throw new Exception(t + ":" + u);
+            }
+        );
+
+        assertToLongBiFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedToLongBiFunctionWithCustomHandler() {
+        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(
+            (t, u) -> {
+                throw new Exception(t + ":" + u);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertToLongBiFunction(test, IllegalStateException.class);
+    }
+
+    @Test
+    public void testCheckedToDoubleBiFunction() {
+        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(
+            (t, u) -> {
+                throw new Exception(t + ":" + u);
+            }
+        );
+
+        assertToDoubleBiFunction(test, RuntimeException.class);
+    }
+
+    @Test
+    public void testCheckedToDoubleBiFunctionWithCustomHandler() {
+        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(
+            (t, u) -> {
+                throw new Exception(t + ":" + u);
+            },
+            e -> {
+                throw new IllegalStateException(e);
+            }
+        );
+
+        assertToDoubleBiFunction(test, IllegalStateException.class);
+    }
+
     private <E extends RuntimeException> void assertBiFunction(BiFunction<Object, Object, Object> test, Class<E> type) {
         assertNotNull(test);
         try {
@@ -95,6 +167,39 @@ public class CheckedBiFunctionTest {
         }
         catch (RuntimeException e) {
             assertException(type, e, "a:b");
+        }
+    }
+
+    private <E extends RuntimeException> void assertToIntBiFunction(ToIntBiFunction<Object, Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsInt(null, null);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null:null");
+        }
+    }
+
+    private <E extends RuntimeException> void assertToLongBiFunction(ToLongBiFunction<Object, Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsLong(null, null);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null:null");
+        }
+    }
+
+    private <E extends RuntimeException> void assertToDoubleBiFunction(ToDoubleBiFunction<Object, Object> test, Class<E> type) {
+        assertNotNull(test);
+        try {
+            test.applyAsDouble(null, null);
+            fail();
+        }
+        catch (RuntimeException e) {
+            assertException(type, e, "null:null");
         }
     }
 

@@ -131,7 +131,7 @@ public final class Unchecked {
      * <p>
      * Example:
      * <code><pre>
-     * map.forEach(Unchecked.biFunction(
+     * map.computeIfPresent("key", Unchecked.biFunction(
      *     (k, v) -> {
      *         if (k == null || v == null)
      *             throw new Exception("No nulls allowed in map");
@@ -148,6 +148,75 @@ public final class Unchecked {
         return (t, u) -> {
             try {
                 return function.apply(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedToIntBiFunction} in a {@link ToIntBiFunction}.
+     */
+    public static <T, U> ToIntBiFunction<T, U> toIntBiFunction(CheckedToIntBiFunction<T, U> function) {
+        return toIntBiFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedToIntBiFunction} in a {@link ToIntBiFunction} with a custom handler for checked exceptions.
+     */
+    public static <T, U> ToIntBiFunction<T, U> toIntBiFunction(CheckedToIntBiFunction<T, U> function, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                return function.applyAsInt(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedToLongBiFunction} in a {@link ToLongBiFunction}.
+     */
+    public static <T, U> ToLongBiFunction<T, U> toLongBiFunction(CheckedToLongBiFunction<T, U> function) {
+        return toLongBiFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedToLongBiFunction} in a {@link ToLongBiFunction} with a custom handler for checked exceptions.
+     */
+    public static <T, U> ToLongBiFunction<T, U> toLongBiFunction(CheckedToLongBiFunction<T, U> function, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                return function.applyAsLong(t, u);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    /**
+     * Wrap a {@link CheckedToDoubleBiFunction} in a {@link ToDoubleBiFunction}.
+     */
+    public static <T, U> ToDoubleBiFunction<T, U> toDoubleBiFunction(CheckedToDoubleBiFunction<T, U> function) {
+        return toDoubleBiFunction(function, CHECKED_CONSUMER);
+    }
+
+    /**
+     * Wrap a {@link CheckedToDoubleBiFunction} in a {@link ToDoubleBiFunction} with a custom handler for checked exceptions.
+     */
+    public static <T, U> ToDoubleBiFunction<T, U> toDoubleBiFunction(CheckedToDoubleBiFunction<T, U> function, Consumer<Throwable> handler) {
+        return (t, u) -> {
+            try {
+                return function.applyAsDouble(t, u);
             }
             catch (Throwable e) {
                 handler.accept(e);
