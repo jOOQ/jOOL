@@ -55,7 +55,7 @@ public final class Unchecked {
     /**
      * A {@link Consumer} that wraps any {@link Throwable} in a {@link RuntimeException}.
      */
-    public static final Consumer<Throwable> CHECKED_CONSUMER = t -> {
+    public static final Consumer<Throwable> THROWABLE_TO_RUNTIME_EXCEPTION = t -> {
         throw new RuntimeException(t);
     };
 
@@ -75,7 +75,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T, U> BiConsumer<T, U> biConsumer(CheckedBiConsumer<T, U> consumer) {
-        return biConsumer(consumer, CHECKED_CONSUMER);
+        return biConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -109,7 +109,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedObjIntConsumer} in a {@link ObjIntConsumer}.
      */
     public static <T> ObjIntConsumer<T> objIntConsumer(CheckedObjIntConsumer<T> consumer) {
-        return objIntConsumer(consumer, CHECKED_CONSUMER);
+        return objIntConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -130,7 +130,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedObjLongConsumer} in a {@link ObjLongConsumer}.
      */
     public static <T> ObjLongConsumer<T> objLongConsumer(CheckedObjLongConsumer<T> consumer) {
-        return objLongConsumer(consumer, CHECKED_CONSUMER);
+        return objLongConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -151,7 +151,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedObjDoubleConsumer} in a {@link ObjDoubleConsumer}.
      */
     public static <T> ObjDoubleConsumer<T> objDoubleConsumer(CheckedObjDoubleConsumer<T> consumer) {
-        return objDoubleConsumer(consumer, CHECKED_CONSUMER);
+        return objDoubleConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -186,7 +186,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T, U, R> BiFunction<T, U, R> biFunction(CheckedBiFunction<T, U, R> function) {
-        return biFunction(function, CHECKED_CONSUMER);
+        return biFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -224,7 +224,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedToIntBiFunction} in a {@link ToIntBiFunction}.
      */
     public static <T, U> ToIntBiFunction<T, U> toIntBiFunction(CheckedToIntBiFunction<T, U> function) {
-        return toIntBiFunction(function, CHECKED_CONSUMER);
+        return toIntBiFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -247,7 +247,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedToLongBiFunction} in a {@link ToLongBiFunction}.
      */
     public static <T, U> ToLongBiFunction<T, U> toLongBiFunction(CheckedToLongBiFunction<T, U> function) {
-        return toLongBiFunction(function, CHECKED_CONSUMER);
+        return toLongBiFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -270,7 +270,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedToDoubleBiFunction} in a {@link ToDoubleBiFunction}.
      */
     public static <T, U> ToDoubleBiFunction<T, U> toDoubleBiFunction(CheckedToDoubleBiFunction<T, U> function) {
-        return toDoubleBiFunction(function, CHECKED_CONSUMER);
+        return toDoubleBiFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -297,7 +297,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedBiPredicate} in a {@link BiPredicate}.
      */
     public static <T, U> BiPredicate<T, U> biPredicate(CheckedBiPredicate<T, U> predicate) {
-        return biPredicate(predicate, CHECKED_CONSUMER);
+        return biPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -334,7 +334,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> BinaryOperator<T> binaryOperator(CheckedBinaryOperator<T> operator) {
-        return binaryOperator(operator, CHECKED_CONSUMER);
+        return binaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -382,7 +382,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntBinaryOperator intBinaryOperator(CheckedIntBinaryOperator operator) {
-        return intBinaryOperator(operator, CHECKED_CONSUMER);
+        return intBinaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -430,7 +430,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongBinaryOperator longBinaryOperator(CheckedLongBinaryOperator operator) {
-        return longBinaryOperator(operator, CHECKED_CONSUMER);
+        return longBinaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -478,7 +478,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoubleBinaryOperator doubleBinaryOperator(CheckedDoubleBinaryOperator operator) {
-        return doubleBinaryOperator(operator, CHECKED_CONSUMER);
+        return doubleBinaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -528,7 +528,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> Consumer<T> consumer(CheckedConsumer<T> consumer) {
-        return consumer(consumer, CHECKED_CONSUMER);
+        return consumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -570,7 +570,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntConsumer intConsumer(CheckedIntConsumer consumer) {
-        return intConsumer(consumer, CHECKED_CONSUMER);
+        return intConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -612,7 +612,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongConsumer longConsumer(CheckedLongConsumer consumer) {
-        return longConsumer(consumer, CHECKED_CONSUMER);
+        return longConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -654,7 +654,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoubleConsumer doubleConsumer(CheckedDoubleConsumer consumer) {
-        return doubleConsumer(consumer, CHECKED_CONSUMER);
+        return doubleConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -702,7 +702,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T, R> Function<T, R> function(CheckedFunction<T, R> function) {
-        return function(function, CHECKED_CONSUMER);
+        return function(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -750,7 +750,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> ToIntFunction<T> toIntFunction(CheckedToIntFunction<T> function) {
-        return toIntFunction(function, CHECKED_CONSUMER);
+        return toIntFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -798,7 +798,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> ToLongFunction<T> toLongFunction(CheckedToLongFunction<T> function) {
-        return toLongFunction(function, CHECKED_CONSUMER);
+        return toLongFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -846,7 +846,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> ToDoubleFunction<T> toDoubleFunction(CheckedToDoubleFunction<T> function) {
-        return toDoubleFunction(function, CHECKED_CONSUMER);
+        return toDoubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -894,7 +894,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <R> IntFunction<R> intFunction(CheckedIntFunction<R> function) {
-        return intFunction(function, CHECKED_CONSUMER);
+        return intFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -942,7 +942,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntToLongFunction intToLongFunction(CheckedIntToLongFunction function) {
-        return intToLongFunction(function, CHECKED_CONSUMER);
+        return intToLongFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -990,7 +990,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntToDoubleFunction intToDoubleFunction(CheckedIntToDoubleFunction function) {
-        return intToDoubleFunction(function, CHECKED_CONSUMER);
+        return intToDoubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1038,7 +1038,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <R> LongFunction<R> longFunction(CheckedLongFunction<R> function) {
-        return longFunction(function, CHECKED_CONSUMER);
+        return longFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1086,7 +1086,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongToIntFunction longToIntFunction(CheckedLongToIntFunction function) {
-        return longToIntFunction(function, CHECKED_CONSUMER);
+        return longToIntFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1134,7 +1134,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongToDoubleFunction longToDoubleFunction(CheckedLongToDoubleFunction function) {
-        return longToDoubleFunction(function, CHECKED_CONSUMER);
+        return longToDoubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1182,7 +1182,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <R> DoubleFunction<R> doubleFunction(CheckedDoubleFunction<R> function) {
-        return doubleFunction(function, CHECKED_CONSUMER);
+        return doubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1230,7 +1230,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoubleToIntFunction doubleToIntFunction(CheckedDoubleToIntFunction function) {
-        return doubleToIntFunction(function, CHECKED_CONSUMER);
+        return doubleToIntFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1278,7 +1278,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoubleToLongFunction doubleToLongFunction(CheckedDoubleToLongFunction function) {
-        return doubleToLongFunction(function, CHECKED_CONSUMER);
+        return doubleToLongFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1330,7 +1330,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> Predicate<T> predicate(CheckedPredicate<T> predicate) {
-        return predicate(predicate, CHECKED_CONSUMER);
+        return predicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1378,7 +1378,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntPredicate intPredicate(CheckedIntPredicate predicate) {
-        return intPredicate(predicate, CHECKED_CONSUMER);
+        return intPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1426,7 +1426,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongPredicate longPredicate(CheckedLongPredicate predicate) {
-        return longPredicate(predicate, CHECKED_CONSUMER);
+        return longPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1474,7 +1474,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoublePredicate doublePredicate(CheckedDoublePredicate predicate) {
-        return doublePredicate(predicate, CHECKED_CONSUMER);
+        return doublePredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1522,7 +1522,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> Supplier<T> supplier(CheckedSupplier<T> supplier) {
-        return supplier(supplier, CHECKED_CONSUMER);
+        return supplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1563,7 +1563,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntSupplier intSupplier(CheckedIntSupplier supplier) {
-        return intSupplier(supplier, CHECKED_CONSUMER);
+        return intSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1604,7 +1604,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongSupplier longSupplier(CheckedLongSupplier supplier) {
-        return longSupplier(supplier, CHECKED_CONSUMER);
+        return longSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1645,7 +1645,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoubleSupplier doubleSupplier(CheckedDoubleSupplier supplier) {
-        return doubleSupplier(supplier, CHECKED_CONSUMER);
+        return doubleSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1686,7 +1686,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static BooleanSupplier booleanSupplier(CheckedBooleanSupplier supplier) {
-        return booleanSupplier(supplier, CHECKED_CONSUMER);
+        return booleanSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1735,7 +1735,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static <T> UnaryOperator<T> unaryOperator(CheckedUnaryOperator<T> operator) {
-        return unaryOperator(operator, CHECKED_CONSUMER);
+        return unaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1783,7 +1783,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static IntUnaryOperator intUnaryOperator(CheckedIntUnaryOperator operator) {
-        return intUnaryOperator(operator, CHECKED_CONSUMER);
+        return intUnaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1831,7 +1831,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static LongUnaryOperator longUnaryOperator(CheckedLongUnaryOperator operator) {
-        return longUnaryOperator(operator, CHECKED_CONSUMER);
+        return longUnaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -1879,7 +1879,7 @@ public final class Unchecked {
      * </pre></code>
      */
     public static DoubleUnaryOperator doubleUnaryOperator(CheckedDoubleUnaryOperator operator) {
-        return doubleUnaryOperator(operator, CHECKED_CONSUMER);
+        return doubleUnaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
