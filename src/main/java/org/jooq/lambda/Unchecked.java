@@ -36,6 +36,9 @@
 package org.jooq.lambda;
 
 
+import org.jooq.lambda.function.*;
+import org.jooq.lambda.lang.CheckedRunnable;
+
 import java.util.function.*;
 
 /**
@@ -60,7 +63,53 @@ public final class Unchecked {
     };
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for BiConsumers
+    // Wrappers for java.lang.Runnable
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedRunnable} in a {@link Runnable}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * new Thread(Unchecked.runnable(() -> {
+     *     throw new Exception("Cannot run this thread");
+     * })).start();
+     * </pre></code>
+     */
+    public static Runnable runnable(CheckedRunnable runnable) {
+        return runnable(runnable, THROWABLE_TO_RUNTIME_EXCEPTION);
+    }
+
+    /**
+     * Wrap a {@link CheckedRunnable} in a {@link Runnable} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * new Thread(Unchecked.runnable(
+     *     () -> {
+     *         throw new Exception("Cannot run this thread");
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * )).start();
+     * </pre></code>
+     */
+    public static Runnable runnable(CheckedRunnable runnable, Consumer<Throwable> handler) {
+        return () -> {
+            try {
+                runnable.run();
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for java.util.function.BiConsumers
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -101,6 +150,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
@@ -143,6 +194,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
@@ -164,16 +217,18 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for BiFunctions
+    // Wrappers for java.util.function.BiFunctions
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link CheckedBiFunction} in a {@link BiFunction}.
+     * Wrap a {@link org.jooq.lambda.function.CheckedBiFunction} in a {@link BiFunction}.
      * <p>
      * Example:
      * <code><pre>
@@ -290,11 +345,11 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for BiPredicates
+    // Wrappers for java.util.function.BiPredicates
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link CheckedBiPredicate} in a {@link BiPredicate}.
+     * Wrap a {@link org.jooq.lambda.function.CheckedBiPredicate} in a {@link BiPredicate}.
      */
     public static <T, U> BiPredicate<T, U> biPredicate(CheckedBiPredicate<T, U> predicate) {
         return biPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -317,11 +372,11 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for BinaryOperators
+    // Wrappers for java.util.function.BinaryOperators
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link CheckedBinaryOperator} in a {@link BinaryOperator}.
+     * Wrap a {@link org.jooq.lambda.function.CheckedBinaryOperator} in a {@link BinaryOperator}.
      * <p>
      * Example:
      * <code><pre>
@@ -513,7 +568,7 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for Consumers
+    // Wrappers for java.util.function.Consumers
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -554,6 +609,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
@@ -596,6 +653,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
@@ -638,6 +697,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
@@ -680,12 +741,14 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for Functions
+    // Wrappers for java.util.function.Functions
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -1313,7 +1376,7 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for Predicates
+    // Wrappers for java.util.function.Predicates
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -1509,7 +1572,7 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for Suppliers
+    // Wrappers for java.util.function.Suppliers
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -1677,7 +1740,7 @@ public final class Unchecked {
     }
 
     /**
-     * Wrap a {@link CheckedBooleanSupplier} in a {@link BooleanSupplier}.
+     * Wrap a {@link org.jooq.lambda.function.CheckedBooleanSupplier} in a {@link BooleanSupplier}.
      * <p>
      * Example:
      * <code><pre>
@@ -1718,7 +1781,7 @@ public final class Unchecked {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // Wrappers for UnaryOperators
+    // Wrappers for java.util.function.UnaryOperators
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
