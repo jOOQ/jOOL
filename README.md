@@ -49,4 +49,8 @@ SQL.stream(stmt, Unchecked.function(r ->
 .forEach(System.out::println);
 ```
 
-(where SQLGoodies.Schema is just an ordinary POJO)
+(where SQLGoodies.Schema is just an ordinary POJO).
+
+For more details and other options to write SQL in Java 8, visit this website here:
+
+http://www.jooq.org/java-8-and-sql
