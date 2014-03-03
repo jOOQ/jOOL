@@ -36,9 +36,9 @@
 package org.jooq.lambda;
 
 
-import org.jooq.lambda.function.*;
-import org.jooq.lambda.lang.CheckedRunnable;
-import org.jooq.lambda.util.CheckedComparator;
+import org.jooq.lambda.fi.util.function.*;
+import org.jooq.lambda.fi.lang.CheckedRunnable;
+import org.jooq.lambda.fi.util.CheckedComparator;
 
 import java.util.Comparator;
 import java.util.function.*;
@@ -142,7 +142,7 @@ public final class Unchecked {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link CheckedBiConsumer} in a {@link BiConsumer}.
+     * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBiConsumer} in a {@link BiConsumer}.
      * <p>
      * Example:
      * <code><pre>
@@ -257,7 +257,7 @@ public final class Unchecked {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link org.jooq.lambda.function.CheckedBiFunction} in a {@link BiFunction}.
+     * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBiFunction} in a {@link BiFunction}.
      * <p>
      * Example:
      * <code><pre>
@@ -378,7 +378,7 @@ public final class Unchecked {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link org.jooq.lambda.function.CheckedBiPredicate} in a {@link BiPredicate}.
+     * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBiPredicate} in a {@link BiPredicate}.
      */
     public static <T, U> BiPredicate<T, U> biPredicate(CheckedBiPredicate<T, U> predicate) {
         return biPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -405,7 +405,7 @@ public final class Unchecked {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Wrap a {@link org.jooq.lambda.function.CheckedBinaryOperator} in a {@link BinaryOperator}.
+     * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBinaryOperator} in a {@link BinaryOperator}.
      * <p>
      * Example:
      * <code><pre>
@@ -1769,7 +1769,7 @@ public final class Unchecked {
     }
 
     /**
-     * Wrap a {@link org.jooq.lambda.function.CheckedBooleanSupplier} in a {@link BooleanSupplier}.
+     * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBooleanSupplier} in a {@link BooleanSupplier}.
      * <p>
      * Example:
      * <code><pre>

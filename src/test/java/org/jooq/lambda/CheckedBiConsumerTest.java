@@ -41,8 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.*;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
 /**
