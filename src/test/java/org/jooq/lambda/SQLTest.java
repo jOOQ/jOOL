@@ -87,7 +87,7 @@ public class SQLTest {
             SQL.stream(s, Unchecked.function((ResultSet rs) -> rs.getInt(1)))
                .collect(Collectors.toList());
 
-            assertEquals(Collections.emptyList(), ids);
+            assertEquals(Collections.<Integer>emptyList(), ids);
         }
     }
 
@@ -101,7 +101,7 @@ public class SQLTest {
             SQL.stream(rs, Unchecked.function((ResultSet r) -> r.getInt(1)))
                .collect(Collectors.toList());
 
-            assertEquals(Collections.emptyList(), ids);
+            assertEquals(Collections.<Integer>emptyList(), ids);
         }
     }
 }

@@ -66,7 +66,7 @@ public final class SQL {
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
     public static <T> Stream<T> stream(PreparedStatement stmt, Function<ResultSet, T> rowFunction) {
-        return stream(Unchecked.supplier(() -> stmt.executeQuery()), rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
+        return stream(Unchecked.supplier(stmt::executeQuery), rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -84,10 +84,8 @@ public final class SQL {
      */
     public static <T> Stream<T> stream(PreparedStatement stmt, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
         return stream(Unchecked.supplier(
-            () -> stmt.executeQuery(),
-            e -> {
-                exceptionTranslator.accept((SQLException) e);
-            }
+            stmt::executeQuery,
+            e -> exceptionTranslator.accept((SQLException) e)
         ), rowFunction, exceptionTranslator);
     }
 
