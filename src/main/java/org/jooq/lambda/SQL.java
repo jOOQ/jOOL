@@ -38,7 +38,6 @@ package org.jooq.lambda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -157,6 +156,17 @@ public final class SQL {
         private final Consumer<? super SQLException> exceptionTranslator;
         private       ResultSet                      rs;
 
+        /**
+         * Whether the underlying {@link ResultSet} has a next row. This
+         * boolean has three states:
+         * <ul>
+         * <li>null: it's not known whether there is a next row</li>
+         * <li>true: there is a next row, and it has been pre-fetched</li>
+         * <li>false: there aren't any next rows</li>
+         * </ul>
+         */
+        private       Boolean                        hasNext;
+
         ResultSetIterator(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
             this.supplier = supplier;
             this.rowFunction = rowFunction;
@@ -170,7 +180,11 @@ public final class SQL {
         @Override
         public boolean hasNext() {
             try {
-                return !rs().isLast();
+                if (hasNext == null) {
+                    hasNext = rs().next();
+                }
+
+                return hasNext;
             }
             catch (SQLException e) {
                 exceptionTranslator.accept(e);
@@ -181,16 +195,18 @@ public final class SQL {
         @Override
         public T next() {
             try {
-                if (rs().next()) {
-                    return rowFunction.apply(rs());
+                if (hasNext == null) {
+                    rs().next();
                 }
-                else {
-                    throw new IllegalStateException("ResultSet has no more rows");
-                }
+
+                return rowFunction.apply(rs());
             }
             catch (SQLException e) {
                 exceptionTranslator.accept(e);
                 throw new IllegalStateException("Must throw an exception in exceptionTranslator", e);
+            }
+            finally {
+                hasNext = null;
             }
         }
     }
