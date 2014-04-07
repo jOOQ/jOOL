@@ -12,7 +12,7 @@ Lambda expressions and checked exceptions are a major pain. Even before going li
 - http://stackoverflow.com/q/19757300/521799
 - http://stackoverflow.com/q/14039995/521799
 
-The Unchecked class can be used to wrap common `@FunctionalIntefaces` in equivalent ones that are allowed to throw checked exceptions. E.g. this painful beast:
+The Unchecked class can be used to wrap common `@FunctionalInterfaces` in equivalent ones that are allowed to throw checked exceptions. E.g. this painful beast:
 
 ```java
 Arrays.stream(dir.listFiles()).forEach(file -> {
