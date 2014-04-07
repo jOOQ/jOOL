@@ -38,7 +38,6 @@ package org.jooq.lambda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -156,11 +155,13 @@ public final class SQL {
         private final Function<ResultSet, T>         rowFunction;
         private final Consumer<? super SQLException> exceptionTranslator;
         private       ResultSet                      rs;
-
+        private       boolean                        onOrAfterFirst;
+        
         ResultSetIterator(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
             this.supplier = supplier;
             this.rowFunction = rowFunction;
             this.exceptionTranslator = exceptionTranslator;
+            this.onOrAfterFirst = false;
         }
 
         private ResultSet rs() {
@@ -170,7 +171,7 @@ public final class SQL {
         @Override
         public boolean hasNext() {
             try {
-                return !rs().isLast();
+                return ( onOrAfterFirst && !rs().isLast() ) || rs().isBeforeFirst();
             }
             catch (SQLException e) {
                 exceptionTranslator.accept(e);
@@ -182,6 +183,7 @@ public final class SQL {
         public T next() {
             try {
                 if (rs().next()) {
+                    onOrAfterFirst = true;
                     return rowFunction.apply(rs());
                 }
                 else {
