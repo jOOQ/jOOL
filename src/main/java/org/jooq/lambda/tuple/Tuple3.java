@@ -36,6 +36,7 @@
 
 package org.jooq.lambda.tuple;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +45,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>> {
+public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>, Serializable {
     
     public final T1 v1;
     public final T2 v2;

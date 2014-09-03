@@ -121,6 +121,7 @@ ${(for (degree <- (1 to max)) yield s"""
         s"""$copyright
 package org.jooq.lambda.tuple;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -129,7 +130,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>> {
+public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable {
     ${(for (d <- (1 to degree)) yield s"""
     public final T$d v$d;""").mkString}
 
