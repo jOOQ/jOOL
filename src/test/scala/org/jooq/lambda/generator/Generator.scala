@@ -81,6 +81,8 @@ object Generator {
       s"""$copyright
 package org.jooq.lambda.tuple;
 
+import java.util.List;
+
 /**
  * A tuple.
  *
@@ -95,6 +97,16 @@ ${(for (degree <- (1 to max)) yield s"""
         return new Tuple$degree<>(${vn(degree)});
     }
 """).mkString("")}
+
+    /**
+     * Get an array representation of this tuple.
+     */
+    Object[] array();
+
+    /**
+     * Get a list representation of this tuple.
+     */
+    List<?> list();
 }
 """
     )
@@ -104,6 +116,9 @@ ${(for (degree <- (1 to max)) yield s"""
         s"src/main/java/org/jooq/lambda/tuple/Tuple$degree.java",
         s"""$copyright
 package org.jooq.lambda.tuple;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A tuple of degree $degree.
@@ -118,6 +133,17 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         this.v$d = v$d;""").mkString("")}
     }
 
+    @Override
+    public Object[] array() {
+        return new Object[] { ${(for (d <- 1 to degree) yield s"v$d").mkString(", ")} };
+    }
+
+    @Override
+    public List<?> list() {
+        return Arrays.asList(array());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -140,6 +166,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         return true;
     }
 
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -149,6 +176,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         return result;
     }
 
+    @Override
     public String toString() {
         return "("${(for (d <- (1 to degree)) yield s"""
              + ${if (d > 1) """", " + """ else """       """}v$d""").mkString("")}

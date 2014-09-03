@@ -36,6 +36,9 @@
 
 package org.jooq.lambda.tuple;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A tuple of degree 8.
  *
@@ -63,6 +66,17 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
         this.v8 = v8;
     }
 
+    @Override
+    public Object[] array() {
+        return new Object[] { v1, v2, v3, v4, v5, v6, v7, v8 };
+    }
+
+    @Override
+    public List<?> list() {
+        return Arrays.asList(array());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -141,6 +155,7 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
         return true;
     }
 
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -157,6 +172,7 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
         return result;
     }
 
+    @Override
     public String toString() {
         return "("
              +        v1

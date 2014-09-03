@@ -44,12 +44,14 @@ import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
@@ -79,5 +81,11 @@ public class TupleTest {
     @Test
     public void testToString() {
         assertEquals("(1, abc)", tuple(1, "abc"));
+    }
+
+    @Test
+    public void testArrayAndList() {
+        assertEquals(asList(1, "a", null), asList(tuple(1, "a", null).array()));
+        assertEquals(asList(1, "a", null), tuple(1, "a", null).list());
     }
 }
