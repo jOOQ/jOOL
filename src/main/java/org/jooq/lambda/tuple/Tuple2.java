@@ -50,4 +50,11 @@ public final class Tuple2<T1, T2> implements Tuple {
         this.v1 = v1;
         this.v2 = v2;
     }
+
+    public String toString() {
+        return "("
+             +        v1
+             + ", " + v2
+             + ")";
+    }
 }

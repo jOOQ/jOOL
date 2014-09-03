@@ -54,4 +54,13 @@ public final class Tuple4<T1, T2, T3, T4> implements Tuple {
         this.v3 = v3;
         this.v4 = v4;
     }
+
+    public String toString() {
+        return "("
+             +        v1
+             + ", " + v2
+             + ", " + v3
+             + ", " + v4
+             + ")";
+    }
 }

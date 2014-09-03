@@ -48,4 +48,10 @@ public final class Tuple1<T1> implements Tuple {
     public Tuple1(T1 v1) {
         this.v1 = v1;
     }
+
+    public String toString() {
+        return "("
+             +        v1
+             + ")";
+    }
 }

@@ -62,4 +62,17 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
         this.v7 = v7;
         this.v8 = v8;
     }
+
+    public String toString() {
+        return "("
+             +        v1
+             + ", " + v2
+             + ", " + v3
+             + ", " + v4
+             + ", " + v5
+             + ", " + v6
+             + ", " + v7
+             + ", " + v8
+             + ")";
+    }
 }

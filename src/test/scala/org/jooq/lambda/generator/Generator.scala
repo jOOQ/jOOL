@@ -117,6 +117,12 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
     public Tuple$degree(${TN_vn(degree)}) {${(for (d <- (1 to degree)) yield s"""
         this.v$d = v$d;""").mkString("")}
     }
+
+    public String toString() {
+        return "("${(for (d <- (1 to degree)) yield s"""
+             + ${if (d > 1) """", " + """ else """       """}v$d""").mkString("")}
+             + ")";
+    }
 }
 """
       )

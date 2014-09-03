@@ -52,4 +52,12 @@ public final class Tuple3<T1, T2, T3> implements Tuple {
         this.v2 = v2;
         this.v3 = v3;
     }
+
+    public String toString() {
+        return "("
+             +        v1
+             + ", " + v2
+             + ", " + v3
+             + ")";
+    }
 }
