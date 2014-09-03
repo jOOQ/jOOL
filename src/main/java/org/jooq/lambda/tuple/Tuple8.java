@@ -44,7 +44,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
+public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> {
     
     public final T1 v1;
     public final T2 v2;
@@ -79,6 +79,22 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple {
     @Override
     public int degree() {
         return 8;
+    }
+
+    @Override
+    public int compareTo(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> other) {
+        int result = 0;
+        
+        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
+        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
+        result = ((Comparable) v3).compareTo((Comparable) other.v3); if (result != 0) return result;
+        result = ((Comparable) v4).compareTo((Comparable) other.v4); if (result != 0) return result;
+        result = ((Comparable) v5).compareTo((Comparable) other.v5); if (result != 0) return result;
+        result = ((Comparable) v6).compareTo((Comparable) other.v6); if (result != 0) return result;
+        result = ((Comparable) v7).compareTo((Comparable) other.v7); if (result != 0) return result;
+        result = ((Comparable) v8).compareTo((Comparable) other.v8); if (result != 0) return result;
+
+        return result;
     }
 
     @Override

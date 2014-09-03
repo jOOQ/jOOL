@@ -44,7 +44,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public final class Tuple1<T1> implements Tuple {
+public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>> {
     
     public final T1 v1;
 
@@ -65,6 +65,15 @@ public final class Tuple1<T1> implements Tuple {
     @Override
     public int degree() {
         return 1;
+    }
+
+    @Override
+    public int compareTo(Tuple1<T1> other) {
+        int result = 0;
+        
+        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
+
+        return result;
     }
 
     @Override

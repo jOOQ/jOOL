@@ -44,10 +44,7 @@ import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -93,5 +90,18 @@ public class TupleTest {
     public void testSwap() {
         assertEquals(tuple(1, "a"), tuple("a", 1).swap());
         assertEquals(tuple(1, "a"), tuple(1, "a").swap().swap());
+    }
+
+    @Test
+    public void testCompareTo() {
+        Set<Tuple2<Integer, String>> set = new TreeSet<>();
+
+        set.add(tuple(2, "a"));
+        set.add(tuple(1, "b"));
+        set.add(tuple(1, "a"));
+        set.add(tuple(2, "a"));
+
+        assertEquals(3, set.size());
+        assertEquals(asList(tuple(1, "a"), tuple(1, "b"), tuple(2, "a")), new ArrayList<>(set));
     }
 }

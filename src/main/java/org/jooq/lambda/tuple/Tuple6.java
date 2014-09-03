@@ -44,7 +44,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple {
+public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<T1, T2, T3, T4, T5, T6>> {
     
     public final T1 v1;
     public final T2 v2;
@@ -75,6 +75,20 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple {
     @Override
     public int degree() {
         return 6;
+    }
+
+    @Override
+    public int compareTo(Tuple6<T1, T2, T3, T4, T5, T6> other) {
+        int result = 0;
+        
+        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
+        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
+        result = ((Comparable) v3).compareTo((Comparable) other.v3); if (result != 0) return result;
+        result = ((Comparable) v4).compareTo((Comparable) other.v4); if (result != 0) return result;
+        result = ((Comparable) v5).compareTo((Comparable) other.v5); if (result != 0) return result;
+        result = ((Comparable) v6).compareTo((Comparable) other.v6); if (result != 0) return result;
+
+        return result;
     }
 
     @Override
