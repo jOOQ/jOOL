@@ -118,6 +118,37 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         this.v$d = v$d;""").mkString("")}
     }
 
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        final Tuple$degree<${TN(degree)}> that = (Tuple$degree) o;
+        ${(for (d <- 1 to degree) yield s"""
+        if (v$d != that.v$d) {
+            if (v$d == null ^ that.v$d == null)
+                return false;
+
+            if (!v$d.equals(that.v$d))
+                return false;
+        }
+        """).mkString("")}
+        return true;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        ${(for (d <- 1 to degree) yield s"""
+        result = prime * result + ((v$d == null) ? 0 : v$d.hashCode());""").mkString("")}
+
+        return result;
+    }
+
     public String toString() {
         return "("${(for (d <- (1 to degree)) yield s"""
              + ${if (d > 1) """", " + """ else """       """}v$d""").mkString("")}

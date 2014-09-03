@@ -49,6 +49,37 @@ public final class Tuple1<T1> implements Tuple {
         this.v1 = v1;
     }
 
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        final Tuple1<T1> that = (Tuple1) o;
+        
+        if (v1 != that.v1) {
+            if (v1 == null ^ that.v1 == null)
+                return false;
+
+            if (!v1.equals(that.v1))
+                return false;
+        }
+        
+        return true;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        
+        result = prime * result + ((v1 == null) ? 0 : v1.hashCode());
+
+        return result;
+    }
+
     public String toString() {
         return "("
              +        v1

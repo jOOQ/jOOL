@@ -57,6 +57,73 @@ public final class Tuple5<T1, T2, T3, T4, T5> implements Tuple {
         this.v5 = v5;
     }
 
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        final Tuple5<T1, T2, T3, T4, T5> that = (Tuple5) o;
+        
+        if (v1 != that.v1) {
+            if (v1 == null ^ that.v1 == null)
+                return false;
+
+            if (!v1.equals(that.v1))
+                return false;
+        }
+        
+        if (v2 != that.v2) {
+            if (v2 == null ^ that.v2 == null)
+                return false;
+
+            if (!v2.equals(that.v2))
+                return false;
+        }
+        
+        if (v3 != that.v3) {
+            if (v3 == null ^ that.v3 == null)
+                return false;
+
+            if (!v3.equals(that.v3))
+                return false;
+        }
+        
+        if (v4 != that.v4) {
+            if (v4 == null ^ that.v4 == null)
+                return false;
+
+            if (!v4.equals(that.v4))
+                return false;
+        }
+        
+        if (v5 != that.v5) {
+            if (v5 == null ^ that.v5 == null)
+                return false;
+
+            if (!v5.equals(that.v5))
+                return false;
+        }
+        
+        return true;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        
+        result = prime * result + ((v1 == null) ? 0 : v1.hashCode());
+        result = prime * result + ((v2 == null) ? 0 : v2.hashCode());
+        result = prime * result + ((v3 == null) ? 0 : v3.hashCode());
+        result = prime * result + ((v4 == null) ? 0 : v4.hashCode());
+        result = prime * result + ((v5 == null) ? 0 : v5.hashCode());
+
+        return result;
+    }
+
     public String toString() {
         return "("
              +        v1
