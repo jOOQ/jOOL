@@ -88,4 +88,10 @@ public class TupleTest {
         assertEquals(asList(1, "a", null), asList(tuple(1, "a", null).array()));
         assertEquals(asList(1, "a", null), tuple(1, "a", null).list());
     }
+
+    @Test
+    public void testSwap() {
+        assertEquals(tuple(1, "a"), tuple("a", 1).swap());
+        assertEquals(tuple(1, "a"), tuple(1, "a").swap().swap());
+    }
 }

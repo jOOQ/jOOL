@@ -51,7 +51,7 @@ public final class Tuple1<T1> implements Tuple {
     public Tuple1(T1 v1) {
         this.v1 = v1;
     }
-
+    
     @Override
     public Object[] array() {
         return new Object[] { v1 };
@@ -76,7 +76,7 @@ public final class Tuple1<T1> implements Tuple {
         if (getClass() != o.getClass())
             return false;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple1<T1> that = (Tuple1) o;
         
         if (v1 != that.v1) {

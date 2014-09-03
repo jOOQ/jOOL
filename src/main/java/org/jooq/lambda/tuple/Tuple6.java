@@ -61,7 +61,7 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple {
         this.v5 = v5;
         this.v6 = v6;
     }
-
+    
     @Override
     public Object[] array() {
         return new Object[] { v1, v2, v3, v4, v5, v6 };
@@ -86,7 +86,7 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple {
         if (getClass() != o.getClass())
             return false;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple6<T1, T2, T3, T4, T5, T6> that = (Tuple6) o;
         
         if (v1 != that.v1) {

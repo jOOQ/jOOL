@@ -53,7 +53,11 @@ public final class Tuple2<T1, T2> implements Tuple {
         this.v1 = v1;
         this.v2 = v2;
     }
-
+    
+    public Tuple2<T2, T1> swap() {
+        return new Tuple2<>(v2, v1);
+    }
+    
     @Override
     public Object[] array() {
         return new Object[] { v1, v2 };
@@ -78,7 +82,7 @@ public final class Tuple2<T1, T2> implements Tuple {
         if (getClass() != o.getClass())
             return false;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple2<T1, T2> that = (Tuple2) o;
         
         if (v1 != that.v1) {

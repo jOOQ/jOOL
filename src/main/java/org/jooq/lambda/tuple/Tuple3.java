@@ -55,7 +55,7 @@ public final class Tuple3<T1, T2, T3> implements Tuple {
         this.v2 = v2;
         this.v3 = v3;
     }
-
+    
     @Override
     public Object[] array() {
         return new Object[] { v1, v2, v3 };
@@ -80,7 +80,7 @@ public final class Tuple3<T1, T2, T3> implements Tuple {
         if (getClass() != o.getClass())
             return false;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple3<T1, T2, T3> that = (Tuple3) o;
         
         if (v1 != that.v1) {
