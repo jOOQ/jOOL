@@ -101,7 +101,6 @@ public interface Tuple {
         return new Tuple8<>(v1, v2, v3, v4, v5, v6, v7, v8);
     }
 
-
     /**
      * Get an array representation of this tuple.
      */
@@ -111,4 +110,9 @@ public interface Tuple {
      * Get a list representation of this tuple.
      */
     List<?> list();
+
+    /**
+     * The degree of this tuple.
+     */
+    int degree();
 }

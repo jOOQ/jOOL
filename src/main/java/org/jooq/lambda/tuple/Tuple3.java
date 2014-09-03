@@ -67,6 +67,11 @@ public final class Tuple3<T1, T2, T3> implements Tuple {
     }
 
     @Override
+    public int degree() {
+        return 3;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;

@@ -97,7 +97,6 @@ ${(for (degree <- (1 to max)) yield s"""
         return new Tuple$degree<>(${vn(degree)});
     }
 """).mkString("")}
-
     /**
      * Get an array representation of this tuple.
      */
@@ -107,6 +106,11 @@ ${(for (degree <- (1 to max)) yield s"""
      * Get a list representation of this tuple.
      */
     List<?> list();
+
+    /**
+     * The degree of this tuple.
+     */
+    int degree();
 }
 """
     )
@@ -144,6 +148,11 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
     }
 
     @Override
+    public int degree() {
+        return $degree;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -152,7 +161,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         if (getClass() != o.getClass())
             return false;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple$degree<${TN(degree)}> that = (Tuple$degree) o;
         ${(for (d <- 1 to degree) yield s"""
         if (v$d != that.v$d) {
