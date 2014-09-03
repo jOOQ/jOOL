@@ -33,6 +33,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.jooq.lambda.tuple;
 
 /**
@@ -60,4 +61,3 @@ public final class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple {
         this.v7 = v7;
     }
 }
-         

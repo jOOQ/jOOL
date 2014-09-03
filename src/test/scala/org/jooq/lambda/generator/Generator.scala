@@ -39,12 +39,8 @@ import java.io.{File, PrintWriter}
 
 object Generator {
   def main(args: Array[String]) {
-    for (degree <- 1 to 8) {
-      println(s"src/main/java/org/jooq/lambda/tuple/Tuple$degree.java");
-      val w = new PrintWriter(new File(s"src/main/java/org/jooq/lambda/tuple/Tuple$degree.java"))
-
-      w.print(
-        s"""/**
+    val max = 8;
+    val copyright = """/**
  * Copyright (c) 2014, Data Geekery GmbH, contact@datageekery.com
  * All rights reserved.
  *
@@ -79,6 +75,34 @@ object Generator {
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+"""
+    write(
+      "src/main/java/org/jooq/lambda/tuple/Tuple.java",
+      s"""$copyright
+package org.jooq.lambda.tuple;
+
+/**
+ * A tuple.
+ *
+ * @author Lukas Eder
+ */
+public interface Tuple {
+${(for (degree <- (1 to max)) yield s"""
+    /**
+     * Construct a tuple of degree $degree.
+     */
+    public static <${TN(degree)}> Tuple$degree<${TN(degree)}> tuple(${TN_vn(degree)}) {
+        return new Tuple$degree<>(${vn(degree)});
+    }
+""").mkString("")}
+}
+"""
+    )
+
+    for (degree <- 1 to max) {
+      write(
+        s"src/main/java/org/jooq/lambda/tuple/Tuple$degree.java",
+        s"""$copyright
 package org.jooq.lambda.tuple;
 
 /**
@@ -94,12 +118,21 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         this.v$d = v$d;""").mkString("")}
     }
 }
-         """)
-      w.flush
-      w.close
+"""
+      )
     }
   }
 
+  def write(file : String, text : String) = {
+    println("Writing " + file)
+    val w = new PrintWriter(new File(file))
+
+    w.print(text)
+    w.flush
+    w.close
+  }
+
   def TN   (degree : Int) : String = (1 to degree).map(i => "T" + i).mkString(", ")
+  def vn   (degree : Int) : String = (1 to degree).map(i => "v" + i).mkString(", ")
   def TN_vn(degree : Int) : String = (1 to degree).map(i => "T" + i + " v" + i).mkString(", ")
 }
