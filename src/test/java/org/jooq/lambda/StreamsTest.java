@@ -107,4 +107,11 @@ public class StreamsTest {
         duplicate = reset.get();
         assertEquals(asList(tuple(1, 1), tuple(2, 2), tuple(3, 3)), Streams.zip(duplicate.v1, duplicate.v2).collect(toList()));
     }
+
+    @Test
+    public void testToString() {
+        assertEquals("123", Streams.toString(Stream.of(1, 2, 3)));
+        assertEquals("1, 2, 3", Streams.toString(Stream.of(1, 2, 3), ", "));
+        assertEquals("1, null, 3", Streams.toString(Stream.of(1, null, 3), ", "));
+    }
 }

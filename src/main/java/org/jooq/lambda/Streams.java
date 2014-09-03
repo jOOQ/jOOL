@@ -39,6 +39,9 @@ import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Spliterator.ORDERED;
@@ -142,5 +145,19 @@ public final class Streams {
             stream(spliteratorUnknownSize(new Duplicate(), ORDERED), false),
             stream(spliteratorUnknownSize(new Duplicate(), ORDERED), false)
         );
+    }
+
+    /**
+     * Consume a stream and concatenate all elements.
+     */
+    public static String toString(Stream<?> stream) {
+        return toString(stream, "");
+    }
+
+    /**
+     * Consume a stream and concatenate all elements using a separator.
+     */
+    public static String toString(Stream<?> stream, String separator) {
+        return stream.map(Objects::toString).collect(Collectors.joining(separator));
     }
 }

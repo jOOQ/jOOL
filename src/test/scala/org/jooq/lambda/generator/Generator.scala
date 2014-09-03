@@ -96,7 +96,7 @@ ${(for (degree <- (1 to max)) yield s"""
     public static <${TN(degree)}> Tuple$degree<${TN(degree)}> tuple(${TN_vn(degree)}) {
         return new Tuple$degree<>(${vn(degree)});
     }
-""").mkString("")}
+""").mkString}
     /**
      * Get an array representation of this tuple.
      */
@@ -131,10 +131,10 @@ import java.util.List;
  */
 public final class Tuple$degree<${TN(degree)}> implements Tuple {
     ${(for (d <- (1 to degree)) yield s"""
-    public final T$d v$d;""").mkString("")}
+    public final T$d v$d;""").mkString}
 
     public Tuple$degree(${TN_vn(degree)}) {${(for (d <- (1 to degree)) yield s"""
-        this.v$d = v$d;""").mkString("")}
+        this.v$d = v$d;""").mkString}
     }
 
     @Override
@@ -171,7 +171,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
             if (!v$d.equals(that.v$d))
                 return false;
         }
-        """).mkString("")}
+        """).mkString}
         return true;
     }
 
@@ -180,7 +180,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
         final int prime = 31;
         int result = 1;
         ${(for (d <- 1 to degree) yield s"""
-        result = prime * result + ((v$d == null) ? 0 : v$d.hashCode());""").mkString("")}
+        result = prime * result + ((v$d == null) ? 0 : v$d.hashCode());""").mkString}
 
         return result;
     }
@@ -188,7 +188,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple {
     @Override
     public String toString() {
         return "("${(for (d <- (1 to degree)) yield s"""
-             + ${if (d > 1) """", " + """ else """       """}v$d""").mkString("")}
+             + ${if (d > 1) """", " + """ else """       """}v$d""").mkString}
              + ")";
     }
 }
