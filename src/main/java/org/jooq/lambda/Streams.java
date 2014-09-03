@@ -35,15 +35,16 @@
  */
 package org.jooq.lambda;
 
-import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Collector;
+import java.util.LinkedList;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+
+import static java.util.Spliterator.ORDERED;
+import static java.util.Spliterators.spliteratorUnknownSize;
+import static java.util.stream.StreamSupport.stream;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
  * All missing functionality in the JDK streams.
@@ -52,12 +53,21 @@ import java.util.stream.StreamSupport;
  */
 public final class Streams {
 
+    /**
+     * Zip two streams into one.
+     *
+     * @param left The left stream producing {@link Tuple2#v1} values.
+     * @param right The right stream producing {@link Tuple2#v1} values.
+     * @param <T1> The left data type
+     * @param <T2> The right data type
+     * @return The zipped stream.
+     */
     public static <T1, T2> Stream<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
         final Iterator<T1> it1 = left.iterator();
         final Iterator<T2> it2 = right.iterator();
 
-        return StreamSupport.stream(
-            Spliterators.spliteratorUnknownSize(
+        return stream(
+            spliteratorUnknownSize(
                 new Iterator<Tuple2<T1, T2>>() {
                     @Override
                     public boolean hasNext() {
@@ -66,12 +76,71 @@ public final class Streams {
 
                     @Override
                     public Tuple2<T1, T2> next() {
-                        return Tuple.tuple(it1.next(), it2.next());
+                        return tuple(it1.next(), it2.next());
                     }
                 },
-                Spliterator.ORDERED
+                ORDERED
             ),
             false
+        );
+    }
+
+    /**
+     * Concatenate a number of streams
+     */
+    @SafeVarargs
+    public static <T> Stream<T> concat(Stream<T>... streams) {
+        if (streams == null || streams.length == 0)
+            return Stream.empty();
+
+        if (streams.length == 1)
+            return streams[0];
+
+        Stream<T> result = streams[0];
+        for (int i = 1; i < streams.length; i++)
+            result = Stream.concat(result, streams[i]);
+
+        return result;
+    }
+
+    public static <T> Tuple2<Stream<T>, Stream<T>> duplicate(Stream<T> stream) {
+        final LinkedList<T> gap = new LinkedList<>();
+        final Iterator<T> it = stream.iterator();
+
+        @SuppressWarnings("unchecked")
+        final Iterator<T>[] ahead = new Iterator[] { null };
+
+        class Duplicate implements Iterator<T> {
+            @Override
+            public boolean hasNext() {
+                synchronized (it) {
+                    if (ahead[0] == null || ahead[0] == this)
+                        return it.hasNext();
+
+                    return !gap.isEmpty();
+                }
+            }
+
+            @Override
+            public T next() {
+                synchronized (it) {
+                    if (ahead[0] == null)
+                        ahead[0] = this;
+
+                    if (ahead[0] == this) {
+                        T value = it.next();
+                        gap.offer(value);
+                        return value;
+                    }
+
+                    return gap.poll();
+                }
+            }
+        }
+
+        return tuple(
+            stream(spliteratorUnknownSize(new Duplicate(), ORDERED), false),
+            stream(spliteratorUnknownSize(new Duplicate(), ORDERED), false)
         );
     }
 }

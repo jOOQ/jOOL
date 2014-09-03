@@ -40,6 +40,7 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 import org.junit.Test;
 
@@ -47,9 +48,13 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -62,7 +67,7 @@ public class StreamsTest {
         List<Tuple2<Integer, String>> list = Streams.zip(
             Stream.of(1, 2, 3),
             Stream.of("a", "b", "c")
-        ).collect(Collectors.toList());
+        ).collect(toList());
 
         assertEquals(3, list.size());
         assertEquals(1, (int) list.get(0).v1);
@@ -78,12 +83,28 @@ public class StreamsTest {
         List<Tuple2<Integer, String>> list = Streams.zip(
             Stream.of(1, 2),
             Stream.of("a", "b", "c", "d")
-        ).collect(Collectors.toList());
+        ).collect(toList());
 
         assertEquals(2, list.size());
         assertEquals(1, (int) list.get(0).v1);
         assertEquals(2, (int) list.get(1).v1);
         assertEquals("a", list.get(0).v2);
         assertEquals("b", list.get(1).v2);
+    }
+
+    @Test
+    public void testDuplicate() {
+        Supplier<Tuple2<Stream<Integer>, Stream<Integer>>> reset = () -> Streams.duplicate(Stream.of(1, 2, 3));
+        Tuple2<Stream<Integer>, Stream<Integer>> duplicate;
+
+        duplicate = reset.get();
+        assertEquals(asList(1, 2, 3), duplicate.v1.collect(toList()));
+        assertEquals(asList(1, 2, 3), duplicate.v2.collect(toList()));
+
+        duplicate = reset.get();
+        assertEquals(asList(1, 2, 3, 1, 2, 3), Streams.concat(duplicate.v1, duplicate.v2).collect(toList()));
+
+        duplicate = reset.get();
+        assertEquals(asList(tuple(1, 1), tuple(2, 2), tuple(3, 3)), Streams.zip(duplicate.v1, duplicate.v2).collect(toList()));
     }
 }
