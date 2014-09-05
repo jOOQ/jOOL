@@ -66,6 +66,10 @@ public interface Seq<T> extends Stream<T> {
 
     Stream<T> stream();
 
+    default Seq<T> concat(Stream<T> other) {
+        return Seq.concat(new Stream[] { this, other });
+    }
+
     /**
      * Zip two streams into one.
      *
@@ -138,6 +142,10 @@ public interface Seq<T> extends Stream<T> {
         return duplicate(this);
     }
 
+    default Tuple2<Seq<T>, Seq<T>> partition(Predicate<? super T> predicate) {
+        return partition(this, predicate);
+    }
+
     default Seq<T> slice(long from, long to) {
         return slice(this, from, to);
     }
@@ -154,26 +162,44 @@ public interface Seq<T> extends Stream<T> {
         return toString(this, separator);
     }
 
+    /**
+     * @see Stream#of(Object)
+     */
     static <T> Seq<T> of(T value) {
         return seq(Stream.of(value));
     }
 
+    /**
+     * @see Stream#of(Object[])
+     */
     static <T> Seq<T> of(T... values) {
         return seq(Stream.of(values));
     }
 
+    /**
+     * @see Stream#empty()
+     */
     static <T> Seq<T> empty() {
         return seq(Stream.empty());
     }
 
-    static<T> Seq<T> iterate(final T seed, final UnaryOperator<T> f) {
+    /**
+     * @see Stream#iterate(Object, UnaryOperator)
+     */
+    static <T> Seq<T> iterate(final T seed, final UnaryOperator<T> f) {
         return seq(Stream.iterate(seed, f));
     }
 
-    static<T> Seq<T> generate(Supplier<T> s) {
+    /**
+     * @see Stream#generate(Supplier)
+     */
+    static <T> Seq<T> generate(Supplier<T> s) {
         return seq(Stream.generate(s));
     }
 
+    /**
+     * Wrap a Stream into a Seq.
+     */
     static <T> Seq<T> seq(Stream<T> stream) {
         if (stream instanceof Seq)
             return (Seq<T>) stream;
@@ -188,7 +214,7 @@ public interface Seq<T> extends Stream<T> {
      * @param right The right stream producing {@link org.jooq.lambda.tuple.Tuple2#v1} values.
      * @return The zipped stream.
      */
-    public static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
         return zip(left, right, Tuple::tuple);
     }
 
@@ -203,7 +229,7 @@ public interface Seq<T> extends Stream<T> {
      * @param <R> The result data type.
      * @return The zipped stream.
      */
-    public static <T1, T2, R> Seq<R> zip(Stream<T1> left, Stream<T2> right, BiFunction<T1, T2, R> zipper) {
+    static <T1, T2, R> Seq<R> zip(Stream<T1> left, Stream<T2> right, BiFunction<T1, T2, R> zipper) {
         final Iterator<T1> it1 = left.iterator();
         final Iterator<T2> it2 = right.iterator();
 
@@ -225,7 +251,7 @@ public interface Seq<T> extends Stream<T> {
     /**
      * Zip a Stream with a corresponding Stream of indexes.
      */
-    public static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
+    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
         final Iterator<T> it = stream.iterator();
 
         class ZipWithIndex implements Iterator<Tuple2<T, Long>> {
@@ -249,7 +275,7 @@ public interface Seq<T> extends Stream<T> {
      * Concatenate a number of streams
      */
     @SafeVarargs
-    public static <T> Seq<T> concat(Stream<T>... streams) {
+    static <T> Seq<T> concat(Stream<T>... streams) {
         if (streams == null || streams.length == 0)
             return Seq.empty();
 
@@ -266,7 +292,7 @@ public interface Seq<T> extends Stream<T> {
     /**
      * Duplicate a Streams into two equivalent Streams.
      */
-    public static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<T> stream) {
+    static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<T> stream) {
         final LinkedList<T> gap = new LinkedList<>();
         final Iterator<T> it = stream.iterator();
 
@@ -310,28 +336,28 @@ public interface Seq<T> extends Stream<T> {
     /**
      * Consume a stream and concatenate all elements.
      */
-    public static String toString(Stream<?> stream) {
+    static String toString(Stream<?> stream) {
         return toString(stream, "");
     }
 
     /**
      * Consume a stream and concatenate all elements using a separator.
      */
-    public static String toString(Stream<?> stream, String separator) {
+    static String toString(Stream<?> stream, String separator) {
         return stream.map(Objects::toString).collect(Collectors.joining(separator));
     }
 
     /**
      * Collect a Stream into a List.
      */
-    public static <T> List<T> toList(Stream<T> stream) {
+    static <T> List<T> toList(Stream<T> stream) {
         return stream.collect(Collectors.toList());
     }
 
     /**
      * Collect a Stream into a Set.
      */
-    public static <T> Set<T> toSet(Stream<T> stream) {
+    static <T> Set<T> toSet(Stream<T> stream) {
         return stream.collect(Collectors.toSet());
     }
 
@@ -344,7 +370,7 @@ public interface Seq<T> extends Stream<T> {
      * @param <T> The stream element type
      * @return The limited interval Stream
      */
-    public static <T> Seq<T> slice(Stream<T> stream, long from, long to) {
+    static <T> Seq<T> slice(Stream<T> stream, long from, long to) {
         long f = Math.max(from, 0);
         long t = Math.max(to - f, 0);
 
@@ -354,21 +380,21 @@ public interface Seq<T> extends Stream<T> {
     /**
      * Returns a stream with n elements skipped.
      */
-    public static <T> Seq<T> skip(Stream<T> stream, long elements) {
+    static <T> Seq<T> skip(Stream<T> stream, long elements) {
         return seq(stream.skip(elements));
     }
 
     /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
      */
-    public static <T> Seq<T> skipWhile(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> skipWhile(Stream<T> stream, Predicate<? super T> predicate) {
         return skipUntil(stream, predicate.negate());
     }
 
     /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
      */
-    public static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
 
         class SkipUntil implements Iterator<T> {
@@ -412,21 +438,21 @@ public interface Seq<T> extends Stream<T> {
     /**
      * Returns a stream limited to n elements.
      */
-    public static <T> Seq<T> limit(Stream<T> stream, long elements) {
+    static <T> Seq<T> limit(Stream<T> stream, long elements) {
         return seq(stream.limit(elements));
     }
 
     /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
      */
-    public static <T> Seq<T> limitWhile(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> limitWhile(Stream<T> stream, Predicate<? super T> predicate) {
         return limitUntil(stream, predicate.negate());
     }
 
     /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
      */
-    public static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
 
         class LimitUntil implements Iterator<T> {
@@ -463,5 +489,47 @@ public interface Seq<T> extends Stream<T> {
         }
 
         return seq(StreamSupport.stream(spliteratorUnknownSize(new LimitUntil(), ORDERED), false));
+    }
+
+    static <T> Tuple2<Seq<T>, Seq<T>> partition(Stream<T> stream, Predicate<? super T> predicate) {
+        final Iterator<T> it = stream.iterator();
+        final LinkedList<T> buffer1 = new LinkedList<>();
+        final LinkedList<T> buffer2 = new LinkedList<>();
+
+        class Partition implements Iterator<T> {
+
+            final boolean b;
+
+            Partition(boolean b) {
+                this.b = b;
+            }
+
+            void fetch() {
+                while (buffer(b).isEmpty() && it.hasNext()) {
+                    T next = it.next();
+                    buffer(predicate.test(next)).offer(next);
+                }
+            }
+
+            LinkedList<T> buffer(boolean test) {
+                return test ? buffer1 : buffer2;
+            }
+
+            @Override
+            public boolean hasNext() {
+                fetch();
+                return !buffer(b).isEmpty();
+            }
+
+            @Override
+            public T next() {
+                return buffer(b).poll();
+            }
+        }
+
+        return tuple(
+            seq(StreamSupport.stream(spliteratorUnknownSize(new Partition(true), ORDERED), false)),
+            seq(StreamSupport.stream(spliteratorUnknownSize(new Partition(false), ORDERED), false))
+        );
     }
 }

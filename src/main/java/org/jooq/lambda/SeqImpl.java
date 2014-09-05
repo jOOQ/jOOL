@@ -264,6 +264,6 @@ class SeqImpl<T> implements Seq<T> {
 
     @Override
     public String toString() {
-        return Seq.toString(this);
+        return "Seq(" + Seq.toString(this, ", ") + ")";
     }
 }
