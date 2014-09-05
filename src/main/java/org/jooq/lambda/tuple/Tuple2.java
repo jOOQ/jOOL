@@ -62,7 +62,7 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
         return new Tuple2<>(v2, v1);
     }
     
-    public <R> R map(Function2<R, T1, T2> function) {
+    public <R> R map(Function2<T1, T2, R> function) {
         return function.apply(this);
     }
 

@@ -77,7 +77,7 @@ public class TupleTest {
 
     @Test
     public void testToString() {
-        assertEquals("(1, abc)", tuple(1, "abc"));
+        assertEquals("(1, abc)", tuple(1, "abc").toString());
     }
 
     @Test

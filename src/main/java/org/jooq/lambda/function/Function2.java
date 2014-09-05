@@ -45,7 +45,7 @@ import org.jooq.lambda.tuple.Tuple2;
  *
  * @author Lukas Eder
  */
-public interface Function2<R, T1, T2> {
+public interface Function2<T1, T2, R> {
 
     /**
      * Apply this function to the arguments.
@@ -69,7 +69,7 @@ public interface Function2<R, T1, T2> {
     /**
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
-    static <R, T1, T2> Function2<R, T1, T2> from(BiFunction<T1, T2, R> function) {
+    static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
         return args -> function.apply(args.v1, args.v2);
     }
     

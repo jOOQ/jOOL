@@ -145,7 +145,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
         return new Tuple2<>(v2, v1);
     }
     """ else ""}
-    public <R> R map(Function$degree<R, ${TN(degree)}> function) {
+    public <R> R map(Function$degree<${TN(degree)}, R> function) {
         return function.apply(this);
     }
 
@@ -240,7 +240,7 @@ import org.jooq.lambda.tuple.Tuple$degree;
  *
  * @author Lukas Eder
  */
-public interface Function$degree<R, ${TN(degree)}> {
+public interface Function$degree<${TN(degree)}, R> {
 
     /**
      * Apply this function to the arguments.
@@ -264,7 +264,7 @@ public interface Function$degree<R, ${TN(degree)}> {
     /**
      * Convert to this function from a {@link java.util.function.Function}
      */
-    static <R, T1> Function1<R, T1> from(Function<T1, R> function) {
+    static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
         return args -> function.apply(args.v1);
     }
     """ else if (degree == 2) s"""
@@ -278,7 +278,7 @@ public interface Function$degree<R, ${TN(degree)}> {
     /**
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
-    static <R, T1, T2> Function2<R, T1, T2> from(BiFunction<T1, T2, R> function) {
+    static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
         return args -> function.apply(args.v1, args.v2);
     }
     """

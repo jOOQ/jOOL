@@ -70,7 +70,7 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comp
         this.v8 = v8;
     }
     
-    public <R> R map(Function8<R, T1, T2, T3, T4, T5, T6, T7, T8> function) {
+    public <R> R map(Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> function) {
         return function.apply(this);
     }
 

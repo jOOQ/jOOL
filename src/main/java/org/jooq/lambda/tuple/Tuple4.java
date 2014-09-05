@@ -62,7 +62,7 @@ public final class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1
         this.v4 = v4;
     }
     
-    public <R> R map(Function4<R, T1, T2, T3, T4> function) {
+    public <R> R map(Function4<T1, T2, T3, T4, R> function) {
         return function.apply(this);
     }
 

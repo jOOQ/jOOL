@@ -60,7 +60,7 @@ public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2
         this.v3 = v3;
     }
     
-    public <R> R map(Function3<R, T1, T2, T3> function) {
+    public <R> R map(Function3<T1, T2, T3, R> function) {
         return function.apply(this);
     }
 

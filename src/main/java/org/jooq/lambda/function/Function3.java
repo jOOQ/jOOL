@@ -45,7 +45,7 @@ import org.jooq.lambda.tuple.Tuple3;
  *
  * @author Lukas Eder
  */
-public interface Function3<R, T1, T2, T3> {
+public interface Function3<T1, T2, T3, R> {
 
     /**
      * Apply this function to the arguments.

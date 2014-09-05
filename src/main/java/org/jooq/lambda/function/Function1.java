@@ -45,7 +45,7 @@ import org.jooq.lambda.tuple.Tuple1;
  *
  * @author Lukas Eder
  */
-public interface Function1<R, T1> {
+public interface Function1<T1, R> {
 
     /**
      * Apply this function to the arguments.
@@ -69,7 +69,7 @@ public interface Function1<R, T1> {
     /**
      * Convert to this function from a {@link java.util.function.Function}
      */
-    static <R, T1> Function1<R, T1> from(Function<T1, R> function) {
+    static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
         return args -> function.apply(args.v1);
     }
     
