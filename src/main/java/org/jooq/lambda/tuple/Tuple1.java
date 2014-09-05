@@ -38,6 +38,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -66,6 +67,12 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
     @Override
     public int degree() {
         return 1;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterator<Object> iterator() {
+        return (Iterator<Object>) list().iterator();
     }
 
     @Override

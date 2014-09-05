@@ -38,6 +38,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -72,6 +73,12 @@ public final class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1
     @Override
     public int degree() {
         return 4;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterator<Object> iterator() {
+        return (Iterator<Object>) list().iterator();
     }
 
     @Override

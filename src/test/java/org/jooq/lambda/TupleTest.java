@@ -104,4 +104,12 @@ public class TupleTest {
         assertEquals(3, set.size());
         assertEquals(asList(tuple(1, "a"), tuple(1, "b"), tuple(2, "a")), new ArrayList<>(set));
     }
+
+    @Test
+    public void testIterable() {
+        LinkedList<Object> list = new LinkedList<>(tuple(1, "b", null).list());
+        for (Object o : tuple(1, "b", null)) {
+            assertEquals(list.poll(), o);
+        }
+    }
 }

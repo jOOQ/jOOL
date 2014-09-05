@@ -88,7 +88,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public interface Tuple {
+public interface Tuple extends Iterable<Object> {
 ${(for (degree <- (1 to max)) yield s"""
     /**
      * Construct a tuple of degree $degree.
@@ -123,6 +123,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -155,6 +156,12 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
     @Override
     public int degree() {
         return $degree;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterator<Object> iterator() {
+        return (Iterator<Object>) list().iterator();
     }
 
     @Override

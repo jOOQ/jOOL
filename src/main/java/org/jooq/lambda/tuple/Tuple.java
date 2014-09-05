@@ -43,7 +43,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public interface Tuple {
+public interface Tuple extends Iterable<Object> {
 
     /**
      * Construct a tuple of degree 1.
