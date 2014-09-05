@@ -38,6 +38,7 @@ package org.jooq.lambda;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -64,20 +65,35 @@ public final class Streams {
      * @return The zipped stream.
      */
     public static <T1, T2> Stream<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
+        return zip(left, right, (t1, t2) -> tuple(t1, t2));
+    }
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values.
+     *
+     * @param left The left stream producing the first argument to the zipper.
+     * @param right The right stream producing the second argument to the zipper.
+     * @param zipper The function producing the output values.
+     * @param <T1> The left data type.
+     * @param <T2> The right data type.
+     * @param <R> The result data type.
+     * @return The zipped stream.
+     */
+    public static <T1, T2, R> Stream<R> zip(Stream<T1> left, Stream<T2> right, BiFunction<T1, T2, R> zipper) {
         final Iterator<T1> it1 = left.iterator();
         final Iterator<T2> it2 = right.iterator();
 
         return stream(
             spliteratorUnknownSize(
-                new Iterator<Tuple2<T1, T2>>() {
+                new Iterator<R>() {
                     @Override
                     public boolean hasNext() {
                         return it1.hasNext() && it2.hasNext();
                     }
 
                     @Override
-                    public Tuple2<T1, T2> next() {
-                        return tuple(it1.next(), it2.next());
+                    public R next() {
+                        return zipper.apply(it1.next(), it2.next());
                     }
                 },
                 ORDERED
