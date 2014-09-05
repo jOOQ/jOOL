@@ -224,5 +224,8 @@ public class SeqTest {
 
         assertEquals(1, (int) s.get().maxBy(t -> Math.abs(t - 5)).get());
         assertEquals(5, (int) s.get().minBy(t -> Math.abs(t - 5)).get());
+
+        assertEquals(6, (int) s.get().maxBy(t -> "" + t).get());
+        assertEquals(1, (int) s.get().minBy(t -> "" + t).get());
     }
 }
