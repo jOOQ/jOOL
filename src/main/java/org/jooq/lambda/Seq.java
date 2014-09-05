@@ -66,34 +66,74 @@ public interface Seq<T> extends Stream<T> {
 
     Stream<T> stream();
 
+    /**
+     * Zip two streams into one.
+     *
+     * @see #zip(Stream, Stream)
+     */
     default <U> Seq<Tuple2<T, U>> zip(Seq<U> other) {
         return zip(this, other);
     }
 
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values.
+     *
+     * @see #zip(Seq, BiFunction)
+     */
     default <U, R> Seq<R> zip(Seq<U> other, BiFunction<T, U, R> zipper) {
         return zip(this, other, zipper);
     }
 
+    /**
+     * Zip a Stream with a corresponding Stream of indexes.
+     *
+     * @see #zipWithIndex(Stream)
+     */
     default Seq<Tuple2<T, Long>> zipWithIndex() {
         return zipWithIndex(this);
     }
 
+    /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
+     *
+     * @see #skipWhile(Stream, Predicate)
+     */
     default Seq<T> skipWhile(Predicate<? super T> predicate) {
         return skipWhile(this, predicate);
     }
 
+    /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
+     *
+     * @see #skipUntil(Stream, Predicate)
+     */
     default Seq<T> skipUntil(Predicate<? super T> predicate) {
         return skipUntil(this, predicate);
     }
 
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     *
+     * @see #limitWhile(Stream, Predicate)
+     */
     default Seq<T> limitWhile(Predicate<? super T> predicate) {
         return limitWhile(this, predicate);
     }
 
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>false</code>.
+     *
+     * @see #limitUntil(Stream, Predicate)
+     */
     default Seq<T> limitUntil(Predicate<? super T> predicate) {
         return limitUntil(this, predicate);
     }
 
+    /**
+     * Duplicate a Streams into two equivalent Streams.
+     *
+     * @see #duplicate(Stream)
+     */
     default Tuple2<Seq<T>, Seq<T>> duplicate() {
         return duplicate(this);
     }
@@ -182,6 +222,9 @@ public interface Seq<T> extends Stream<T> {
         return seq(StreamSupport.stream(spliteratorUnknownSize(new Zip(), ORDERED), false));
     }
 
+    /**
+     * Zip a Stream with a corresponding Stream of indexes.
+     */
     public static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
         final Iterator<T> it = stream.iterator();
 
@@ -220,6 +263,9 @@ public interface Seq<T> extends Stream<T> {
         return seq(result);
     }
 
+    /**
+     * Duplicate a Streams into two equivalent Streams.
+     */
     public static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<T> stream) {
         final LinkedList<T> gap = new LinkedList<>();
         final Iterator<T> it = stream.iterator();
