@@ -36,6 +36,7 @@
 
 package org.jooq.lambda.tuple;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +45,7 @@ import java.util.List;
  *
  * @author Lukas Eder
  */
-public final class Tuple2<T1, T2> implements Tuple {
+public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serializable {
     
     public final T1 v1;
     public final T2 v2;
@@ -71,6 +72,16 @@ public final class Tuple2<T1, T2> implements Tuple {
     @Override
     public int degree() {
         return 2;
+    }
+
+    @Override
+    public int compareTo(Tuple2<T1, T2> other) {
+        int result = 0;
+        
+        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
+        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
+
+        return result;
     }
 
     @Override
