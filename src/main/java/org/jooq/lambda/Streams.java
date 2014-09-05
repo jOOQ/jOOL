@@ -37,10 +37,7 @@ package org.jooq.lambda;
 
 import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -159,6 +156,20 @@ public final class Streams {
      */
     public static String toString(Stream<?> stream, String separator) {
         return stream.map(Objects::toString).collect(Collectors.joining(separator));
+    }
+
+    /**
+     * Collect a Stream into a List.
+     */
+    public static <T> List<T> toList(Stream<T> stream) {
+        return stream.collect(Collectors.toList());
+    }
+
+    /**
+     * Collect a Stream into a Set.
+     */
+    public static <T> Set<T> toSet(Stream<T> stream) {
+        return stream.collect(Collectors.toSet());
     }
 
     /**

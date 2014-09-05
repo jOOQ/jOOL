@@ -47,6 +47,7 @@ import org.junit.Test;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -125,5 +126,15 @@ public class StreamsTest {
         assertEquals(asList(1, 2, 3, 4, 5, 6), Streams.slice(s.get(), 0, 6).collect(toList()));
         assertEquals(asList(1, 2, 3, 4, 5, 6), Streams.slice(s.get(), -1, 6).collect(toList()));
         assertEquals(asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), Streams.slice(s.get(), -1, 12).collect(toList()));
+    }
+
+    @Test
+    public void testToList() {
+        assertEquals(asList(1, 2, 2, 3), Streams.toList(Stream.of(1, 2, 2, 3)));
+    }
+
+    @Test
+    public void testToSet() {
+        assertEquals(new HashSet<>(asList(1, 2, 3)), Streams.toSet(Stream.of(1, 2, 2, 3)));
     }
 }
