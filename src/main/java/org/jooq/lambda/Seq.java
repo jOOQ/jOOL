@@ -190,6 +190,24 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Get the maximum value by a function.
+     */
+    default <U extends Comparable<U>> Optional<T> minBy(Function<T, U> function) {
+        return map(t -> tuple(t, function.apply(t)))
+            .min((t1, t2) -> t1.v2.compareTo(t2.v2))
+            .map(t -> t.v1);
+    }
+
+    /**
+     * Get the maximum value by a function.
+     */
+    default <U extends Comparable<U>> Optional<T> maxBy(Function<T, U> function) {
+        return map(t -> tuple(t, function.apply(t)))
+            .max((t1, t2) -> t1.v2.compareTo(t2.v2))
+            .map(t -> t.v1);
+    }
+
+    /**
      * @see Stream#of(Object)
      */
     static <T> Seq<T> of(T value) {

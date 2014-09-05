@@ -216,6 +216,13 @@ public class SeqTest {
 
         assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(7).v1.toList());
         assertEquals(asList(), s.get().splitAt(7).v2.toList());
+    }
 
+    @Test
+    public void testMinByMaxBy() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5, 6);
+
+        assertEquals(1, (int) s.get().maxBy(t -> Math.abs(t - 5)).get());
+        assertEquals(5, (int) s.get().minBy(t -> Math.abs(t - 5)).get());
     }
 }
