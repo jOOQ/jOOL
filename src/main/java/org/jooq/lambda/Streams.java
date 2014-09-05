@@ -246,4 +246,60 @@ public final class Streams {
 
         return stream(spliteratorUnknownSize(new SkipUntil(), ORDERED), false);
     }
+
+    /**
+     * Returns a stream limited to n elements.
+     */
+    public static <T> Stream<T> limit(Stream<T> stream, long elements) {
+        return stream.limit(elements);
+    }
+
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     */
+    public static <T> Stream<T> limitWhile(Stream<T> stream, Predicate<T> predicate) {
+        return limitUntil(stream, predicate.negate());
+    }
+
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     */
+    public static <T> Stream<T> limitUntil(Stream<T> stream, Predicate<T> predicate) {
+        final Iterator<T> it = stream.iterator();
+
+        class LimitUntil implements Iterator<T> {
+            T next;
+            boolean test = false;
+
+            void test() {
+                if (!test && next == null && it.hasNext()) {
+                    next = it.next();
+
+                    if (test = predicate.test(next))
+                        next = null;
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                test();
+                return next != null;
+            }
+
+            @Override
+            public T next() {
+                if (next == null)
+                    throw new NoSuchElementException();
+
+                try {
+                    return next;
+                }
+                finally {
+                    next = null;
+                }
+            }
+        }
+
+        return stream(spliteratorUnknownSize(new LimitUntil(), ORDERED), false);
+    }
 }

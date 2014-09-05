@@ -159,4 +159,26 @@ public class StreamsTest {
         assertEquals(asList(4, 5), Streams.skipUntil(s.get(), i -> i == 4).collect(toList()));
         assertEquals(asList(1, 2, 3, 4, 5), Streams.skipUntil(s.get(), i -> true).collect(toList()));
     }
+
+    @Test
+    public void testLimitWhile() {
+        Supplier<Stream<Integer>> s = () -> Stream.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(), Streams.limitWhile(s.get(), i -> false).collect(toList()));
+        assertEquals(asList(1, 2), Streams.limitWhile(s.get(), i -> i % 3 != 0).collect(toList()));
+        assertEquals(asList(1, 2), Streams.limitWhile(s.get(), i -> i < 3).collect(toList()));
+        assertEquals(asList(1, 2, 3), Streams.limitWhile(s.get(), i -> i < 4).collect(toList()));
+        assertEquals(asList(1, 2, 3, 4, 5), Streams.limitWhile(s.get(), i -> true).collect(toList()));
+    }
+
+    @Test
+    public void testLimitUntil() {
+        Supplier<Stream<Integer>> s = () -> Stream.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(1, 2, 3, 4, 5), Streams.limitUntil(s.get(), i -> false).collect(toList()));
+        assertEquals(asList(1, 2), Streams.limitUntil(s.get(), i -> i % 3 == 0).collect(toList()));
+        assertEquals(asList(1, 2), Streams.limitUntil(s.get(), i -> i == 3).collect(toList()));
+        assertEquals(asList(1, 2, 3), Streams.limitUntil(s.get(), i -> i == 4).collect(toList()));
+        assertEquals(asList(), Streams.limitUntil(s.get(), i -> true).collect(toList()));
+    }
 }
