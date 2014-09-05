@@ -137,4 +137,26 @@ public class StreamsTest {
     public void testToSet() {
         assertEquals(new HashSet<>(asList(1, 2, 3)), Streams.toSet(Stream.of(1, 2, 2, 3)));
     }
+
+    @Test
+    public void testSkipWhile() {
+        Supplier<Stream<Integer>> s = () -> Stream.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(1, 2, 3, 4, 5), Streams.skipWhile(s.get(), i -> false).collect(toList()));
+        assertEquals(asList(3, 4, 5), Streams.skipWhile(s.get(), i -> i % 3 != 0).collect(toList()));
+        assertEquals(asList(3, 4, 5), Streams.skipWhile(s.get(), i -> i < 3).collect(toList()));
+        assertEquals(asList(4, 5), Streams.skipWhile(s.get(), i -> i < 4).collect(toList()));
+        assertEquals(asList(), Streams.skipWhile(s.get(), i -> true).collect(toList()));
+    }
+
+    @Test
+    public void testSkipUntil() {
+        Supplier<Stream<Integer>> s = () -> Stream.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(), Streams.skipUntil(s.get(), i -> false).collect(toList()));
+        assertEquals(asList(3, 4, 5), Streams.skipUntil(s.get(), i -> i % 3 == 0).collect(toList()));
+        assertEquals(asList(3, 4, 5), Streams.skipUntil(s.get(), i -> i == 3).collect(toList()));
+        assertEquals(asList(4, 5), Streams.skipUntil(s.get(), i -> i == 4).collect(toList()));
+        assertEquals(asList(1, 2, 3, 4, 5), Streams.skipUntil(s.get(), i -> true).collect(toList()));
+    }
 }

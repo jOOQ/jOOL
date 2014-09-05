@@ -38,6 +38,7 @@ package org.jooq.lambda;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -186,5 +187,63 @@ public final class Streams {
         long t = Math.max(to - f, 0);
 
         return stream.skip(f).limit(t);
+    }
+
+    /**
+     * Returns a stream with n elements skipped.
+     */
+    public static <T> Stream<T> skip(Stream<T> stream, long elements) {
+        return stream.skip(elements);
+    }
+
+    /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
+     */
+    public static <T> Stream<T> skipWhile(Stream<T> stream, Predicate<T> predicate) {
+        return skipUntil(stream, predicate.negate());
+    }
+
+    /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
+     */
+    public static <T> Stream<T> skipUntil(Stream<T> stream, Predicate<T> predicate) {
+        final Iterator<T> it = stream.iterator();
+
+        class SkipUntil implements Iterator<T> {
+            T next;
+            boolean test = false;
+
+            void skip() {
+                while (next == null && it.hasNext()) {
+                    next = it.next();
+
+                    if (test || (test = predicate.test(next)))
+                        break;
+                    else
+                        next = null;
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                skip();
+                return next != null;
+            }
+
+            @Override
+            public T next() {
+                if (next == null)
+                    throw new NoSuchElementException();
+
+                try {
+                    return next;
+                }
+                finally {
+                    next = null;
+                }
+            }
+        }
+
+        return stream(spliteratorUnknownSize(new SkipUntil(), ORDERED), false);
     }
 }
