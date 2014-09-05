@@ -126,6 +126,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jooq.lambda.function.Function$degree;
+
 /**
  * A tuple of degree $degree.
  *
@@ -143,6 +145,10 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
         return new Tuple2<>(v2, v1);
     }
     """ else ""}
+    public <R> R call(Function$degree<R, ${TN(degree)}> function) {
+        return function.apply(this);
+    }
+
     @Override
     public Object[] array() {
         return new Object[] { ${(for (d <- 1 to degree) yield s"v$d").mkString(", ")} };
@@ -216,6 +222,38 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
 """
       )
     }
+
+    for (degree <- 1 to max) {
+      write(
+        s"src/main/java/org/jooq/lambda/function/Function$degree.java",
+        s"""$copyright
+package org.jooq.lambda.function;
+
+import static org.jooq.lambda.tuple.Tuple.tuple;
+import org.jooq.lambda.tuple.Tuple$degree;
+
+/**
+ * A function with $degree arguments
+ *
+ * @author Lukas Eder
+ */
+public interface Function$degree<R, ${TN(degree)}> {
+
+     /**
+      * Apply this function to the arguments.
+      */
+     R apply(Tuple$degree<${TN(degree)}> args);
+
+     /**
+      * Apply this function to the arguments.
+      */
+     default R apply(${TN_vn(degree)}) {
+         return apply(tuple(${vn(degree)}));
+     }
+}
+"""
+      )
+    }
   }
 
   def write(file : String, text : String) = {
@@ -227,7 +265,8 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
     w.close
   }
 
-  def TN   (degree : Int) : String = (1 to degree).map(i => "T" + i).mkString(", ")
-  def vn   (degree : Int) : String = (1 to degree).map(i => "v" + i).mkString(", ")
-  def TN_vn(degree : Int) : String = (1 to degree).map(i => "T" + i + " v" + i).mkString(", ")
+  def TN   (degree : Int)               : String = xxxn(degree, "T")
+  def vn   (degree : Int)               : String = xxxn(degree, "v")
+  def xxxn (degree : Int, xxx : String) : String = (1 to degree).map(i => xxx + i).mkString(", ")
+  def TN_vn(degree : Int)               : String = (1 to degree).map(i => "T" + i + " v" + i).mkString(", ")
 }

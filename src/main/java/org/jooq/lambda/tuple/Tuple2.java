@@ -41,6 +41,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jooq.lambda.function.Function2;
+
 /**
  * A tuple of degree 2.
  *
@@ -60,6 +62,10 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
         return new Tuple2<>(v2, v1);
     }
     
+    public <R> R call(Function2<R, T1, T2> function) {
+        return function.apply(this);
+    }
+
     @Override
     public Object[] array() {
         return new Object[] { v1, v2 };

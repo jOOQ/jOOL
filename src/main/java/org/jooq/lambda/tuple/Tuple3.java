@@ -41,6 +41,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jooq.lambda.function.Function3;
+
 /**
  * A tuple of degree 3.
  *
@@ -58,6 +60,10 @@ public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2
         this.v3 = v3;
     }
     
+    public <R> R call(Function3<R, T1, T2, T3> function) {
+        return function.apply(this);
+    }
+
     @Override
     public Object[] array() {
         return new Object[] { v1, v2, v3 };
