@@ -114,4 +114,16 @@ public class StreamsTest {
         assertEquals("1, 2, 3", Streams.toString(Stream.of(1, 2, 3), ", "));
         assertEquals("1, null, 3", Streams.toString(Stream.of(1, null, 3), ", "));
     }
+
+    @Test
+    public void testSlice() {
+        Supplier<Stream<Integer>> s = () -> Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        assertEquals(asList(3, 4, 5), Streams.slice(s.get(), 2, 5).collect(toList()));
+        assertEquals(asList(4, 5, 6), Streams.slice(s.get(), 3, 6).collect(toList()));
+        assertEquals(asList(), Streams.slice(s.get(), 4, 1).collect(toList()));
+        assertEquals(asList(1, 2, 3, 4, 5, 6), Streams.slice(s.get(), 0, 6).collect(toList()));
+        assertEquals(asList(1, 2, 3, 4, 5, 6), Streams.slice(s.get(), -1, 6).collect(toList()));
+        assertEquals(asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), Streams.slice(s.get(), -1, 12).collect(toList()));
+    }
 }

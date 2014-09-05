@@ -160,4 +160,20 @@ public final class Streams {
     public static String toString(Stream<?> stream, String separator) {
         return stream.map(Objects::toString).collect(Collectors.joining(separator));
     }
+
+    /**
+     * Returns a limited interval from a given Stream.
+     *
+     * @param stream The input Stream
+     * @param from The first element to consider from the Stream.
+     * @param to The first element not to consider from the Stream.
+     * @param <T> The stream element type
+     * @return The limited interval Stream
+     */
+    public static <T> Stream<T> slice(Stream<T> stream, long from, long to) {
+        long f = Math.max(from, 0);
+        long t = Math.max(to - f, 0);
+
+        return stream.skip(f).limit(t);
+    }
 }
