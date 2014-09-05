@@ -36,6 +36,7 @@
 
 package org.jooq.lambda.function;
 
+import java.util.function.Function;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple1;
 
@@ -46,15 +47,30 @@ import org.jooq.lambda.tuple.Tuple1;
  */
 public interface Function1<R, T1> {
 
-     /**
-      * Apply this function to the arguments.
-      */
-     R apply(Tuple1<T1> args);
+    /**
+     * Apply this function to the arguments.
+     */
+    R apply(Tuple1<T1> args);
 
-     /**
-      * Apply this function to the arguments.
-      */
-     default R apply(T1 v1) {
-         return apply(tuple(v1));
-     }
+    /**
+     * Apply this function to the arguments.
+     */
+    default R apply(T1 v1) {
+        return apply(tuple(v1));
+    }
+    
+    /**
+     * Convert this function to a {@link java.util.function.Function}
+     */
+    default Function<T1, R> toFunction() {
+        return t -> apply(t);
+    }
+
+    /**
+     * Convert to this function from a {@link java.util.function.Function}
+     */
+    static <R, T1> Function1<R, T1> from(Function<T1, R> function) {
+        return args -> function.apply(args.v1);
+    }
+    
 }

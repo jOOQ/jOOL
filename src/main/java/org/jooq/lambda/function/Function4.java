@@ -36,6 +36,7 @@
 
 package org.jooq.lambda.function;
 
+
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple4;
 
@@ -46,15 +47,16 @@ import org.jooq.lambda.tuple.Tuple4;
  */
 public interface Function4<R, T1, T2, T3, T4> {
 
-     /**
-      * Apply this function to the arguments.
-      */
-     R apply(Tuple4<T1, T2, T3, T4> args);
+    /**
+     * Apply this function to the arguments.
+     */
+    R apply(Tuple4<T1, T2, T3, T4> args);
 
-     /**
-      * Apply this function to the arguments.
-      */
-     default R apply(T1 v1, T2 v2, T3 v3, T4 v4) {
-         return apply(tuple(v1, v2, v3, v4));
-     }
+    /**
+     * Apply this function to the arguments.
+     */
+    default R apply(T1 v1, T2 v2, T3 v3, T4 v4) {
+        return apply(tuple(v1, v2, v3, v4));
+    }
+    
 }

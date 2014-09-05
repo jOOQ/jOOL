@@ -68,7 +68,7 @@ public final class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparab
         this.v7 = v7;
     }
     
-    public <R> R call(Function7<R, T1, T2, T3, T4, T5, T6, T7> function) {
+    public <R> R map(Function7<R, T1, T2, T3, T4, T5, T6, T7> function) {
         return function.apply(this);
     }
 

@@ -66,7 +66,7 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<T
         this.v6 = v6;
     }
     
-    public <R> R call(Function6<R, T1, T2, T3, T4, T5, T6> function) {
+    public <R> R map(Function6<R, T1, T2, T3, T4, T5, T6> function) {
         return function.apply(this);
     }
 

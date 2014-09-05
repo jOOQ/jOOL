@@ -56,7 +56,7 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
         this.v1 = v1;
     }
     
-    public <R> R call(Function1<R, T1> function) {
+    public <R> R map(Function1<R, T1> function) {
         return function.apply(this);
     }
 

@@ -145,7 +145,7 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
         return new Tuple2<>(v2, v1);
     }
     """ else ""}
-    public <R> R call(Function$degree<R, ${TN(degree)}> function) {
+    public <R> R map(Function$degree<R, ${TN(degree)}> function) {
         return function.apply(this);
     }
 
@@ -229,6 +229,9 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
         s"""$copyright
 package org.jooq.lambda.function;
 
+${if      (degree == 1) "import java.util.function.Function;"
+  else if (degree == 2) "import java.util.function.BiFunction;"
+  else ""}
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple$degree;
 
@@ -239,17 +242,47 @@ import org.jooq.lambda.tuple.Tuple$degree;
  */
 public interface Function$degree<R, ${TN(degree)}> {
 
-     /**
-      * Apply this function to the arguments.
-      */
-     R apply(Tuple$degree<${TN(degree)}> args);
+    /**
+     * Apply this function to the arguments.
+     */
+    R apply(Tuple$degree<${TN(degree)}> args);
 
-     /**
-      * Apply this function to the arguments.
-      */
-     default R apply(${TN_vn(degree)}) {
-         return apply(tuple(${vn(degree)}));
-     }
+    /**
+     * Apply this function to the arguments.
+     */
+    default R apply(${TN_vn(degree)}) {
+        return apply(tuple(${vn(degree)}));
+    }
+    ${if (degree == 1) s"""
+    /**
+     * Convert this function to a {@link java.util.function.Function}
+     */
+    default Function<T1, R> toFunction() {
+        return t -> apply(t);
+    }
+
+    /**
+     * Convert to this function from a {@link java.util.function.Function}
+     */
+    static <R, T1> Function1<R, T1> from(Function<T1, R> function) {
+        return args -> function.apply(args.v1);
+    }
+    """ else if (degree == 2) s"""
+    /**
+     * Convert this function to a {@link java.util.function.BiFunction}
+     */
+    default BiFunction<T1, T2, R> toBiFunction() {
+        return (t1, t2) -> apply(t1, t2);
+    }
+
+    /**
+     * Convert to this function to a {@link java.util.function.BiFunction}
+     */
+    static <R, T1, T2> Function2<R, T1, T2> from(BiFunction<T1, T2, R> function) {
+        return args -> function.apply(args.v1, args.v2);
+    }
+    """
+        else ""}
 }
 """
       )

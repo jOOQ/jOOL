@@ -115,8 +115,8 @@ public class TupleTest {
 
     @Test
     public void testFunctions() {
-        assertEquals("(1, b, null)", tuple(1, "b", null).call(Object::toString));
-        assertEquals("(1, b, null)", tuple(1, "b", null).call(args -> args + ""));
-        assertEquals("1-b", tuple(1, "b", null).call(args -> args.v1 + "-" + args.v2));
+        assertEquals("(1, b, null)", tuple(1, "b", null).map(Object::toString));
+        assertEquals("(1, b, null)", tuple(1, "b", null).map(args -> args + ""));
+        assertEquals("1-b", tuple(1, "b", null).map(args -> args.v1 + "-" + args.v2));
     }
 }
