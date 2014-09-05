@@ -83,23 +83,39 @@ public final class Streams {
         final Iterator<T1> it1 = left.iterator();
         final Iterator<T2> it2 = right.iterator();
 
-        return stream(
-            spliteratorUnknownSize(
-                new Iterator<R>() {
-                    @Override
-                    public boolean hasNext() {
-                        return it1.hasNext() && it2.hasNext();
-                    }
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext();
+            }
 
-                    @Override
-                    public R next() {
-                        return zipper.apply(it1.next(), it2.next());
-                    }
-                },
-                ORDERED
-            ),
-            false
-        );
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next());
+            }
+        }
+
+        return stream(spliteratorUnknownSize(new Zip(), ORDERED), false);
+    }
+
+    public static <T> Stream<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
+        final Iterator<T> it = stream.iterator();
+
+        class ZipWithIndex implements Iterator<Tuple2<T, Long>> {
+            long index;
+
+            @Override
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            @Override
+            public Tuple2<T, Long> next() {
+                return tuple(it.next(), index++);
+            }
+        }
+
+        return stream(spliteratorUnknownSize(new ZipWithIndex(), ORDERED), false);
     }
 
     /**

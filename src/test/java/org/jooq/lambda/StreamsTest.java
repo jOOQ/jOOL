@@ -94,6 +94,14 @@ public class StreamsTest {
     }
 
     @Test
+    public void testZipWithIndex() {
+        assertEquals(asList(), Streams.zipWithIndex(Stream.of()).collect(toList()));
+        assertEquals(asList(tuple("a", 0L)), Streams.zipWithIndex(Stream.of("a")).collect(toList()));
+        assertEquals(asList(tuple("a", 0L), tuple("b", 1L)), Streams.zipWithIndex(Stream.of("a", "b")).collect(toList()));
+        assertEquals(asList(tuple("a", 0L), tuple("b", 1L), tuple("c", 2L)), Streams.zipWithIndex(Stream.of("a", "b", "c")).collect(toList()));
+    }
+
+    @Test
     public void testDuplicate() {
         Supplier<Tuple2<Stream<Integer>, Stream<Integer>>> reset = () -> Streams.duplicate(Stream.of(1, 2, 3));
         Tuple2<Stream<Integer>, Stream<Integer>> duplicate;
