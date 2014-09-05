@@ -197,4 +197,25 @@ public class SeqTest {
         assertEquals(asList(), s.get().partition(i -> false).v1.toList());
         assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().partition(i -> false).v2.toList());
     }
+
+    @Test
+    public void testSplitAt() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5, 6);
+
+        assertEquals(asList(), s.get().splitAt(0).v1.toList());
+        assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(0).v2.toList());
+
+        assertEquals(asList(1), s.get().splitAt(1).v1.toList());
+        assertEquals(asList(2, 3, 4, 5, 6), s.get().splitAt(1).v2.toList());
+
+        assertEquals(asList(1, 2, 3), s.get().splitAt(3).v1.toList());
+        assertEquals(asList(4, 5, 6), s.get().splitAt(3).v2.toList());
+
+        assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(6).v1.toList());
+        assertEquals(asList(), s.get().splitAt(6).v2.toList());
+
+        assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(7).v1.toList());
+        assertEquals(asList(), s.get().splitAt(7).v2.toList());
+
+    }
 }

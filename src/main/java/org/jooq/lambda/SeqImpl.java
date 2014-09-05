@@ -63,13 +63,13 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    public Stream<T> filter(Predicate<? super T> predicate) {
-        return stream.filter(predicate);
+    public Seq<T> filter(Predicate<? super T> predicate) {
+        return Seq.seq(stream.filter(predicate));
     }
 
     @Override
-    public <R> Stream<R> map(Function<? super T, ? extends R> mapper) {
-        return stream.map(mapper);
+    public <R> Seq<R> map(Function<? super T, ? extends R> mapper) {
+        return Seq.seq(stream.map(mapper));
     }
 
     @Override
@@ -88,8 +88,8 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    public <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
-        return stream.flatMap(mapper);
+    public <R> Seq<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
+        return Seq.seq(stream.flatMap(mapper));
     }
 
     @Override
@@ -108,33 +108,33 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    public Stream<T> distinct() {
-        return stream.distinct();
+    public Seq<T> distinct() {
+        return Seq.seq(stream.distinct());
     }
 
     @Override
-    public Stream<T> sorted() {
-        return stream.sorted();
+    public Seq<T> sorted() {
+        return Seq.seq(stream.sorted());
     }
 
     @Override
-    public Stream<T> sorted(Comparator<? super T> comparator) {
-        return stream.sorted(comparator);
+    public Seq<T> sorted(Comparator<? super T> comparator) {
+        return Seq.seq(stream.sorted(comparator));
     }
 
     @Override
-    public Stream<T> peek(Consumer<? super T> action) {
-        return stream.peek(action);
+    public Seq<T> peek(Consumer<? super T> action) {
+        return Seq.seq(stream.peek(action));
     }
 
     @Override
-    public Stream<T> limit(long maxSize) {
-        return stream.limit(maxSize);
+    public Seq<T> limit(long maxSize) {
+        return Seq.seq(stream.limit(maxSize));
     }
 
     @Override
-    public Stream<T> skip(long n) {
-        return stream.skip(n);
+    public Seq<T> skip(long n) {
+        return Seq.seq(stream.skip(n));
     }
 
     @Override
@@ -253,8 +253,8 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    public Stream<T> onClose(Runnable closeHandler) {
-        return stream.onClose(closeHandler);
+    public Seq<T> onClose(Runnable closeHandler) {
+        return Seq.seq(stream.onClose(closeHandler));
     }
 
     @Override

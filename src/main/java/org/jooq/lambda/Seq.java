@@ -44,13 +44,8 @@ import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
@@ -142,8 +137,20 @@ public interface Seq<T> extends Stream<T> {
         return duplicate(this);
     }
 
+    /**
+     * Partition a stream into two given a predicate.
+     *
+     * @see #partition(Stream, Predicate)
+     */
     default Tuple2<Seq<T>, Seq<T>> partition(Predicate<? super T> predicate) {
         return partition(this, predicate);
+    }
+
+    /**
+     * Split a stream at a given position.
+     */
+    default Tuple2<Seq<T>, Seq<T>> splitAt(long position) {
+        return splitAt(this, position);
     }
 
     default Seq<T> slice(long from, long to) {
@@ -491,6 +498,15 @@ public interface Seq<T> extends Stream<T> {
         return seq(StreamSupport.stream(spliteratorUnknownSize(new LimitUntil(), ORDERED), false));
     }
 
+    /**
+     * Partition a stream into two given a predicate.
+     *
+     * @param stream    The stream to partition into two.
+     * @param predicate The predicate used to partition the stream.
+     * @param <T>       The element types.
+     * @return Two streams containing elements that returned <code>true</code> for the predicate and elements that
+     * returned <code>false</code> for the predicate.
+     */
     static <T> Tuple2<Seq<T>, Seq<T>> partition(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
         final LinkedList<T> buffer1 = new LinkedList<>();
@@ -532,4 +548,75 @@ public interface Seq<T> extends Stream<T> {
             seq(StreamSupport.stream(spliteratorUnknownSize(new Partition(false), ORDERED), false))
         );
     }
+
+    /**
+     * Split a stream at a given position.
+     *
+     * @param stream The stream to split.
+     * @param position The position at which the stream is split.
+     * @param <T> The element type
+     * @return Two streams containing the elements before and after the split.
+     */
+    static <T> Tuple2<Seq<T>, Seq<T>> splitAt(Stream<T> stream, long position) {
+        return seq(stream)
+            .zipWithIndex()
+            .partition(t -> t.v2 < position)
+            .map(args -> tuple(
+                args.v1.map(t -> t.v1),
+                args.v2.map(t -> t.v1)
+            ));
+    }
+
+    // Covariant overriding of Stream return types
+
+    @Override
+    Seq<T> filter(Predicate<? super T> predicate);
+
+    @Override
+    <R> Seq<R> map(Function<? super T, ? extends R> mapper);
+
+    @Override
+    IntStream mapToInt(ToIntFunction<? super T> mapper);
+
+    @Override
+    LongStream mapToLong(ToLongFunction<? super T> mapper);
+
+    @Override
+    DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper);
+
+    @Override
+    <R> Seq<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
+
+    @Override
+    IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper);
+
+    @Override
+    LongStream flatMapToLong(Function<? super T, ? extends LongStream> mapper);
+
+    @Override
+    DoubleStream flatMapToDouble(Function<? super T, ? extends DoubleStream> mapper);
+
+    @Override
+    Seq<T> distinct();
+
+    @Override
+    Seq<T> sorted();
+
+    @Override
+    Seq<T> sorted(Comparator<? super T> comparator);
+
+    @Override
+    Seq<T> peek(Consumer<? super T> action);
+
+    @Override
+    Seq<T> limit(long maxSize);
+
+    @Override
+    Seq<T> skip(long n);
+
+    @Override
+    Seq<T> onClose(Runnable closeHandler);
+
+    @Override
+    void close();
 }
