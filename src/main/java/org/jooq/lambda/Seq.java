@@ -148,23 +148,43 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Split a stream at a given position.
+     *
+     * @see #splitAt(Stream, long)
      */
     default Tuple2<Seq<T>, Seq<T>> splitAt(long position) {
         return splitAt(this, position);
     }
 
+    /**
+     * Returns a limited interval from a given Stream.
+     *
+     * @see #slice(Stream, long, long)
+     */
     default Seq<T> slice(long from, long to) {
         return slice(this, from, to);
     }
 
+    /**
+     * Collect a Stream into a List.
+     *
+     * @see #toList(Stream)
+     */
     default List<T> toList() {
         return toList(this);
     }
 
+    /**
+     * Collect a Stream into a Set.
+     *
+     * @see #toSet(Stream)
+     */
     default Set<T> toSet() {
         return toSet(this);
     }
 
+    /**
+     * Consume a stream and concatenate all elements using a separator.
+     */
     default String toString(String separator) {
         return toString(this, separator);
     }
