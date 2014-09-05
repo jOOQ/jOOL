@@ -194,8 +194,8 @@ public interface Seq<T> extends Stream<T> {
      */
     default <U extends Comparable<U>> Optional<T> minBy(Function<T, U> function) {
         return map(t -> tuple(t, function.apply(t)))
-            .min((t1, t2) -> t1.v2.compareTo(t2.v2))
-            .map(t -> t.v1);
+              .min((t1, t2) -> t1.v2.compareTo(t2.v2))
+              .map(t -> t.v1);
     }
 
     /**
@@ -203,8 +203,8 @@ public interface Seq<T> extends Stream<T> {
      */
     default <U extends Comparable<U>> Optional<T> maxBy(Function<T, U> function) {
         return map(t -> tuple(t, function.apply(t)))
-            .max((t1, t2) -> t1.v2.compareTo(t2.v2))
-            .map(t -> t.v1);
+              .max((t1, t2) -> t1.v2.compareTo(t2.v2))
+              .map(t -> t.v1);
     }
 
     /**
