@@ -216,8 +216,6 @@ public class SeqTest {
 
         assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(7).v1.toList());
         assertEquals(asList(), s.get().splitAt(7).v2.toList());
-
-
     }
 
     @Test
@@ -259,5 +257,10 @@ public class SeqTest {
         assertEquals("abc", s.get().foldLeft("", String::concat));
         assertEquals("-a-b-c", s.get().foldLeft(new StringBuilder(), (u, t) -> u.append("-").append(t)).toString());
         assertEquals(3, (int) s.get().foldLeft(0, (u, t) -> u + t.length()));
+    }
+
+    @Test
+    public void testReverse() {
+        assertEquals(asList(3, 2, 1), Seq.of(1, 2, 3).reverse().toList());
     }
 }

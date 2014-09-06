@@ -108,6 +108,13 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Reverse a stream.
+     */
+    default Seq<T> reverse() {
+        return reverse(this);
+    }
+
+    /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
      *
      * @see #skipWhile(Stream, Predicate)
@@ -282,6 +289,13 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Wrap an Iterable into a Seq.
+     */
+    static <T> Seq<T> seq(Iterable<T> iterable) {
+        return seq(iterable.iterator());
+    }
+
+    /**
      * Wrap an Iterator into a Seq.
      */
     static <T> Seq<T> seq(Iterator<T> iterator) {
@@ -403,6 +417,15 @@ public interface Seq<T> extends Stream<T> {
     static <T, U> U foldRight(Stream<T> stream, U identity, Function2<? super T, U, U> function) {
         // TODO: implement this with Seq.reverse()
         return null;
+    }
+
+    /**
+     * Reverse a stream
+     */
+    static <T> Seq<T> reverse(Stream<T> stream) {
+        List<T> list = toList(stream);
+        Collections.reverse(list);
+        return seq(list);
     }
 
     /**
