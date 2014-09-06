@@ -251,4 +251,13 @@ public class SeqTest {
         assertEquals(asList(-1, -2, -3), u4.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u4.v2.toList());
     }
+
+    @Test
+    public void testFold() {
+        Supplier<Seq<String>> s = () -> Seq.of("a", "b", "c");
+
+        assertEquals("abc", s.get().foldLeft("", String::concat));
+        assertEquals("-a-b-c", s.get().foldLeft(new StringBuilder(), (u, t) -> u.append("-").append(t)).toString());
+        assertEquals(3, (int) s.get().foldLeft(0, (u, t) -> u + t.length()));
+    }
 }

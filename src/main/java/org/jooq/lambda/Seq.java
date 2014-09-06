@@ -94,6 +94,20 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Fold a Stream to the left.
+     */
+    default <U> U foldLeft(U identity, Function2<U, ? super T, U> function) {
+        return foldLeft(this, identity, function);
+    }
+
+    /**
+     * Fold a Stream to the right.
+     */
+    default <U> U foldRight(U identity, Function2<? super T, U, U> function) {
+        return foldRight(this, identity, function);
+    }
+
+    /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
      *
      * @see #skipWhile(Stream, Predicate)
@@ -368,6 +382,27 @@ public interface Seq<T> extends Stream<T> {
         }
 
         return seq(new ZipWithIndex());
+    }
+
+    /**
+     * Fold a stream to the left.
+     */
+    static <T, U> U foldLeft(Stream<T> stream, U identity, Function2<U, ? super T, U> function) {
+        final Iterator<T> it = stream.iterator();
+        U result = identity;
+
+        while (it.hasNext())
+            result = function.apply(result, it.next());
+
+        return result;
+    }
+
+    /**
+     * Fold a stream to the right.
+     */
+    static <T, U> U foldRight(Stream<T> stream, U identity, Function2<? super T, U, U> function) {
+        // TODO: implement this with Seq.reverse()
+        return null;
     }
 
     /**
