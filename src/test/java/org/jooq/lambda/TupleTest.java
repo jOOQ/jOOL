@@ -119,4 +119,9 @@ public class TupleTest {
         assertEquals("(1, b, null)", tuple(1, "b", null).map(args -> args + ""));
         assertEquals("1-b", tuple(1, "b", null).map(args -> args.v1 + "-" + args.v2));
     }
+
+    @Test
+    public void testMapN() {
+        assertEquals(tuple(1, "a", 2, "b"), tuple(1, null, 2, null).map2(v -> "a").map4(v -> "b"));
+    }
 }

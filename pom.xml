@@ -233,7 +233,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -249,6 +249,12 @@
             <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
             <scope>optional</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.functionaljava</groupId>
+            <artifactId>functionaljava-java8</artifactId>
+            <version>4.2-beta-2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+
 import org.jooq.lambda.function.Function1;
 
 /**
@@ -56,10 +57,20 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
         this.v1 = v1;
     }
     
+    /**
+     * Apply this tuple as arguments to a function.
+     */
     public <R> R map(Function1<T1, R> function) {
         return function.apply(this);
     }
-
+    
+    /**
+     * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U1> Tuple1<U1> map1(Function1<T1, U1> function) {
+        return Tuple.tuple(function.apply(v1));
+    }
+    
     @Override
     public Object[] array() {
         return new Object[] { v1 };
@@ -70,6 +81,9 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
         return Arrays.asList(array());
     }
 
+    /**
+     * The degree of this tuple: 1.
+     */
     @Override
     public int degree() {
         return 1;

@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function2;
 
 /**
@@ -58,14 +59,34 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
         this.v2 = v2;
     }
     
+    /**
+     * Get a tuple with the two attributes swapped.
+     */
     public Tuple2<T2, T1> swap() {
         return new Tuple2<>(v2, v1);
     }
     
+    /**
+     * Apply this tuple as arguments to a function.
+     */
     public <R> R map(Function2<T1, T2, R> function) {
         return function.apply(this);
     }
-
+    
+    /**
+     * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U1> Tuple2<U1, T2> map1(Function1<T1, U1> function) {
+        return Tuple.tuple(function.apply(v1), v2);
+    }
+    
+    /**
+     * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U2> Tuple2<T1, U2> map2(Function1<T2, U2> function) {
+        return Tuple.tuple(v1, function.apply(v2));
+    }
+    
     @Override
     public Object[] array() {
         return new Object[] { v1, v2 };
@@ -76,6 +97,9 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
         return Arrays.asList(array());
     }
 
+    /**
+     * The degree of this tuple: 2.
+     */
     @Override
     public int degree() {
         return 2;

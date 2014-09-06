@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function5;
 
 /**
@@ -64,10 +65,48 @@ public final class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple
         this.v5 = v5;
     }
     
+    /**
+     * Apply this tuple as arguments to a function.
+     */
     public <R> R map(Function5<T1, T2, T3, T4, T5, R> function) {
         return function.apply(this);
     }
-
+    
+    /**
+     * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U1> Tuple5<U1, T2, T3, T4, T5> map1(Function1<T1, U1> function) {
+        return Tuple.tuple(function.apply(v1), v2, v3, v4, v5);
+    }
+    
+    /**
+     * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U2> Tuple5<T1, U2, T3, T4, T5> map2(Function1<T2, U2> function) {
+        return Tuple.tuple(v1, function.apply(v2), v3, v4, v5);
+    }
+    
+    /**
+     * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U3> Tuple5<T1, T2, U3, T4, T5> map3(Function1<T3, U3> function) {
+        return Tuple.tuple(v1, v2, function.apply(v3), v4, v5);
+    }
+    
+    /**
+     * Apply attribute 4 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U4> Tuple5<T1, T2, T3, U4, T5> map4(Function1<T4, U4> function) {
+        return Tuple.tuple(v1, v2, v3, function.apply(v4), v5);
+    }
+    
+    /**
+     * Apply attribute 5 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public <U5> Tuple5<T1, T2, T3, T4, U5> map5(Function1<T5, U5> function) {
+        return Tuple.tuple(v1, v2, v3, v4, function.apply(v5));
+    }
+    
     @Override
     public Object[] array() {
         return new Object[] { v1, v2, v3, v4, v5 };
@@ -78,6 +117,9 @@ public final class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple
         return Arrays.asList(array());
     }
 
+    /**
+     * The degree of this tuple: 5.
+     */
     @Override
     public int degree() {
         return 5;
