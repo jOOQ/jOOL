@@ -230,4 +230,25 @@ public class SeqTest {
         assertEquals(6, (int) s.get().maxBy(t -> "" + t).get());
         assertEquals(1, (int) s.get().minBy(t -> "" + t).get());
     }
+
+    @Test
+    public void testUnzip() {
+        Supplier<Seq<Tuple2<Integer, String>>> s = () -> Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
+
+        Tuple2<Seq<Integer>, Seq<String>> u1 = Seq.unzip(s.get());
+        assertEquals(asList(1, 2, 3), u1.v1.toList());
+        assertEquals(asList("a", "b", "c"), u1.v2.toList());
+
+        Tuple2<Seq<Integer>, Seq<String>> u2 = Seq.unzip(s.get(), v1 -> -v1, v2 -> v2 + "!");
+        assertEquals(asList(-1, -2, -3), u2.v1.toList());
+        assertEquals(asList("a!", "b!", "c!"), u2.v2.toList());
+
+        Tuple2<Seq<Integer>, Seq<String>> u3 = Seq.unzip(s.get(), t -> tuple(-t.v1, t.v2 + "!"));
+        assertEquals(asList(-1, -2, -3), u3.v1.toList());
+        assertEquals(asList("a!", "b!", "c!"), u3.v2.toList());
+
+        Tuple2<Seq<Integer>, Seq<String>> u4 = Seq.unzip(s.get(), (t1, t2) -> tuple(-t1, t2 + "!"));
+        assertEquals(asList(-1, -2, -3), u4.v1.toList());
+        assertEquals(asList("a!", "b!", "c!"), u4.v2.toList());
+    }
 }

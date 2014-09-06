@@ -50,14 +50,14 @@ public interface Function2<T1, T2, R> {
     /**
      * Apply this function to the arguments.
      */
-    R apply(Tuple2<T1, T2> args);
+    default R apply(Tuple2<T1, T2> args) {
+        return apply(args.v1, args.v2);
+    }
 
     /**
      * Apply this function to the arguments.
      */
-    default R apply(T1 v1, T2 v2) {
-        return apply(tuple(v1, v2));
-    }
+    R apply(T1 v1, T2 v2);
     
     /**
      * Convert this function to a {@link java.util.function.BiFunction}
@@ -70,7 +70,7 @@ public interface Function2<T1, T2, R> {
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
     static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
-        return args -> function.apply(args.v1, args.v2);
+        return (v1, v2) -> function.apply(v1, v2);
     }
     
 }

@@ -40,6 +40,8 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.lambda.function.Function1;
+import org.jooq.lambda.function.Function2;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
@@ -50,7 +52,6 @@ import java.util.stream.*;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static org.jooq.lambda.tuple.Tuple.tuple;
-import static java.util.stream.StreamSupport.stream;
 
 /**
  * A wrapper for a {@link Stream} that adds all sorts of useful methods that work only on sequential 
@@ -267,6 +268,45 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Wrap an Iterator into a Seq.
+     */
+    static <T> Seq<T> seq(Iterator<T> iterator) {
+        return seq(StreamSupport.stream(spliteratorUnknownSize(iterator, ORDERED), false));
+    }
+
+    /**
+     * Unzip one Stream into two.
+     */
+    static <T1, T2> Tuple2<Seq<T1>, Seq<T2>> unzip(Stream<Tuple2<T1, T2>> stream) {
+        return unzip(stream, t -> t);
+    }
+
+    /**
+     * Unzip one Stream into two.
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function1<T1, U1> leftUnzipper, Function1<T2, U2> rightUnzipper) {
+        return unzip(stream, t -> tuple(leftUnzipper.apply(t.v1), rightUnzipper.apply(t.v2)));
+    }
+
+    /**
+     * Unzip one Stream into two.
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function1<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
+        return unzip(stream, (t1, t2) -> unzipper.apply(tuple(t1, t2)));
+    }
+
+    /**
+     * Unzip one Stream into two.
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function2<T1, T2, Tuple2<U1, U2>> unzipper) {
+        return seq(stream)
+              .map(t -> unzipper.apply(t.v1, t.v2))
+              .duplicate()
+              .map1(s -> s.map(u -> u.v1))
+              .map2(s -> s.map(u -> u.v2));
+    }
+
+    /**
      * Zip two streams into one.
      *
      * @param left The left stream producing {@link org.jooq.lambda.tuple.Tuple2#v1} values.
@@ -304,7 +344,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return seq(StreamSupport.stream(spliteratorUnknownSize(new Zip(), ORDERED), false));
+        return seq(new Zip());
     }
 
     /**
@@ -327,7 +367,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return seq(StreamSupport.stream(spliteratorUnknownSize(new ZipWithIndex(), ORDERED), false));
+        return seq(new ZipWithIndex());
     }
 
     /**
@@ -386,10 +426,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return tuple(
-            seq(StreamSupport.stream(spliteratorUnknownSize(new Duplicate(), ORDERED), false)),
-            seq(StreamSupport.stream(spliteratorUnknownSize(new Duplicate(), ORDERED), false))
-        );
+        return tuple(seq(new Duplicate()), seq(new Duplicate()));
     }
 
     /**
@@ -491,7 +528,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return seq(StreamSupport.stream(spliteratorUnknownSize(new SkipUntil(), ORDERED), false));
+        return seq(new SkipUntil());
     }
 
     /**
@@ -547,7 +584,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return seq(StreamSupport.stream(spliteratorUnknownSize(new LimitUntil(), ORDERED), false));
+        return seq(new LimitUntil());
     }
 
     /**
@@ -595,10 +632,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return tuple(
-            seq(StreamSupport.stream(spliteratorUnknownSize(new Partition(true), ORDERED), false)),
-            seq(StreamSupport.stream(spliteratorUnknownSize(new Partition(false), ORDERED), false))
-        );
+        return tuple(seq(new Partition(true)), seq(new Partition(false)));
     }
 
     /**
@@ -613,9 +647,9 @@ public interface Seq<T> extends Stream<T> {
         return seq(stream)
             .zipWithIndex()
             .partition(t -> t.v2 < position)
-            .map(args -> tuple(
-                args.v1.map(t -> t.v1),
-                args.v2.map(t -> t.v1)
+            .map((v1, v2) -> tuple(
+                v1.map(t -> t.v1),
+                v2.map(t -> t.v1)
             ));
     }
 

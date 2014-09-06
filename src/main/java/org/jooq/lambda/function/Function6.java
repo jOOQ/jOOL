@@ -50,13 +50,13 @@ public interface Function6<T1, T2, T3, T4, T5, T6, R> {
     /**
      * Apply this function to the arguments.
      */
-    R apply(Tuple6<T1, T2, T3, T4, T5, T6> args);
+    default R apply(Tuple6<T1, T2, T3, T4, T5, T6> args) {
+        return apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6);
+    }
 
     /**
      * Apply this function to the arguments.
      */
-    default R apply(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6) {
-        return apply(tuple(v1, v2, v3, v4, v5, v6));
-    }
+    R apply(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6);
     
 }

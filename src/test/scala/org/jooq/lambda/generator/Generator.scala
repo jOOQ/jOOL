@@ -262,14 +262,14 @@ public interface Function$degree<${TN(degree)}, R> {
     /**
      * Apply this function to the arguments.
      */
-    R apply(Tuple$degree<${TN(degree)}> args);
+    default R apply(Tuple$degree<${TN(degree)}> args) {
+        return apply(${xxxn(degree, "args.v")});
+    }
 
     /**
      * Apply this function to the arguments.
      */
-    default R apply(${TN_vn(degree)}) {
-        return apply(tuple(${vn(degree)}));
-    }
+    R apply(${TN_vn(degree)});
     ${if (degree == 1) s"""
     /**
      * Convert this function to a {@link java.util.function.Function}
@@ -282,7 +282,7 @@ public interface Function$degree<${TN(degree)}, R> {
      * Convert to this function from a {@link java.util.function.Function}
      */
     static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
-        return args -> function.apply(args.v1);
+        return v1 -> function.apply(v1);
     }
     """ else if (degree == 2) s"""
     /**
@@ -296,7 +296,7 @@ public interface Function$degree<${TN(degree)}, R> {
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
     static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
-        return args -> function.apply(args.v1, args.v2);
+        return (v1, v2) -> function.apply(v1, v2);
     }
     """
         else ""}
