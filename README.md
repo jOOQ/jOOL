@@ -28,6 +28,9 @@ Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"));
 // Create a sequence of "1:a", "2:b", "3:c"
 Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (x, y) -> x + ":" + y);
 
+// Create two sequences (1, 2, 3) and (a, b, c)
+Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+
 // Create a sequence of tuple("a", 0), tuple("b", 1), tuple("c", 2)
 Seq.of("a", "b", "c").zipWithIndex();
 
