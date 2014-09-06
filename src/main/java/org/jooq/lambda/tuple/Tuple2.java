@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function2;
@@ -85,6 +86,19 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     public static final <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
         return left.v1.compareTo(right.v2) <= 0
             && left.v2.compareTo(right.v1) >= 0;
+    }
+
+    /**
+     * The intersection of two tuples.
+     */
+    public static final <T extends Comparable<T>> Optional<Tuple2<T, T>> intersect(Tuple2<T, T> left, Tuple2<T, T> right) {
+        if (overlaps(left, right))
+            return Optional.of(new Tuple2<>(
+                left.v1.compareTo(right.v1) >= 0 ? left.v1 : right.v1,
+                left.v2.compareTo(right.v2) <= 0 ? left.v2 : right.v2
+            ));
+        else
+            return Optional.empty();
     }
     
     /**
@@ -146,9 +160,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
+        if (!(o instanceof Tuple2))
             return false;
 
         @SuppressWarnings({ "unchecked", "rawtypes" })

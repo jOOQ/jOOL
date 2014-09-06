@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function3;
@@ -146,9 +147,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
+        if (!(o instanceof Tuple3))
             return false;
 
         @SuppressWarnings({ "unchecked", "rawtypes" })

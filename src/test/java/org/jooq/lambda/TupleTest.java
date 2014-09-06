@@ -49,6 +49,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
+import static org.jooq.lambda.tuple.Tuple.range;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -136,11 +137,24 @@ public class TupleTest {
         assertFalse(Tuple2.overlaps(tuple(1, 1), tuple(2, 2)));
 
 
-        assertTrue(Tuple.range(1, 3).overlaps(tuple(1, 3)));
-        assertTrue(Tuple.range(1, 3).overlaps(tuple(2, 3)));
-        assertTrue(Tuple.range(1, 3).overlaps(tuple(2, 4)));
-        assertTrue(Tuple.range(1, 3).overlaps(tuple(3, 4)));
-        assertFalse(Tuple.range(1, 3).overlaps(tuple(4, 5)));
-        assertFalse(Tuple.range(1, 1).overlaps(tuple(2, 2)));
+        assertTrue(range(1, 3).overlaps(tuple(1, 3)));
+        assertTrue(range(1, 3).overlaps(tuple(2, 3)));
+        assertTrue(range(1, 3).overlaps(tuple(2, 4)));
+        assertTrue(range(1, 3).overlaps(tuple(3, 4)));
+        assertFalse(range(1, 3).overlaps(tuple(4, 5)));
+        assertFalse(range(1, 1).overlaps(2, 2));
+    }
+
+    @Test
+    public void testIntersect() {
+        assertEquals(Optional.of(tuple(2, 3)), range(1, 3).intersect(range(2, 4)));
+        assertEquals(Optional.of(tuple(2, 3)), range(3, 1).intersect(range(4, 2)));
+        assertEquals(Optional.of(tuple(3, 3)), range(1, 3).intersect(3, 5));
+        assertEquals(Optional.empty(), range(1, 3).intersect(range(4, 5)));
+    }
+
+    @Test
+    public void testRange() {
+        assertEquals(range(1, 3), range(3, 1));
     }
 }

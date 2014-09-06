@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function8;
@@ -221,9 +222,7 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
+        if (!(o instanceof Tuple8))
             return false;
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
