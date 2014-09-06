@@ -37,7 +37,6 @@
 package org.jooq.lambda.function;
 
 import java.util.function.BiFunction;
-import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 /**
@@ -45,7 +44,7 @@ import org.jooq.lambda.tuple.Tuple2;
  *
  * @author Lukas Eder
  */
-public interface Function2<T1, T2, R> {
+public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
 
     /**
      * Apply this function to the arguments.
@@ -57,6 +56,7 @@ public interface Function2<T1, T2, R> {
     /**
      * Apply this function to the arguments.
      */
+    @Override
     R apply(T1 v1, T2 v2);
     
     /**

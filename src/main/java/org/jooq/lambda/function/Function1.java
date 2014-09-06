@@ -37,7 +37,6 @@
 package org.jooq.lambda.function;
 
 import java.util.function.Function;
-import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple1;
 
 /**
@@ -45,7 +44,7 @@ import org.jooq.lambda.tuple.Tuple1;
  *
  * @author Lukas Eder
  */
-public interface Function1<T1, R> {
+public interface Function1<T1, R> extends Function<T1, R> {
 
     /**
      * Apply this function to the arguments.
@@ -57,6 +56,7 @@ public interface Function1<T1, R> {
     /**
      * Apply this function to the arguments.
      */
+    @Override
     R apply(T1 v1);
     
     /**

@@ -37,7 +37,6 @@
 package org.jooq.lambda.function;
 
 
-import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple3;
 
 /**

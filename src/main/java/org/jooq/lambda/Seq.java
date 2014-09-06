@@ -40,8 +40,6 @@
  */
 package org.jooq.lambda;
 
-import org.jooq.lambda.function.Function1;
-import org.jooq.lambda.function.Function2;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
@@ -126,7 +124,7 @@ public interface Seq<T> extends Stream<T> {
      * // "abc"
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      */
-    default <U> U foldLeft(U identity, Function2<U, ? super T, U> function) {
+    default <U> U foldLeft(U identity, BiFunction<U, ? super T, U> function) {
         return foldLeft(this, identity, function);
     }
 
@@ -137,7 +135,7 @@ public interface Seq<T> extends Stream<T> {
      * // "cba"
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      */
-    default <U> U foldRight(U identity, Function2<? super T, U, U> function) {
+    default <U> U foldRight(U identity, BiFunction<? super T, U, U> function) {
         return foldRight(this, identity, function);
     }
 
@@ -383,21 +381,21 @@ public interface Seq<T> extends Stream<T> {
     /**
      * Unzip one Stream into two.
      */
-    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function1<T1, U1> leftUnzipper, Function1<T2, U2> rightUnzipper) {
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function<T1, U1> leftUnzipper, Function<T2, U2> rightUnzipper) {
         return unzip(stream, t -> tuple(leftUnzipper.apply(t.v1), rightUnzipper.apply(t.v2)));
     }
 
     /**
      * Unzip one Stream into two.
      */
-    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function1<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
         return unzip(stream, (t1, t2) -> unzipper.apply(tuple(t1, t2)));
     }
 
     /**
      * Unzip one Stream into two.
      */
-    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function2<T1, T2, Tuple2<U1, U2>> unzipper) {
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, BiFunction<T1, T2, Tuple2<U1, U2>> unzipper) {
         return seq(stream)
               .map(t -> unzipper.apply(t.v1, t.v2))
               .duplicate()
@@ -476,7 +474,7 @@ public interface Seq<T> extends Stream<T> {
      * // "abc"
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      */
-    static <T, U> U foldLeft(Stream<T> stream, U identity, Function2<U, ? super T, U> function) {
+    static <T, U> U foldLeft(Stream<T> stream, U identity, BiFunction<U, ? super T, U> function) {
         final Iterator<T> it = stream.iterator();
         U result = identity;
 
@@ -493,7 +491,7 @@ public interface Seq<T> extends Stream<T> {
      * // "cba"
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      */
-    static <T, U> U foldRight(Stream<T> stream, U identity, Function2<? super T, U, U> function) {
+    static <T, U> U foldRight(Stream<T> stream, U identity, BiFunction<? super T, U, U> function) {
         return seq(stream).reverse().foldLeft(identity, (u, t) -> function.apply(t, u));
     }
 

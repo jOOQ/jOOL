@@ -258,7 +258,6 @@ package org.jooq.lambda.function;
 ${if      (degree == 1) "import java.util.function.Function;"
   else if (degree == 2) "import java.util.function.BiFunction;"
   else ""}
-import static org.jooq.lambda.tuple.Tuple.tuple;
 import org.jooq.lambda.tuple.Tuple$degree;
 
 /**
@@ -266,7 +265,7 @@ import org.jooq.lambda.tuple.Tuple$degree;
  *
  * @author Lukas Eder
  */
-public interface Function$degree<${TN(degree)}, R> {
+public interface Function$degree<${TN(degree)}, R> ${if (degree == 1) "extends Function<T1, R> " else if (degree == 2) "extends BiFunction<T1, T2, R> " else ""}{
 
     /**
      * Apply this function to the arguments.
@@ -278,7 +277,7 @@ public interface Function$degree<${TN(degree)}, R> {
     /**
      * Apply this function to the arguments.
      */
-    R apply(${TN_vn(degree)});
+    ${if (degree <= 2) "@Override\n    " else ""}R apply(${TN_vn(degree)});
     ${if (degree == 1) s"""
     /**
      * Convert this function to a {@link java.util.function.Function}
