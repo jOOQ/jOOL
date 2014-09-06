@@ -183,6 +183,9 @@ public final class SQL {
                     hasNext = rs().next();
                 }
 
+                if (!hasNext)
+                    rs().close();
+
                 return hasNext;
             }
             catch (SQLException e) {
