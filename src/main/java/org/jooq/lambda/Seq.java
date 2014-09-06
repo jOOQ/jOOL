@@ -124,8 +124,8 @@ public interface Seq<T> extends Stream<T> {
      * // "abc"
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      */
-    default <U> U foldLeft(U identity, BiFunction<U, ? super T, U> function) {
-        return foldLeft(this, identity, function);
+    default <U> U foldLeft(U seed, BiFunction<U, ? super T, U> function) {
+        return foldLeft(this, seed, function);
     }
 
     /**
@@ -135,8 +135,8 @@ public interface Seq<T> extends Stream<T> {
      * // "cba"
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      */
-    default <U> U foldRight(U identity, BiFunction<? super T, U, U> function) {
-        return foldRight(this, identity, function);
+    default <U> U foldRight(U seed, BiFunction<? super T, U, U> function) {
+        return foldRight(this, seed, function);
     }
 
     /**
@@ -474,9 +474,9 @@ public interface Seq<T> extends Stream<T> {
      * // "abc"
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      */
-    static <T, U> U foldLeft(Stream<T> stream, U identity, BiFunction<U, ? super T, U> function) {
+    static <T, U> U foldLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
         final Iterator<T> it = stream.iterator();
-        U result = identity;
+        U result = seed;
 
         while (it.hasNext())
             result = function.apply(result, it.next());
@@ -491,8 +491,8 @@ public interface Seq<T> extends Stream<T> {
      * // "cba"
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      */
-    static <T, U> U foldRight(Stream<T> stream, U identity, BiFunction<? super T, U, U> function) {
-        return seq(stream).reverse().foldLeft(identity, (u, t) -> function.apply(t, u));
+    static <T, U> U foldRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
+        return seq(stream).reverse().foldLeft(seed, (u, t) -> function.apply(t, u));
     }
 
     /**
@@ -503,7 +503,7 @@ public interface Seq<T> extends Stream<T> {
      * Seq.unfold(1, i -> i <= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
      * </pre></code>
      */
-    static <T, U> Seq<T> unfold(U identity, Function<U, Optional<Tuple2<T, U>>> unfolder) {
+    static <T, U> Seq<T> unfold(U seed, Function<U, Optional<Tuple2<T, U>>> unfolder) {
         class Unfold implements Iterator<T> {
             U u;
             Optional<Tuple2<T, U>> unfolded;
@@ -537,7 +537,7 @@ public interface Seq<T> extends Stream<T> {
             }
         }
 
-        return seq(new Unfold(identity));
+        return seq(new Unfold(seed));
     }
 
     /**
