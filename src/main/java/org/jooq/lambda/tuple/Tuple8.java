@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function8;
  *
  * @author Lukas Eder
  */
-public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>>, Serializable {
+public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
@@ -59,6 +59,17 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comp
     public final T6 v6;
     public final T7 v7;
     public final T8 v8;
+
+    public Tuple8(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> tuple) {
+        this.v1 = tuple.v1;
+        this.v2 = tuple.v2;
+        this.v3 = tuple.v3;
+        this.v4 = tuple.v4;
+        this.v5 = tuple.v5;
+        this.v6 = tuple.v6;
+        this.v7 = tuple.v7;
+        this.v8 = tuple.v8;
+    }
 
     public Tuple8(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8) {
         this.v1 = v1;
@@ -282,5 +293,10 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comp
              + ", " + v7
              + ", " + v8
              + ")";
+    }
+
+    @Override
+    public Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> clone() {
+        return new Tuple8<>(this);
     }
 }

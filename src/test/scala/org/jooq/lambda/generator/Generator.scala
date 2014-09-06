@@ -134,9 +134,13 @@ import org.jooq.lambda.function.Function$degree;
  *
  * @author Lukas Eder
  */
-public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable {
+public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable, Cloneable {
     ${(for (d <- (1 to degree)) yield s"""
     public final T$d v$d;""").mkString}
+
+    public Tuple$degree(Tuple$degree<${TN(degree)}> tuple) {${(for (d <- (1 to degree)) yield s"""
+        this.v$d = tuple.v$d;""").mkString}
+    }
 
     public Tuple$degree(${TN_vn(degree)}) {${(for (d <- (1 to degree)) yield s"""
         this.v$d = v$d;""").mkString}
@@ -234,6 +238,11 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
         return "("${(for (d <- (1 to degree)) yield s"""
              + ${if (d > 1) """", " + """ else """       """}v$d""").mkString}
              + ")";
+    }
+
+    @Override
+    public Tuple$degree<${TN(degree)}> clone() {
+        return new Tuple$degree<>(this);
     }
 }
 """

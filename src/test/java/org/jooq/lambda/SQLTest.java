@@ -71,7 +71,7 @@ public class SQLTest {
              PreparedStatement s = c.prepareStatement("SELECT id FROM author ORDER BY id")) {
 
             List<Integer> ids =
-            SQL.stream(s, Unchecked.function((ResultSet rs) -> rs.getInt(1)))
+            SQL.seq(s, Unchecked.function((ResultSet rs) -> rs.getInt(1)))
                .collect(Collectors.toList());
 
             assertEquals(Arrays.asList(1, 2), ids);
@@ -84,7 +84,7 @@ public class SQLTest {
              PreparedStatement s = c.prepareStatement("SELECT id FROM author WHERE 1 = 0")) {
 
             List<Integer> ids =
-            SQL.stream(s, Unchecked.function((ResultSet rs) -> rs.getInt(1)))
+            SQL.seq(s, Unchecked.function((ResultSet rs) -> rs.getInt(1)))
                .collect(Collectors.toList());
 
             assertEquals(Collections.<Integer>emptyList(), ids);
@@ -98,7 +98,7 @@ public class SQLTest {
              ResultSet rs = s.executeQuery()) {
 
             List<Integer> ids =
-            SQL.stream(rs, Unchecked.function((ResultSet r) -> r.getInt(1)))
+            SQL.seq(rs, Unchecked.function((ResultSet r) -> r.getInt(1)))
                .collect(Collectors.toList());
 
             assertEquals(Collections.<Integer>emptyList(), ids);

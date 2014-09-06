@@ -49,9 +49,13 @@ import org.jooq.lambda.function.Function1;
  *
  * @author Lukas Eder
  */
-public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable {
+public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, Cloneable {
     
     public final T1 v1;
+
+    public Tuple1(Tuple1<T1> tuple) {
+        this.v1 = tuple.v1;
+    }
 
     public Tuple1(T1 v1) {
         this.v1 = v1;
@@ -142,5 +146,10 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
         return "("
              +        v1
              + ")";
+    }
+
+    @Override
+    public Tuple1<T1> clone() {
+        return new Tuple1<>(this);
     }
 }

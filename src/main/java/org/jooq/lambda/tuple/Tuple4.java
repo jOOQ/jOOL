@@ -49,12 +49,19 @@ import org.jooq.lambda.function.Function4;
  *
  * @author Lukas Eder
  */
-public final class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, T3, T4>>, Serializable {
+public final class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, T3, T4>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
     public final T3 v3;
     public final T4 v4;
+
+    public Tuple4(Tuple4<T1, T2, T3, T4> tuple) {
+        this.v1 = tuple.v1;
+        this.v2 = tuple.v2;
+        this.v3 = tuple.v3;
+        this.v4 = tuple.v4;
+    }
 
     public Tuple4(T1 v1, T2 v2, T3 v3, T4 v4) {
         this.v1 = v1;
@@ -202,5 +209,10 @@ public final class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1
              + ", " + v3
              + ", " + v4
              + ")";
+    }
+
+    @Override
+    public Tuple4<T1, T2, T3, T4> clone() {
+        return new Tuple4<>(this);
     }
 }

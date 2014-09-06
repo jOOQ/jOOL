@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function6;
  *
  * @author Lukas Eder
  */
-public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<T1, T2, T3, T4, T5, T6>>, Serializable {
+public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<T1, T2, T3, T4, T5, T6>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
@@ -57,6 +57,15 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<T
     public final T4 v4;
     public final T5 v5;
     public final T6 v6;
+
+    public Tuple6(Tuple6<T1, T2, T3, T4, T5, T6> tuple) {
+        this.v1 = tuple.v1;
+        this.v2 = tuple.v2;
+        this.v3 = tuple.v3;
+        this.v4 = tuple.v4;
+        this.v5 = tuple.v5;
+        this.v6 = tuple.v6;
+    }
 
     public Tuple6(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6) {
         this.v1 = v1;
@@ -242,5 +251,10 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<T
              + ", " + v5
              + ", " + v6
              + ")";
+    }
+
+    @Override
+    public Tuple6<T1, T2, T3, T4, T5, T6> clone() {
+        return new Tuple6<>(this);
     }
 }
