@@ -44,6 +44,7 @@ import org.jooq.lambda.tuple.Tuple2;
  *
  * @author Lukas Eder
  */
+@FunctionalInterface
 public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
 
     /**

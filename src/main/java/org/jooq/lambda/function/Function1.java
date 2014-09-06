@@ -44,6 +44,7 @@ import org.jooq.lambda.tuple.Tuple1;
  *
  * @author Lukas Eder
  */
+@FunctionalInterface
 public interface Function1<T1, R> extends Function<T1, R> {
 
     /**

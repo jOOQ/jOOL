@@ -44,6 +44,7 @@ import org.jooq.lambda.tuple.Tuple4;
  *
  * @author Lukas Eder
  */
+@FunctionalInterface
 public interface Function4<T1, T2, T3, T4, R> {
 
     /**

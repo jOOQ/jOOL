@@ -265,6 +265,7 @@ import org.jooq.lambda.tuple.Tuple$degree;
  *
  * @author Lukas Eder
  */
+@FunctionalInterface
 public interface Function$degree<${TN(degree)}, R> ${if (degree == 1) "extends Function<T1, R> " else if (degree == 2) "extends BiFunction<T1, T2, R> " else ""}{
 
     /**
