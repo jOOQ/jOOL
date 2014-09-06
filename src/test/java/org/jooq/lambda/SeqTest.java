@@ -279,4 +279,10 @@ public class SeqTest {
     public void testReverse() {
         assertEquals(asList(3, 2, 1), Seq.of(1, 2, 3).reverse().toList());
     }
+
+    @Test
+    public void testCycle() {
+        assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle().limit(6).toList());
+        assertEquals(asList(1, 2, 3, 1, 2, 3), Seq.of(1, 2, 3).cycle().limit(6).toList());
+    }
 }

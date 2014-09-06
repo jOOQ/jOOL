@@ -72,10 +72,24 @@ public interface Seq<T> extends Stream<T> {
      * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
      * </pre></code>
      *
-     * @see #concat(java.util.stream.Stream[])
+     * @see #concat(Stream[])
      */
     default Seq<T> concat(Stream<T> other) {
         return Seq.concat(new Stream[]{this, other});
+    }
+
+    /**
+     * Repeat a stream infinitely.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 1, 2, 3, ...)
+     * Seq.of(1, 2, 3).cycle();
+     * </pre></code>
+     *
+     * @see #cycle(Stream)
+     */
+    default Seq<T> cycle() {
+        return cycle(this);
     }
 
     /**
@@ -372,7 +386,56 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Repeat a stream infinitely.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 1, 2, 3, ...)
+     * Seq.of(1, 2, 3).cycle();
+     * </pre></code>
+     */
+    static <T> Seq<T> cycle(Stream<T> stream) {
+        final List<T> list = new ArrayList<T>();
+
+        class Cycle implements Iterator<T> {
+            boolean cycled;
+            Iterator<T> it;
+
+            Cycle(Iterator<T> it) {
+                this.it = it;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
+
+            @Override
+            public T next() {
+                if (!it.hasNext()) {
+                    cycled = true;
+                    it = list.iterator();
+                }
+
+                T next = it.next();
+
+                if (!cycled) {
+                    list.add(next);
+                }
+
+                return next;
+            }
+        }
+
+        return seq(new Cycle(stream.iterator()));
+    }
+
+    /**
      * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
      */
     static <T1, T2> Tuple2<Seq<T1>, Seq<T2>> unzip(Stream<Tuple2<T1, T2>> stream) {
         return unzip(stream, t -> t);
@@ -380,6 +443,11 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
      */
     static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function<T1, U1> leftUnzipper, Function<T2, U2> rightUnzipper) {
         return unzip(stream, t -> tuple(leftUnzipper.apply(t.v1), rightUnzipper.apply(t.v2)));
@@ -387,6 +455,11 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
      */
     static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
         return unzip(stream, (t1, t2) -> unzipper.apply(tuple(t1, t2)));
@@ -394,6 +467,11 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
      */
     static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, BiFunction<T1, T2, Tuple2<U1, U2>> unzipper) {
         return seq(stream)
