@@ -131,7 +131,7 @@ public interface Seq<T> extends Stream<T> {
      * <p>
      * <code><pre>
      * // "cba"
-     * Seq.of("a", "b", "c").foldLeft("", (t + u) -> u + t)
+     * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      */
     default <U> U foldRight(U identity, Function2<? super T, U, U> function) {
         return foldRight(this, identity, function);
@@ -487,7 +487,7 @@ public interface Seq<T> extends Stream<T> {
      * <p>
      * <code><pre>
      * // "cba"
-     * Seq.of("a", "b", "c").foldLeft("", (t + u) -> u + t)
+     * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      */
     static <T, U> U foldRight(Stream<T> stream, U identity, Function2<? super T, U, U> function) {
         return seq(stream).reverse().foldLeft(identity, (u, t) -> function.apply(t, u));
