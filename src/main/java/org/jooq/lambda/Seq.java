@@ -47,6 +47,8 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static org.jooq.lambda.tuple.Tuple.tuple;
@@ -298,7 +300,7 @@ public interface Seq<T> extends Stream<T> {
      * Get the maximum value by a function.
      */
     default <U extends Comparable<U>> Optional<T> minBy(Function<T, U> function) {
-        return minBy(function, Comparator.naturalOrder());
+        return minBy(function, naturalOrder());
     }
 
     /**
@@ -306,7 +308,7 @@ public interface Seq<T> extends Stream<T> {
      */
     default <U> Optional<T> minBy(Function<T, U> function, Comparator<? super U> comparator) {
         return map(t -> tuple(t, function.apply(t)))
-              .min((t1, t2) -> comparator.compare(t1.v2, t2.v2))
+              .min(comparing(Tuple2::v2, comparator))
               .map(t -> t.v1);
     }
 
@@ -314,7 +316,7 @@ public interface Seq<T> extends Stream<T> {
      * Get the maximum value by a function.
      */
     default <U extends Comparable<U>> Optional<T> maxBy(Function<T, U> function) {
-        return maxBy(function, Comparator.naturalOrder());
+        return maxBy(function, naturalOrder());
     }
 
     /**
@@ -322,7 +324,7 @@ public interface Seq<T> extends Stream<T> {
      */
     default <U> Optional<T> maxBy(Function<T, U> function, Comparator<? super U> comparator) {
         return map(t -> tuple(t, function.apply(t)))
-              .max((t1, t2) -> comparator.compare(t1.v2, t2.v2))
+              .max(comparing(Tuple2::v2, comparator))
               .map(t -> t.v1);
     }
 

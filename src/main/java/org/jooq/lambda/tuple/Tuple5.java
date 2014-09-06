@@ -56,7 +56,27 @@ public final class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple
     public final T3 v3;
     public final T4 v4;
     public final T5 v5;
-
+    
+    public T1 v1() {
+        return v1;
+    }
+    
+    public T2 v2() {
+        return v2;
+    }
+    
+    public T3 v3() {
+        return v3;
+    }
+    
+    public T4 v4() {
+        return v4;
+    }
+    
+    public T5 v5() {
+        return v5;
+    }
+    
     public Tuple5(Tuple5<T1, T2, T3, T4, T5> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;

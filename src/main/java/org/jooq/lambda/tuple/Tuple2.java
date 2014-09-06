@@ -53,7 +53,15 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
     
     public final T1 v1;
     public final T2 v2;
-
+    
+    public T1 v1() {
+        return v1;
+    }
+    
+    public T2 v2() {
+        return v2;
+    }
+    
     public Tuple2(Tuple2<T1, T2> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;

@@ -54,7 +54,19 @@ public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2
     public final T1 v1;
     public final T2 v2;
     public final T3 v3;
-
+    
+    public T1 v1() {
+        return v1;
+    }
+    
+    public T2 v2() {
+        return v2;
+    }
+    
+    public T3 v3() {
+        return v3;
+    }
+    
     public Tuple3(Tuple3<T1, T2, T3> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;

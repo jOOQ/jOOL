@@ -52,7 +52,11 @@ import org.jooq.lambda.function.Function1;
 public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, Cloneable {
     
     public final T1 v1;
-
+    
+    public T1 v1() {
+        return v1;
+    }
+    
     public Tuple1(Tuple1<T1> tuple) {
         this.v1 = tuple.v1;
     }

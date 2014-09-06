@@ -59,7 +59,39 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comp
     public final T6 v6;
     public final T7 v7;
     public final T8 v8;
-
+    
+    public T1 v1() {
+        return v1;
+    }
+    
+    public T2 v2() {
+        return v2;
+    }
+    
+    public T3 v3() {
+        return v3;
+    }
+    
+    public T4 v4() {
+        return v4;
+    }
+    
+    public T5 v5() {
+        return v5;
+    }
+    
+    public T6 v6() {
+        return v6;
+    }
+    
+    public T7 v7() {
+        return v7;
+    }
+    
+    public T8 v8() {
+        return v8;
+    }
+    
     public Tuple8(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;

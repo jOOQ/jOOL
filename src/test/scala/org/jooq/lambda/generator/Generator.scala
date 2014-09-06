@@ -137,7 +137,11 @@ import org.jooq.lambda.function.Function$degree;
 public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable, Cloneable {
     ${(for (d <- (1 to degree)) yield s"""
     public final T$d v$d;""").mkString}
-
+    ${(for (d <- (1 to degree)) yield s"""
+    public T$d v$d() {
+        return v$d;
+    }
+    """).mkString}
     public Tuple$degree(Tuple$degree<${TN(degree)}> tuple) {${(for (d <- (1 to degree)) yield s"""
         this.v$d = tuple.v$d;""").mkString}
     }
@@ -152,6 +156,8 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
     public Tuple2<T2, T1> swap() {
         return new Tuple2<>(v2, v1);
     }
+
+    public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> boolean overlaps(Tuple2<T1, T2> left, Tuple2
     """ else ""}
     /**
      * Apply this tuple as arguments to a function.
