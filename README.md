@@ -46,6 +46,12 @@ Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3);
 // (1, 2)
 Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3);
 
+// "abc"
+Seq.of("a", "b", "c").foldLeft("", (u, t) -> t + u);
+
+// "cba"
+Seq.of("a", "b", "c").foldRight("", (t, u) -> t + u);
+
 // tuple((1, 2, 3), (1, 2, 3))
 Seq.of(1, 2, 3).duplicate();
 
