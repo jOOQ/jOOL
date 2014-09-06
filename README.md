@@ -19,43 +19,43 @@ org.jooq.lambda.Seq
 The new Streams API was implemented with a strong focus on parallelisation. Many of the useful methods that we know from other functional languages (e.g Scala) are missing. This is why jOOλ knows a `Seq` interface that extends `Stream` and adds a variety of additional methods to, such as:
 
 ```java
-// Create a sequence with values 1, 2, 3, 4, 5, 6
+// (1, 2, 3, 4, 5, 6)
 Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6));
 
-// Create a sequence of tuple(1, "a"), tuple(2, "b"), tuple(3, "c")
+// (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
 Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"));
 
-// Create a sequence of "1:a", "2:b", "3:c"
+// ("1:a", "2:b", "3:c")
 Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (x, y) -> x + ":" + y);
 
-// Create two sequences (1, 2, 3) and (a, b, c)
+// tuple((1, 2, 3), (a, b, c))
 Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
 
-// Create a sequence of tuple("a", 0), tuple("b", 1), tuple("c", 2)
+// (tuple("a", 0), tuple("b", 1), tuple("c", 2))
 Seq.of("a", "b", "c").zipWithIndex();
 
-// Skip a elements while a predicate holds true, yielding 3, 4, 5
+// (3, 4, 5)
 Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3);
 
-// Skip a elements until a predicate holds true, yielding 3, 4, 5
+// (3, 4, 5)
 Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3);
 
-// Keep elements while a predicate holds true, yielding 1, 2
+// (1, 2)
 Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3);
 
-// Keep elements until a predicate holds true, yielding 1, 2
+// (1, 2)
 Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3);
 
-// Duplicate a sequence into two, yielding (1, 2, 3) and (1, 2, 3)
+// tuple((1, 2, 3), (1, 2, 3))
 Seq.of(1, 2, 3).duplicate();
 
-// Partition a sequence given a predicate, yielding (1, 3, 5) and (2, 4, 6)
+// tuple((1, 3, 5), (2, 4, 6))
 Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
 
-// Split a sequence into two at a given position, yielding (1, 2), (3, 4, 5)
+// tuple((1, 2), (3, 4, 5))
 Seq.of(1, 2, 3, 4, 5).splitAt(2);
 
-// Get a sub-sequence between two positions, yielding (2, 3)
+// (2, 3)
 Seq.of(1, 2, 3, 4, 5).slice(1, 3)
 ```
 
