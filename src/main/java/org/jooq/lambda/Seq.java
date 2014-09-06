@@ -75,7 +75,7 @@ public interface Seq<T> extends Stream<T> {
      * @see #concat(java.util.stream.Stream[])
      */
     default Seq<T> concat(Stream<T> other) {
-        return Seq.concat(new Stream[] { this, other });
+        return Seq.concat(new Stream[]{this, other});
     }
 
     /**
@@ -493,6 +493,51 @@ public interface Seq<T> extends Stream<T> {
      */
     static <T, U> U foldRight(Stream<T> stream, U identity, BiFunction<? super T, U, U> function) {
         return seq(stream).reverse().foldLeft(identity, (u, t) -> function.apply(t, u));
+    }
+
+    /**
+     * Unfold a function into a stream.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5)
+     * Seq.unfold(1, i -> i <= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
+     * </pre></code>
+     */
+    static <T, U> Seq<T> unfold(U identity, Function<U, Optional<Tuple2<T, U>>> unfolder) {
+        class Unfold implements Iterator<T> {
+            U u;
+            Optional<Tuple2<T, U>> unfolded;
+
+            public Unfold(U u) {
+                this.u = u;
+            }
+
+            void unfold() {
+                if (unfolded == null)
+                    unfolded = unfolder.apply(u);
+            }
+
+            @Override
+            public boolean hasNext() {
+                unfold();
+                return unfolded.isPresent();
+            }
+
+            @Override
+            public T next() {
+                unfold();
+
+                try {
+                    return unfolded.get().v1;
+                }
+                finally {
+                    u = unfolded.get().v2;
+                    unfolded = null;
+                }
+            }
+        }
+
+        return seq(new Unfold(identity));
     }
 
     /**

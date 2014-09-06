@@ -45,6 +45,7 @@ import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
@@ -261,6 +262,17 @@ public class SeqTest {
         assertEquals("abc", s.get().foldRight("", String::concat));
         assertEquals("-c-b-a", s.get().foldRight(new StringBuilder(), (t, u) -> u.append("-").append(t)).toString());
         assertEquals(3, (int) s.get().foldRight(0, (t, u) -> u + t.length()));
+    }
+
+    @Test
+    public void testUnfold() {
+        assertEquals(
+            asList(0, 1, 2, 3, 4),
+            Seq.unfold(0, i -> i < 5 ? Optional.of(tuple(i, i + 1)) : Optional.empty()).toList());
+
+        assertEquals(
+            asList('a', 'b', 'c', 'd', 'e'),
+            Seq.unfold(0, i -> i < 5 ? Optional.of(tuple((char) ('a' + i), i + 1)) : Optional.empty()).toList());
     }
 
     @Test
