@@ -54,12 +54,16 @@ import static java.util.Spliterators.spliteratorUnknownSize;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
- * A wrapper for a {@link Stream} that adds all sorts of useful methods that work only on sequential 
+ * A sequential, ordered {@link Stream} that adds all sorts of useful methods that work only because
+ * it is sequential and ordered.
  *
  * @author Lukas Eder
  */
 public interface Seq<T> extends Stream<T> {
 
+    /**
+     * The underlying {@link Stream} implementation.
+     */
     Stream<T> stream();
 
     /**

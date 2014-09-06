@@ -66,8 +66,8 @@ public final class SQL {
      * @param <T>         The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
-    public static <T> Stream<T> stream(PreparedStatement stmt, Function<ResultSet, T> rowFunction) {
-        return stream(Unchecked.supplier(stmt::executeQuery), rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
+    public static <T> Seq<T> seq(PreparedStatement stmt, Function<ResultSet, T> rowFunction) {
+        return seq(Unchecked.supplier(stmt::executeQuery), rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -83,8 +83,8 @@ public final class SQL {
      * @param <T>                 The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
-    public static <T> Stream<T> stream(PreparedStatement stmt, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
-        return stream(Unchecked.supplier(
+    public static <T> Seq<T> seq(PreparedStatement stmt, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
+        return seq(Unchecked.supplier(
             stmt::executeQuery,
             e -> exceptionTranslator.accept((SQLException) e)
         ), rowFunction, exceptionTranslator);
@@ -100,8 +100,8 @@ public final class SQL {
      * @param <T>         The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
-    public static <T> Stream<T> stream(ResultSet rs, Function<ResultSet, T> rowFunction) {
-        return stream(() -> rs, rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
+    public static <T> Seq<T> seq(ResultSet rs, Function<ResultSet, T> rowFunction) {
+        return seq(() -> rs, rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -115,8 +115,8 @@ public final class SQL {
      * @param <T>                 The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
-    public static <T> Stream<T> stream(ResultSet rs, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
-        return stream(() -> rs, rowFunction, exceptionTranslator);
+    public static <T> Seq<T> seq(ResultSet rs, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
+        return seq(() -> rs, rowFunction, exceptionTranslator);
     }
 
     /**
@@ -129,8 +129,8 @@ public final class SQL {
      * @param <T>         The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
-    public static <T> Stream<T> stream(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction) {
-        return stream(supplier, rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
+    public static <T> Seq<T> seq(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction) {
+        return seq(supplier, rowFunction, Unchecked.THROWABLE_TO_RUNTIME_EXCEPTION);
     }
 
     /**
@@ -144,8 +144,8 @@ public final class SQL {
      * @param <T>                 The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
-    public static <T> Stream<T> stream(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(new ResultSetIterator<>(supplier, rowFunction, exceptionTranslator), 0), false);
+    public static <T> Seq<T> seq(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
+        return Seq.seq(new ResultSetIterator<>(supplier, rowFunction, exceptionTranslator));
     }
 
     static class ResultSetIterator<T> implements Iterator<T> {
