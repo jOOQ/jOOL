@@ -39,6 +39,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -193,15 +194,10 @@ public final class SQL {
         @Override
         public T next() {
             try {
-                if (hasNext == null) {
-                    rs().next();
-                }
+                if (!hasNext())
+                    throw new NoSuchElementException();
 
                 return rowFunction.apply(rs());
-            }
-            catch (SQLException e) {
-                exceptionTranslator.accept(e);
-                throw new IllegalStateException("Must throw an exception in exceptionTranslator", e);
             }
             finally {
                 hasNext = null;
