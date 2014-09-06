@@ -78,6 +78,14 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
     public Tuple2<T2, T1> swap() {
         return new Tuple2<>(v2, v1);
     }
+
+    /**
+     * Whether two tuples overlap.
+     */
+    public static <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
+        return left.v1.compareTo(right.v2) <= 0
+            && left.v2.compareTo(right.v1) >= 0;
+    }
     
     /**
      * Apply this tuple as arguments to a function.

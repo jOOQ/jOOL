@@ -157,7 +157,13 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
         return new Tuple2<>(v2, v1);
     }
 
-    public static <T1 extends Comparable<T1>, T2 extends Comparable<T2>> boolean overlaps(Tuple2<T1, T2> left, Tuple2
+    /**
+     * Whether two tuples overlap.
+     */
+    public static <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
+        return left.v1.compareTo(right.v2) <= 0
+            && left.v2.compareTo(right.v1) >= 0;
+    }
     """ else ""}
     /**
      * Apply this tuple as arguments to a function.

@@ -51,6 +51,8 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Eder
@@ -122,5 +124,15 @@ public class TupleTest {
     @Test
     public void testMapN() {
         assertEquals(tuple(1, "a", 2, "b"), tuple(1, null, 2, null).map2(v -> "a").map4(v -> "b"));
+    }
+
+    @Test
+    public void testOverlaps() {
+        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(1, 3)));
+        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(2, 3)));
+        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(2, 4)));
+        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(3, 4)));
+        assertFalse(Tuple2.overlaps(tuple(1, 3), tuple(4, 5)));
+        assertFalse(Tuple2.overlaps(tuple(1, 1), tuple(2, 2)));
     }
 }
