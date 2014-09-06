@@ -415,8 +415,7 @@ public interface Seq<T> extends Stream<T> {
      * Fold a stream to the right.
      */
     static <T, U> U foldRight(Stream<T> stream, U identity, Function2<? super T, U, U> function) {
-        // TODO: implement this with Seq.reverse()
-        return null;
+        return seq(stream).reverse().foldLeft(identity, (u, t) -> function.apply(t, u));
     }
 
     /**
