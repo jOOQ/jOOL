@@ -134,5 +134,13 @@ public class TupleTest {
         assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(3, 4)));
         assertFalse(Tuple2.overlaps(tuple(1, 3), tuple(4, 5)));
         assertFalse(Tuple2.overlaps(tuple(1, 1), tuple(2, 2)));
+
+
+        assertTrue(Tuple.range(1, 3).overlaps(tuple(1, 3)));
+        assertTrue(Tuple.range(1, 3).overlaps(tuple(2, 3)));
+        assertTrue(Tuple.range(1, 3).overlaps(tuple(2, 4)));
+        assertTrue(Tuple.range(1, 3).overlaps(tuple(3, 4)));
+        assertFalse(Tuple.range(1, 3).overlaps(tuple(4, 5)));
+        assertFalse(Tuple.range(1, 1).overlaps(tuple(2, 2)));
     }
 }

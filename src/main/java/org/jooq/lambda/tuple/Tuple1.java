@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function1;
  *
  * @author Lukas Eder
  */
-public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, Cloneable {
+public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, Cloneable {
     
     public final T1 v1;
     
@@ -68,24 +68,24 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
     /**
      * Apply this tuple as arguments to a function.
      */
-    public <R> R map(Function1<T1, R> function) {
+    public final <R> R map(Function1<T1, R> function) {
         return function.apply(this);
     }
     
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U1> Tuple1<U1> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple1<U1> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1));
     }
     
     @Override
-    public Object[] array() {
+    public final Object[] array() {
         return new Object[] { v1 };
     }
 
     @Override
-    public List<?> list() {
+    public final List<?> list() {
         return Arrays.asList(array());
     }
 
@@ -93,13 +93,13 @@ public final class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializ
      * The degree of this tuple: 1.
      */
     @Override
-    public int degree() {
+    public final int degree() {
         return 1;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterator<Object> iterator() {
+    public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
     }
 

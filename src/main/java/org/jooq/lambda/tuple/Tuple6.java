@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function6;
  *
  * @author Lukas Eder
  */
-public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<T1, T2, T3, T4, T5, T6>>, Serializable, Cloneable {
+public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<T1, T2, T3, T4, T5, T6>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
@@ -103,59 +103,59 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<T
     /**
      * Apply this tuple as arguments to a function.
      */
-    public <R> R map(Function6<T1, T2, T3, T4, T5, T6, R> function) {
+    public final <R> R map(Function6<T1, T2, T3, T4, T5, T6, R> function) {
         return function.apply(this);
     }
     
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U1> Tuple6<U1, T2, T3, T4, T5, T6> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple6<U1, T2, T3, T4, T5, T6> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1), v2, v3, v4, v5, v6);
     }
     
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U2> Tuple6<T1, U2, T3, T4, T5, T6> map2(Function1<T2, U2> function) {
+    public final <U2> Tuple6<T1, U2, T3, T4, T5, T6> map2(Function1<T2, U2> function) {
         return Tuple.tuple(v1, function.apply(v2), v3, v4, v5, v6);
     }
     
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U3> Tuple6<T1, T2, U3, T4, T5, T6> map3(Function1<T3, U3> function) {
+    public final <U3> Tuple6<T1, T2, U3, T4, T5, T6> map3(Function1<T3, U3> function) {
         return Tuple.tuple(v1, v2, function.apply(v3), v4, v5, v6);
     }
     
     /**
      * Apply attribute 4 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U4> Tuple6<T1, T2, T3, U4, T5, T6> map4(Function1<T4, U4> function) {
+    public final <U4> Tuple6<T1, T2, T3, U4, T5, T6> map4(Function1<T4, U4> function) {
         return Tuple.tuple(v1, v2, v3, function.apply(v4), v5, v6);
     }
     
     /**
      * Apply attribute 5 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U5> Tuple6<T1, T2, T3, T4, U5, T6> map5(Function1<T5, U5> function) {
+    public final <U5> Tuple6<T1, T2, T3, T4, U5, T6> map5(Function1<T5, U5> function) {
         return Tuple.tuple(v1, v2, v3, v4, function.apply(v5), v6);
     }
     
     /**
      * Apply attribute 6 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U6> Tuple6<T1, T2, T3, T4, T5, U6> map6(Function1<T6, U6> function) {
+    public final <U6> Tuple6<T1, T2, T3, T4, T5, U6> map6(Function1<T6, U6> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, function.apply(v6));
     }
     
     @Override
-    public Object[] array() {
+    public final Object[] array() {
         return new Object[] { v1, v2, v3, v4, v5, v6 };
     }
 
     @Override
-    public List<?> list() {
+    public final List<?> list() {
         return Arrays.asList(array());
     }
 
@@ -163,13 +163,13 @@ public final class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<T
      * The degree of this tuple: 6.
      */
     @Override
-    public int degree() {
+    public final int degree() {
         return 6;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterator<Object> iterator() {
+    public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
     }
 

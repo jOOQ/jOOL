@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function3;
  *
  * @author Lukas Eder
  */
-public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>, Serializable, Cloneable {
+public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
@@ -82,38 +82,38 @@ public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2
     /**
      * Apply this tuple as arguments to a function.
      */
-    public <R> R map(Function3<T1, T2, T3, R> function) {
+    public final <R> R map(Function3<T1, T2, T3, R> function) {
         return function.apply(this);
     }
     
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U1> Tuple3<U1, T2, T3> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple3<U1, T2, T3> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1), v2, v3);
     }
     
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U2> Tuple3<T1, U2, T3> map2(Function1<T2, U2> function) {
+    public final <U2> Tuple3<T1, U2, T3> map2(Function1<T2, U2> function) {
         return Tuple.tuple(v1, function.apply(v2), v3);
     }
     
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U3> Tuple3<T1, T2, U3> map3(Function1<T3, U3> function) {
+    public final <U3> Tuple3<T1, T2, U3> map3(Function1<T3, U3> function) {
         return Tuple.tuple(v1, v2, function.apply(v3));
     }
     
     @Override
-    public Object[] array() {
+    public final Object[] array() {
         return new Object[] { v1, v2, v3 };
     }
 
     @Override
-    public List<?> list() {
+    public final List<?> list() {
         return Arrays.asList(array());
     }
 
@@ -121,13 +121,13 @@ public final class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2
      * The degree of this tuple: 3.
      */
     @Override
-    public int degree() {
+    public final int degree() {
         return 3;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterator<Object> iterator() {
+    public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
     }
 

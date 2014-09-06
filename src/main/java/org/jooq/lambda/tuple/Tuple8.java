@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function8;
  *
  * @author Lukas Eder
  */
-public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>>, Serializable, Cloneable {
+public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
@@ -117,73 +117,73 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comp
     /**
      * Apply this tuple as arguments to a function.
      */
-    public <R> R map(Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> function) {
+    public final <R> R map(Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> function) {
         return function.apply(this);
     }
     
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U1> Tuple8<U1, T2, T3, T4, T5, T6, T7, T8> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple8<U1, T2, T3, T4, T5, T6, T7, T8> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1), v2, v3, v4, v5, v6, v7, v8);
     }
     
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U2> Tuple8<T1, U2, T3, T4, T5, T6, T7, T8> map2(Function1<T2, U2> function) {
+    public final <U2> Tuple8<T1, U2, T3, T4, T5, T6, T7, T8> map2(Function1<T2, U2> function) {
         return Tuple.tuple(v1, function.apply(v2), v3, v4, v5, v6, v7, v8);
     }
     
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U3> Tuple8<T1, T2, U3, T4, T5, T6, T7, T8> map3(Function1<T3, U3> function) {
+    public final <U3> Tuple8<T1, T2, U3, T4, T5, T6, T7, T8> map3(Function1<T3, U3> function) {
         return Tuple.tuple(v1, v2, function.apply(v3), v4, v5, v6, v7, v8);
     }
     
     /**
      * Apply attribute 4 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U4> Tuple8<T1, T2, T3, U4, T5, T6, T7, T8> map4(Function1<T4, U4> function) {
+    public final <U4> Tuple8<T1, T2, T3, U4, T5, T6, T7, T8> map4(Function1<T4, U4> function) {
         return Tuple.tuple(v1, v2, v3, function.apply(v4), v5, v6, v7, v8);
     }
     
     /**
      * Apply attribute 5 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U5> Tuple8<T1, T2, T3, T4, U5, T6, T7, T8> map5(Function1<T5, U5> function) {
+    public final <U5> Tuple8<T1, T2, T3, T4, U5, T6, T7, T8> map5(Function1<T5, U5> function) {
         return Tuple.tuple(v1, v2, v3, v4, function.apply(v5), v6, v7, v8);
     }
     
     /**
      * Apply attribute 6 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U6> Tuple8<T1, T2, T3, T4, T5, U6, T7, T8> map6(Function1<T6, U6> function) {
+    public final <U6> Tuple8<T1, T2, T3, T4, T5, U6, T7, T8> map6(Function1<T6, U6> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, function.apply(v6), v7, v8);
     }
     
     /**
      * Apply attribute 7 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U7> Tuple8<T1, T2, T3, T4, T5, T6, U7, T8> map7(Function1<T7, U7> function) {
+    public final <U7> Tuple8<T1, T2, T3, T4, T5, T6, U7, T8> map7(Function1<T7, U7> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, v6, function.apply(v7), v8);
     }
     
     /**
      * Apply attribute 8 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U8> Tuple8<T1, T2, T3, T4, T5, T6, T7, U8> map8(Function1<T8, U8> function) {
+    public final <U8> Tuple8<T1, T2, T3, T4, T5, T6, T7, U8> map8(Function1<T8, U8> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, v6, v7, function.apply(v8));
     }
     
     @Override
-    public Object[] array() {
+    public final Object[] array() {
         return new Object[] { v1, v2, v3, v4, v5, v6, v7, v8 };
     }
 
     @Override
-    public List<?> list() {
+    public final List<?> list() {
         return Arrays.asList(array());
     }
 
@@ -191,13 +191,13 @@ public final class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comp
      * The degree of this tuple: 8.
      */
     @Override
-    public int degree() {
+    public final int degree() {
         return 8;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterator<Object> iterator() {
+    public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
     }
 

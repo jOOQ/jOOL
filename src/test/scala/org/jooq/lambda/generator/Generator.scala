@@ -93,10 +93,17 @@ ${(for (degree <- (1 to max)) yield s"""
     /**
      * Construct a tuple of degree $degree.
      */
-    public static <${TN(degree)}> Tuple$degree<${TN(degree)}> tuple(${TN_vn(degree)}) {
+    static <${TN(degree)}> Tuple$degree<${TN(degree)}> tuple(${TN_vn(degree)}) {
         return new Tuple$degree<>(${vn(degree)});
     }
 """).mkString}
+    /**
+     * Create a new range.
+     */
+    static <T extends Comparable<T>> Range<T> range(T t1, T t2) {
+        return new Range(t1, t2);
+    }
+
     /**
      * Get an array representation of this tuple.
      */
@@ -134,7 +141,7 @@ import org.jooq.lambda.function.Function$degree;
  *
  * @author Lukas Eder
  */
-public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable, Cloneable {
+public class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable, Cloneable {
     ${(for (d <- (1 to degree)) yield s"""
     public final T$d v$d;""").mkString}
     ${(for (d <- (1 to degree)) yield s"""
@@ -153,14 +160,14 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
     /**
      * Get a tuple with the two attributes swapped.
      */
-    public Tuple2<T2, T1> swap() {
+    public final Tuple2<T2, T1> swap() {
         return new Tuple2<>(v2, v1);
     }
 
     /**
      * Whether two tuples overlap.
      */
-    public static <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
+    public static final <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
         return left.v1.compareTo(right.v2) <= 0
             && left.v2.compareTo(right.v1) >= 0;
     }
@@ -168,24 +175,24 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
     /**
      * Apply this tuple as arguments to a function.
      */
-    public <R> R map(Function$degree<${TN(degree)}, R> function) {
+    public final <R> R map(Function$degree<${TN(degree)}, R> function) {
         return function.apply(this);
     }
     ${(for (d <- 1 to degree) yield s"""
     /**
      * Apply attribute $d as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U$d> Tuple$degree<${TN(1, d - 1)}${if (d > 1) ", " else ""}U$d${if (d < degree) ", " else ""}${TN(d + 1, degree)}> map$d(Function1<T$d, U$d> function) {
+    public final <U$d> Tuple$degree<${TN(1, d - 1)}${if (d > 1) ", " else ""}U$d${if (d < degree) ", " else ""}${TN(d + 1, degree)}> map$d(Function1<T$d, U$d> function) {
         return Tuple.tuple(${vn(1, d - 1)}${if (d > 1) ", " else ""}function.apply(v$d)${if (d < degree) ", " else ""}${vn(d + 1, degree)});
     }
     """).mkString}
     @Override
-    public Object[] array() {
+    public final Object[] array() {
         return new Object[] { ${(for (d <- 1 to degree) yield s"v$d").mkString(", ")} };
     }
 
     @Override
-    public List<?> list() {
+    public final List<?> list() {
         return Arrays.asList(array());
     }
 
@@ -193,13 +200,13 @@ public final class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tupl
      * The degree of this tuple: $degree.
      */
     @Override
-    public int degree() {
+    public final int degree() {
         return $degree;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterator<Object> iterator() {
+    public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
     }
 

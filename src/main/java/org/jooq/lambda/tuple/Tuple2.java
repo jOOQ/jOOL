@@ -49,7 +49,7 @@ import org.jooq.lambda.function.Function2;
  *
  * @author Lukas Eder
  */
-public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serializable, Cloneable {
+public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serializable, Cloneable {
     
     public final T1 v1;
     public final T2 v2;
@@ -75,14 +75,14 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
     /**
      * Get a tuple with the two attributes swapped.
      */
-    public Tuple2<T2, T1> swap() {
+    public final Tuple2<T2, T1> swap() {
         return new Tuple2<>(v2, v1);
     }
 
     /**
      * Whether two tuples overlap.
      */
-    public static <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
+    public static final <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
         return left.v1.compareTo(right.v2) <= 0
             && left.v2.compareTo(right.v1) >= 0;
     }
@@ -90,31 +90,31 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
     /**
      * Apply this tuple as arguments to a function.
      */
-    public <R> R map(Function2<T1, T2, R> function) {
+    public final <R> R map(Function2<T1, T2, R> function) {
         return function.apply(this);
     }
     
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U1> Tuple2<U1, T2> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple2<U1, T2> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1), v2);
     }
     
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public <U2> Tuple2<T1, U2> map2(Function1<T2, U2> function) {
+    public final <U2> Tuple2<T1, U2> map2(Function1<T2, U2> function) {
         return Tuple.tuple(v1, function.apply(v2));
     }
     
     @Override
-    public Object[] array() {
+    public final Object[] array() {
         return new Object[] { v1, v2 };
     }
 
     @Override
-    public List<?> list() {
+    public final List<?> list() {
         return Arrays.asList(array());
     }
 
@@ -122,13 +122,13 @@ public final class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, 
      * The degree of this tuple: 2.
      */
     @Override
-    public int degree() {
+    public final int degree() {
         return 2;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterator<Object> iterator() {
+    public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
     }
 
