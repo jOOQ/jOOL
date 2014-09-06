@@ -238,21 +238,6 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    public Stream<T> sequential() {
-        return this;
-    }
-
-    @Override
-    public Stream<T> parallel() {
-        throw new UnsupportedOperationException("No parallel Sequences allowed");
-    }
-
-    @Override
-    public Stream<T> unordered() {
-        return stream.unordered();
-    }
-
-    @Override
     public Seq<T> onClose(Runnable closeHandler) {
         return Seq.seq(stream.onClose(closeHandler));
     }

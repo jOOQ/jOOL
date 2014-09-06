@@ -62,12 +62,26 @@ public interface Seq<T> extends Stream<T> {
 
     Stream<T> stream();
 
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
+     * </pre></code>
+     *
+     * @see #concat(java.util.stream.Stream[])
+     */
     default Seq<T> concat(Stream<T> other) {
         return Seq.concat(new Stream[] { this, other });
     }
 
     /**
      * Zip two streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      *
      * @see #zip(Stream, Stream)
      */
@@ -77,6 +91,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      *
      * @see #zip(Seq, BiFunction)
      */
@@ -86,6 +104,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
+     * <p>
+     * <code><pre>
+     * // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
+     * Seq.of("a", "b", "c").zipWithIndex()
      *
      * @see #zipWithIndex(Stream)
      */
@@ -95,6 +117,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Fold a Stream to the left.
+     * <p>
+     * <code><pre>
+     * // "abc"
+     * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      */
     default <U> U foldLeft(U identity, Function2<U, ? super T, U> function) {
         return foldLeft(this, identity, function);
@@ -102,6 +128,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Fold a Stream to the right.
+     * <p>
+     * <code><pre>
+     * // "cba"
+     * Seq.of("a", "b", "c").foldLeft("", (t + u) -> u + t)
      */
     default <U> U foldRight(U identity, Function2<? super T, U, U> function) {
         return foldRight(this, identity, function);
@@ -109,6 +139,11 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Reverse a stream.
+     * <p>
+     * <code><pre>
+     * // (3, 2, 1)
+     * Seq.of(1, 2, 3).reverse()
+     * </pre></code>
      */
     default Seq<T> reverse() {
         return reverse(this);
@@ -116,6 +151,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (3, 4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3)
      *
      * @see #skipWhile(Stream, Predicate)
      */
@@ -125,6 +164,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
+     * <p>
+     * <code><pre>
+     * // (3, 4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3)
      *
      * @see #skipUntil(Stream, Predicate)
      */
@@ -134,6 +177,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2)
+     * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3)
      *
      * @see #limitWhile(Stream, Predicate)
      */
@@ -143,6 +190,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>false</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2)
+     * Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3)
      *
      * @see #limitUntil(Stream, Predicate)
      */
@@ -152,6 +203,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Duplicate a Streams into two equivalent Streams.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (1, 2, 3))
+     * Seq.of(1, 2, 3).duplicate()
      *
      * @see #duplicate(Stream)
      */
@@ -161,6 +216,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Partition a stream into two given a predicate.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 3, 5), (2, 4, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
      *
      * @see #partition(Stream, Predicate)
      */
@@ -170,6 +229,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Split a stream at a given position.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (4, 5, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).splitAt(3)
      *
      * @see #splitAt(Stream, long)
      */
@@ -179,6 +242,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a limited interval from a given Stream.
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5, 6).slice(3, 5)
      *
      * @see #slice(Stream, long, long)
      */
@@ -336,10 +403,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Zip two streams into one.
-     *
-     * @param left The left stream producing {@link org.jooq.lambda.tuple.Tuple2#v1} values.
-     * @param right The right stream producing {@link org.jooq.lambda.tuple.Tuple2#v1} values.
-     * @return The zipped stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      */
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
         return zip(left, right, Tuple::tuple);
@@ -347,14 +414,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values.
-     *
-     * @param left The left stream producing the first argument to the zipper.
-     * @param right The right stream producing the second argument to the zipper.
-     * @param zipper The function producing the output values.
-     * @param <T1> The left data type.
-     * @param <T2> The right data type.
-     * @param <R> The result data type.
-     * @return The zipped stream.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      */
     static <T1, T2, R> Seq<R> zip(Stream<T1> left, Stream<T2> right, BiFunction<T1, T2, R> zipper) {
         final Iterator<T1> it1 = left.iterator();
@@ -377,6 +440,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
+     * <p>
+     * <code><pre>
+     * // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
+     * Seq.of("a", "b", "c").zipWithIndex()
      */
     static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
         final Iterator<T> it = stream.iterator();
@@ -400,6 +467,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Fold a stream to the left.
+     * <p>
+     * <code><pre>
+     * // "abc"
+     * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      */
     static <T, U> U foldLeft(Stream<T> stream, U identity, Function2<U, ? super T, U> function) {
         final Iterator<T> it = stream.iterator();
@@ -413,13 +484,22 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Fold a stream to the right.
+     * <p>
+     * <code><pre>
+     * // "cba"
+     * Seq.of("a", "b", "c").foldLeft("", (t + u) -> u + t)
      */
     static <T, U> U foldRight(Stream<T> stream, U identity, Function2<? super T, U, U> function) {
         return seq(stream).reverse().foldLeft(identity, (u, t) -> function.apply(t, u));
     }
 
     /**
-     * Reverse a stream
+     * Reverse a stream.
+     * <p>
+     * <code><pre>
+     * // (3, 2, 1)
+     * Seq.of(1, 2, 3).reverse()
+     * </pre></code>
      */
     static <T> Seq<T> reverse(Stream<T> stream) {
         List<T> list = toList(stream);
@@ -428,7 +508,11 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
-     * Concatenate a number of streams
+     * Concatenate a number of streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
      */
     @SafeVarargs
     static <T> Seq<T> concat(Stream<T>... streams) {
@@ -447,6 +531,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Duplicate a Streams into two equivalent Streams.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (1, 2, 3))
+     * Seq.of(1, 2, 3).duplicate()
      */
     static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<T> stream) {
         final LinkedList<T> gap = new LinkedList<>();
@@ -516,12 +604,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a limited interval from a given Stream.
-     *
-     * @param stream The input Stream
-     * @param from The first element to consider from the Stream.
-     * @param to The first element not to consider from the Stream.
-     * @param <T> The stream element type
-     * @return The limited interval Stream
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5, 6).slice(3, 5)
      */
     static <T> Seq<T> slice(Stream<T> stream, long from, long to) {
         long f = Math.max(from, 0);
@@ -532,6 +618,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream with n elements skipped.
+     * <p>
+     * <code><pre>
+     * // (4, 5, 6)
+     * Seq.of(1, 2, 3, 4, 5, 6).skip(3)
      */
     static <T> Seq<T> skip(Stream<T> stream, long elements) {
         return seq(stream.skip(elements));
@@ -539,6 +629,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (3, 4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3)
      */
     static <T> Seq<T> skipWhile(Stream<T> stream, Predicate<? super T> predicate) {
         return skipUntil(stream, predicate.negate());
@@ -546,6 +640,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
+     * <p>
+     * <code><pre>
+     * // (3, 4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3)
      */
     static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
@@ -590,6 +688,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream limited to n elements.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3, 4, 5, 6).limit(3)
      */
     static <T> Seq<T> limit(Stream<T> stream, long elements) {
         return seq(stream.limit(elements));
@@ -597,6 +699,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2)
+     * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3)
      */
     static <T> Seq<T> limitWhile(Stream<T> stream, Predicate<? super T> predicate) {
         return limitUntil(stream, predicate.negate());
@@ -604,6 +710,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2)
+     * Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3)
      */
     static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
@@ -646,12 +756,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Partition a stream into two given a predicate.
-     *
-     * @param stream    The stream to partition into two.
-     * @param predicate The predicate used to partition the stream.
-     * @param <T>       The element types.
-     * @return Two streams containing elements that returned <code>true</code> for the predicate and elements that
-     * returned <code>false</code> for the predicate.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 3, 5), (2, 4, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
      */
     static <T> Tuple2<Seq<T>, Seq<T>> partition(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
@@ -694,11 +802,10 @@ public interface Seq<T> extends Stream<T> {
 
     /**
      * Split a stream at a given position.
-     *
-     * @param stream The stream to split.
-     * @param position The position at which the stream is split.
-     * @param <T> The element type
-     * @return Two streams containing the elements before and after the split.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (4, 5, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).splitAt(3)
      */
     static <T> Tuple2<Seq<T>, Seq<T>> splitAt(Stream<T> stream, long position) {
         return seq(stream)
@@ -711,6 +818,7 @@ public interface Seq<T> extends Stream<T> {
     }
 
     // Covariant overriding of Stream return types
+    // -------------------------------------------
 
     @Override
     Seq<T> filter(Predicate<? super T> predicate);
@@ -762,4 +870,22 @@ public interface Seq<T> extends Stream<T> {
 
     @Override
     void close();
+
+    // These methods have no effect
+    // ----------------------------
+
+    @Override
+    default Seq<T> sequential() {
+        return this;
+    }
+
+    @Override
+    default Seq<T> parallel() {
+        return this;
+    }
+
+    @Override
+    default Seq<T> unordered() {
+        return this;
+    }
 }
