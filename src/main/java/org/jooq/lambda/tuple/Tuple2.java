@@ -82,6 +82,14 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
     /**
      * Whether two tuples overlap.
+     * <p>
+     * <code><pre>
+     * // true
+     * range(1, 3).overlaps(range(2, 4))
+     *
+     * // false
+     * range(1, 3).overlaps(range(5, 8))
+     * </pre></code>
      */
     public static final <T extends Comparable<T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
         return left.v1.compareTo(right.v2) <= 0
@@ -90,6 +98,14 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
     /**
      * The intersection of two tuples.
+     * <p>
+     * <code><pre>
+     * // (2, 3)
+     * range(1, 3).intersect(range(2, 4))
+     *
+     * // none
+     * range(1, 3).intersect(range(5, 8))
+     * </pre></code>
      */
     public static final <T extends Comparable<T>> Optional<Tuple2<T, T>> intersect(Tuple2<T, T> left, Tuple2<T, T> right) {
         if (overlaps(left, right))
