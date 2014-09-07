@@ -45,6 +45,7 @@
         <plugins>
 
             <!-- The Scala compiler plugin -->
+            <!--
             <plugin>
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
@@ -58,6 +59,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
 
             <!-- The H2 test schema is loaded here -->
             <plugin>
@@ -249,12 +251,6 @@
             <artifactId>scala-compiler</artifactId>
             <version>${scala.version}</version>
             <scope>optional</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.functionaljava</groupId>
-            <artifactId>functionaljava-java8</artifactId>
-            <version>4.2-beta-2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
