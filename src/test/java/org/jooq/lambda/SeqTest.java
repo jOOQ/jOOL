@@ -43,9 +43,7 @@ package org.jooq.lambda;
 import org.jooq.lambda.tuple.Tuple2;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.asList;
@@ -133,6 +131,15 @@ public class SeqTest {
     @Test
     public void testToSet() {
         assertEquals(new HashSet<>(asList(1, 2, 3)), Seq.of(1, 2, 2, 3).toSet());
+    }
+
+    @Test
+    public void testToMap() {
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("a", 1);
+        expected.put("b", 2);
+        expected.put("c", 3);
+        assertEquals(expected, Seq.of(tuple("a", 1), tuple("b", 2), tuple("c", 3)).toMap(Tuple2::v1, Tuple2::v2));
     }
 
     @Test
