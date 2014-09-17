@@ -290,6 +290,15 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Collect a Stream into a Map.
+     *
+     * @see #toMap(Stream, Function, Function)
+     */
+    default <K, V> Map<K, V> toMap(Function<T, K> keyMapper, Function<T, V> valueMapper) {
+        return toMap(this, keyMapper, valueMapper);
+    }
+
+    /**
      * Consume a stream and concatenate all elements using a separator.
      */
     default String toString(String separator) {
@@ -727,6 +736,13 @@ public interface Seq<T> extends Stream<T> {
      */
     static <T> Set<T> toSet(Stream<T> stream) {
         return stream.collect(Collectors.toSet());
+    }
+
+    /**
+     * Collect a Stream into a Map.
+     */
+    static <T, K, V> Map<K, V> toMap(Stream<T> stream, Function<T, K> keyMapper, Function<T, V> valueMapper) {
+        return stream.collect(Collectors.toMap(keyMapper, valueMapper));
     }
 
     /**
