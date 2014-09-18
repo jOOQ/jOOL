@@ -124,6 +124,11 @@ public class SeqTest {
     }
 
     @Test
+    public void testToCollection() {
+        assertEquals(asList(1, 2, 2, 3), Seq.of(1, 2, 2, 3).toCollection(LinkedList::new));
+    }
+
+    @Test
     public void testToList() {
         assertEquals(asList(1, 2, 2, 3), Seq.of(1, 2, 2, 3).toList());
     }

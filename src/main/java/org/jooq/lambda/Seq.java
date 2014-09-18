@@ -272,6 +272,15 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Collect a Stream into a Collection.
+     *
+     * @see #toCollection(Stream, Supplier)
+     */
+    default <C extends Collection<T>> C toCollection(Supplier<C> collectionFactory) {
+        return toCollection(this, collectionFactory);
+    }
+
+    /**
      * Collect a Stream into a List.
      *
      * @see #toList(Stream)
@@ -722,6 +731,13 @@ public interface Seq<T> extends Stream<T> {
      */
     static String toString(Stream<?> stream, String separator) {
         return stream.map(Objects::toString).collect(Collectors.joining(separator));
+    }
+
+    /**
+     * Collect a Stream into a List.
+     */
+    static <T, C extends Collection<T>> C toCollection(Stream<T> stream, Supplier<C> collectionFactory) {
+        return stream.collect(Collectors.toCollection(collectionFactory));
     }
 
     /**
