@@ -100,6 +100,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
      *
      * @see #zip(Stream, Stream)
      */
@@ -113,6 +114,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // ("1:a", "2:b", "3:c")
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
      *
      * @see #zip(Seq, BiFunction)
      */
@@ -126,6 +128,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
      * Seq.of("a", "b", "c").zipWithIndex()
+     * </pre></code>
      *
      * @see #zipWithIndex(Stream)
      */
@@ -139,6 +142,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // "abc"
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
+     * </pre></code>
      */
     default <U> U foldLeft(U seed, BiFunction<U, ? super T, U> function) {
         return foldLeft(this, seed, function);
@@ -150,6 +154,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // "cba"
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
+     * </pre></code>
      */
     default <U> U foldRight(U seed, BiFunction<? super T, U, U> function) {
         return foldRight(this, seed, function);
@@ -173,6 +178,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (3, 4, 5)
      * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3)
+     * </pre></code>
      *
      * @see #skipWhile(Stream, Predicate)
      */
@@ -186,6 +192,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (3, 4, 5)
      * Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3)
+     * </pre></code>
      *
      * @see #skipUntil(Stream, Predicate)
      */
@@ -199,6 +206,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (1, 2)
      * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3)
+     * </pre></code>
      *
      * @see #limitWhile(Stream, Predicate)
      */
@@ -212,6 +220,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (1, 2)
      * Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3)
+     * </pre></code>
      *
      * @see #limitUntil(Stream, Predicate)
      */
@@ -225,6 +234,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // tuple((1, 2, 3), (1, 2, 3))
      * Seq.of(1, 2, 3).duplicate()
+     * </pre></code>
      *
      * @see #duplicate(Stream)
      */
@@ -238,6 +248,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // tuple((1, 3, 5), (2, 4, 6))
      * Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
+     * </pre></code>
      *
      * @see #partition(Stream, Predicate)
      */
@@ -251,6 +262,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // tuple((1, 2, 3), (4, 5, 6))
      * Seq.of(1, 2, 3, 4, 5, 6).splitAt(3)
+     * </pre></code>
      *
      * @see #splitAt(Stream, long)
      */
@@ -264,6 +276,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (4, 5)
      * Seq.of(1, 2, 3, 4, 5, 6).slice(3, 5)
+     * </pre></code>
      *
      * @see #slice(Stream, long, long)
      */
@@ -507,6 +520,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
      */
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
         return zip(left, right, Tuple::tuple);
@@ -518,6 +532,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // ("1:a", "2:b", "3:c")
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
      */
     static <T1, T2, R> Seq<R> zip(Stream<T1> left, Stream<T2> right, BiFunction<T1, T2, R> zipper) {
         final Iterator<T1> it1 = left.iterator();
@@ -544,6 +559,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
      * Seq.of("a", "b", "c").zipWithIndex()
+     * </pre></code>
      */
     static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
         final Iterator<T> it = stream.iterator();
@@ -571,6 +587,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // "abc"
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
+     * </pre></code>
      */
     static <T, U> U foldLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
         final Iterator<T> it = stream.iterator();
@@ -588,6 +605,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // "cba"
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
+     * </pre></code>
      */
     static <T, U> U foldRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
         return seq(stream).reverse().foldLeft(seed, (u, t) -> function.apply(t, u));
@@ -658,6 +676,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (1, 2, 3, 4, 5, 6)
      * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
+     * </pre></code>
      */
     @SafeVarargs
     static <T> Seq<T> concat(Stream<T>... streams) {
@@ -680,6 +699,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // tuple((1, 2, 3), (1, 2, 3))
      * Seq.of(1, 2, 3).duplicate()
+     * </pre></code>
      */
     static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<T> stream) {
         final LinkedList<T> gap = new LinkedList<>();
@@ -767,6 +787,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (4, 5)
      * Seq.of(1, 2, 3, 4, 5, 6).slice(3, 5)
+     * </pre></code>
      */
     static <T> Seq<T> slice(Stream<T> stream, long from, long to) {
         long f = Math.max(from, 0);
@@ -781,6 +802,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (4, 5, 6)
      * Seq.of(1, 2, 3, 4, 5, 6).skip(3)
+     * </pre></code>
      */
     static <T> Seq<T> skip(Stream<T> stream, long elements) {
         return seq(stream.skip(elements));
@@ -792,6 +814,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (3, 4, 5)
      * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3)
+     * </pre></code>
      */
     static <T> Seq<T> skipWhile(Stream<T> stream, Predicate<? super T> predicate) {
         return skipUntil(stream, predicate.negate());
@@ -803,6 +826,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (3, 4, 5)
      * Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3)
+     * </pre></code>
      */
     static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
@@ -851,6 +875,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (1, 2, 3)
      * Seq.of(1, 2, 3, 4, 5, 6).limit(3)
+     * </pre></code>
      */
     static <T> Seq<T> limit(Stream<T> stream, long elements) {
         return seq(stream.limit(elements));
@@ -862,6 +887,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (1, 2)
      * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3)
+     * </pre></code>
      */
     static <T> Seq<T> limitWhile(Stream<T> stream, Predicate<? super T> predicate) {
         return limitUntil(stream, predicate.negate());
@@ -873,6 +899,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // (1, 2)
      * Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3)
+     * </pre></code>
      */
     static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
@@ -919,6 +946,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // tuple((1, 3, 5), (2, 4, 6))
      * Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
+     * </pre></code>
      */
     static <T> Tuple2<Seq<T>, Seq<T>> partition(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
@@ -965,6 +993,7 @@ public interface Seq<T> extends Stream<T> {
      * <code><pre>
      * // tuple((1, 2, 3), (4, 5, 6))
      * Seq.of(1, 2, 3, 4, 5, 6).splitAt(3)
+     * </pre></code>
      */
     static <T> Tuple2<Seq<T>, Seq<T>> splitAt(Stream<T> stream, long position) {
         return seq(stream)
