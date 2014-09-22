@@ -711,28 +711,24 @@ public interface Seq<T> extends Stream<T> {
         class Duplicate implements Iterator<T> {
             @Override
             public boolean hasNext() {
-                synchronized (it) {
-                    if (ahead[0] == null || ahead[0] == this)
-                        return it.hasNext();
+                if (ahead[0] == null || ahead[0] == this)
+                    return it.hasNext();
 
-                    return !gap.isEmpty();
-                }
+                return !gap.isEmpty();
             }
 
             @Override
             public T next() {
-                synchronized (it) {
-                    if (ahead[0] == null)
-                        ahead[0] = this;
+                if (ahead[0] == null)
+                    ahead[0] = this;
 
-                    if (ahead[0] == this) {
-                        T value = it.next();
-                        gap.offer(value);
-                        return value;
-                    }
-
-                    return gap.poll();
+                if (ahead[0] == this) {
+                    T value = it.next();
+                    gap.offer(value);
+                    return value;
                 }
+
+                return gap.poll();
             }
         }
 
