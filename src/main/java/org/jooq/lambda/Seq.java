@@ -271,6 +271,20 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Split a stream at the head.
+     * <p>
+     * <code><pre>
+     * // tuple(1, (2, 3, 4, 5, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).splitHead(3)
+     * </pre></code>
+     *
+     * @see #splitAt(Stream, long)
+     */
+    default Tuple2<Optional<T>, Seq<T>> splitAtHead() {
+        return splitAtHead(this);
+    }
+
+    /**
      * Returns a limited interval from a given Stream.
      * <p>
      * <code><pre>
@@ -999,6 +1013,19 @@ public interface Seq<T> extends Stream<T> {
                 v1.map(t -> t.v1),
                 v2.map(t -> t.v1)
             ));
+    }
+
+    /**
+     * Split a stream at the head.
+     * <p>
+     * <code><pre>
+     * // tuple(1, (2, 3, 4, 5, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).splitHead(3)
+     * </pre></code>
+     */
+    static <T> Tuple2<Optional<T>, Seq<T>> splitAtHead(Stream<T> stream) {
+        Iterator<T> it = stream.iterator();
+        return tuple(it.hasNext() ? Optional.of(it.next()) : Optional.empty(), seq(it));
     }
 
     // Covariant overriding of Stream return types

@@ -232,6 +232,25 @@ public class SeqTest {
     }
 
     @Test
+    public void testSplitAtHead() {
+        assertEquals(Optional.empty(), Seq.of().splitAtHead().v1);
+        assertEquals(asList(), Seq.of().splitAtHead().v2.toList());
+
+        assertEquals(Optional.of(1), Seq.of(1).splitAtHead().v1);
+        assertEquals(asList(), Seq.of(1).splitAtHead().v2.toList());
+
+        assertEquals(Optional.of(1), Seq.of(1, 2).splitAtHead().v1);
+        assertEquals(asList(2), Seq.of(1, 2).splitAtHead().v2.toList());
+
+        assertEquals(Optional.of(1), Seq.of(1, 2, 3).splitAtHead().v1);
+        assertEquals(Optional.of(2), Seq.of(1, 2, 3).splitAtHead().v2.splitAtHead().v1);
+        assertEquals(Optional.of(3), Seq.of(1, 2, 3).splitAtHead().v2.splitAtHead().v2.splitAtHead().v1);
+        assertEquals(asList(2, 3), Seq.of(1, 2, 3).splitAtHead().v2.toList());
+        assertEquals(asList(3), Seq.of(1, 2, 3).splitAtHead().v2.splitAtHead().v2.toList());
+        assertEquals(asList(), Seq.of(1, 2, 3).splitAtHead().v2.splitAtHead().v2.splitAtHead().v2.toList());
+    }
+
+    @Test
     public void testMinByMaxBy() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5, 6);
 
