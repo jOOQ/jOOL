@@ -229,6 +229,20 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Returns a stream with a given value interspersed between any two values of this stream.
+     * <p>
+     * <code><pre>
+     * // (1, 0, 2, 0, 3, 0, 4)
+     * Seq.of(1, 2, 3, 4).intersperse(0)
+     * </pre></code>
+     *
+     * @see #intersperse(Stream, T)
+     */
+    default Seq<T> intersperse(T value) {
+        return intersperse(this, value);
+    }
+
+    /**
      * Duplicate a Streams into two equivalent Streams.
      * <p>
      * <code><pre>
@@ -948,6 +962,18 @@ public interface Seq<T> extends Stream<T> {
         }
 
         return seq(new LimitUntil());
+    }
+
+    /**
+     * Returns a stream with a given value interspersed between any two values of this stream.
+     * <p>
+     * <code><pre>
+     * // (1, 0, 2, 0, 3, 0, 4)
+     * Seq.of(1, 2, 3, 4).intersperse(0)
+     * </pre></code>
+     */
+    static <T> Seq<T> intersperse(Stream<T> stream, T value) {
+        return seq(stream.flatMap(t -> Stream.of(value, t)).skip(1));
     }
 
     /**

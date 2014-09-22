@@ -43,11 +43,16 @@ package org.jooq.lambda;
 import org.jooq.lambda.tuple.Tuple2;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
@@ -105,7 +110,15 @@ public class SeqTest {
     }
 
     @Test
-    public void testToString() {
+    public void testIntersperse() {
+        assertEquals(asList(), Seq.of().intersperse(0).toList());
+        assertEquals(asList(1), Seq.of(1).intersperse(0).toList());
+        assertEquals(asList(1, 0, 2), Seq.of(1, 2).intersperse(0).toList());
+        assertEquals(asList(1, 0, 2, 0, 3), Seq.of(1, 2, 3).intersperse(0).toList());
+    }
+
+    @Test
+    public void testToString() throws IOException {
         assertEquals("123", Seq.of(1, 2, 3).toString());
         assertEquals("1, 2, 3", Seq.of(1, 2, 3).toString(", "));
         assertEquals("1, null, 3", Seq.of(1, null, 3).toString(", "));
