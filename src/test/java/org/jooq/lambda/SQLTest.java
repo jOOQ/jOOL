@@ -40,6 +40,8 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.impl.DSL;
+import org.jooq.lambda.tuple.Tuple;
 import org.junit.Test;
 
 import java.sql.*;
@@ -47,7 +49,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
+import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -62,6 +68,33 @@ public class SQLTest {
         }
         catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testTakeWhileWithSQL() throws SQLException {
+        try (Connection c = connection();
+             PreparedStatement s = c.prepareStatement("SELECT first_name, last_name FROM author ORDER BY id");
+             ResultSet rs = s.executeQuery()) {
+
+            assertEquals(
+                Arrays.asList(
+                    tuple("FIRST_NAME", "George"),
+                    tuple("LAST_NAME", "Orwell"),
+                    tuple("FIRST_NAME", "Paulo"),
+                    tuple("LAST_NAME", "Coelho")
+                ),
+                Seq.generate()
+                   .limitWhile(Unchecked.predicate(v -> rs.next()))
+                   .flatMap(Unchecked.function(v -> IntStream
+                        .range(0, rs.getMetaData().getColumnCount())
+                        .mapToObj(Unchecked.intFunction(i -> tuple(
+                            rs.getMetaData().getColumnLabel(i + 1),
+                            rs.getObject(i + 1)
+                        )))
+                   ))
+                   .toList()
+            );
         }
     }
 
