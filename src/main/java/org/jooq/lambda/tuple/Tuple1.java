@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -123,14 +124,8 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple1<T1> that = (Tuple1) o;
         
-        if (v1 != that.v1) {
-            if (v1 == null ^ that.v1 == null)
-                return false;
+        if (!Objects.equals(v1, that.v1)) return false;
 
-            if (!v1.equals(that.v1))
-                return false;
-        }
-        
         return true;
     }
 

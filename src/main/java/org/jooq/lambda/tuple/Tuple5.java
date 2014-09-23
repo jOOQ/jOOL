@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
@@ -183,46 +184,12 @@ public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple5<T1, 
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple5<T1, T2, T3, T4, T5> that = (Tuple5) o;
         
-        if (v1 != that.v1) {
-            if (v1 == null ^ that.v1 == null)
-                return false;
+        if (!Objects.equals(v1, that.v1)) return false;
+        if (!Objects.equals(v2, that.v2)) return false;
+        if (!Objects.equals(v3, that.v3)) return false;
+        if (!Objects.equals(v4, that.v4)) return false;
+        if (!Objects.equals(v5, that.v5)) return false;
 
-            if (!v1.equals(that.v1))
-                return false;
-        }
-        
-        if (v2 != that.v2) {
-            if (v2 == null ^ that.v2 == null)
-                return false;
-
-            if (!v2.equals(that.v2))
-                return false;
-        }
-        
-        if (v3 != that.v3) {
-            if (v3 == null ^ that.v3 == null)
-                return false;
-
-            if (!v3.equals(that.v3))
-                return false;
-        }
-        
-        if (v4 != that.v4) {
-            if (v4 == null ^ that.v4 == null)
-                return false;
-
-            if (!v4.equals(that.v4))
-                return false;
-        }
-        
-        if (v5 != that.v5) {
-            if (v5 == null ^ that.v5 == null)
-                return false;
-
-            if (!v5.equals(that.v5))
-                return false;
-        }
-        
         return true;
     }
 

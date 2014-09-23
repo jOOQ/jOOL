@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
@@ -182,22 +183,9 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple2<T1, T2> that = (Tuple2) o;
         
-        if (v1 != that.v1) {
-            if (v1 == null ^ that.v1 == null)
-                return false;
+        if (!Objects.equals(v1, that.v1)) return false;
+        if (!Objects.equals(v2, that.v2)) return false;
 
-            if (!v1.equals(that.v1))
-                return false;
-        }
-        
-        if (v2 != that.v2) {
-            if (v2 == null ^ that.v2 == null)
-                return false;
-
-            if (!v2.equals(that.v2))
-                return false;
-        }
-        
         return true;
     }
 

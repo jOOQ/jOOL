@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
@@ -153,30 +154,10 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple3<T1, T2, T3> that = (Tuple3) o;
         
-        if (v1 != that.v1) {
-            if (v1 == null ^ that.v1 == null)
-                return false;
+        if (!Objects.equals(v1, that.v1)) return false;
+        if (!Objects.equals(v2, that.v2)) return false;
+        if (!Objects.equals(v3, that.v3)) return false;
 
-            if (!v1.equals(that.v1))
-                return false;
-        }
-        
-        if (v2 != that.v2) {
-            if (v2 == null ^ that.v2 == null)
-                return false;
-
-            if (!v2.equals(that.v2))
-                return false;
-        }
-        
-        if (v3 != that.v3) {
-            if (v3 == null ^ that.v3 == null)
-                return false;
-
-            if (!v3.equals(that.v3))
-                return false;
-        }
-        
         return true;
     }
 

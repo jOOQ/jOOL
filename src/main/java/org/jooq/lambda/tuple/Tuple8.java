@@ -40,6 +40,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jooq.lambda.function.Function1;
@@ -228,70 +229,15 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> that = (Tuple8) o;
         
-        if (v1 != that.v1) {
-            if (v1 == null ^ that.v1 == null)
-                return false;
+        if (!Objects.equals(v1, that.v1)) return false;
+        if (!Objects.equals(v2, that.v2)) return false;
+        if (!Objects.equals(v3, that.v3)) return false;
+        if (!Objects.equals(v4, that.v4)) return false;
+        if (!Objects.equals(v5, that.v5)) return false;
+        if (!Objects.equals(v6, that.v6)) return false;
+        if (!Objects.equals(v7, that.v7)) return false;
+        if (!Objects.equals(v8, that.v8)) return false;
 
-            if (!v1.equals(that.v1))
-                return false;
-        }
-        
-        if (v2 != that.v2) {
-            if (v2 == null ^ that.v2 == null)
-                return false;
-
-            if (!v2.equals(that.v2))
-                return false;
-        }
-        
-        if (v3 != that.v3) {
-            if (v3 == null ^ that.v3 == null)
-                return false;
-
-            if (!v3.equals(that.v3))
-                return false;
-        }
-        
-        if (v4 != that.v4) {
-            if (v4 == null ^ that.v4 == null)
-                return false;
-
-            if (!v4.equals(that.v4))
-                return false;
-        }
-        
-        if (v5 != that.v5) {
-            if (v5 == null ^ that.v5 == null)
-                return false;
-
-            if (!v5.equals(that.v5))
-                return false;
-        }
-        
-        if (v6 != that.v6) {
-            if (v6 == null ^ that.v6 == null)
-                return false;
-
-            if (!v6.equals(that.v6))
-                return false;
-        }
-        
-        if (v7 != that.v7) {
-            if (v7 == null ^ that.v7 == null)
-                return false;
-
-            if (!v7.equals(that.v7))
-                return false;
-        }
-        
-        if (v8 != that.v8) {
-            if (v8 == null ^ that.v8 == null)
-                return false;
-
-            if (!v8.equals(that.v8))
-                return false;
-        }
-        
         return true;
     }
 

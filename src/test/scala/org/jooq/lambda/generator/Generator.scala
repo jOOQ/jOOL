@@ -118,8 +118,6 @@ ${(for (degree <- (1 to max)) yield s"""
      * The degree of this tuple.
      */
     int degree();
-
-    static Comparator<
 }
 """
     )
@@ -134,6 +132,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 ${if (degree != 1) "import org.jooq.lambda.function.Function1;" else ""}
@@ -261,14 +260,8 @@ public class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degr
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple$degree<${TN(degree)}> that = (Tuple$degree) o;
         ${(for (d <- 1 to degree) yield s"""
-        if (v$d != that.v$d) {
-            if (v$d == null ^ that.v$d == null)
-                return false;
+        if (!Objects.equals(v$d, that.v$d)) return false;""").mkString}
 
-            if (!v$d.equals(that.v$d))
-                return false;
-        }
-        """).mkString}
         return true;
     }
 
