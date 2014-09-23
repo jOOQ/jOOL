@@ -419,7 +419,7 @@ public interface Seq<T> extends Stream<T> {
      * @see Stream#generate(Supplier)
      */
     static Seq<Void> generate() {
-        return generate(null);
+        return generate(() -> null);
     }
 
     /**
@@ -870,36 +870,36 @@ public interface Seq<T> extends Stream<T> {
         final Iterator<T> it = stream.iterator();
 
         class SkipUntil implements Iterator<T> {
-            T next;
+            T next = (T) SeqImpl.NULL;
             boolean test = false;
 
             void skip() {
-                while (next == null && it.hasNext()) {
+                while (next == SeqImpl.NULL && it.hasNext()) {
                     next = it.next();
 
                     if (test || (test = predicate.test(next)))
                         break;
                     else
-                        next = null;
+                        next = (T) SeqImpl.NULL;
                 }
             }
 
             @Override
             public boolean hasNext() {
                 skip();
-                return next != null;
+                return next != SeqImpl.NULL;
             }
 
             @Override
             public T next() {
-                if (next == null)
+                if (next == SeqImpl.NULL)
                     throw new NoSuchElementException();
 
                 try {
                     return next;
                 }
                 finally {
-                    next = null;
+                    next = (T) SeqImpl.NULL;
                 }
             }
         }
@@ -943,34 +943,34 @@ public interface Seq<T> extends Stream<T> {
         final Iterator<T> it = stream.iterator();
 
         class LimitUntil implements Iterator<T> {
-            T next;
+            T next = (T) SeqImpl.NULL;
             boolean test = false;
 
             void test() {
-                if (!test && next == null && it.hasNext()) {
+                if (!test && next == SeqImpl.NULL && it.hasNext()) {
                     next = it.next();
 
                     if (test = predicate.test(next))
-                        next = null;
+                        next = (T) SeqImpl.NULL;
                 }
             }
 
             @Override
             public boolean hasNext() {
                 test();
-                return next != null;
+                return next != SeqImpl.NULL;
             }
 
             @Override
             public T next() {
-                if (next == null)
+                if (next == SeqImpl.NULL)
                     throw new NoSuchElementException();
 
                 try {
                     return next;
                 }
                 finally {
-                    next = null;
+                    next = (T) SeqImpl.NULL;
                 }
             }
         }

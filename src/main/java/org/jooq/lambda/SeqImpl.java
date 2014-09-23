@@ -53,6 +53,7 @@ import java.util.stream.*;
 class SeqImpl<T> implements Seq<T> {
 
     private final Stream<T> stream;
+    static final Object NULL = new Object();
 
     SeqImpl(Stream<T> stream) {
         this.stream = stream;

@@ -137,6 +137,15 @@ public class SeqTest {
     }
 
     @Test
+    public void testGenerate() {
+        assertEquals(10, Seq.generate().limit(10).toList().size());
+        assertEquals(10, Seq.generate((Object) null).limit(10).toList().size());
+        assertEquals(10, Seq.generate(() -> null).limit(10).toList().size());
+        assertEquals(10, Seq.generate(1).limit(10).toList().size());
+        assertEquals(Collections.nCopies(10, 1), Seq.generate(1).limit(10).toList());
+    }
+
+    @Test
     public void testToCollection() {
         assertEquals(asList(1, 2, 2, 3), Seq.of(1, 2, 2, 3).toCollection(LinkedList::new));
     }
@@ -183,6 +192,13 @@ public class SeqTest {
     }
 
     @Test
+    public void testSkipUntilWithNulls() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, null, 3, 4, 5);
+
+        assertEquals(asList(1, 2, null, 3, 4, 5), s.get().skipUntil(i -> true).toList());
+    }
+
+    @Test
     public void testLimitWhile() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
 
@@ -202,6 +218,13 @@ public class SeqTest {
         assertEquals(asList(1, 2), s.get().limitUntil(i -> i == 3).toList());
         assertEquals(asList(1, 2, 3), s.get().limitUntil(i -> i == 4).toList());
         assertEquals(asList(), s.get().limitUntil(i -> true).toList());
+    }
+
+    @Test
+    public void testLimitUntilWithNulls() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, null, 3, 4, 5);
+
+        assertEquals(asList(1, 2, null, 3, 4, 5), s.get().limitUntil(i -> false).toList());
     }
 
     @Test
