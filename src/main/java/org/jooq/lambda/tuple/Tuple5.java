@@ -164,11 +164,11 @@ public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple5<T1, 
     public int compareTo(Tuple5<T1, T2, T3, T4, T5> other) {
         int result = 0;
         
-        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
-        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
-        result = ((Comparable) v3).compareTo((Comparable) other.v3); if (result != 0) return result;
-        result = ((Comparable) v4).compareTo((Comparable) other.v4); if (result != 0) return result;
-        result = ((Comparable) v5).compareTo((Comparable) other.v5); if (result != 0) return result;
+        result = Tuples.compare(v1, other.v1); if (result != 0) return result;
+        result = Tuples.compare(v2, other.v2); if (result != 0) return result;
+        result = Tuples.compare(v3, other.v3); if (result != 0) return result;
+        result = Tuples.compare(v4, other.v4); if (result != 0) return result;
+        result = Tuples.compare(v5, other.v5); if (result != 0) return result;
 
         return result;
     }

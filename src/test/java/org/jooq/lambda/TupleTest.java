@@ -116,6 +116,21 @@ public class TupleTest {
     }
 
     @Test
+    public void testCompareToWithNulls() {
+        Set<Tuple2<Integer, String>> set = new TreeSet<>();
+
+        set.add(tuple(2, "a"));
+        set.add(tuple(1, "b"));
+        set.add(tuple(1, null));
+        set.add(tuple(null, "a"));
+        set.add(tuple(null, "b"));
+        set.add(tuple(null, null));
+
+        assertEquals(6, set.size());
+        assertEquals(asList(tuple(1, "b"), tuple(1, null), tuple(2, "a"), tuple(null, "a"), tuple(null, "b"), tuple(null, null)), new ArrayList<>(set));
+    }
+
+    @Test
     public void testIterable() {
         LinkedList<Object> list = new LinkedList<>(tuple(1, "b", null).list());
         for (Object o : tuple(1, "b", null)) {

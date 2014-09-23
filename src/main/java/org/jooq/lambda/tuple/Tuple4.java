@@ -150,10 +150,10 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     public int compareTo(Tuple4<T1, T2, T3, T4> other) {
         int result = 0;
         
-        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
-        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
-        result = ((Comparable) v3).compareTo((Comparable) other.v3); if (result != 0) return result;
-        result = ((Comparable) v4).compareTo((Comparable) other.v4); if (result != 0) return result;
+        result = Tuples.compare(v1, other.v1); if (result != 0) return result;
+        result = Tuples.compare(v2, other.v2); if (result != 0) return result;
+        result = Tuples.compare(v3, other.v3); if (result != 0) return result;
+        result = Tuples.compare(v4, other.v4); if (result != 0) return result;
 
         return result;
     }

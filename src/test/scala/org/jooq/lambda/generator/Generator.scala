@@ -118,6 +118,8 @@ ${(for (degree <- (1 to max)) yield s"""
      * The degree of this tuple.
      */
     int degree();
+
+    static Comparator<
 }
 """
     )
@@ -244,7 +246,7 @@ public class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degr
     public int compareTo(Tuple$degree<${TN(degree)}> other) {
         int result = 0;
         ${(for (d <- 1 to degree) yield s"""
-        result = ((Comparable) v$d).compareTo((Comparable) other.v$d); if (result != 0) return result;""").mkString}
+        result = Tuples.compare(v$d, other.v$d); if (result != 0) return result;""").mkString}
 
         return result;
     }

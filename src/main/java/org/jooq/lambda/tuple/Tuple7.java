@@ -192,13 +192,13 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
     public int compareTo(Tuple7<T1, T2, T3, T4, T5, T6, T7> other) {
         int result = 0;
         
-        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
-        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
-        result = ((Comparable) v3).compareTo((Comparable) other.v3); if (result != 0) return result;
-        result = ((Comparable) v4).compareTo((Comparable) other.v4); if (result != 0) return result;
-        result = ((Comparable) v5).compareTo((Comparable) other.v5); if (result != 0) return result;
-        result = ((Comparable) v6).compareTo((Comparable) other.v6); if (result != 0) return result;
-        result = ((Comparable) v7).compareTo((Comparable) other.v7); if (result != 0) return result;
+        result = Tuples.compare(v1, other.v1); if (result != 0) return result;
+        result = Tuples.compare(v2, other.v2); if (result != 0) return result;
+        result = Tuples.compare(v3, other.v3); if (result != 0) return result;
+        result = Tuples.compare(v4, other.v4); if (result != 0) return result;
+        result = Tuples.compare(v5, other.v5); if (result != 0) return result;
+        result = Tuples.compare(v6, other.v6); if (result != 0) return result;
+        result = Tuples.compare(v7, other.v7); if (result != 0) return result;
 
         return result;
     }

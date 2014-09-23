@@ -44,33 +44,11 @@
 
         <plugins>
 
-            <!-- The Scala compiler plugin -->
-            <!--
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
-
             <!-- The H2 test schema is loaded here -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>sql-maven-plugin</artifactId>
                 <version>1.5</version>
-
-                <configuration>
-                    <skip>${maven.test.skip}</skip>
-                    <forkMode>always</forkMode>
-                </configuration>
 
                 <executions>
                     <execution>
@@ -135,6 +113,23 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
+
+            <!-- The Scala compiler plugin -->
+            <!--
+            <plugin>
+                <groupId>org.scala-tools</groupId>
+                <artifactId>maven-scala-plugin</artifactId>
+                <version>2.15.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
         </plugins>
     </build>
 

@@ -97,7 +97,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     }
 
     /**
-     * The intersection of two tuples.
+     * The intersection of two ranges.
      * <p>
      * <code><pre>
      * // (2, 3)
@@ -166,8 +166,8 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     public int compareTo(Tuple2<T1, T2> other) {
         int result = 0;
         
-        result = ((Comparable) v1).compareTo((Comparable) other.v1); if (result != 0) return result;
-        result = ((Comparable) v2).compareTo((Comparable) other.v2); if (result != 0) return result;
+        result = Tuples.compare(v1, other.v1); if (result != 0) return result;
+        result = Tuples.compare(v2, other.v2); if (result != 0) return result;
 
         return result;
     }
