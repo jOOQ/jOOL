@@ -46,6 +46,9 @@ Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3);
 // (1, 2)
 Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3);
 
+// (1, 0, 2, 0, 3, 0, 4)
+Seq.of(1, 2, 3, 4).intersperse(0);
+
 // "abc"
 Seq.of("a", "b", "c").foldLeft("", (u, t) -> t + u);
 
@@ -60,6 +63,9 @@ Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
 
 // tuple((1, 2), (3, 4, 5))
 Seq.of(1, 2, 3, 4, 5).splitAt(2);
+
+// tuple(1, (2, 3, 4, 5))
+Seq.of(1, 2, 3, 4, 5).splitAtHead();
 
 // (2, 3)
 Seq.of(1, 2, 3, 4, 5).slice(1, 3)

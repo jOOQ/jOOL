@@ -229,6 +229,20 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Returns a stream with a given value interspersed between any two values of this stream.
+     * <p>
+     * <code><pre>
+     * // (1, 0, 2, 0, 3, 0, 4)
+     * Seq.of(1, 2, 3, 4).intersperse(0)
+     * </pre></code>
+     *
+     * @see #intersperse(Stream, T)
+     */
+    default Seq<T> intersperse(T value) {
+        return intersperse(this, value);
+    }
+
+    /**
      * Duplicate a Streams into two equivalent Streams.
      * <p>
      * <code><pre>
@@ -268,6 +282,20 @@ public interface Seq<T> extends Stream<T> {
      */
     default Tuple2<Seq<T>, Seq<T>> splitAt(long position) {
         return splitAt(this, position);
+    }
+
+    /**
+     * Split a stream at the head.
+     * <p>
+     * <code><pre>
+     * // tuple(1, (2, 3, 4, 5, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).splitHead(3)
+     * </pre></code>
+     *
+     * @see #splitAt(Stream, long)
+     */
+    default Tuple2<Optional<T>, Seq<T>> splitAtHead() {
+        return splitAtHead(this);
     }
 
     /**
@@ -937,6 +965,18 @@ public interface Seq<T> extends Stream<T> {
     }
 
     /**
+     * Returns a stream with a given value interspersed between any two values of this stream.
+     * <p>
+     * <code><pre>
+     * // (1, 0, 2, 0, 3, 0, 4)
+     * Seq.of(1, 2, 3, 4).intersperse(0)
+     * </pre></code>
+     */
+    static <T> Seq<T> intersperse(Stream<T> stream, T value) {
+        return seq(stream.flatMap(t -> Stream.of(value, t)).skip(1));
+    }
+
+    /**
      * Partition a stream into two given a predicate.
      * <p>
      * <code><pre>
@@ -999,6 +1039,19 @@ public interface Seq<T> extends Stream<T> {
                 v1.map(t -> t.v1),
                 v2.map(t -> t.v1)
             ));
+    }
+
+    /**
+     * Split a stream at the head.
+     * <p>
+     * <code><pre>
+     * // tuple(1, (2, 3, 4, 5, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).splitHead(3)
+     * </pre></code>
+     */
+    static <T> Tuple2<Optional<T>, Seq<T>> splitAtHead(Stream<T> stream) {
+        Iterator<T> it = stream.iterator();
+        return tuple(it.hasNext() ? Optional.of(it.next()) : Optional.empty(), seq(it));
     }
 
     // Covariant overriding of Stream return types
