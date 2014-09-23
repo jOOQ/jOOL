@@ -418,6 +418,13 @@ public interface Seq<T> extends Stream<T> {
     /**
      * @see Stream#generate(Supplier)
      */
+    static <T> Seq<T> generate(T value) {
+        return generate(() -> value);
+    }
+
+    /**
+     * @see Stream#generate(Supplier)
+     */
     static <T> Seq<T> generate(Supplier<T> s) {
         return seq(Stream.generate(s));
     }
