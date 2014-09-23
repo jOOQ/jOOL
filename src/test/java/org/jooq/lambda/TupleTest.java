@@ -79,6 +79,13 @@ public class TupleTest {
     }
 
     @Test
+    public void testEqualsNull() {
+        assertFalse(tuple(1).equals(null));
+        assertFalse(tuple(1, 2).equals(null));
+        assertFalse(tuple(1, 2, 3).equals(null));
+    }
+
+    @Test
     public void testToString() {
         assertEquals("(1, abc)", tuple(1, "abc").toString());
     }
