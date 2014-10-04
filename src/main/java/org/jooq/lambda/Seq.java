@@ -59,7 +59,7 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
  *
  * @author Lukas Eder
  */
-public interface Seq<T> extends Stream<T> {
+public interface Seq<T> extends Stream<T>, Iterable<T> {
 
     /**
      * The underlying {@link Stream} implementation.
@@ -1138,5 +1138,15 @@ public interface Seq<T> extends Stream<T> {
     @Override
     default Seq<T> unordered() {
         return this;
+    }
+
+    @Override
+    default Spliterator<T> spliterator() {
+        return Iterable.super.spliterator();
+    }
+
+    @Override
+    default void forEach(Consumer<? super T> action) {
+        Iterable.super.forEach(action);
     }
 }

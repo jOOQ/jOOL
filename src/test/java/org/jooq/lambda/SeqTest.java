@@ -352,4 +352,13 @@ public class SeqTest {
         assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle().limit(6).toList());
         assertEquals(asList(1, 2, 3, 1, 2, 3), Seq.of(1, 2, 3).cycle().limit(6).toList());
     }
+
+    @Test
+    public void testIterable() {
+        List<Integer> list = Seq.of(1, 2, 3).toCollection(LinkedList::new);
+
+        for (Integer i : Seq.of(1, 2, 3)) {
+            assertEquals(list.remove(0), i);
+        }
+    }
 }
