@@ -43,6 +43,7 @@ package org.jooq.lambda;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
+import java.lang.ClassCastException;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
@@ -385,6 +386,37 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return map(t -> tuple(t, function.apply(t)))
               .max(comparing(Tuple2::v2, comparator))
               .map(t -> t.v1);
+    }
+
+    // Methods taken from LINQ
+    // -----------------------
+
+    /**
+     * Keep only those elements in a stream that are of a given type.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, "a", 2, "b", 3).ofType(Integer.class)
+     * </pre></code>
+     *
+     * @see #ofType(Stream, Class)
+     */
+    default <U> Seq<U> ofType(Class<U> type) {
+        return ofType(this, type);
+    }
+
+    /**
+     * Cast all elements in a stream to a given type, possibly throwing a {@link ClassCastException}.
+     * <p>
+     * <code><pre>
+     * // ClassCastException
+     * Seq.of(1, "a", 2, "b", 3).cast(Integer.class)
+     * </pre></code>
+     *
+     * @see #cast(Stream, Class)
+     */
+    default <U> Seq<U> cast(Class<U> type) {
+        return cast(this, type);
     }
 
     /**
@@ -1066,6 +1098,33 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     static <T> Tuple2<Optional<T>, Seq<T>> splitAtHead(Stream<T> stream) {
         Iterator<T> it = stream.iterator();
         return tuple(it.hasNext() ? Optional.of(it.next()) : Optional.empty(), seq(it));
+    }
+
+    // Methods taken from LINQ
+    // -----------------------
+
+    /**
+     * Keep only those elements in a stream that are of a given type.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, "a", 2, "b", 3).ofType(Integer.class)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> ofType(Stream<T> stream, Class<U> type) {
+        return seq(stream).filter(t -> type.isInstance(t)).map(t -> (U) t);
+    }
+
+    /**
+     * Cast all elements in a stream to a given type, possibly throwing a {@link ClassCastException}.
+     * <p>
+     * <code><pre>
+     * // ClassCastException
+     * Seq.of(1, "a", 2, "b", 3).cast(Integer.class)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> cast(Stream<T> stream, Class<U> type) {
+        return seq(stream).map(t -> type.cast(t));
     }
 
     // Covariant overriding of Stream return types

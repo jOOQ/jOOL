@@ -45,6 +45,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -360,5 +361,19 @@ public class SeqTest {
         for (Integer i : Seq.of(1, 2, 3)) {
             assertEquals(list.remove(0), i);
         }
+    }
+
+    @Test
+    public void testOfType() {
+        assertEquals(asList(1, 2, 3), Seq.of(1, "a", 2, "b", 3, null).ofType(Integer.class).toList());
+        assertEquals(asList(1, "a", 2, "b", 3), Seq.of(1, "a", 2, "b", 3, null).ofType(Serializable.class).toList());
+    }
+
+    @Test
+    public void testCast() {
+        Utils.assertThrows(
+            ClassCastException.class,
+            () -> Seq.of(1, "a", 2, "b", 3, null).cast(Integer.class).toList());
+        assertEquals(asList(1, "a", 2, "b", 3, null), Seq.of(1, "a", 2, "b", 3, null).cast(Serializable.class).toList());
     }
 }
