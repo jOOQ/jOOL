@@ -61,7 +61,7 @@ public class CheckedPredicateTest {
             }
         );
 
-        assertPredicate(test, RuntimeException.class);
+        assertPredicate(test, UncheckedException.class);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class CheckedPredicateTest {
             }
         );
 
-        assertIntPredicate(test, RuntimeException.class);
+        assertIntPredicate(test, UncheckedException.class);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class CheckedPredicateTest {
             }
         );
 
-        assertLongPredicate(test, RuntimeException.class);
+        assertLongPredicate(test, UncheckedException.class);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class CheckedPredicateTest {
             }
         );
 
-        assertDoublePredicate(test, RuntimeException.class);
+        assertDoublePredicate(test, UncheckedException.class);
     }
 
     @Test

@@ -35,54 +35,15 @@
  */
 package org.jooq.lambda;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 /**
+ * A generic unchecked exception that wraps checked exceptions thrown from lambdas passed
+ * to any of {@link Unchecked}'s methods.
+ *
  * @author Lukas Eder
  */
-public class CheckedRunnableTest {
+public class UncheckedException extends RuntimeException {
 
-    @Test
-    public void testCheckedRunnable() {
-        Runnable test = Unchecked.runnable(
-            () -> {
-                throw new Exception("runnable");
-            }
-        );
-
-        assertRunnable(test, UncheckedException.class);
-    }
-
-    @Test
-    public void testCheckedRunnableWithCustomHandler() {
-        Runnable test = Unchecked.runnable(
-            () -> {
-                throw new Exception("runnable");
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
-
-        assertRunnable(test, IllegalStateException.class);
-    }
-
-    private <E extends RuntimeException> void assertRunnable(Runnable test, Class<E> type) {
-        assertNotNull(test);
-        try {
-            test.run();
-            fail();
-        }
-        catch (RuntimeException e) {
-            assertException(type, e, "runnable");
-        }
-    }
-
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
-        assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+    public UncheckedException(Throwable cause) {
+        super(cause);
     }
 }

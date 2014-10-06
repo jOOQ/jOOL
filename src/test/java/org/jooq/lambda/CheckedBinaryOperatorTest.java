@@ -61,7 +61,7 @@ public class CheckedBinaryOperatorTest {
             }
         );
 
-        assertBinaryOperator(test, RuntimeException.class);
+        assertBinaryOperator(test, UncheckedException.class);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class CheckedBinaryOperatorTest {
             }
         );
 
-        assertIntBinaryOperator(test, RuntimeException.class);
+        assertIntBinaryOperator(test, UncheckedException.class);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class CheckedBinaryOperatorTest {
             }
         );
 
-        assertLongBinaryOperator(test, RuntimeException.class);
+        assertLongBinaryOperator(test, UncheckedException.class);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class CheckedBinaryOperatorTest {
             }
         );
 
-        assertDoubleBinaryOperator(test, RuntimeException.class);
+        assertDoubleBinaryOperator(test, UncheckedException.class);
     }
 
     @Test

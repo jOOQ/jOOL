@@ -60,7 +60,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertFunction(test, RuntimeException.class);
+        assertFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertToIntFunction(test, RuntimeException.class);
+        assertToIntFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertToLongFunction(test, RuntimeException.class);
+        assertToLongFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertToDoubleFunction(test, RuntimeException.class);
+        assertToDoubleFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -160,7 +160,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertIntFunction(test, RuntimeException.class);
+        assertIntFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -185,7 +185,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertIntToLongFunction(test, RuntimeException.class);
+        assertIntToLongFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -210,7 +210,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertIntToDoubleFunction(test, RuntimeException.class);
+        assertIntToDoubleFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -235,7 +235,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertLongFunction(test, RuntimeException.class);
+        assertLongFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -260,7 +260,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertLongToIntFunction(test, RuntimeException.class);
+        assertLongToIntFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -285,7 +285,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertLongToDoubleFunction(test, RuntimeException.class);
+        assertLongToDoubleFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -310,7 +310,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertDoubleFunction(test, RuntimeException.class);
+        assertDoubleFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -335,7 +335,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertDoubleToIntFunction(test, RuntimeException.class);
+        assertDoubleToIntFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -360,7 +360,7 @@ public class CheckedFunctionTest {
             }
         );
 
-        assertDoubleToLongFunction(test, RuntimeException.class);
+        assertDoubleToLongFunction(test, UncheckedException.class);
     }
 
     @Test

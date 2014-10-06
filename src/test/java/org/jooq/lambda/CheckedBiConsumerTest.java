@@ -59,7 +59,7 @@ public class CheckedBiConsumerTest {
             }
         );
 
-        assertBiConsumer(test, RuntimeException.class);
+        assertBiConsumer(test, UncheckedException.class);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CheckedBiConsumerTest {
             }
         );
 
-        assertObjIntConsumer(test, RuntimeException.class);
+        assertObjIntConsumer(test, UncheckedException.class);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class CheckedBiConsumerTest {
             }
         );
 
-        assertObjLongConsumer(test, RuntimeException.class);
+        assertObjLongConsumer(test, UncheckedException.class);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class CheckedBiConsumerTest {
             }
         );
 
-        assertObjDoubleConsumer(test, RuntimeException.class);
+        assertObjDoubleConsumer(test, UncheckedException.class);
     }
 
     @Test

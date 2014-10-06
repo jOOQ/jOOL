@@ -58,7 +58,7 @@ public class CheckedSupplierTest {
             }
         );
 
-        assertSupplier(test, RuntimeException.class);
+        assertSupplier(test, UncheckedException.class);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class CheckedSupplierTest {
             }
         );
 
-        assertIntSupplier(test, RuntimeException.class);
+        assertIntSupplier(test, UncheckedException.class);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class CheckedSupplierTest {
             }
         );
 
-        assertLongSupplier(test, RuntimeException.class);
+        assertLongSupplier(test, UncheckedException.class);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class CheckedSupplierTest {
             }
         );
 
-        assertDoubleSupplier(test, RuntimeException.class);
+        assertDoubleSupplier(test, UncheckedException.class);
     }
 
     @Test
@@ -158,7 +158,7 @@ public class CheckedSupplierTest {
             }
         );
 
-        assertBooleanSupplier(test, RuntimeException.class);
+        assertBooleanSupplier(test, UncheckedException.class);
     }
 
     @Test

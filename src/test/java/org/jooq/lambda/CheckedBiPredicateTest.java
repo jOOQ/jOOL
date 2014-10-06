@@ -54,7 +54,7 @@ public class CheckedBiPredicateTest {
             }
         );
 
-        assertBiPredicate(test, RuntimeException.class);
+        assertBiPredicate(test, UncheckedException.class);
     }
 
     @Test

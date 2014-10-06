@@ -61,7 +61,7 @@ public class CheckedUnaryOperatorTest {
             }
         );
 
-        assertUnaryOperator(test, RuntimeException.class);
+        assertUnaryOperator(test, UncheckedException.class);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class CheckedUnaryOperatorTest {
             }
         );
 
-        assertIntUnaryOperator(test, RuntimeException.class);
+        assertIntUnaryOperator(test, UncheckedException.class);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class CheckedUnaryOperatorTest {
             }
         );
 
-        assertLongUnaryOperator(test, RuntimeException.class);
+        assertLongUnaryOperator(test, UncheckedException.class);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class CheckedUnaryOperatorTest {
             }
         );
 
-        assertDoubleUnaryOperator(test, RuntimeException.class);
+        assertDoubleUnaryOperator(test, UncheckedException.class);
     }
 
     @Test

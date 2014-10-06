@@ -59,7 +59,7 @@ public class CheckedBiFunctionTest {
             }
         );
 
-        assertBiFunction(test, RuntimeException.class);
+        assertBiFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CheckedBiFunctionTest {
             }
         );
 
-        assertToIntBiFunction(test, RuntimeException.class);
+        assertToIntBiFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class CheckedBiFunctionTest {
             }
         );
 
-        assertToLongBiFunction(test, RuntimeException.class);
+        assertToLongBiFunction(test, UncheckedException.class);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class CheckedBiFunctionTest {
             }
         );
 
-        assertToDoubleBiFunction(test, RuntimeException.class);
+        assertToDoubleBiFunction(test, UncheckedException.class);
     }
 
     @Test

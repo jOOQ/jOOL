@@ -58,7 +58,7 @@ public class CheckedConsumerTest {
             }
         );
 
-        assertConsumer(test, RuntimeException.class);
+        assertConsumer(test, UncheckedException.class);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class CheckedConsumerTest {
             }
         );
 
-        assertIntConsumer(test, RuntimeException.class);
+        assertIntConsumer(test, UncheckedException.class);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class CheckedConsumerTest {
             }
         );
 
-        assertLongConsumer(test, RuntimeException.class);
+        assertLongConsumer(test, UncheckedException.class);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class CheckedConsumerTest {
             }
         );
 
-        assertDoubleConsumer(test, RuntimeException.class);
+        assertDoubleConsumer(test, UncheckedException.class);
     }
 
     @Test

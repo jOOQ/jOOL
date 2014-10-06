@@ -54,7 +54,7 @@ public class CheckedComparatorTest {
             }
         );
 
-        assertComparator(test, RuntimeException.class);
+        assertComparator(test, UncheckedException.class);
     }
 
     @Test
