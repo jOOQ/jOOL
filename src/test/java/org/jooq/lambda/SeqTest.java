@@ -376,4 +376,17 @@ public class SeqTest {
             () -> Seq.of(1, "a", 2, "b", 3, null).cast(Integer.class).toList());
         assertEquals(asList(1, "a", 2, "b", 3, null), Seq.of(1, "a", 2, "b", 3, null).cast(Serializable.class).toList());
     }
+
+    @Test
+    public void testMap() {
+        Map<Integer, String> map = new LinkedHashMap<>();
+        map.put(1, "a");
+        map.put(2, "b");
+        map.put(3, "c");
+
+        assertEquals(
+            asList(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")),
+            Seq.seq(map).toList()
+        );
+    }
 }
