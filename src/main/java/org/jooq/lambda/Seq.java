@@ -493,6 +493,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Wrap a Map into a Seq.
+     */
+    static <K, V> Seq<Tuple2<K, V>> seq(Map<K, V> map) {
+        return seq(map.entrySet()).map(e -> tuple(e.getKey(), e.getValue()));
+    }
+
+    /**
      * Repeat a stream infinitely.
      * <p>
      * <code><pre>
