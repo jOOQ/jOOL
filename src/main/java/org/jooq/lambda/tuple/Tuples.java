@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jooq.lambda.tuple;
 
 import java.util.Comparator;
