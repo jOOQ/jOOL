@@ -15,11 +15,9 @@
  */
 
 /**
- * This package contains duplicates of the JDK's {@link java.lang.FunctionalInterface} types
- * from the <code>java.util.function</code> package, allowing to throw checked Exceptions
- * that can be handled in {@link org.jooq.lambda.Unchecked}.
+ * This package contains tuple types of various degrees.
  *
  * @author Lukas Eder
  */
-package org.jooq.lambda.fi.util.function;
+package org.jooq.lambda.tuple;
 

@@ -16,7 +16,7 @@
 
 /**
  * This package contains useful extensions for interoperation with Java 8's lambda expressions and
- * {@link FunctionalInterface} types.
+ * {@link java.lang.FunctionalInterface} types.
  *
  * @author Lukas Eder
  */
