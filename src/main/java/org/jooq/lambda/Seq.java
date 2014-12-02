@@ -502,6 +502,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Wrap an Optional into a Seq.
+     */
+    static <T> Seq<T> seq(Optional<T> optional) {
+        return optional.map(Seq::of).orElseGet(Seq::empty);
+    }
+
+    /**
      * Repeat a stream infinitely.
      * <p>
      * <code><pre>
