@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function8;
@@ -187,7 +187,7 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
 
     @Override
     public int compareTo(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> other) {
-        int result = 0;
+        int result;
         
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;

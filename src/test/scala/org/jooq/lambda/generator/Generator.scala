@@ -113,7 +113,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+${if (degree == 2) "import java.util.Optional;" else ""}
 
 ${if (degree != 1) "import org.jooq.lambda.function.Function1;" else ""}
 import org.jooq.lambda.function.Function$degree;
@@ -225,7 +225,7 @@ public class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degr
 
     @Override
     public int compareTo(Tuple$degree<${TN(degree)}> other) {
-        int result = 0;
+        int result;
         ${(for (d <- 1 to degree) yield s"""
         result = Tuples.compare(v$d, other.v$d); if (result != 0) return result;""").mkString}
 
@@ -308,28 +308,28 @@ public interface Function$degree<${TN(degree)}, R> ${if (degree == 1) "extends F
      * Convert this function to a {@link java.util.function.Function}
      */
     default Function<T1, R> toFunction() {
-        return t -> apply(t);
+        return this::apply;
     }
 
     /**
      * Convert to this function from a {@link java.util.function.Function}
      */
     static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
-        return v1 -> function.apply(v1);
+        return function::apply;
     }
     """ else if (degree == 2) s"""
     /**
      * Convert this function to a {@link java.util.function.BiFunction}
      */
     default BiFunction<T1, T2, R> toBiFunction() {
-        return (t1, t2) -> apply(t1, t2);
+        return this::apply;
     }
 
     /**
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
     static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
-        return (v1, v2) -> function.apply(v1, v2);
+        return function::apply;
     }
     """
         else ""}

@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 
 import org.jooq.lambda.function.Function1;
@@ -89,7 +89,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
 
     @Override
     public int compareTo(Tuple1<T1> other) {
-        int result = 0;
+        int result;
         
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
 

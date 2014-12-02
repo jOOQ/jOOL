@@ -44,14 +44,14 @@ public interface Function1<T1, R> extends Function<T1, R> {
      * Convert this function to a {@link java.util.function.Function}
      */
     default Function<T1, R> toFunction() {
-        return t -> apply(t);
+        return this::apply;
     }
 
     /**
      * Convert to this function from a {@link java.util.function.Function}
      */
     static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
-        return v1 -> function.apply(v1);
+        return function::apply;
     }
     
 }

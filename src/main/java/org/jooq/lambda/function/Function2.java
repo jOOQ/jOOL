@@ -44,14 +44,14 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
      * Convert this function to a {@link java.util.function.BiFunction}
      */
     default BiFunction<T1, T2, R> toBiFunction() {
-        return (t1, t2) -> apply(t1, t2);
+        return this::apply;
     }
 
     /**
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
     static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
-        return (v1, v2) -> function.apply(v1, v2);
+        return function::apply;
     }
     
 }

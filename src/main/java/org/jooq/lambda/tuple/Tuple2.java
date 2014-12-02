@@ -147,7 +147,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
     @Override
     public int compareTo(Tuple2<T1, T2> other) {
-        int result = 0;
+        int result;
         
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;

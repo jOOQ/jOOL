@@ -1124,7 +1124,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T, U> Seq<U> ofType(Stream<T> stream, Class<U> type) {
-        return seq(stream).filter(t -> type.isInstance(t)).map(t -> (U) t);
+        return seq(stream).filter(type::isInstance).map(t -> (U) t);
     }
 
     /**
@@ -1136,7 +1136,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> cast(Stream<T> stream, Class<U> type) {
-        return seq(stream).map(t -> type.cast(t));
+        return seq(stream).map(type::cast);
     }
 
     // Covariant overriding of Stream return types
