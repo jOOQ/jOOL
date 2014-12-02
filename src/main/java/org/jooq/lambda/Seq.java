@@ -76,6 +76,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @see #concat(Stream[])
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     default Seq<T> concat(Stream<T> other) {
         return Seq.concat(new Stream[]{this, other});
     }
@@ -428,6 +429,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     /**
      * @see Stream#of(Object[])
      */
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     static <T> Seq<T> of(T... values) {
         return seq(Stream.of(values));
     }
@@ -507,7 +510,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<T> cycle(Stream<T> stream) {
-        final List<T> list = new ArrayList<T>();
+        final List<T> list = new ArrayList<>();
 
         class Cycle implements Iterator<T> {
             boolean cycled;
@@ -785,7 +788,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         final LinkedList<T> gap = new LinkedList<>();
         final Iterator<T> it = stream.iterator();
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "rawtypes"})
         final Iterator<T>[] ahead = new Iterator[] { null };
 
         class Duplicate implements Iterator<T> {
@@ -904,6 +907,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3)
      * </pre></code>
      */
+    @SuppressWarnings("unchecked")
     static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
 
@@ -977,6 +981,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3)
      * </pre></code>
      */
+    @SuppressWarnings("unchecked")
     static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
         final Iterator<T> it = stream.iterator();
 
@@ -1117,8 +1122,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, "a", 2, "b", 3).ofType(Integer.class)
      * </pre></code>
      */
+    @SuppressWarnings("unchecked")
     static <T, U> Seq<U> ofType(Stream<T> stream, Class<U> type) {
-        return seq(stream).filter(t -> type.isInstance(t)).map(t -> (U) t);
+        return seq(stream).filter(type::isInstance).map(t -> (U) t);
     }
 
     /**
@@ -1130,7 +1136,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> cast(Stream<T> stream, Class<U> type) {
-        return seq(stream).map(t -> type.cast(t));
+        return seq(stream).map(type::cast);
     }
 
     // Covariant overriding of Stream return types

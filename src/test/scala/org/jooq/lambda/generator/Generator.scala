@@ -42,38 +42,18 @@ object Generator {
     val max = 8;
     val copyright = """/**
  * Copyright (c) 2014, Data Geekery GmbH, contact@datageekery.com
- * All rights reserved.
  *
- * This software is licensed to you under the Apache License, Version 2.0
- * (the "License"); You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * . Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- * . Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * . Neither the name "jOOQ" nor the names of its contributors may be
- *   used to endorse or promote products derived from this software without
- *   specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 """
     write(
@@ -101,7 +81,7 @@ ${(for (degree <- (1 to max)) yield s"""
      * Create a new range.
      */
     static <T extends Comparable<T>> Range<T> range(T t1, T t2) {
-        return new Range(t1, t2);
+        return new Range<>(t1, t2);
     }
 
     /**
@@ -133,7 +113,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+${if (degree == 2) "import java.util.Optional;" else ""}
 
 ${if (degree != 1) "import org.jooq.lambda.function.Function1;" else ""}
 import org.jooq.lambda.function.Function$degree;
@@ -144,6 +124,8 @@ import org.jooq.lambda.function.Function$degree;
  * @author Lukas Eder
  */
 public class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degree<${TN(degree)}>>, Serializable, Cloneable {
+
+    private static final long serialVersionUID = 1L;
     ${(for (d <- (1 to degree)) yield s"""
     public final T$d v$d;""").mkString}
     ${(for (d <- (1 to degree)) yield s"""
@@ -243,7 +225,7 @@ public class Tuple$degree<${TN(degree)}> implements Tuple, Comparable<Tuple$degr
 
     @Override
     public int compareTo(Tuple$degree<${TN(degree)}> other) {
-        int result = 0;
+        int result;
         ${(for (d <- 1 to degree) yield s"""
         result = Tuples.compare(v$d, other.v$d); if (result != 0) return result;""").mkString}
 
@@ -326,28 +308,28 @@ public interface Function$degree<${TN(degree)}, R> ${if (degree == 1) "extends F
      * Convert this function to a {@link java.util.function.Function}
      */
     default Function<T1, R> toFunction() {
-        return t -> apply(t);
+        return this::apply;
     }
 
     /**
      * Convert to this function from a {@link java.util.function.Function}
      */
     static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
-        return v1 -> function.apply(v1);
+        return function::apply;
     }
     """ else if (degree == 2) s"""
     /**
      * Convert this function to a {@link java.util.function.BiFunction}
      */
     default BiFunction<T1, T2, R> toBiFunction() {
-        return (t1, t2) -> apply(t1, t2);
+        return this::apply;
     }
 
     /**
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
     static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
-        return (v1, v2) -> function.apply(v1, v2);
+        return function::apply;
     }
     """
         else ""}

@@ -15,13 +15,12 @@
  */
 package org.jooq.lambda.tuple;
 
-import java.util.Comparator;
-
 /**
  * @author Lukas Eder
  */
 final class Tuples {
 
+    @SuppressWarnings("unchecked")
     static <T> int compare(T t1, T t2) {
         return t1 == null && t2 == null
              ? 0

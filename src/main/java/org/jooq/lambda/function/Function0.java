@@ -15,7 +15,6 @@
  */
 package org.jooq.lambda.function;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -43,14 +42,14 @@ public interface Function0<R> extends Supplier<R> {
      * Convert this function to a {@link java.util.function.Supplier}
      */
     default Supplier<R> toSupplier() {
-        return () -> apply();
+        return this::apply;
     }
 
     /**
      * Convert to this function from a {@link java.util.function.Supplier}
      */
     static <R> Function0<R> from(Supplier<R> supplier) {
-        return () -> supplier.get();
+        return supplier::get;
     }
     
 }

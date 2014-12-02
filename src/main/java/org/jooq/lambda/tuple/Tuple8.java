@@ -4,15 +4,16 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function8;
@@ -31,6 +32,8 @@ import org.jooq.lambda.function.Function8;
  * @author Lukas Eder
  */
 public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>>, Serializable, Cloneable {
+
+    private static final long serialVersionUID = 1L;
     
     public final T1 v1;
     public final T2 v2;
@@ -184,7 +187,7 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
 
     @Override
     public int compareTo(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> other) {
-        int result = 0;
+        int result;
         
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;
