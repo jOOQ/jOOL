@@ -24,6 +24,8 @@ import java.util.Optional;
  */
 public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
 
+    private static final long serialVersionUID = 1L;
+
     public Range(T v1, T v2) {
         super(r(v1, v2));
     }
@@ -63,7 +65,7 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * </pre></code>
      */
     public boolean overlaps(T t1, T t2) {
-        return overlaps(new Range(t1, t2));
+        return overlaps(new Range<>(t1, t2));
     }
 
     /**
@@ -93,6 +95,6 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * </pre></code>
      */
     public Optional<Range<T>> intersect(T t1, T t2) {
-        return intersect(new Range(t1, t2));
+        return intersect(new Range<>(t1, t2));
     }
 }
