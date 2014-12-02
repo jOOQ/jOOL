@@ -428,6 +428,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     /**
      * @see Stream#of(Object[])
      */
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     static <T> Seq<T> of(T... values) {
         return seq(Stream.of(values));
     }
