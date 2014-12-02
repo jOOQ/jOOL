@@ -364,4 +364,10 @@ public class SeqTest {
             Seq.seq(map).toList()
         );
     }
+
+    @Test
+    public void testOptional() {
+        assertEquals(asList(1), Seq.seq(Optional.of(1)).toList());
+        assertEquals(asList(), Seq.seq(Optional.empty()).toList());
+    }
 }
