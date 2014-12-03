@@ -162,6 +162,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Scan a stream to the left.
+     * <p>
+     * <code><pre>
+     * // ("", "a", "ab", "abc")
+     * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
+     * </pre></code>
+     */
+    default <U> Seq<U> scanLeft(U seed, BiFunction<U, ? super T, U> function) {
+        return scanLeft(this, seed, function);
+    }
+
+    /**
+     * Scan a stream to the right.
+     * <p>
+     * <code><pre>
+     * // ("", "c", "cb", "cba")
+     * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
+     * </pre></code>
+     */
+    default <U> Seq<U> scanRight(U seed, BiFunction<? super T, U, U> function) {
+        return scanRight(this, seed, function);
+    }
+
+    /**
      * Reverse a stream.
      * <p>
      * <code><pre>
@@ -699,6 +723,52 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     static <T, U> U foldRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
         return seq(stream).reverse().foldLeft(seed, (u, t) -> function.apply(t, u));
+    }
+
+    /**
+     * Scan a stream to the left.
+     * <p>
+     * <code><pre>
+     * // ("", "a", "ab", "abc")
+     * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> scanLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
+        final Iterator<T> it = stream.iterator();
+
+        class ScanLeft implements Iterator<U> {
+            boolean first = true;
+            U value = seed;
+
+            @Override
+            public boolean hasNext() {
+                return first || it.hasNext();
+            }
+
+            @Override
+            public U next() {
+                if (first) {
+                    first = false;
+                } else {
+                    value = function.apply(value, it.next());
+                }
+                return value;
+            }
+        }
+
+        return seq(new ScanLeft());
+    }
+
+    /**
+     * Scan a stream to the right.
+     * <p>
+     * <code><pre>
+     * // ("", "c", "cb", "cba")
+     * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> scanRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
+        return seq(stream).reverse().scanLeft(seed, (u, t) -> function.apply(t, u));
     }
 
     /**
