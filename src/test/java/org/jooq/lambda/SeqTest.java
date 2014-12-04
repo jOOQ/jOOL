@@ -308,6 +308,36 @@ public class SeqTest {
     }
 
     @Test
+    public void testScanLeft() {
+        assertEquals(
+            asList("", "a", "ab", "abc"),
+            Seq.of("a", "b", "c").scanLeft("", String::concat).toList());
+
+        assertEquals(
+            asList(0, 1, 3, 6),
+            Seq.of("a", "ab", "abc").scanLeft(0, (u, t) -> u + t.length()).toList());
+
+        assertEquals(
+            asList(0, 1, 3, 6),
+            Seq.iterate(1, n -> n + 1).scanLeft(0, (u, t) -> u + t).limit(4).toList());
+    }
+
+    @Test
+    public void testScanRight() {
+        assertEquals(
+            asList("", "c", "bc", "abc"),
+            Seq.of("a", "b", "c").scanRight("", String::concat).toList());
+
+        assertEquals(
+            asList(0, 3, 5, 6),
+            Seq.of("a", "ab", "abc").scanRight(0, (t, u) -> u + t.length()).toList());
+
+        assertEquals(
+            asList(0, 3, 5, 6),
+            Seq.iterate(1, n -> n + 1).limit(3).scanRight(0, (t, u) -> u + t).toList());
+    }
+
+    @Test
     public void testUnfold() {
         assertEquals(
             asList(0, 1, 2, 3, 4),
