@@ -18,19 +18,16 @@ package org.jooq.lambda;
 import org.jooq.lambda.tuple.Tuple2;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Lukas Eder
@@ -351,6 +348,16 @@ public class SeqTest {
     @Test
     public void testReverse() {
         assertEquals(asList(3, 2, 1), Seq.of(1, 2, 3).reverse().toList());
+    }
+
+    @Test
+    public void testShuffle() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3);
+
+        assertEquals(3, s.get().shuffle().toList().size());
+        assertThat(s.get().shuffle().toList(), hasItems(1, 2, 3));
+
+        assertEquals(asList(2, 3, 1), s.get().shuffle(new Random(1)).toList());
     }
 
     @Test

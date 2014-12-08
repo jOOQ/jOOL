@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiFunction;
@@ -195,6 +196,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Seq<T> reverse() {
         return reverse(this);
+    }
+
+    /**
+     * Shuffle a stream
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle()
+     * </pre></code>
+     */
+    default Seq<T> shuffle() {
+        return shuffle(this);
+    }
+
+    /**
+     * Shuffle a stream using specified source of randomness
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle(new Random())
+     * </pre></code>
+     */
+    default Seq<T> shuffle(Random random) {
+        return shuffle(this, random);
     }
 
     /**
@@ -827,6 +852,34 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     static <T> Seq<T> reverse(Stream<T> stream) {
         List<T> list = toList(stream);
         Collections.reverse(list);
+        return seq(list);
+    }
+
+    /**
+     * Shuffle a stream
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle()
+     * </pre></code>
+     */
+    static <T> Seq<T> shuffle(Stream<T> stream) {
+        List<T> list = toList(stream);
+        Collections.shuffle(list);
+        return seq(list);
+    }
+
+    /**
+     * Shuffle a stream using specified source of randomness
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle(new Random())
+     * </pre></code>
+     */
+    static <T> Seq<T> shuffle(Stream<T> stream, Random random) {
+        List<T> list = toList(stream);
+        Collections.shuffle(list, random);
         return seq(list);
     }
 
