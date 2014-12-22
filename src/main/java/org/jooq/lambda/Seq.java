@@ -77,9 +77,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @see #concat(Stream[])
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked" })
     default Seq<T> concat(Stream<T> other) {
-        return Seq.concat(new Stream[]{this, other});
+        return Seq.concat(new Stream[] { this, other });
     }
 
     /**
@@ -286,7 +286,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3, 4).intersperse(0)
      * </pre></code>
      *
-     * @see #intersperse(Stream, T)
+     * @see #intersperse(Stream, Object)
      */
     default Seq<T> intersperse(T value) {
         return intersperse(this, value);
@@ -479,7 +479,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * @see Stream#of(Object[])
      */
     @SafeVarargs
-    @SuppressWarnings("varargs")
     static <T> Seq<T> of(T... values) {
         return seq(Stream.of(values));
     }
@@ -918,7 +917,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         final LinkedList<T> gap = new LinkedList<>();
         final Iterator<T> it = stream.iterator();
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
+        @SuppressWarnings({"unchecked"})
         final Iterator<T>[] ahead = new Iterator[] { null };
 
         class Duplicate implements Iterator<T> {
