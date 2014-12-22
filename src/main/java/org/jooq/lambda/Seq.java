@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -1169,7 +1169,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return seq(stream)
             .zipWithIndex()
             .partition(t -> t.v2 < position)
-            .map((v1, v2) -> tuple(
+            // Explicit type parameters to work around this Eclipse compiler bug:
+            // https://bugs.eclipse.org/bugs/show_bug.cgi?id=455945
+            .map((v1, v2) -> Tuple.<Seq<T>, Seq<T>>tuple(
                 v1.map(t -> t.v1),
                 v2.map(t -> t.v1)
             ));
