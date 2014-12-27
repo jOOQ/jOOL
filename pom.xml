@@ -33,13 +33,10 @@
     </scm>
 
     <properties>
-        <scala.version>2.11.2</scala.version>
         <org.h2.version>1.4.181</org.h2.version>
     </properties>
 
     <build>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>
-
         <defaultGoal>deploy</defaultGoal>
         <finalName>${project.artifactId}-${project.version}</finalName>
 
@@ -118,23 +115,6 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
-
-            <!-- The Scala compiler plugin -->
-            <!--
-            <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
         </plugins>
     </build>
 
@@ -237,20 +217,6 @@
             <artifactId>jooq</artifactId>
             <version>3.5.0</version>
             <scope>test</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-            <scope>optional</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-compiler</artifactId>
-            <version>${scala.version}</version>
-            <scope>optional</scope>
         </dependency>
     </dependencies>
 </project>

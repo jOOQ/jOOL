@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c) 2014-2015, Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jooq.lambda.function;
 
 import java.util.function.Function;
@@ -39,7 +38,7 @@ public interface Function1<T1, R> extends Function<T1, R> {
      */
     @Override
     R apply(T1 v1);
-    
+
     /**
      * Convert this function to a {@link java.util.function.Function}
      */
@@ -53,5 +52,4 @@ public interface Function1<T1, R> extends Function<T1, R> {
     static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
         return function::apply;
     }
-    
 }

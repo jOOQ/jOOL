@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c) 2014-2015, Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jooq.lambda.function;
-
 
 import org.jooq.lambda.tuple.Tuple8;
 
@@ -38,5 +36,4 @@ public interface Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> {
      * Apply this function to the arguments.
      */
     R apply(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8);
-    
 }

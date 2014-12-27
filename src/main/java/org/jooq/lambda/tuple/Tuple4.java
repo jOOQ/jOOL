@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c) 2014-2015, Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
@@ -21,7 +20,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function4;
@@ -34,28 +32,31 @@ import org.jooq.lambda.function.Function4;
 public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, T3, T4>>, Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
-    
+
     public final T1 v1;
+
     public final T2 v2;
+
     public final T3 v3;
+
     public final T4 v4;
-    
+
     public T1 v1() {
         return v1;
     }
-    
+
     public T2 v2() {
         return v2;
     }
-    
+
     public T3 v3() {
         return v3;
     }
-    
+
     public T4 v4() {
         return v4;
     }
-    
+
     public Tuple4(Tuple4<T1, T2, T3, T4> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;
@@ -69,42 +70,42 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
         this.v3 = v3;
         this.v4 = v4;
     }
-    
+
     /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function4<T1, T2, T3, T4, R> function) {
         return function.apply(this);
     }
-    
+
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
     public final <U1> Tuple4<U1, T2, T3, T4> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1), v2, v3, v4);
     }
-    
+
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
     public final <U2> Tuple4<T1, U2, T3, T4> map2(Function1<T2, U2> function) {
         return Tuple.tuple(v1, function.apply(v2), v3, v4);
     }
-    
+
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
     public final <U3> Tuple4<T1, T2, U3, T4> map3(Function1<T3, U3> function) {
         return Tuple.tuple(v1, v2, function.apply(v3), v4);
     }
-    
+
     /**
      * Apply attribute 4 as argument to a function and return a new tuple with the substituted argument.
      */
     public final <U4> Tuple4<T1, T2, T3, U4> map4(Function1<T4, U4> function) {
         return Tuple.tuple(v1, v2, v3, function.apply(v4));
     }
-    
+
     @Override
     public final Object[] array() {
         return new Object[] { v1, v2, v3, v4 };
@@ -132,7 +133,7 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     @Override
     public int compareTo(Tuple4<T1, T2, T3, T4> other) {
         int result;
-        
+
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;
         result = Tuples.compare(v3, other.v3); if (result != 0) return result;
@@ -150,7 +151,7 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple4<T1, T2, T3, T4> that = (Tuple4) o;
-        
+
         if (!Objects.equals(v1, that.v1)) return false;
         if (!Objects.equals(v2, that.v2)) return false;
         if (!Objects.equals(v3, that.v3)) return false;
@@ -163,7 +164,7 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        
+
         result = prime * result + ((v1 == null) ? 0 : v1.hashCode());
         result = prime * result + ((v2 == null) ? 0 : v2.hashCode());
         result = prime * result + ((v3 == null) ? 0 : v3.hashCode());

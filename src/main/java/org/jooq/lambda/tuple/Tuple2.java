@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c) 2014-2015, Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
@@ -34,18 +33,19 @@ import org.jooq.lambda.function.Function2;
 public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
-    
+
     public final T1 v1;
+
     public final T2 v2;
-    
+
     public T1 v1() {
         return v1;
     }
-    
+
     public T2 v2() {
         return v2;
     }
-    
+
     public Tuple2(Tuple2<T1, T2> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;
@@ -55,7 +55,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
         this.v1 = v1;
         this.v2 = v2;
     }
-    
+
     /**
      * Get a tuple with the two attributes swapped.
      */
@@ -99,28 +99,28 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
         else
             return Optional.empty();
     }
-    
+
     /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function2<T1, T2, R> function) {
         return function.apply(this);
     }
-    
+
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
     public final <U1> Tuple2<U1, T2> map1(Function1<T1, U1> function) {
         return Tuple.tuple(function.apply(v1), v2);
     }
-    
+
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
     public final <U2> Tuple2<T1, U2> map2(Function1<T2, U2> function) {
         return Tuple.tuple(v1, function.apply(v2));
     }
-    
+
     @Override
     public final Object[] array() {
         return new Object[] { v1, v2 };
@@ -148,7 +148,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     @Override
     public int compareTo(Tuple2<T1, T2> other) {
         int result;
-        
+
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;
 
@@ -164,7 +164,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
         final Tuple2<T1, T2> that = (Tuple2) o;
-        
+
         if (!Objects.equals(v1, that.v1)) return false;
         if (!Objects.equals(v2, that.v2)) return false;
 
@@ -175,7 +175,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        
+
         result = prime * result + ((v1 == null) ? 0 : v1.hashCode());
         result = prime * result + ((v2 == null) ? 0 : v2.hashCode());
 
