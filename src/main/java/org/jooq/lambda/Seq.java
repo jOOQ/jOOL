@@ -43,6 +43,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -466,6 +467,36 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default <U> Seq<U> cast(Class<U> type) {
         return cast(this, type);
+    }
+
+    // Methods taken from other APIs
+    // -----------------------------
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining()}
+     * collector.
+     */
+    default String join() {
+        return map(Objects::toString).collect(Collectors.joining());
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining(CharSequence)}
+     * collector.
+     */
+    default String join(CharSequence delimiter) {
+        return map(Objects::toString).collect(Collectors.joining(delimiter));
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
+     * collector.
+     */
+    default String join(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+        return map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
     }
 
     /**
@@ -1268,6 +1299,36 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     static <T, U> Seq<U> cast(Stream<T> stream, Class<U> type) {
         return seq(stream).map(type::cast);
+    }
+
+    // Methods taken from other APIs
+    // -----------------------------
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining()}
+     * collector.
+     */
+    static String join(Stream<?> stream) {
+        return seq(stream).join();
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining(CharSequence)}
+     * collector.
+     */
+    static String join(Stream<?> stream, CharSequence delimiter) {
+        return seq(stream).join(delimiter);
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
+     * collector.
+     */
+    static String join(Stream<?> stream, CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+        return seq(stream).join(delimiter, prefix, suffix);
     }
 
     // Covariant overriding of Stream return types
