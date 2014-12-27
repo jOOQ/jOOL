@@ -399,6 +399,14 @@ public class SeqTest {
     }
 
     @Test
+    public void testGroupBy() {
+        Map<Integer, List<Integer>> map = Seq.of(1, 2, 3, 4).groupBy(i -> i % 2);
+        assertEquals(asList(2, 4), map.get(0));
+        assertEquals(asList(1, 3), map.get(1));
+        assertEquals(2, map.size());
+    }
+
+    @Test
     public void testJoin() {
         assertEquals("123", Seq.of(1, 2, 3).join());
         assertEquals("1, 2, 3", Seq.of(1, 2, 3).join(", "));

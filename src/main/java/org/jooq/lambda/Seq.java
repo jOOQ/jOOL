@@ -469,8 +469,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return cast(this, type);
     }
 
-    // Methods taken from other APIs
-    // -----------------------------
+    // Shortcuts to Collectors
+    // -----------------------
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#groupingBy(Function)} collector.
+     */
+    default <K> Map<K, List<T>> groupBy(Function<? super T, K> classifier) {
+        return collect(Collectors.groupingBy(classifier));
+    }
 
     /**
      * Shortcut for calling {@link Stream#collect(Collector)} with a
@@ -1301,8 +1309,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return seq(stream).map(type::cast);
     }
 
-    // Methods taken from other APIs
-    // -----------------------------
+    // Shortcuts to Collectors
+    // -----------------------
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#groupingBy(Function)} collector.
+     */
+    static <T, K> Map<K, List<T>> groupBy(Stream<T> stream, Function<? super T, K> classifier) {
+        return seq(stream).groupBy(classifier);
+    }
 
     /**
      * Shortcut for calling {@link Stream#collect(Collector)} with a
