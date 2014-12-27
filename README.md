@@ -22,32 +22,8 @@ The new Streams API was implemented with a strong focus on parallelisation. Many
 // (1, 2, 3, 4, 5, 6)
 Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6));
 
-// (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
-Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"));
-
-// ("1:a", "2:b", "3:c")
-Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (x, y) -> x + ":" + y);
-
-// tuple((1, 2, 3), (a, b, c))
-Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
-
-// (tuple("a", 0), tuple("b", 1), tuple("c", 2))
-Seq.of("a", "b", "c").zipWithIndex();
-
-// (3, 4, 5)
-Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3);
-
-// (3, 4, 5)
-Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3);
-
-// (1, 2)
-Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3);
-
-// (1, 2)
-Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3);
-
-// (1, 0, 2, 0, 3, 0, 4)
-Seq.of(1, 2, 3, 4).intersperse(0);
+// tuple((1, 2, 3), (1, 2, 3))
+Seq.of(1, 2, 3).duplicate();
 
 // "abc"
 Seq.of("a", "b", "c").foldLeft("", (u, t) -> t + u);
@@ -55,11 +31,32 @@ Seq.of("a", "b", "c").foldLeft("", (u, t) -> t + u);
 // "cba"
 Seq.of("a", "b", "c").foldRight("", (t, u) -> t + u);
 
-// tuple((1, 2, 3), (1, 2, 3))
-Seq.of(1, 2, 3).duplicate();
+// (1, 0, 2, 0, 3, 0, 4)
+Seq.of(1, 2, 3, 4).intersperse(0);
 
-// tuple((1, 3, 5), (2, 4, 6))
-Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
+// "123"
+Seq.of(1, 2, 3).join();
+
+// "1, 2, 3"
+Seq.of(1, 2, 3).join(", ");
+
+// "^1|2|3$"
+Seq.of(1, 2, 3).join("|", "^", "$"); 
+
+// (1, 2)
+Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3);
+
+// (1, 2)
+Seq.of(1, 2, 3, 4, 5).limitUntil(i -> i == 3);
+
+// (3, 4, 5)
+Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3);
+
+// (3, 4, 5)
+Seq.of(1, 2, 3, 4, 5).skipUntil(i -> i == 3);
+
+// (2, 3)
+Seq.of(1, 2, 3, 4, 5).slice(1, 3)
 
 // tuple((1, 2), (3, 4, 5))
 Seq.of(1, 2, 3, 4, 5).splitAt(2);
@@ -67,8 +64,20 @@ Seq.of(1, 2, 3, 4, 5).splitAt(2);
 // tuple(1, (2, 3, 4, 5))
 Seq.of(1, 2, 3, 4, 5).splitAtHead();
 
-// (2, 3)
-Seq.of(1, 2, 3, 4, 5).slice(1, 3)
+// tuple((1, 3, 5), (2, 4, 6))
+Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
+
+// tuple((1, 2, 3), (a, b, c))
+Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+
+// (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"));
+
+// ("1:a", "2:b", "3:c")
+Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (x, y) -> x + ":" + y);
+
+// (tuple("a", 0), tuple("b", 1), tuple("c", 2))
+Seq.of("a", "b", "c").zipWithIndex();
 ```
 
 org.jooq.lambda.Unchecked
