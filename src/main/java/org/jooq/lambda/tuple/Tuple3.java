@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015-2015, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c) 2014-2015, Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,6 +61,48 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
         this.v1 = v1;
         this.v2 = v2;
         this.v3 = v3;
+    }                    
+
+    /**
+     * Concatenate a value to this tuple.
+     */
+    public final <T4> Tuple4<T1, T2, T3, T4> concat(T4 value) {
+        return new Tuple4<>(v1, v2, v3, value);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T4> Tuple4<T1, T2, T3, T4> concat(Tuple1<T4> tuple) {
+        return new Tuple4<>(v1, v2, v3, tuple.v1);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T4, T5> Tuple5<T1, T2, T3, T4, T5> concat(Tuple2<T4, T5> tuple) {
+        return new Tuple5<>(v1, v2, v3, tuple.v1, tuple.v2);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T4, T5, T6> Tuple6<T1, T2, T3, T4, T5, T6> concat(Tuple3<T4, T5, T6> tuple) {
+        return new Tuple6<>(v1, v2, v3, tuple.v1, tuple.v2, tuple.v3);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T4, T5, T6, T7> Tuple7<T1, T2, T3, T4, T5, T6, T7> concat(Tuple4<T4, T5, T6, T7> tuple) {
+        return new Tuple7<>(v1, v2, v3, tuple.v1, tuple.v2, tuple.v3, tuple.v4);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T4, T5, T6, T7, T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> concat(Tuple5<T4, T5, T6, T7, T8> tuple) {
+        return new Tuple8<>(v1, v2, v3, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5);
     }
 
     /**

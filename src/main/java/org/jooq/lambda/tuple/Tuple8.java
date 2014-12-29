@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015-2015, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c) 2014-2015, Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
         this.v6 = v6;
         this.v7 = v7;
         this.v8 = v8;
-    }
+    }                    
 
     /**
      * Apply this tuple as arguments to a function.
