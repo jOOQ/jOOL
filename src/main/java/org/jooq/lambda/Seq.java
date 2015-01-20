@@ -84,6 +84,35 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4)
+     * Seq.of(1, 2, 3).concat(4)
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> concat(T other) {
+        return concat(Seq.of(other));
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(4, 5, 6)
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    @SuppressWarnings({ "unchecked" })
+    default Seq<T> concat(T... other) {
+        return concat(Seq.of(other));
+    }
+
+    /**
      * Repeat a stream infinitely.
      * <p>
      * <code><pre>
