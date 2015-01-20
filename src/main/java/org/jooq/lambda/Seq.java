@@ -1051,6 +1051,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Collect a Stream of {@link Tuple2} into a Map.
+     */
+    static <T, K, V> Map<K, V> toMap(Stream<Tuple2<K, V>> stream) {
+        return stream.collect(Collectors.toMap(Tuple2::v1, Tuple2::v2));
+    }
+
+    /**
      * Collect a Stream into a Map.
      */
     static <T, K, V> Map<K, V> toMap(Stream<T> stream, Function<T, K> keyMapper, Function<T, V> valueMapper) {

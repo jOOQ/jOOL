@@ -156,7 +156,9 @@ public class SeqTest {
         expected.put("a", 1);
         expected.put("b", 2);
         expected.put("c", 3);
+
         assertEquals(expected, Seq.of(tuple("a", 1), tuple("b", 2), tuple("c", 3)).toMap(Tuple2::v1, Tuple2::v2));
+        assertEquals(expected, Seq.toMap(Seq.of(tuple("a", 1), tuple("b", 2), tuple("c", 3))));
     }
 
     @Test
