@@ -505,8 +505,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function)} collector.
      */
-    default <K> Map<K, List<T>> groupBy(Function<? super T, K> classifier) {
+    default <K> Map<K, List<T>> groupBy(Function<? super T, ? extends K> classifier) {
         return collect(Collectors.groupingBy(classifier));
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#groupingBy(Function, Collector)} collector.
+     */
+    default <K, A, D> Map<K, D> groupBy(Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+        return collect(Collectors.groupingBy(classifier, downstream));
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#groupingBy(Function, Supplier, Collector)} collector.
+     */
+    default <K, D, A, M extends Map<K, D>> M groupBy(Function<? super T, ? extends K> classifier, Supplier<M> mapFactory, Collector<? super T, A, D> downstream) {
+        return collect(Collectors.groupingBy(classifier, mapFactory, downstream));
     }
 
     /**
@@ -1352,8 +1368,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function)} collector.
      */
-    static <T, K> Map<K, List<T>> groupBy(Stream<T> stream, Function<? super T, K> classifier) {
+    static <T, K> Map<K, List<T>> groupBy(Stream<T> stream, Function<? super T, ? extends K> classifier) {
         return seq(stream).groupBy(classifier);
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#groupingBy(Function, Collector)} collector.
+     */
+    static <T, K, A, D> Map<K, D> groupBy(Stream<T> stream, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+        return seq(stream).groupBy(classifier, downstream);
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#groupingBy(Function, Supplier, Collector)} collector.
+     */
+    static <T, K, D, A, M extends Map<K, D>> M groupBy(Stream<T> stream, Function<? super T, ? extends K> classifier, Supplier<M> mapFactory, Collector<? super T, A, D> downstream) {
+        return seq(stream).groupBy(classifier, mapFactory, downstream);
     }
 
     /**
