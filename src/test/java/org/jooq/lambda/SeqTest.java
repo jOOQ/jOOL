@@ -16,7 +16,11 @@
 package org.jooq.lambda;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.mapping;
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -410,10 +414,30 @@ public class SeqTest {
 
     @Test
     public void testGroupBy() {
-        Map<Integer, List<Integer>> map = Seq.of(1, 2, 3, 4).groupBy(i -> i % 2);
-        assertEquals(asList(2, 4), map.get(0));
-        assertEquals(asList(1, 3), map.get(1));
-        assertEquals(2, map.size());
+        Map<Integer, List<Integer>> map1 = Seq.of(1, 2, 3, 4).groupBy(i -> i % 2);
+        assertEquals(asList(2, 4), map1.get(0));
+        assertEquals(asList(1, 3), map1.get(1));
+        assertEquals(2, map1.size());
+
+        Map<Integer, List<Tuple2<Integer, Integer>>> map2 =
+        Seq.of(tuple(1, 1), tuple(1, 2), tuple(1, 3), tuple(2, 1), tuple(2, 2))
+           .groupBy(t -> t.v1);
+        assertEquals(asList(tuple(1, 1), tuple(1, 2), tuple(1, 3)), map2.get(1));
+        assertEquals(asList(tuple(2, 1), tuple(2, 2)), map2.get(2));
+
+        Map<Integer, Long> map3 =
+        Seq.of(tuple(1, 1), tuple(1, 2), tuple(1, 3), tuple(2, 1), tuple(2, 2))
+           .groupBy(t -> t.v1, counting());
+        assertEquals(3L, (long) map3.get(1));
+        assertEquals(2L, (long) map3.get(2));
+
+        Map<Integer, Tuple2<Long, String>> map4 =
+        Seq.of(tuple(1, 1), tuple(1, 2), tuple(1, 3), tuple(2, 4), tuple(2, 5))
+           .groupBy(t -> t.v1, collectors(counting(), mapping(t -> "" + t.v2, joining(", "))));
+        assertEquals(3L, (long) map4.get(1).v1);
+        assertEquals(2L, (long) map4.get(2).v1);
+        assertEquals("1, 2, 3", map4.get(1).v2);
+        assertEquals("4, 5", map4.get(2).v2);
     }
 
     @Test
