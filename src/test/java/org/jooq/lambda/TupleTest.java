@@ -16,6 +16,8 @@
 package org.jooq.lambda;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.*;
+import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.range;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
@@ -28,6 +30,8 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
 
@@ -165,5 +169,33 @@ public class TupleTest {
     @Test
     public void testRange() {
         assertEquals(range(1, 3), range(3, 1));
+    }
+
+    @Test
+    public void testCollectors() {
+        assertEquals(
+            tuple(3L),
+            Stream.of(1, 2, 3)
+                  .collect(collectors(counting()))
+        );
+
+        assertEquals(
+            tuple(3L, "1, 2, 3"),
+            Stream.of(1, 2, 3)
+                  .collect(collectors(
+                      counting(),
+                      mapping(Object::toString, joining(", "))
+                  ))
+        );
+
+        assertEquals(
+            tuple(3L, "1, 2, 3", 2.0),
+            Stream.of(1, 2, 3)
+                  .collect(collectors(
+                      counting(),
+                      mapping(Object::toString, joining(", ")),
+                      averagingInt(Integer::intValue)
+                  ))
+        );
     }
 }

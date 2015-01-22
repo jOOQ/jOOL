@@ -16,6 +16,7 @@
 package org.jooq.lambda.tuple;
 
 import java.util.List;
+import java.util.stream.Collector;
 
 /**
  * A tuple.
@@ -78,6 +79,322 @@ public interface Tuple extends Iterable<Object> {
      */
     static <T1, T2, T3, T4, T5, T6, T7, T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> tuple(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8) {
         return new Tuple8<>(v1, v2, v3, v4, v5, v6, v7, v8);
+    }
+
+    /**
+     * Construct a tuple collector of degree 1.
+     */
+    static <T, A1, D1> Collector<T, Tuple1<A1>, Tuple1<D1>> collectors(
+        Collector<T, A1, D1> collector1
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 2.
+     */
+    static <T, A1, A2, D1, D2> Collector<T, Tuple2<A1, A2>, Tuple2<D1, D2>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 3.
+     */
+    static <T, A1, A2, A3, D1, D2, D3> Collector<T, Tuple3<A1, A2, A3>, Tuple3<D1, D2, D3>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+      , Collector<T, A3, D3> collector3
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+              , collector3.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+                collector3.accumulator().accept(a.v3, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+              , collector3.combiner().apply(a1.v3, a2.v3)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+              , collector3.finisher().apply(a.v3)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 4.
+     */
+    static <T, A1, A2, A3, A4, D1, D2, D3, D4> Collector<T, Tuple4<A1, A2, A3, A4>, Tuple4<D1, D2, D3, D4>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+      , Collector<T, A3, D3> collector3
+      , Collector<T, A4, D4> collector4
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+              , collector3.supplier().get()
+              , collector4.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+                collector3.accumulator().accept(a.v3, t);
+                collector4.accumulator().accept(a.v4, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+              , collector3.combiner().apply(a1.v3, a2.v3)
+              , collector4.combiner().apply(a1.v4, a2.v4)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+              , collector3.finisher().apply(a.v3)
+              , collector4.finisher().apply(a.v4)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 5.
+     */
+    static <T, A1, A2, A3, A4, A5, D1, D2, D3, D4, D5> Collector<T, Tuple5<A1, A2, A3, A4, A5>, Tuple5<D1, D2, D3, D4, D5>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+      , Collector<T, A3, D3> collector3
+      , Collector<T, A4, D4> collector4
+      , Collector<T, A5, D5> collector5
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+              , collector3.supplier().get()
+              , collector4.supplier().get()
+              , collector5.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+                collector3.accumulator().accept(a.v3, t);
+                collector4.accumulator().accept(a.v4, t);
+                collector5.accumulator().accept(a.v5, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+              , collector3.combiner().apply(a1.v3, a2.v3)
+              , collector4.combiner().apply(a1.v4, a2.v4)
+              , collector5.combiner().apply(a1.v5, a2.v5)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+              , collector3.finisher().apply(a.v3)
+              , collector4.finisher().apply(a.v4)
+              , collector5.finisher().apply(a.v5)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 6.
+     */
+    static <T, A1, A2, A3, A4, A5, A6, D1, D2, D3, D4, D5, D6> Collector<T, Tuple6<A1, A2, A3, A4, A5, A6>, Tuple6<D1, D2, D3, D4, D5, D6>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+      , Collector<T, A3, D3> collector3
+      , Collector<T, A4, D4> collector4
+      , Collector<T, A5, D5> collector5
+      , Collector<T, A6, D6> collector6
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+              , collector3.supplier().get()
+              , collector4.supplier().get()
+              , collector5.supplier().get()
+              , collector6.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+                collector3.accumulator().accept(a.v3, t);
+                collector4.accumulator().accept(a.v4, t);
+                collector5.accumulator().accept(a.v5, t);
+                collector6.accumulator().accept(a.v6, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+              , collector3.combiner().apply(a1.v3, a2.v3)
+              , collector4.combiner().apply(a1.v4, a2.v4)
+              , collector5.combiner().apply(a1.v5, a2.v5)
+              , collector6.combiner().apply(a1.v6, a2.v6)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+              , collector3.finisher().apply(a.v3)
+              , collector4.finisher().apply(a.v4)
+              , collector5.finisher().apply(a.v5)
+              , collector6.finisher().apply(a.v6)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 7.
+     */
+    static <T, A1, A2, A3, A4, A5, A6, A7, D1, D2, D3, D4, D5, D6, D7> Collector<T, Tuple7<A1, A2, A3, A4, A5, A6, A7>, Tuple7<D1, D2, D3, D4, D5, D6, D7>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+      , Collector<T, A3, D3> collector3
+      , Collector<T, A4, D4> collector4
+      , Collector<T, A5, D5> collector5
+      , Collector<T, A6, D6> collector6
+      , Collector<T, A7, D7> collector7
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+              , collector3.supplier().get()
+              , collector4.supplier().get()
+              , collector5.supplier().get()
+              , collector6.supplier().get()
+              , collector7.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+                collector3.accumulator().accept(a.v3, t);
+                collector4.accumulator().accept(a.v4, t);
+                collector5.accumulator().accept(a.v5, t);
+                collector6.accumulator().accept(a.v6, t);
+                collector7.accumulator().accept(a.v7, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+              , collector3.combiner().apply(a1.v3, a2.v3)
+              , collector4.combiner().apply(a1.v4, a2.v4)
+              , collector5.combiner().apply(a1.v5, a2.v5)
+              , collector6.combiner().apply(a1.v6, a2.v6)
+              , collector7.combiner().apply(a1.v7, a2.v7)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+              , collector3.finisher().apply(a.v3)
+              , collector4.finisher().apply(a.v4)
+              , collector5.finisher().apply(a.v5)
+              , collector6.finisher().apply(a.v6)
+              , collector7.finisher().apply(a.v7)
+            )
+        );
+    }
+
+    /**
+     * Construct a tuple collector of degree 8.
+     */
+    static <T, A1, A2, A3, A4, A5, A6, A7, A8, D1, D2, D3, D4, D5, D6, D7, D8> Collector<T, Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>, Tuple8<D1, D2, D3, D4, D5, D6, D7, D8>> collectors(
+        Collector<T, A1, D1> collector1
+      , Collector<T, A2, D2> collector2
+      , Collector<T, A3, D3> collector3
+      , Collector<T, A4, D4> collector4
+      , Collector<T, A5, D5> collector5
+      , Collector<T, A6, D6> collector6
+      , Collector<T, A7, D7> collector7
+      , Collector<T, A8, D8> collector8
+    ) {
+        return Collector.of(
+            () -> tuple(
+                collector1.supplier().get()
+              , collector2.supplier().get()
+              , collector3.supplier().get()
+              , collector4.supplier().get()
+              , collector5.supplier().get()
+              , collector6.supplier().get()
+              , collector7.supplier().get()
+              , collector8.supplier().get()
+            ),
+            (a, t) -> {
+                collector1.accumulator().accept(a.v1, t);
+                collector2.accumulator().accept(a.v2, t);
+                collector3.accumulator().accept(a.v3, t);
+                collector4.accumulator().accept(a.v4, t);
+                collector5.accumulator().accept(a.v5, t);
+                collector6.accumulator().accept(a.v6, t);
+                collector7.accumulator().accept(a.v7, t);
+                collector8.accumulator().accept(a.v8, t);
+            },
+            (a1, a2) -> tuple(
+                collector1.combiner().apply(a1.v1, a2.v1)
+              , collector2.combiner().apply(a1.v2, a2.v2)
+              , collector3.combiner().apply(a1.v3, a2.v3)
+              , collector4.combiner().apply(a1.v4, a2.v4)
+              , collector5.combiner().apply(a1.v5, a2.v5)
+              , collector6.combiner().apply(a1.v6, a2.v6)
+              , collector7.combiner().apply(a1.v7, a2.v7)
+              , collector8.combiner().apply(a1.v8, a2.v8)
+            ),
+            a -> tuple(
+                collector1.finisher().apply(a.v1)
+              , collector2.finisher().apply(a.v2)
+              , collector3.finisher().apply(a.v3)
+              , collector4.finisher().apply(a.v4)
+              , collector5.finisher().apply(a.v5)
+              , collector6.finisher().apply(a.v6)
+              , collector7.finisher().apply(a.v7)
+              , collector8.finisher().apply(a.v8)
+            )
+        );
     }
 
     /**
