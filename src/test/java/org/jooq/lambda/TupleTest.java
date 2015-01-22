@@ -37,6 +37,7 @@ import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
