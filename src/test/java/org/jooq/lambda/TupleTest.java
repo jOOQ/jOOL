@@ -37,7 +37,6 @@ import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -200,8 +199,5 @@ public class TupleTest {
                       averagingInt(Integer::intValue)
                   ))
         );
-
-        // Does travis even work??
-        Assert.fail();
     }
 }
