@@ -16,7 +16,10 @@
 package org.jooq.lambda;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.averagingInt;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.mapping;
 import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.range;
 import static org.jooq.lambda.tuple.Tuple.tuple;
@@ -30,11 +33,11 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -197,5 +200,8 @@ public class TupleTest {
                       averagingInt(Integer::intValue)
                   ))
         );
+
+        // Does travis even work??
+        Assert.fail();
     }
 }
