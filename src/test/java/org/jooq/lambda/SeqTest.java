@@ -433,7 +433,7 @@ public class SeqTest {
 
         Map<Integer, Tuple2<Long, String>> map4 =
         Seq.of(tuple(1, 1), tuple(1, 2), tuple(1, 3), tuple(2, 4), tuple(2, 5))
-           .groupBy(t -> t.v1, collectors(counting(), mapping(t -> "" + t.v2, joining(", "))));
+           .groupBy(t -> t.v1, collectors(counting(), mapping(t -> t.map2(Object::toString).v2, joining(", "))));
         assertEquals(3L, (long) map4.get(1).v1);
         assertEquals(2L, (long) map4.get(2).v1);
         assertEquals("1, 2, 3", map4.get(1).v2);

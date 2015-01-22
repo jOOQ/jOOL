@@ -115,21 +115,21 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U1> Tuple3<U1, T2, T3> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple3<U1, T2, T3> map1(Function1<? super T1, ? extends U1> function) {
         return Tuple.tuple(function.apply(v1), v2, v3);
     }
 
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U2> Tuple3<T1, U2, T3> map2(Function1<T2, U2> function) {
+    public final <U2> Tuple3<T1, U2, T3> map2(Function1<? super T2, ? extends U2> function) {
         return Tuple.tuple(v1, function.apply(v2), v3);
     }
 
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U3> Tuple3<T1, T2, U3> map3(Function1<T3, U3> function) {
+    public final <U3> Tuple3<T1, T2, U3> map3(Function1<? super T3, ? extends U3> function) {
         return Tuple.tuple(v1, v2, function.apply(v3));
     }
 

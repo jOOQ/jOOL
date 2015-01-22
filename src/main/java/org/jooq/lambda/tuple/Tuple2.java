@@ -159,14 +159,14 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U1> Tuple2<U1, T2> map1(Function1<T1, U1> function) {
+    public final <U1> Tuple2<U1, T2> map1(Function1<? super T1, ? extends U1> function) {
         return Tuple.tuple(function.apply(v1), v2);
     }
 
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U2> Tuple2<T1, U2> map2(Function1<T2, U2> function) {
+    public final <U2> Tuple2<T1, U2> map2(Function1<? super T2, ? extends U2> function) {
         return Tuple.tuple(v1, function.apply(v2));
     }
 
