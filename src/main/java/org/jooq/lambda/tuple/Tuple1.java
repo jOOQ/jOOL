@@ -44,7 +44,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
 
     public Tuple1(T1 v1) {
         this.v1 = v1;
-    }                    
+    }
 
     /**
      * Concatenate a value to this tuple.
@@ -142,7 +142,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
 
     @Override
     public int compareTo(Tuple1<T1> other) {
-        int result;
+        int result = 0;
 
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
 

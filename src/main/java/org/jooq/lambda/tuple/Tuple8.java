@@ -34,19 +34,12 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
     private static final long serialVersionUID = 1L;
 
     public final T1 v1;
-
     public final T2 v2;
-
     public final T3 v3;
-
     public final T4 v4;
-
     public final T5 v5;
-
     public final T6 v6;
-
     public final T7 v7;
-
     public final T8 v8;
 
     public T1 v1() {
@@ -101,7 +94,7 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
         this.v6 = v6;
         this.v7 = v7;
         this.v8 = v8;
-    }                    
+    }
 
     /**
      * Apply this tuple as arguments to a function.
@@ -192,7 +185,7 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
 
     @Override
     public int compareTo(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> other) {
-        int result;
+        int result = 0;
 
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;

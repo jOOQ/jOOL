@@ -26,6 +26,13 @@ import java.util.stream.Collector;
 public interface Tuple extends Iterable<Object> {
 
     /**
+     * Construct a tuple of degree 0.
+     */
+    static Tuple0 tuple() {
+        return new Tuple0();
+    }
+
+    /**
      * Construct a tuple of degree 1.
      */
     static <T1> Tuple1<T1> tuple(T1 v1) {

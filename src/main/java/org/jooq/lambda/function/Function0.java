@@ -15,6 +15,8 @@
  */
 package org.jooq.lambda.function;
 
+import org.jooq.lambda.tuple.Tuple0;
+
 import java.util.function.Supplier;
 
 /**
@@ -29,6 +31,13 @@ public interface Function0<R> extends Supplier<R> {
      * Apply this function to the arguments.
      */
     default R apply() {
+        return get();
+    }
+
+    /**
+     * Apply this function to the arguments.
+     */
+    default R apply(Tuple0 args) {
         return get();
     }
 

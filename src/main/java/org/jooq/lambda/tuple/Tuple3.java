@@ -34,9 +34,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     private static final long serialVersionUID = 1L;
 
     public final T1 v1;
-
     public final T2 v2;
-
     public final T3 v3;
 
     public T1 v1() {
@@ -61,7 +59,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
         this.v1 = v1;
         this.v2 = v2;
         this.v3 = v3;
-    }                    
+    }
 
     /**
      * Concatenate a value to this tuple.
@@ -159,7 +157,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
 
     @Override
     public int compareTo(Tuple3<T1, T2, T3> other) {
-        int result;
+        int result = 0;
 
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
         result = Tuples.compare(v2, other.v2); if (result != 0) return result;
