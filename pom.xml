@@ -12,7 +12,7 @@
 
     <groupId>org.jooq</groupId>
     <artifactId>jool</artifactId>
-    <version>0.9.5</version>
+    <version>0.9.6</version>
     <packaging>jar</packaging>
 
     <name>jOOL</name>
@@ -162,6 +162,23 @@
                             <encoding>UTF-8</encoding>
                             <show>protected</show>
                             <notree>true</notree>
+                            <header>
+                            <![CDATA[
+                                <script type="text/javascript">
+                                  var _gaq = _gaq || [];
+                                  _gaq.push(['_setAccount', 'UA-30716479-1']);
+                                  _gaq.push(['_trackPageview']);
+                        
+                                  (function() {
+                                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                                  })();
+                                </script>
+                            ]]>
+                            </header>
+                            
+                            <!-- Avoid running into Java 8's very restrictive doclint issues -->
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </plugin>
