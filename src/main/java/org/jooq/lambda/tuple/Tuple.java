@@ -94,7 +94,7 @@ public interface Tuple extends Iterable<Object> {
     static <T, A1, D1> Collector<T, Tuple1<A1>, Tuple1<D1>> collectors(
         Collector<T, A1, D1> collector1
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple1<A1>, Tuple1<D1>>of(
             () -> tuple(
                 collector1.supplier().get()
             ),
@@ -117,7 +117,7 @@ public interface Tuple extends Iterable<Object> {
         Collector<T, A1, D1> collector1
       , Collector<T, A2, D2> collector2
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple2<A1, A2>, Tuple2<D1, D2>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
@@ -145,7 +145,7 @@ public interface Tuple extends Iterable<Object> {
       , Collector<T, A2, D2> collector2
       , Collector<T, A3, D3> collector3
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple3<A1, A2, A3>, Tuple3<D1, D2, D3>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
@@ -178,7 +178,7 @@ public interface Tuple extends Iterable<Object> {
       , Collector<T, A3, D3> collector3
       , Collector<T, A4, D4> collector4
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple4<A1, A2, A3, A4>, Tuple4<D1, D2, D3, D4>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
@@ -216,7 +216,7 @@ public interface Tuple extends Iterable<Object> {
       , Collector<T, A4, D4> collector4
       , Collector<T, A5, D5> collector5
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple5<A1, A2, A3, A4, A5>, Tuple5<D1, D2, D3, D4, D5>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
@@ -259,7 +259,7 @@ public interface Tuple extends Iterable<Object> {
       , Collector<T, A5, D5> collector5
       , Collector<T, A6, D6> collector6
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple6<A1, A2, A3, A4, A5, A6>, Tuple6<D1, D2, D3, D4, D5, D6>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
@@ -307,7 +307,7 @@ public interface Tuple extends Iterable<Object> {
       , Collector<T, A6, D6> collector6
       , Collector<T, A7, D7> collector7
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple7<A1, A2, A3, A4, A5, A6, A7>, Tuple7<D1, D2, D3, D4, D5, D6, D7>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
@@ -360,7 +360,7 @@ public interface Tuple extends Iterable<Object> {
       , Collector<T, A7, D7> collector7
       , Collector<T, A8, D8> collector8
     ) {
-        return Collector.of(
+        return Collector.<T, Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>, Tuple8<D1, D2, D3, D4, D5, D6, D7, D8>>of(
             () -> tuple(
                 collector1.supplier().get()
               , collector2.supplier().get()
