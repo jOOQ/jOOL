@@ -637,7 +637,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Wrap an Iterator into a Seq.
      */
     static <T> Seq<T> seq(Iterator<T> iterator) {
-        return seq(StreamSupport.stream(spliteratorUnknownSize(iterator, ORDERED), false));
+        return seq(spliteratorUnknownSize(iterator, ORDERED));
+    }
+
+    /**
+     * Wrap a Spliterator into a Seq.
+     */
+    static <T> Seq<T> seq(Spliterator<T> spliterator) {
+        return seq(StreamSupport.stream(spliterator, false));
     }
 
     /**
