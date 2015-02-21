@@ -305,11 +305,15 @@ public class SeqTest {
         assertEquals(asList(-1, -2, -3), u2.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u2.v2.toList());
 
-        Tuple2<Seq<Integer>, Seq<String>> u3 = Seq.unzip(s.get(), t -> tuple(-t.v1, t.v2 + "!"));
+        // Workaround for Eclipse bug: Explicit argument typing:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=460517
+        Tuple2<Seq<Integer>, Seq<String>> u3 = Seq.unzip(s.get(), (Tuple2<Integer, String> t) -> tuple(-t.v1, t.v2 + "!"));
         assertEquals(asList(-1, -2, -3), u3.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u3.v2.toList());
 
-        Tuple2<Seq<Integer>, Seq<String>> u4 = Seq.unzip(s.get(), (t1, t2) -> tuple(-t1, t2 + "!"));
+        // Workaround for Eclipse bug: Explicit argument typing:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=460517
+        Tuple2<Seq<Integer>, Seq<String>> u4 = Seq.unzip(s.get(), (Integer t1, String t2) -> tuple(-t1, t2 + "!"));
         assertEquals(asList(-1, -2, -3), u4.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u4.v2.toList());
     }
