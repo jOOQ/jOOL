@@ -620,7 +620,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Wrap a Stream into a Seq.
+     * Wrap a <code>Stream</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Stream<T> stream) {
         if (stream instanceof Seq)
@@ -630,44 +630,46 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Wrap an Iterable into a Seq.
+     * Wrap an <code>Iterable</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Iterable<T> iterable) {
         return seq(iterable.iterator());
     }
 
     /**
-     * Wrap an Iterator into a Seq.
+     * Wrap an <code>Iterator</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Iterator<T> iterator) {
         return seq(spliteratorUnknownSize(iterator, ORDERED));
     }
 
     /**
-     * Wrap a Spliterator into a Seq.
+     * Wrap a <code>Spliterator</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Spliterator<T> spliterator) {
         return seq(StreamSupport.stream(spliterator, false));
     }
 
     /**
-     * Wrap a Map into a Seq.
+     * Wrap a <code>Map</code> into a <code>Seq</code>.
      */
     static <K, V> Seq<Tuple2<K, V>> seq(Map<K, V> map) {
         return seq(map.entrySet()).map(e -> tuple(e.getKey(), e.getValue()));
     }
 
     /**
-     * Wrap an Optional into a Seq.
+     * Wrap an <code>Optional</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Optional<T> optional) {
         return optional.map(Seq::of).orElseGet(Seq::empty);
     }
 
     /**
-     * Wrap an InputStream into a Seq.
+     * Wrap an <code>InputStream</code> into a <code>Seq</code>.
      * <p>
-     * Client code must close the InputStream.
+     * Client code must close the <code>InputStream</code>. All
+     * {@link IOException}'s thrown be the <code>InputStream</code> are wrapped
+     * by {@link UncheckedIOException}'s.
      */
     static Seq<Byte> seq(InputStream is) {
         FunctionalSpliterator<Byte> i = consumer -> {

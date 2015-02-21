@@ -484,4 +484,10 @@ public class SeqTest {
         ByteArrayInputStream is1 = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });
         assertEquals(asList((byte) 0, (byte) 1, (byte) 2, (byte) 3), Seq.seq(is1).toList());
     }
+
+    @Test
+    public void testReader() {
+        ByteArrayInputStream is1 = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });
+        assertEquals(asList((byte) 0, (byte) 1, (byte) 2, (byte) 3), Seq.seq(is1).toList());
+    }
 }

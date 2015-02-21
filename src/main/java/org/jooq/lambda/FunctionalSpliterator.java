@@ -35,6 +35,6 @@ interface FunctionalSpliterator<T> extends Spliterator<T> {
 
     @Override
     default int characteristics() {
-        return 0;
+        return Spliterator.ORDERED;
     }
 }
