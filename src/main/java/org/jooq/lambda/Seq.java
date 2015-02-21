@@ -20,6 +20,9 @@ import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -659,6 +662,29 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     static <T> Seq<T> seq(Optional<T> optional) {
         return optional.map(Seq::of).orElseGet(Seq::empty);
+    }
+
+    /**
+     * Wrap an InputStream into a Seq.
+     * <p>
+     * Client code must close the InputStream.
+     */
+    static Seq<Byte> seq(InputStream is) {
+        FunctionalSpliterator<Byte> i = consumer -> {
+            try {
+                byte value = (byte) is.read();
+
+                if (value != -1)
+                    consumer.accept(value);
+
+                return value != -1;
+            }
+            catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
+
+        return seq(i);
     }
 
     /**

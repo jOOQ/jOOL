@@ -25,7 +25,7 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -112,7 +112,7 @@ public class SeqTest {
     }
 
     @Test
-    public void testToString() throws IOException {
+    public void testToString() {
         assertEquals("123", Seq.of(1, 2, 3).toString());
         assertEquals("1, 2, 3", Seq.of(1, 2, 3).toString(", "));
         assertEquals("1, null, 3", Seq.of(1, null, 3).toString(", "));
@@ -477,5 +477,11 @@ public class SeqTest {
     public void testOptional() {
         assertEquals(asList(1), Seq.seq(Optional.of(1)).toList());
         assertEquals(asList(), Seq.seq(Optional.empty()).toList());
+    }
+
+    @Test
+    public void testInputStream() {
+        ByteArrayInputStream is1 = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });
+        assertEquals(asList((byte) 0, (byte) 1, (byte) 2, (byte) 3), Seq.seq(is1).toList());
     }
 }
