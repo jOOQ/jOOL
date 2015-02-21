@@ -390,6 +390,11 @@ public class SeqTest {
     }
 
     @Test
+    public void testDistinct() {
+        assertEquals(asList(1, 2, 3), Seq.of(1, 1, 2, -2, 3).distinct(Math::abs).toList());
+    }
+
+    @Test
     public void testIterable() {
         List<Integer> list = Seq.of(1, 2, 3).toCollection(LinkedList::new);
 

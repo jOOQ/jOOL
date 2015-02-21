@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -124,6 +125,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Seq<T> cycle() {
         return cycle(this);
+    }
+
+    /**
+     * Get a stream of distinct keys.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 1, 2, -2, 3).distinct(Math::abs)
+     * </pre></code>
+     */
+    default <U> Seq<T> distinct(Function<? super T, ? extends U> keyExtractor) {
+        final Map<U, String> seen = new ConcurrentHashMap<>();
+        return filter(t -> seen.put(keyExtractor.apply(t), "") == null);
     }
 
     /**
