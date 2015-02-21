@@ -363,13 +363,17 @@ public class SeqTest {
 
     @Test
     public void testUnfold() {
+        // Workaround for Eclipse bug: Explicit argument typing:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=460517
         assertEquals(
             asList(0, 1, 2, 3, 4),
-            Seq.unfold(0, i -> i < 5 ? Optional.of(tuple(i, i + 1)) : Optional.empty()).toList());
+            Seq.unfold(0, (Integer i) -> i < 5 ? Optional.of(tuple(i, i + 1)) : Optional.empty()).toList());
 
+        // Workaround for Eclipse bug: Explicit argument typing:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=460517
         assertEquals(
             asList('a', 'b', 'c', 'd', 'e'),
-            Seq.unfold(0, i -> i < 5 ? Optional.of(tuple((char) ('a' + i), i + 1)) : Optional.empty()).toList());
+            Seq.unfold(0, (Integer i) -> i < 5 ? Optional.of(tuple((char) ('a' + i), i + 1)) : Optional.empty()).toList());
     }
 
     @Test
