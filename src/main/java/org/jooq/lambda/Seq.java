@@ -22,6 +22,7 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -672,12 +673,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * by {@link UncheckedIOException}'s.
      */
     static Seq<Byte> seq(InputStream is) {
-        FunctionalSpliterator<Byte> i = consumer -> {
+        FunctionalSpliterator<Byte> spliterator = consumer -> {
             try {
-                byte value = (byte) is.read();
+                int value = is.read();
 
                 if (value != -1)
-                    consumer.accept(value);
+                    consumer.accept((byte) value);
 
                 return value != -1;
             }
@@ -686,7 +687,32 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
             }
         };
 
-        return seq(i);
+        return seq(spliterator);
+    }
+
+    /**
+     * Wrap a <code>Reader</code> into a <code>Seq</code>.
+     * <p>
+     * Client code must close the <code>Reader</code>. All
+     * {@link IOException}'s thrown be the <code>InputStream</code> are wrapped
+     * by {@link UncheckedIOException}'s.
+     */
+    static Seq<Character> seq(Reader reader) {
+        FunctionalSpliterator<Character> spliterator = consumer -> {
+            try {
+                int value = reader.read();
+
+                if (value != -1)
+                    consumer.accept((char) value);
+
+                return value != -1;
+            }
+            catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
+
+        return seq(spliterator);
     }
 
     /**

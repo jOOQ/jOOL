@@ -26,7 +26,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -481,13 +483,16 @@ public class SeqTest {
 
     @Test
     public void testInputStream() {
-        ByteArrayInputStream is1 = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });
-        assertEquals(asList((byte) 0, (byte) 1, (byte) 2, (byte) 3), Seq.seq(is1).toList());
+        InputStream is = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });
+        assertEquals(asList((byte) 0, (byte) 1, (byte) 2, (byte) 3), Seq.seq(is).toList());
     }
 
     @Test
     public void testReader() {
-        ByteArrayInputStream is1 = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });
-        assertEquals(asList((byte) 0, (byte) 1, (byte) 2, (byte) 3), Seq.seq(is1).toList());
+        StringReader reader1 = new StringReader("abc");
+        assertEquals(asList('a', 'b', 'c'), Seq.seq(reader1).toList());
+
+        StringReader reader2 = new StringReader("abc");
+        assertEquals("abc", Seq.seq(reader2).join());
     }
 }
