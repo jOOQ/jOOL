@@ -446,7 +446,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * IntStream.of(1, 2, 3).reduce(Unchecked.intBinaryOperator((i1, i2) -> {
-     *     if (i2 < 0)
+     *     if (i2 &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return i1 + i2;
@@ -464,7 +464,7 @@ public final class Unchecked {
      * <code><pre>
      * IntStream.of(1, 2, 3).reduce(Unchecked.intBinaryOperator(
      *     (i1, i2) -> {
-     *         if (i2 < 0)
+     *         if (i2 &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return i1 + i2;
@@ -494,7 +494,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).reduce(Unchecked.longBinaryOperator((l1, l2) -> {
-     *     if (l2 < 0L)
+     *     if (l2 &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return l1 + l2;
@@ -512,7 +512,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).reduce(Unchecked.longBinaryOperator(
      *     (l1, l2) -> {
-     *         if (l2 < 0L)
+     *         if (l2 &lt; 0L)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return l1 + l2;
@@ -542,7 +542,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).reduce(Unchecked.doubleBinaryOperator((d1, d2) -> {
-     *     if (d2 < 0.0)
+     *     if (d2 &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return d1 + d2;
@@ -560,7 +560,7 @@ public final class Unchecked {
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).reduce(Unchecked.doubleBinaryOperator(
      *     (d1, d2) -> {
-     *         if (d2 < 0.0)
+     *         if (d2 &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return d1 + d2;
@@ -638,7 +638,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * Arrays.stream(new int[] { 1, 2 }).forEach(Unchecked.intConsumer(i -> {
-     *     if (i < 0)
+     *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      * }));
      * </pre></code>
@@ -654,7 +654,7 @@ public final class Unchecked {
      * <code><pre>
      * Arrays.stream(new int[] { 1, 2 }).forEach(Unchecked.intConsumer(
      *     i -> {
-     *         if (i < 0)
+     *         if (i &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *     },
      *     e -> {
@@ -682,7 +682,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * Arrays.stream(new long[] { 1L, 2L }).forEach(Unchecked.longConsumer(l -> {
-     *     if (l < 0)
+     *     if (l &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      * }));
      * </pre></code>
@@ -698,7 +698,7 @@ public final class Unchecked {
      * <code><pre>
      * Arrays.stream(new long[] { 1L, 2L }).forEach(Unchecked.longConsumer(
      *     l -> {
-     *         if (l < 0)
+     *         if (l &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *     },
      *     e -> {
@@ -726,7 +726,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * Arrays.stream(new double[] { 1.0, 2.0 }).forEach(Unchecked.doubleConsumer(d -> {
-     *     if (d < 0.0)
+     *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      * }));
      * </pre></code>
@@ -742,7 +742,7 @@ public final class Unchecked {
      * <code><pre>
      * Arrays.stream(new double[] { 1.0, 2.0 }).forEach(Unchecked.doubleConsumer(
      *     d -> {
-     *         if (d < 0.0)
+     *         if (d &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *     },
      *     e -> {
@@ -966,7 +966,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * IntStream.of(1, 2, 3).mapToObj(Unchecked.intFunction(i -> {
-     *     if (i < 0)
+     *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return "" + i;
@@ -984,7 +984,7 @@ public final class Unchecked {
      * <code><pre>
      * IntStream.of(1, 2, 3).mapToObj(Unchecked.intFunction(
      *     i -> {
-     *         if (i < 0)
+     *         if (i &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return "" + i;
@@ -1014,7 +1014,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * IntStream.of(1, 2, 3).mapToLong(Unchecked.intToLongFunction(i -> {
-     *     if (i < 0)
+     *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (long) i;
@@ -1032,7 +1032,7 @@ public final class Unchecked {
      * <code><pre>
      * IntStream.of(1, 2, 3).mapToLong(Unchecked.intToLongFunction(
      *     i -> {
-     *         if (i < 0)
+     *         if (i &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return (long) i;
@@ -1062,7 +1062,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * IntStream.of(1, 2, 3).mapToDouble(Unchecked.intToDoubleFunction(i -> {
-     *     if (i < 0)
+     *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (double) i;
@@ -1080,7 +1080,7 @@ public final class Unchecked {
      * <code><pre>
      * IntStream.of(1, 2, 3).mapToDouble(Unchecked.intToDoubleFunction(
      *     i -> {
-     *         if (i < 0)
+     *         if (i &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return (double) i;
@@ -1110,7 +1110,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).mapToObj(Unchecked.longFunction(l -> {
-     *     if (l < 0L)
+     *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return "" + l;
@@ -1128,7 +1128,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).mapToObj(Unchecked.longFunction(
      *     l -> {
-     *         if (l < 0L)
+     *         if (l &lt; 0L)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return "" + l;
@@ -1158,7 +1158,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToIntFunction(l -> {
-     *     if (l < 0L)
+     *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (int) l;
@@ -1176,7 +1176,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToIntFunction(
      *     l -> {
-     *         if (l < 0L)
+     *         if (l &lt; 0L)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return (int) l;
@@ -1206,7 +1206,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToDoubleFunction(l -> {
-     *     if (l < 0L)
+     *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (double) l;
@@ -1224,7 +1224,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToDoubleFunction(
      *     l -> {
-     *         if (l < 0L)
+     *         if (l &lt; 0L)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return (double) l;
@@ -1254,7 +1254,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToObj(Unchecked.doubleFunction(d -> {
-     *     if (d < 0.0)
+     *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return "" + d;
@@ -1272,7 +1272,7 @@ public final class Unchecked {
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToObj(Unchecked.doubleFunction(
      *     d -> {
-     *         if (d < 0.0)
+     *         if (d &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return "" + d;
@@ -1302,7 +1302,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToInt(Unchecked.doubleToIntFunction(d -> {
-     *     if (d < 0.0)
+     *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (int) d;
@@ -1320,7 +1320,7 @@ public final class Unchecked {
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToInt(Unchecked.doubleToIntFunction(
      *     d -> {
-     *         if (d < 0.0)
+     *         if (d &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return (int) d;
@@ -1350,7 +1350,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToLong(Unchecked.doubleToLongFunction(d -> {
-     *     if (d < 0.0)
+     *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (long) d;
@@ -1368,7 +1368,7 @@ public final class Unchecked {
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToLong(Unchecked.doubleToLongFunction(
      *     d -> {
-     *         if (d < 0.0)
+     *         if (d &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return (long) d;
@@ -1450,7 +1450,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * IntStream.of(1, 2, 3).filter(Unchecked.intPredicate(i -> {
-     *     if (i < 0)
+     *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return true;
@@ -1468,7 +1468,7 @@ public final class Unchecked {
      * <code><pre>
      * IntStream.of(1, 2, 3).filter(Unchecked.intPredicate(
      *     i -> {
-     *         if (i < 0)
+     *         if (i &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return true;
@@ -1498,7 +1498,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).filter(Unchecked.longPredicate(l -> {
-     *     if (l < 0L)
+     *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return true;
@@ -1516,7 +1516,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).filter(Unchecked.longPredicate(
      *     l -> {
-     *         if (l < 0L)
+     *         if (l &lt; 0L)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return true;
@@ -1546,7 +1546,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).filter(Unchecked.doublePredicate(d -> {
-     *     if (d < 0.0)
+     *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return true;
@@ -1564,7 +1564,7 @@ public final class Unchecked {
      * <code><pre>
      * DoubleStream.of(1.0, 2.0, 3.0).filter(Unchecked.doublePredicate(
      *     d -> {
-     *         if (d < 0.0)
+     *         if (d &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return true;
@@ -1855,7 +1855,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * IntStream.of(1, 2, 3).map(Unchecked.intUnaryOperator(i -> {
-     *     if (i < 0)
+     *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return i;
@@ -1873,7 +1873,7 @@ public final class Unchecked {
      * <code><pre>
      * IntStream.of(1, 2, 3).map(Unchecked.intUnaryOperator(
      *     i -> {
-     *         if (i < 0)
+     *         if (i &lt; 0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return i;
@@ -1903,7 +1903,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).map(Unchecked.longUnaryOperator(l -> {
-     *     if (l < 0L)
+     *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return l;
@@ -1921,7 +1921,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1L, 2L, 3L).map(Unchecked.longUnaryOperator(
      *     l -> {
-     *         if (l < 0L)
+     *         if (l &lt; 0L)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return l;
@@ -1951,7 +1951,7 @@ public final class Unchecked {
      * Example:
      * <code><pre>
      * LongStream.of(1.0, 2.0, 3.0).map(Unchecked.doubleUnaryOperator(d -> {
-     *     if (d < 0.0)
+     *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return d;
@@ -1969,7 +1969,7 @@ public final class Unchecked {
      * <code><pre>
      * LongStream.of(1.0, 2.0, 3.0).map(Unchecked.doubleUnaryOperator(
      *     d -> {
-     *         if (d < 0.0)
+     *         if (d &lt; 0.0)
      *             throw new Exception("Only positive numbers allowed");
      *
      *         return d;

@@ -275,7 +275,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <p>
      * <code><pre>
      * // (3, 4, 5)
-     * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3)
+     * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i &lt; 3)
      * </pre></code>
      *
      * @see #skipWhile(Stream, Predicate)
@@ -303,7 +303,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <p>
      * <code><pre>
      * // (1, 2)
-     * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3)
+     * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i &lt; 3)
      * </pre></code>
      *
      * @see #limitWhile(Stream, Predicate)
@@ -959,7 +959,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <p>
      * <code><pre>
      * // (1, 2, 3, 4, 5)
-     * Seq.unfold(1, i -> i <= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
+     * Seq.unfold(1, i -> i &lt;= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
      * </pre></code>
      */
     static <T, U> Seq<T> unfold(U seed, Function<U, Optional<Tuple2<T, U>>> unfolder) {
@@ -1187,7 +1187,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <p>
      * <code><pre>
      * // (3, 4, 5)
-     * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i < 3)
+     * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i &lt; 3)
      * </pre></code>
      */
     static <T> Seq<T> skipWhile(Stream<T> stream, Predicate<? super T> predicate) {
@@ -1261,7 +1261,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <p>
      * <code><pre>
      * // (1, 2)
-     * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3)
+     * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i &lt; 3)
      * </pre></code>
      */
     static <T> Seq<T> limitWhile(Stream<T> stream, Predicate<? super T> predicate) {
