@@ -41,6 +41,12 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple3;
+import org.jooq.lambda.tuple.Tuple4;
+import org.jooq.lambda.tuple.Tuple5;
+import org.jooq.lambda.tuple.Tuple6;
+import org.jooq.lambda.tuple.Tuple7;
+import org.jooq.lambda.tuple.Tuple8;
 
 import org.junit.Test;
 
@@ -71,6 +77,148 @@ public class SeqTest {
         assertEquals(2, (int) list.get(1).v1);
         assertEquals("a", list.get(0).v2);
         assertEquals("b", list.get(1).v2);
+    }
+
+    @Test
+    public void testZipStaticEqualLength() {
+       List<Tuple2<Integer, Long>> l1 =  Seq.zip(Seq.of(1, 2), Seq.of(11L, 12L)).toList();
+
+       assertEquals(2, l1.size());
+       assertEquals(1, (int) l1.get(0).v1);
+       assertEquals(2, (int) l1.get(1).v1);
+       assertEquals(11L, (long) l1.get(0).v2);
+       assertEquals(12L, (long) l1.get(1).v2);
+
+
+       List<Tuple3<Integer, Long, String>> l2 =  Seq.zip(Seq.of(1, 2), Seq.of(11L, 12L), Seq.of("a", "b")).toList();
+
+       assertEquals(2, l2.size());
+       assertEquals(1, (int) l2.get(0).v1);
+       assertEquals(2, (int) l2.get(1).v1);
+       assertEquals(11L, (long) l2.get(0).v2);
+       assertEquals(12L, (long) l2.get(1).v2);
+       assertEquals("a", l2.get(0).v3);
+       assertEquals("b", l2.get(1).v3);
+
+
+       List<Tuple4<Integer, Long, String, Integer>> l3 =  Seq.zip(
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2)
+       ).toList();
+
+       assertEquals(2, l3.size());
+       assertEquals(1, (int) l3.get(0).v1);
+       assertEquals(2, (int) l3.get(1).v1);
+       assertEquals(11L, (long) l3.get(0).v2);
+       assertEquals(12L, (long) l3.get(1).v2);
+       assertEquals("a", l3.get(0).v3);
+       assertEquals("b", l3.get(1).v3);
+       assertEquals(1, (int) l3.get(0).v4);
+       assertEquals(2, (int) l3.get(1).v4);
+
+
+       List<Tuple5<Integer, Long, String, Integer, Long>> l5 =  Seq.zip(
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2),
+           Seq.of(11L, 12L)
+       ).toList();
+
+       assertEquals(2, l5.size());
+       assertEquals(1, (int) l5.get(0).v1);
+       assertEquals(2, (int) l5.get(1).v1);
+       assertEquals(11L, (long) l5.get(0).v2);
+       assertEquals(12L, (long) l5.get(1).v2);
+       assertEquals("a", l5.get(0).v3);
+       assertEquals("b", l5.get(1).v3);
+       assertEquals(1, (int) l5.get(0).v4);
+       assertEquals(2, (int) l5.get(1).v4);
+       assertEquals(11L, (long) l5.get(0).v5);
+       assertEquals(12L, (long) l5.get(1).v5);
+
+
+       List<Tuple6<Integer, Long, String, Integer, Long, String>> l6 =  Seq.zip(
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b")
+       ).toList();
+
+       assertEquals(2, l6.size());
+       assertEquals(1, (int) l6.get(0).v1);
+       assertEquals(2, (int) l6.get(1).v1);
+       assertEquals(11L, (long) l6.get(0).v2);
+       assertEquals(12L, (long) l6.get(1).v2);
+       assertEquals("a", l6.get(0).v3);
+       assertEquals("b", l6.get(1).v3);
+       assertEquals(1, (int) l6.get(0).v4);
+       assertEquals(2, (int) l6.get(1).v4);
+       assertEquals(11L, (long) l6.get(0).v5);
+       assertEquals(12L, (long) l6.get(1).v5);
+       assertEquals("a", l6.get(0).v6);
+       assertEquals("b", l6.get(1).v6);
+
+
+       List<Tuple7<Integer, Long, String, Integer, Long, String, Integer>> l7 =  Seq.zip(
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2)
+       ).toList();
+
+       assertEquals(2, l7.size());
+       assertEquals(1, (int) l7.get(0).v1);
+       assertEquals(2, (int) l7.get(1).v1);
+       assertEquals(11L, (long) l7.get(0).v2);
+       assertEquals(12L, (long) l7.get(1).v2);
+       assertEquals("a", l7.get(0).v3);
+       assertEquals("b", l7.get(1).v3);
+       assertEquals(1, (int) l7.get(0).v4);
+       assertEquals(2, (int) l7.get(1).v4);
+       assertEquals(11L, (long) l7.get(0).v5);
+       assertEquals(12L, (long) l7.get(1).v5);
+       assertEquals("a", l7.get(0).v6);
+       assertEquals("b", l7.get(1).v6);
+       assertEquals(1, (int) l7.get(0).v7);
+       assertEquals(2, (int) l7.get(1).v7);
+
+
+       List<Tuple8<Integer, Long, String, Integer, Long, String, Integer, Long>> l8 =  Seq.zip(
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2),
+           Seq.of(11L, 12L),
+           Seq.of("a", "b"),
+           Seq.of(1, 2),
+           Seq.of(11L, 12L)
+       ).toList();
+
+       assertEquals(2, l8.size());
+       assertEquals(1, (int) l8.get(0).v1);
+       assertEquals(2, (int) l8.get(1).v1);
+       assertEquals(11L, (long) l8.get(0).v2);
+       assertEquals(12L, (long) l8.get(1).v2);
+       assertEquals("a", l8.get(0).v3);
+       assertEquals("b", l8.get(1).v3);
+       assertEquals(1, (int) l8.get(0).v4);
+       assertEquals(2, (int) l8.get(1).v4);
+       assertEquals(11L, (long) l8.get(0).v5);
+       assertEquals(12L, (long) l8.get(1).v5);
+       assertEquals("a", l8.get(0).v6);
+       assertEquals("b", l8.get(1).v6);
+       assertEquals(1, (int) l8.get(0).v7);
+       assertEquals(2, (int) l8.get(1).v7);
+       assertEquals(11L, (long) l8.get(0).v8);
+       assertEquals(12L, (long) l8.get(1).v8);
     }
 
     @Test

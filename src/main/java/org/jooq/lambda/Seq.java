@@ -56,8 +56,20 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.jooq.lambda.function.Function3;
+import org.jooq.lambda.function.Function4;
+import org.jooq.lambda.function.Function5;
+import org.jooq.lambda.function.Function6;
+import org.jooq.lambda.function.Function7;
+import org.jooq.lambda.function.Function8;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple3;
+import org.jooq.lambda.tuple.Tuple4;
+import org.jooq.lambda.tuple.Tuple5;
+import org.jooq.lambda.tuple.Tuple6;
+import org.jooq.lambda.tuple.Tuple7;
+import org.jooq.lambda.tuple.Tuple8;
 
 
 /**
@@ -811,29 +823,103 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
               .map2(s -> s.map(u -> u.v2));
     }
 
+ // [jooq-tools] START [zip-static]
+
     /**
-     * Zip two streams into one.
+     * Zip 2 streams into one.
      * <p>
      * <code><pre>
      * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> left, Stream<T2> right) {
-        return zip(left, right, Tuple::tuple);
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> s1, Stream<T2> s2) {
+        return zip(s1, s2, Tuple::tuple);
     }
 
     /**
-     * Zip two streams into one using a {@link BiFunction} to produce resulting values.
+     * Zip 3 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
+        return zip(s1, s2, s3, Tuple::tuple);
+    }
+
+    /**
+     * Zip 4 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
+        return zip(s1, s2, s3, s4, Tuple::tuple);
+    }
+
+    /**
+     * Zip 5 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
+        return zip(s1, s2, s3, s4, s5, Tuple::tuple);
+    }
+
+    /**
+     * Zip 6 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
+        return zip(s1, s2, s3, s4, s5, s6, Tuple::tuple);
+    }
+
+    /**
+     * Zip 7 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, Tuple::tuple);
+    }
+
+    /**
+     * Zip 8 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, Tuple::tuple);
+    }
+
+    /**
+     * Zip 2 streams into one using a {@link BiFunction} to produce resulting values.
      * <p>
      * <code><pre>
      * // ("1:a", "2:b", "3:c")
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, R> Seq<R> zip(Stream<T1> left, Stream<T2> right, BiFunction<T1, T2, R> zipper) {
-        final Iterator<T1> it1 = left.iterator();
-        final Iterator<T2> it2 = right.iterator();
+    static <T1, T2, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, BiFunction<T1, T2, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -849,6 +935,191 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
 
         return seq(new Zip());
     }
+
+    /**
+     * Zip 3 streams into one using a {@link Function3} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Function3<T1, T2, T3, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 4 streams into one using a {@link Function4} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Function4<T1, T2, T3, T4, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 5 streams into one using a {@link Function5} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Function5<T1, T2, T3, T4, T5, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 6 streams into one using a {@link Function6} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Function6<T1, T2, T3, T4, T5, T6, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 7 streams into one using a {@link Function7} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Function7<T1, T2, T3, T4, T5, T6, T7, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 8 streams into one using a {@link Function8} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+// [jooq-tools] END [zip-static]
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
