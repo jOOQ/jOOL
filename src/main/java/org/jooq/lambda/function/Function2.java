@@ -54,10 +54,16 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
         return function::apply;
     }
 
+    /**
+     * Partially apply this function to the arguments.
+     */
     default Function1<T2, R> curry(T1 v1){
         return v2 -> apply(v1, v2);
     }
 
+    /**
+     * Partially apply this function to the arguments.
+     */
     default Function0<R> curry(T1 v1, T2 v2){
         return () -> apply(v1, v2);
     }

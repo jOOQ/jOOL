@@ -55,7 +55,7 @@ public interface Function1<T1, R> extends Function<T1, R> {
     }
 
     /**
-     * Partially apply this function to return a {@link org.jooq.lambda.function.Function0}
+     * Partially apply this function to the arguments.
      */
     default Function0<R> curry(T1 v1){
         return () -> apply(v1);
