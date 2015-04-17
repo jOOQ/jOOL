@@ -36,4 +36,46 @@ public interface Function6<T1, T2, T3, T4, T5, T6, R> {
      * Apply this function to the arguments.
      */
     R apply(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6);
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function5<T2, T3, T4, T5, T6, R> curry(T1 v1){
+        return (v2, v3, v4, v5, v6) -> apply(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function4<T3, T4, T5, T6, R> curry(T1 v1, T2 v2){
+        return (v3, v4, v5, v6) -> apply(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function3<T4, T5, T6, R> curry(T1 v1, T2 v2, T3 v3){
+        return (v4, v5, v6) -> apply(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function2<T5, T6, R> curry(T1 v1, T2 v2, T3 v3, T4 v4){
+        return (v5, v6) -> apply(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function1<T6, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5){
+        return v6 -> apply(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6){
+        return () -> apply(v1, v2, v3, v4, v5, v6);
+    }
 }

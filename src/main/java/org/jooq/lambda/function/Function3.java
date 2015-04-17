@@ -36,4 +36,25 @@ public interface Function3<T1, T2, T3, R> {
      * Apply this function to the arguments.
      */
     R apply(T1 v1, T2 v2, T3 v3);
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function2<T2, T3, R> curry(T1 v1){
+        return (v2, v3) -> apply(v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function1<T3, R> curry(T1 v1, T2 v2){
+        return v3 -> apply(v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function0<R> curry(T1 v1, T2 v2, T3 v3){
+        return () -> apply(v1, v2, v3);
+    }
 }
