@@ -27,23 +27,24 @@ import org.junit.Test;
 public class CurryTest {
 
     @Test
-    public void testFunction5to3(){
+    public void testFunction5to3() {
         Tuple2<Integer, Integer> first = tuple(4, 4);
         Tuple3<Integer, Integer, Integer> second = tuple(5, 3, 2);
 
-        int curriedResult = lift(this::fiveArgMethod).curry(first.v1, first.v2).apply(second);//Curry with the first two values, then apply with the remaining three
-        int normalResult = lift(this::fiveArgMethod).apply(first.concat(second)); //Concat the two and three tuples and apply them together.
+        // Curry with the first two values, then apply with the remaining three
+        int curriedResult = lift(this::fiveArgMethod).curry(first.v1, first.v2).apply(second);
+
+        // Concat the two and three tuples and apply them together.
+        int normalResult = lift(this::fiveArgMethod).apply(first.concat(second));
 
         assertEquals(curriedResult, normalResult);
     }
 
-    private <A, B, C, D, E, F> Function5<A, B, C, D, E, F> lift(Function5<A, B, C, D, E, F> func){
+    private <A, B, C, D, E, F> Function5<A, B, C, D, E, F> lift(Function5<A, B, C, D, E, F> func) {
         return func;
     }
 
-
-    private int fiveArgMethod(int a, int b, int c, int d, int e){
+    private int fiveArgMethod(int a, int b, int c, int d, int e) {
         return a + b * c / d - e;
     }
-
 }

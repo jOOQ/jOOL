@@ -40,28 +40,28 @@ public interface Function4<T1, T2, T3, T4, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function3<T2, T3, T4, R> curry(T1 v1){
+    default Function3<T2, T3, T4, R> curry(T1 v1) {
         return (v2, v3, v4) -> apply(v1, v2, v3, v4);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T3, T4, R> curry(T1 v1, T2 v2){
+    default Function2<T3, T4, R> curry(T1 v1, T2 v2) {
         return (v3, v4) -> apply(v1, v2, v3, v4);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T4, R> curry(T1 v1, T2 v2, T3 v3){
-        return v4 -> apply(v1, v2, v3, v4);
+    default Function1<T4, R> curry(T1 v1, T2 v2, T3 v3) {
+        return (v4) -> apply(v1, v2, v3, v4);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4){
+    default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4) {
         return () -> apply(v1, v2, v3, v4);
     }
 }
