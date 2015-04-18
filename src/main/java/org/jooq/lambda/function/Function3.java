@@ -15,6 +15,9 @@
  */
 package org.jooq.lambda.function;
 
+
+import org.jooq.lambda.tuple.Tuple1;
+import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple3;
 
 /**
@@ -27,6 +30,8 @@ public interface Function3<T1, T2, T3, R> {
 
     /**
      * Apply this function to the arguments.
+     *
+     * @param args The arguments as a tuple.
      */
     default R apply(Tuple3<T1, T2, T3> args) {
         return apply(args.v1, args.v2, args.v3);
@@ -56,5 +61,26 @@ public interface Function3<T1, T2, T3, R> {
      */
     default Function0<R> curry(T1 v1, T2 v2, T3 v3) {
         return () -> apply(v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function2<T2, T3, R> curry(Tuple1<T1> args) {
+        return (v2, v3) -> apply(args.v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function1<T3, R> curry(Tuple2<T1, T2> args) {
+        return (v3) -> apply(args.v1, args.v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function0<R> curry(Tuple3<T1, T2, T3> args) {
+        return () -> apply(args.v1, args.v2, args.v3);
     }
 }

@@ -15,6 +15,12 @@
  */
 package org.jooq.lambda.function;
 
+
+import org.jooq.lambda.tuple.Tuple1;
+import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple3;
+import org.jooq.lambda.tuple.Tuple4;
+import org.jooq.lambda.tuple.Tuple5;
 import org.jooq.lambda.tuple.Tuple6;
 
 /**
@@ -27,6 +33,8 @@ public interface Function6<T1, T2, T3, T4, T5, T6, R> {
 
     /**
      * Apply this function to the arguments.
+     *
+     * @param args The arguments as a tuple.
      */
     default R apply(Tuple6<T1, T2, T3, T4, T5, T6> args) {
         return apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6);
@@ -77,5 +85,47 @@ public interface Function6<T1, T2, T3, T4, T5, T6, R> {
      */
     default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6) {
         return () -> apply(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function5<T2, T3, T4, T5, T6, R> curry(Tuple1<T1> args) {
+        return (v2, v3, v4, v5, v6) -> apply(args.v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function4<T3, T4, T5, T6, R> curry(Tuple2<T1, T2> args) {
+        return (v3, v4, v5, v6) -> apply(args.v1, args.v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function3<T4, T5, T6, R> curry(Tuple3<T1, T2, T3> args) {
+        return (v4, v5, v6) -> apply(args.v1, args.v2, args.v3, v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function2<T5, T6, R> curry(Tuple4<T1, T2, T3, T4> args) {
+        return (v5, v6) -> apply(args.v1, args.v2, args.v3, args.v4, v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function1<T6, R> curry(Tuple5<T1, T2, T3, T4, T5> args) {
+        return (v6) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, v6);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     */
+    default Function0<R> curry(Tuple6<T1, T2, T3, T4, T5, T6> args) {
+        return () -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6);
     }
 }

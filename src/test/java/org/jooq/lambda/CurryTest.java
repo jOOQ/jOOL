@@ -28,16 +28,22 @@ public class CurryTest {
 
     @Test
     public void testFunction5to3() {
-        Tuple2<Integer, Integer> first = tuple(4, 4);
-        Tuple3<Integer, Integer, Integer> second = tuple(5, 3, 2);
-
-        // Curry with the first two values, then apply with the remaining three
-        int curriedResult = lift(this::fiveArgMethod).curry(first.v1, first.v2).apply(second);
+        Tuple2<Integer, Integer> t1 = tuple(4, 4);
+        Tuple3<Integer, Integer, Integer> t2 = tuple(5, 3, 2);
 
         // Concat the two and three tuples and apply them together.
-        int normalResult = lift(this::fiveArgMethod).apply(first.concat(second));
+        int normal1 = lift(this::fiveArgMethod).apply(t1.concat(t2));
 
-        assertEquals(curriedResult, normalResult);
+        // Curry with the first two values, then apply with the remaining three
+        int curriedExplicitExplicit = lift(this::fiveArgMethod).curry(t1.v1, t1.v2).apply(t2.v1, t2.v2, t2.v3);
+        int curriedExplicitTuple = lift(this::fiveArgMethod).curry(t1.v1, t1.v2).apply(t2);
+        int curriedTupleExplicit = lift(this::fiveArgMethod).curry(t1).apply(t2.v1, t2.v2, t2.v3);
+        int curriedTupleTuple = lift(this::fiveArgMethod).curry(t1).apply(t2);
+
+        assertEquals(normal1, curriedExplicitExplicit);
+        assertEquals(normal1, curriedExplicitTuple);
+        assertEquals(normal1, curriedTupleExplicit);
+        assertEquals(normal1, curriedTupleTuple);
     }
 
     private <A, B, C, D, E, F> Function5<A, B, C, D, E, F> lift(Function5<A, B, C, D, E, F> func) {
