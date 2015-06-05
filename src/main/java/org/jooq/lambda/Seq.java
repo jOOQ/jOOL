@@ -643,6 +643,27 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Wrap a <code>IntStream</code> into a <code>Seq</code>.
+     */
+    static Seq<Integer> seq(IntStream stream) {
+        return new SeqImpl<>(stream.boxed());
+    }
+
+    /**
+     * Wrap a <code>IntStream</code> into a <code>Seq</code>.
+     */
+    static Seq<Long> seq(LongStream stream) {
+        return new SeqImpl<>(stream.boxed());
+    }
+
+    /**
+     * Wrap a <code>IntStream</code> into a <code>Seq</code>.
+     */
+    static Seq<Double> seq(DoubleStream stream) {
+        return new SeqImpl<>(stream.boxed());
+    }
+
+    /**
      * Wrap an <code>Iterable</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Iterable<T> iterable) {
