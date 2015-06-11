@@ -168,7 +168,7 @@
                                   var _gaq = _gaq || [];
                                   _gaq.push(['_setAccount', 'UA-30716479-1']);
                                   _gaq.push(['_trackPageview']);
-                        
+
                                   (function() {
                                     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
                                     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -177,7 +177,7 @@
                                 </script>
                             ]]>
                             </header>
-                            
+
                             <!-- Avoid running into Java 8's very restrictive doclint issues -->
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
@@ -232,7 +232,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>3.6.0</version>
+            <version>3.6.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
