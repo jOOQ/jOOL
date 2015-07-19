@@ -497,6 +497,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
               .map(t -> t.v1);
     }
 
+    /**
+     * Check if the sequence has any elements
+     */
+    default boolean isEmpty() {
+        return !findAny().isPresent();
+    }
+
+    /**
+     * Check if the sequence has no elements
+     */
+    default boolean isNotEmpty() {
+        return !isEmpty();
+    }
+
     // Methods taken from LINQ
     // -----------------------
 
@@ -1835,6 +1849,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
 
     @Override
     void close();
+
+    @Override
+    long count();
 
     // These methods have no effect
     // ----------------------------

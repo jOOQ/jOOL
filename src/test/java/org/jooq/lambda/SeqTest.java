@@ -23,7 +23,9 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -642,5 +644,16 @@ public class SeqTest {
 
         StringReader reader2 = new StringReader("abc");
         assertEquals("abc", Seq.seq(reader2).join());
+    }
+
+    @Test
+    public void testIsEmpty() {
+        assertTrue(Seq.empty().isEmpty());
+        assertFalse(Seq.empty().isNotEmpty());
+
+        assertFalse(Seq.of(1).isEmpty());
+        assertFalse(Seq.of(1, 2).isEmpty());
+        assertTrue(Seq.of(1).isNotEmpty());
+        assertTrue(Seq.of(1, 2).isNotEmpty());
     }
 }
