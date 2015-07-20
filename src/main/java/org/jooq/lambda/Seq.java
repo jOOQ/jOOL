@@ -511,6 +511,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return !isEmpty();
     }
 
+    /**
+     * Check if predicate is true for at least one element in the Stream.
+     */
+    default boolean exists(Predicate<? super T> predicate) {
+        return anyMatch(predicate);
+    }
+
     // Methods taken from LINQ
     // -----------------------
 
