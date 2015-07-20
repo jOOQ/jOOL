@@ -511,6 +511,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return !isEmpty();
     }
 
+    /**
+     * Sort by the results of function.
+     */
+    default <U extends Comparable<? super U>> Seq<T> sortBy(Function<? super T, ? extends U> function) {
+        return sorted(comparing(function));
+    }
+
     // Methods taken from LINQ
     // -----------------------
 
