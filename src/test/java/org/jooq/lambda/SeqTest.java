@@ -656,4 +656,12 @@ public class SeqTest {
         assertTrue(Seq.of(1).isNotEmpty());
         assertTrue(Seq.of(1, 2).isNotEmpty());
     }
+
+    @Test
+    public void testSortBy() {
+        Seq<Tuple2<Integer, String>> tuples = Seq.of(tuple(2, "two"), tuple(1, "one"));
+        List<Tuple2<Integer, String>> sorted = tuples.sortBy(t -> t.v1()).toList();
+        assertEquals("one", sorted.get(0).v2());
+        assertEquals("two", sorted.get(1).v2());
+    }
 }
