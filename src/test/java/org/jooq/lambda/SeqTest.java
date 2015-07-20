@@ -16,6 +16,7 @@
 package org.jooq.lambda;
 
 import static java.util.Arrays.asList;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.mapping;
@@ -658,10 +659,20 @@ public class SeqTest {
     }
 
     @Test
-    public void testSortBy() {
-        Seq<Tuple2<Integer, String>> tuples = Seq.of(tuple(2, "two"), tuple(1, "one"));
-        List<Tuple2<Integer, String>> sorted = tuples.sortBy(t -> t.v1()).toList();
-        assertEquals("one", sorted.get(0).v2());
-        assertEquals("two", sorted.get(1).v2());
+    public void testSorted() {
+        Seq<Tuple2<Integer, String>> t1 = Seq.of(tuple(2, "two"), tuple(1, "one"));
+        List<Tuple2<Integer, String>> s1 = t1.sorted().toList();
+        assertEquals(tuple(1, "one"), s1.get(0));
+        assertEquals(tuple(2, "two"), s1.get(1));
+
+        Seq<Tuple2<Integer, String>> t2 = Seq.of(tuple(2, "two"), tuple(1, "one"));
+        List<Tuple2<Integer, String>> s2 = t2.sorted(comparing(t -> t.v1())).toList();
+        assertEquals(tuple(1, "one"), s2.get(0));
+        assertEquals(tuple(2, "two"), s2.get(1));
+
+        Seq<Tuple2<Integer, String>> t3 = Seq.of(tuple(2, "two"), tuple(1, "one"));
+        List<Tuple2<Integer, String>> s3 = t3.sorted(t -> t.v1()).toList();
+        assertEquals(tuple(1, "one"), s3.get(0));
+        assertEquals(tuple(2, "two"), s3.get(1));
     }
 }
