@@ -656,4 +656,10 @@ public class SeqTest {
         assertTrue(Seq.of(1).isNotEmpty());
         assertTrue(Seq.of(1, 2).isNotEmpty());
     }
+
+    @Test
+    public void testExists() {
+        assertEquals(true, Seq.of(1, 2, 3).exists(i -> i > 2));
+        assertEquals(false, Seq.of(1, 2, 3).exists(i -> i > 3));
+    }
 }
