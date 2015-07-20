@@ -441,12 +441,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Collect a Stream into a List.
+     *
+     * @see #toList(Stream)
+     */
+    default <L extends List<T>> L toList(Supplier<L> listFactory) {
+        return toCollection(listFactory);
+    }
+
+    /**
      * Collect a Stream into a Set.
      *
      * @see #toSet(Stream)
      */
     default Set<T> toSet() {
         return toSet(this);
+    }
+
+    /**
+     * Collect a Stream into a Set.
+     *
+     * @see #toSet(Stream)
+     */
+    default <S extends Set<T>> S toSet(Supplier<S> setFactory) {
+        return toCollection(setFactory);
     }
 
     /**
