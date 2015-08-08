@@ -1395,6 +1395,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Stream<T1> s1, Stream<T2> s2) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<T2> list = seq(s2).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)));
     }
@@ -1408,6 +1410,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<Tuple2<T2, T3>> list = crossJoin(s2, s3).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)));
     }
@@ -1421,6 +1425,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<Tuple3<T2, T3, T4>> list = crossJoin(s2, s3, s4).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)));
     }
@@ -1434,6 +1440,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<Tuple4<T2, T3, T4, T5>> list = crossJoin(s2, s3, s4, s5).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)));
     }
@@ -1447,6 +1455,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<Tuple5<T2, T3, T4, T5, T6>> list = crossJoin(s2, s3, s4, s5, s6).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)));
     }
@@ -1460,6 +1470,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<Tuple6<T2, T3, T4, T5, T6, T7>> list = crossJoin(s2, s3, s4, s5, s6, s7).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)));
     }
@@ -1473,6 +1485,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
         return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)));
     }
