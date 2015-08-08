@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
 import org.jooq.lambda.tuple.Tuple2;
@@ -427,31 +428,32 @@ public class SeqTest {
 
     @Test
     public void testInnerJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
 
         assertEquals(asList(),
-            Seq.of().innerJoin(Seq.of(), t -> true).toList());
+            Seq.of().innerJoin(Seq.of(), TRUE).toList());
         assertEquals(asList(),
-            Seq.of().innerJoin(Seq.of(1), t -> true).toList());
+            Seq.of().innerJoin(Seq.of(1), TRUE).toList());
         assertEquals(asList(),
-            Seq.of().innerJoin(Seq.of(1, 2), t -> true).toList());
+            Seq.of().innerJoin(Seq.of(1, 2), TRUE).toList());
 
         assertEquals(asList(),
-            Seq.of("A").innerJoin(Seq.of(), t -> true).toList());
+            Seq.<Object>of(1).innerJoin(Seq.of(), TRUE).toList());
         assertEquals(asList(),
-            Seq.of(1).innerJoin(Seq.of(2), t -> t.v1 == t.v2).toList());
+            Seq.of(1).innerJoin(Seq.of(2), (t, u) -> t == u).toList());
         assertEquals(asList(
             tuple(1, 2)),
-            Seq.of(1).innerJoin(Seq.of(2), t -> t.v1 * 2 == t.v2).toList());
+            Seq.of(1).innerJoin(Seq.of(2), (t, u) -> t * 2 == u).toList());
         assertEquals(asList(
             tuple(1, 1)),
-            Seq.of(1).innerJoin(Seq.of(1, 2), t -> t.v1 == t.v2).toList());
+            Seq.of(1).innerJoin(Seq.of(1, 2), (t, u) -> t == u).toList());
         assertEquals(asList(
             tuple(1, 2)),
-            Seq.of(1).innerJoin(Seq.of(1, 2), t -> t.v1 * 2== t.v2).toList());
+            Seq.of(1).innerJoin(Seq.of(1, 2), (t, u) -> t * 2 == u).toList());
         assertEquals(asList(
             tuple(1, 1),
             tuple(1, 2)),
-            Seq.of(1).innerJoin(Seq.of(1, 2), t -> true).toList());
+            Seq.<Object>of(1).innerJoin(Seq.of(1, 2), TRUE).toList());
     }
 
     @Test

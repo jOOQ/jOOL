@@ -40,6 +40,7 @@ import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -102,17 +103,35 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
-     * Seq.of(1, 2, 3).crossJoin(Seq.of(2, 4))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> t.v)
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> innerJoin(Stream<U> other, Predicate<Tuple2<T, U>> predicate) {
+    default <U> Seq<Tuple2<T, U>> innerJoin(Stream<U> other, BiPredicate<T, U> predicate) {
 
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<U> list = seq(other).toList();
 
         return flatMap(t -> seq(list)
-              .filter(u -> predicate.test(tuple(t, u)))
-              .map(u -> tuple(t, u)));
+                           .filter(u -> predicate.test(t, u))
+                           .map(u -> tuple(t, u)));
+    }
+
+    /**
+     * Left outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2, 3).crossJoin(Seq.of(2, 4))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<U> other, Predicate<Tuple2<T, U>> predicate) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+        List<U> list = seq(other).toList();
+
+        return flatMap(t -> seq(list)
+                           .filter(u -> predicate.test(tuple(t, u)))
+                           .map(u -> tuple(t, u)));
     }
 
     /**
