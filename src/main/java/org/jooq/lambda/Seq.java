@@ -93,8 +93,26 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> crossJoin(Stream<U> s1) {
-        return Seq.crossJoin(this, s1);
+    default <U> Seq<Tuple2<T, U>> crossJoin(Stream<U> other) {
+        return Seq.crossJoin(this, other);
+    }
+
+    /**
+     * Inner join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2, 3).crossJoin(Seq.of(2, 4))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> innerJoin(Stream<U> other, Predicate<Tuple2<T, U>> predicate) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+        List<U> list = seq(other).toList();
+
+        return flatMap(t -> seq(list)
+              .filter(u -> predicate.test(tuple(t, u)))
+              .map(u -> tuple(t, u)));
     }
 
     /**

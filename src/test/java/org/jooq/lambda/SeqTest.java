@@ -423,7 +423,35 @@ public class SeqTest {
                 Seq.of("A", "B"),
                 Seq.of(1, 2)
             ).toList());
+    }
 
+    @Test
+    public void testInnerJoin() {
+
+        assertEquals(asList(),
+            Seq.of().innerJoin(Seq.of(), t -> true).toList());
+        assertEquals(asList(),
+            Seq.of().innerJoin(Seq.of(1), t -> true).toList());
+        assertEquals(asList(),
+            Seq.of().innerJoin(Seq.of(1, 2), t -> true).toList());
+
+        assertEquals(asList(),
+            Seq.of("A").innerJoin(Seq.of(), t -> true).toList());
+        assertEquals(asList(),
+            Seq.of(1).innerJoin(Seq.of(2), t -> t.v1 == t.v2).toList());
+        assertEquals(asList(
+            tuple(1, 2)),
+            Seq.of(1).innerJoin(Seq.of(2), t -> t.v1 * 2 == t.v2).toList());
+        assertEquals(asList(
+            tuple(1, 1)),
+            Seq.of(1).innerJoin(Seq.of(1, 2), t -> t.v1 == t.v2).toList());
+        assertEquals(asList(
+            tuple(1, 2)),
+            Seq.of(1).innerJoin(Seq.of(1, 2), t -> t.v1 * 2== t.v2).toList());
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(1, 2)),
+            Seq.of(1).innerJoin(Seq.of(1, 2), t -> true).toList());
     }
 
     @Test
