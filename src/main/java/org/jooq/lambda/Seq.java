@@ -86,6 +86,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     Stream<T> stream();
 
     /**
+     * Cross join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> crossJoin(Stream<U> s1) {
+        return Seq.crossJoin(this, s1);
+    }
+
+    /**
      * Concatenate two streams.
      * <p>
      * <code><pre>
@@ -1371,6 +1383,101 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         Collections.shuffle(list, random);
         return seq(list);
     }
+
+    // [jooq-tools] START [crossjoin-static]
+
+    /**
+     * Cross join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Stream<T1> s1, Stream<T2> s2) {
+        List<T2> list = seq(s2).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)));
+    }
+
+    /**
+     * Cross join 3 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
+        List<Tuple2<T2, T3>> list = crossJoin(s2, s3).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)));
+    }
+
+    /**
+     * Cross join 4 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
+        List<Tuple3<T2, T3, T4>> list = crossJoin(s2, s3, s4).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)));
+    }
+
+    /**
+     * Cross join 5 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
+        List<Tuple4<T2, T3, T4, T5>> list = crossJoin(s2, s3, s4, s5).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)));
+    }
+
+    /**
+     * Cross join 6 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
+        List<Tuple5<T2, T3, T4, T5, T6>> list = crossJoin(s2, s3, s4, s5, s6).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)));
+    }
+
+    /**
+     * Cross join 7 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
+        List<Tuple6<T2, T3, T4, T5, T6, T7>> list = crossJoin(s2, s3, s4, s5, s6, s7).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)));
+    }
+
+    /**
+     * Cross join 8 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
+        List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
+        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)));
+    }
+
+// [jooq-tools] END [crossjoin-static]
 
     /**
      * Concatenate a number of streams.

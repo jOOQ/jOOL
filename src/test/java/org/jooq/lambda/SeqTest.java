@@ -249,6 +249,184 @@ public class SeqTest {
     }
 
     @Test
+    public void testCrossJoin() {
+
+        // {A} x {B}
+        // ---------------------------------------------------------------------
+        assertEquals(asList(),
+            Seq.of().crossJoin(Seq.of()).toList());
+        assertEquals(asList(),
+            Seq.of().crossJoin(Seq.of(1)).toList());
+        assertEquals(asList(),
+            Seq.of().crossJoin(Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.of("A").crossJoin(Seq.of()).toList());
+        assertEquals(asList(
+            tuple("A", 1)),
+            Seq.of("A").crossJoin(Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("A", 1),
+            tuple("A", 2)),
+            Seq.of("A").crossJoin(Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.of("A", "B").crossJoin(Seq.of()).toList());
+        assertEquals(asList(
+            tuple("A", 1),
+            tuple("B", 1)),
+            Seq.of("A", "B").crossJoin(Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("A", 1),
+            tuple("A", 2),
+            tuple("B", 1),
+            tuple("B", 2)),
+            Seq.of("A", "B").crossJoin(Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.of("A", "B", "C").crossJoin(Seq.of()).toList());
+        assertEquals(asList(
+            tuple("A", 1),
+            tuple("B", 1),
+            tuple("C", 1)),
+            Seq.of("A", "B", "C").crossJoin(Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("A", 1),
+            tuple("A", 2),
+            tuple("B", 1),
+            tuple("B", 2),
+            tuple("C", 1),
+            tuple("C", 2)),
+            Seq.of("A", "B", "C").crossJoin(Seq.of(1, 2)).toList());
+
+
+        // {A} x {B} x {C}
+        // ---------------------------------------------------------------------
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of(), Seq.of()).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of(), Seq.of(1)).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of(), Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of("A"), Seq.of()).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of("A"), Seq.of(1)).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of("A"), Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of("A", "B"), Seq.of()).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of("A", "B"), Seq.of(1)).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of(), Seq.of("A", "B"), Seq.of(1, 2)).toList());
+
+
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X"), Seq.of(), Seq.of()).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X"), Seq.of(), Seq.of(1)).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X"), Seq.of(), Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X"), Seq.of("A"), Seq.of()).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1)),
+            Seq.crossJoin(Seq.of("X"), Seq.of("A"), Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("X", "A", 2)),
+            Seq.crossJoin(Seq.of("X"), Seq.of("A"), Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X"), Seq.of("A", "B"), Seq.of()).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("X", "B", 1)),
+            Seq.crossJoin(Seq.of("X"), Seq.of("A", "B"), Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("X", "A", 2),
+            tuple("X", "B", 1),
+            tuple("X", "B", 2)),
+            Seq.crossJoin(Seq.of("X"), Seq.of("A", "B"), Seq.of(1, 2)).toList());
+
+
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of(), Seq.of()).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of(), Seq.of(1)).toList());
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of(), Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of("A"), Seq.of()).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("Y", "A", 1)),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of("A"), Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("X", "A", 2),
+            tuple("Y", "A", 1),
+            tuple("Y", "A", 2)),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of("A"), Seq.of(1, 2)).toList());
+
+        assertEquals(asList(),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of("A", "B"), Seq.of()).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("X", "B", 1),
+            tuple("Y", "A", 1),
+            tuple("Y", "B", 1)),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of("A", "B"), Seq.of(1)).toList());
+        assertEquals(asList(
+            tuple("X", "A", 1),
+            tuple("X", "A", 2),
+            tuple("X", "B", 1),
+            tuple("X", "B", 2),
+            tuple("Y", "A", 1),
+            tuple("Y", "A", 2),
+            tuple("Y", "B", 1),
+            tuple("Y", "B", 2)),
+            Seq.crossJoin(Seq.of("X", "Y"), Seq.of("A", "B"), Seq.of(1, 2)).toList());
+
+
+
+        // {A} x {B} x {C} x {D}
+        // ---------------------------------------------------------------------
+        assertEquals(asList(
+            tuple("(", "X", "A", 1),
+            tuple("(", "X", "A", 2),
+            tuple("(", "X", "B", 1),
+            tuple("(", "X", "B", 2),
+            tuple("(", "Y", "A", 1),
+            tuple("(", "Y", "A", 2),
+            tuple("(", "Y", "B", 1),
+            tuple("(", "Y", "B", 2),
+            tuple(")", "X", "A", 1),
+            tuple(")", "X", "A", 2),
+            tuple(")", "X", "B", 1),
+            tuple(")", "X", "B", 2),
+            tuple(")", "Y", "A", 1),
+            tuple(")", "Y", "A", 2),
+            tuple(")", "Y", "B", 1),
+            tuple(")", "Y", "B", 2)),
+            Seq.crossJoin(
+                Seq.of("(", ")"),
+                Seq.of("X", "Y"),
+                Seq.of("A", "B"),
+                Seq.of(1, 2)
+            ).toList());
+
+    }
+
+    @Test
     public void testConcat() {
         assertEquals(asList(1, 2, 3, 4), Seq.of(1).concat(Seq.of(2, 3, 4)).toList());
         assertEquals(asList(1, 2, 3, 4), Seq.of(1, 2).concat(Seq.of(3, 4)).toList());
