@@ -136,6 +136,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Right outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(null, 3))
+     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Stream<U> other, BiPredicate<T, U> predicate) {
+        return seq(other)
+              .leftOuterJoin(this, (u, t) -> predicate.test(t, u))
+              .map(t -> tuple(t.v2, t.v1));
+    }
+
+    /**
      * Produce this stream, or an alternative stream from the
      * <code>value</code>, in case this stream is empty.
      */

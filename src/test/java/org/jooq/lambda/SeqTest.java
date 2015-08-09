@@ -458,7 +458,7 @@ public class SeqTest {
     }
 
     @Test
-    public void testLeftJoin() {
+    public void testLeftOuterJoin() {
         BiPredicate<Object, Object> TRUE = (t, u) -> true;
 
         assertEquals(asList(),
@@ -487,6 +487,42 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).leftOuterJoin(Seq.of(1, 2), TRUE).toList());
+    }
+
+    @Test
+    public void testRightOuterJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+            Seq.of().rightOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(
+            tuple(null, 1)),
+            Seq.of().rightOuterJoin(Seq.of(1), TRUE).toList());
+        assertEquals(asList(
+            tuple(null, 1),
+            tuple(null, 2)),
+            Seq.of().rightOuterJoin(Seq.of(1, 2), TRUE).toList());
+
+        assertEquals(asList(),
+            Seq.<Object>of(1).rightOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(
+            tuple(null, 2)),
+            Seq.of(1).rightOuterJoin(Seq.of(2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+            tuple(1, 2)),
+            Seq.of(1).rightOuterJoin(Seq.of(2), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(null, 2)),
+            Seq.of(1).rightOuterJoin(Seq.of(1, 2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+            tuple(null, 1),
+            tuple(1, 2)),
+            Seq.of(1).rightOuterJoin(Seq.of(1, 2), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(1, 2)),
+            Seq.<Object>of(1).rightOuterJoin(Seq.of(1, 2), TRUE).toList());
     }
 
     @Test
