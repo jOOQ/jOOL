@@ -529,7 +529,7 @@ public class SeqTest {
     public void testOnEmpty() throws X {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
-        assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()));
+        assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()).toList());
 
         assertEquals(asList(2), Seq.of(2).onEmpty(1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyGet(() -> 1).toList());

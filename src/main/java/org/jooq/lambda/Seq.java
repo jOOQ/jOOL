@@ -164,27 +164,68 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     default Seq<T> onEmptyGet(Supplier<T> supplier) {
         Iterator<T> it = iterator();
 
-        if (it.hasNext()) {
-            return seq(it);
+        class OnEmptyGet implements Iterator<T> {
+            Iterator<T> delegate;
+
+            private Iterator<T> delegate() {
+                if (delegate == null) {
+                    if (it.hasNext())
+                        delegate = it;
+                    else
+                        delegate = of(supplier.get()).iterator();
+                }
+
+                return delegate;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return delegate().hasNext();
+            }
+
+            @Override
+            public T next() {
+                return delegate().next();
+            }
         }
-        else {
-            return Seq.of(supplier.get());
-        }
+
+        return seq(new OnEmptyGet());
     }
 
     /**
      * Produce this stream, or an alternative stream from the
      * <code>supplier</code>, in case this stream is empty.
      */
-    default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<X> supplier) throws X {
+    default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<X> supplier) {
         Iterator<T> it = iterator();
 
-        if (it.hasNext()) {
-            return seq(it);
+        class OnEmptyThrow implements Iterator<T> {
+            Iterator<T> delegate;
+
+            @SuppressWarnings("unchecked")
+            private <E extends Throwable> Iterator<T> delegate() throws E {
+                if (delegate == null) {
+                    if (it.hasNext())
+                        delegate = it;
+                    else
+                        throw (E) supplier.get();
+                }
+
+                return delegate;
+            }
+
+            @Override
+            public boolean hasNext() {
+                return delegate().hasNext();
+            }
+
+            @Override
+            public T next() {
+                return delegate().next();
+            }
         }
-        else {
-            throw supplier.get();
-        }
+
+        return seq(new OnEmptyThrow());
     }
 
     /**
