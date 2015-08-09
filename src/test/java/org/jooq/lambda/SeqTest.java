@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.mapping;
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
@@ -455,6 +456,56 @@ public class SeqTest {
             tuple(1, 2)),
             Seq.<Object>of(1).innerJoin(Seq.of(1, 2), TRUE).toList());
     }
+
+    @Test
+    public void testLeftJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+            Seq.of().leftOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(),
+            Seq.of().leftOuterJoin(Seq.of(1), TRUE).toList());
+        assertEquals(asList(),
+            Seq.of().leftOuterJoin(Seq.of(1, 2), TRUE).toList());
+
+        assertEquals(asList(
+            tuple(1, null)),
+            Seq.<Object>of(1).leftOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(
+            tuple(1, null)),
+            Seq.of(1).leftOuterJoin(Seq.of(2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+            tuple(1, 2)),
+            Seq.of(1).leftOuterJoin(Seq.of(2), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+            tuple(1, 1)),
+            Seq.of(1).leftOuterJoin(Seq.of(1, 2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+            tuple(1, 2)),
+            Seq.of(1).leftOuterJoin(Seq.of(1, 2), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(1, 2)),
+            Seq.<Object>of(1).leftOuterJoin(Seq.of(1, 2), TRUE).toList());
+    }
+
+    @Test
+    public void testOnEmpty() throws X {
+        assertEquals(asList(1), Seq.of().onEmpty(1).toList());
+        assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
+        assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()));
+
+        assertEquals(asList(2), Seq.of(2).onEmpty(1).toList());
+        assertEquals(asList(2), Seq.of(2).onEmptyGet(() -> 1).toList());
+        assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new X()).toList());
+
+        assertEquals(asList(2, 3), Seq.of(2, 3).onEmpty(1).toList());
+        assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyGet(() -> 1).toList());
+        assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new X()).toList());
+    }
+
+    @SuppressWarnings("serial")
+    class X extends Exception {}
 
     @Test
     public void testConcat() {

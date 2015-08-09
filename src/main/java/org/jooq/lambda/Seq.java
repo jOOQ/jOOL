@@ -102,8 +102,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Inner join 2 streams into one.
      * <p>
      * <code><pre>
-     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
-     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> t.v)
+     * // (tuple(1, 1), tuple(2, 2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> innerJoin(Stream<U> other, BiPredicate<T, U> predicate) {
@@ -120,18 +120,57 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Left outer join 2 streams into one.
      * <p>
      * <code><pre>
-     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
-     * Seq.of(1, 2, 3).crossJoin(Seq.of(2, 4))
+     * // (tuple(1, 1), tuple(2, 2), tuple(3, null))
+     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<U> other, Predicate<Tuple2<T, U>> predicate) {
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<U> other, BiPredicate<T, U> predicate) {
 
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<U> list = seq(other).toList();
 
         return flatMap(t -> seq(list)
-                           .filter(u -> predicate.test(tuple(t, u)))
+                           .filter(u -> predicate.test(t, u))
+                           .onEmpty(null)
                            .map(u -> tuple(t, u)));
+    }
+
+    /**
+     * Produce this stream, or an alternative stream from the
+     * <code>value</code>, in case this stream is empty.
+     */
+    default Seq<T> onEmpty(T value) {
+        return onEmptyGet(() -> value);
+    }
+
+    /**
+     * Produce this stream, or an alternative stream from the
+     * <code>supplier</code>, in case this stream is empty.
+     */
+    default Seq<T> onEmptyGet(Supplier<T> supplier) {
+        Iterator<T> it = iterator();
+
+        if (it.hasNext()) {
+            return seq(it);
+        }
+        else {
+            return Seq.of(supplier.get());
+        }
+    }
+
+    /**
+     * Produce this stream, or an alternative stream from the
+     * <code>supplier</code>, in case this stream is empty.
+     */
+    default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<X> supplier) throws X {
+        Iterator<T> it = iterator();
+
+        if (it.hasNext()) {
+            return seq(it);
+        }
+        else {
+            throw supplier.get();
+        }
     }
 
     /**
