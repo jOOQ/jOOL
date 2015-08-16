@@ -1681,8 +1681,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                     gap.offer(value);
                     return value;
                 }
+                else {
+                    T value = gap.poll();
 
-                return gap.poll();
+                    if (gap.isEmpty())
+                        ahead[0] = null;
+
+                    return value;
+                }
             }
         }
 
