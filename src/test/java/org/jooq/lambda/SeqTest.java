@@ -33,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -797,6 +798,29 @@ public class SeqTest {
         Tuple2<Seq<Integer>, Seq<String>> u4 = Seq.unzip(s.get(), (Integer t1, String t2) -> tuple(-t1, t2 + "!"));
         assertEquals(asList(-1, -2, -3), u4.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u4.v2.toList());
+    }
+
+    @Test
+    public void testUnzipWithLimits() {
+        // Test contributed by John McClean on
+        // https://github.com/jOOQ/jOOL/issues/103
+        Supplier<Seq<Tuple2<Integer, String>>> s = () -> Seq.of(
+            tuple(1, "a"),
+            tuple(2, "b"),
+            tuple(3, "c")
+        );
+
+        Tuple2<Seq<Integer>, Seq<String>> unzipped;
+
+        // Consume v1 first
+        unzipped = Seq.unzip(s.get()).map1(s1 -> s1.limit(2));
+        assertEquals(Arrays.asList(1, 2), unzipped.v1.toList());
+        assertEquals(Arrays.asList("a", "b", "c"), unzipped.v2.toList());
+
+        // Consume v2 first
+        unzipped = Seq.unzip(s.get()).map1(s1 -> s1.limit(2));
+        assertEquals(Arrays.asList("a", "b", "c"), unzipped.v2.toList());
+        assertEquals(Arrays.asList(1, 2), unzipped.v1.toList());
     }
 
     @Test
