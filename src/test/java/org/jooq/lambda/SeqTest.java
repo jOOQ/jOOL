@@ -272,8 +272,13 @@ public class SeqTest {
         Supplier<Tuple2<Seq<Integer>, Seq<Integer>>> reset = () -> Seq.of(1, 2, 3, 4, 5).duplicate();
         Tuple2<Seq<Integer>, Seq<Integer>> duplicate;
 
+        // Consume v1 first
         duplicate = reset.get().map((s1, s2) -> tuple(s1.limit(2), s2.skip(2)));
+        assertEquals(asList(1, 2), duplicate.v1.toList());
+        assertEquals(asList(3, 4, 5), duplicate.v2.toList());
 
+        // Consume v2 first
+        duplicate = reset.get().map((s1, s2) -> tuple(s1.limit(2), s2.skip(2)));
         assertEquals(asList(1, 2), duplicate.v1.toList());
         assertEquals(asList(3, 4, 5), duplicate.v2.toList());
     }
