@@ -251,6 +251,28 @@ public class SeqTest {
     }
 
     @Test
+    public void testDuplicateWithModifications() {
+        Supplier<Tuple2<Seq<Integer>, Seq<Integer>>> reset = () -> Seq.of(1, 2, 3, 4, 5).duplicate();
+        Tuple2<Seq<Integer>, Seq<Integer>> duplicate;
+
+        // Filter each seq individually
+        duplicate = reset.get().map((s1, s2) -> tuple(s1.filter(i -> i % 2 == 0), s2.filter(i -> i % 2 != 0)));
+        assertEquals(asList(2, 4), duplicate.v1.toList());
+        assertEquals(asList(1, 3, 5), duplicate.v2.toList());
+
+        duplicate = reset.get()
+            .map1(s1 -> s1.filter(i -> i % 2 == 0))
+            .map2(s2 -> s2.filter(i -> i % 2 != 0));
+        assertEquals(asList(2, 4), duplicate.v1.toList());
+        assertEquals(asList(1, 3, 5), duplicate.v2.toList());
+
+        duplicate = reset.get().map((s1, s2) -> tuple(s1.limit(2), s2.skip(2)));
+
+        assertEquals(asList(1, 2), duplicate.v1.toList());
+        assertEquals(asList(3, 4, 5), duplicate.v2.toList());
+    }
+
+    @Test
     public void testCrossJoin() {
 
         // {A} x {B}
