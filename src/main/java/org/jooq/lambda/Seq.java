@@ -57,6 +57,8 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.annotation.Generated;
+
 import org.jooq.lambda.function.Function3;
 import org.jooq.lambda.function.Function4;
 import org.jooq.lambda.function.Function5;
@@ -99,6 +101,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Cross join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> crossJoin(Iterable<U> other) {
+        return Seq.crossJoin(this, other);
+    }
+
+    /**
+     * Cross join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> crossJoin(Seq<U> other) {
+        return Seq.crossJoin(this, other);
+    }
+
+    /**
      * Inner join 2 streams into one.
      * <p>
      * <code><pre>
@@ -107,9 +133,33 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> innerJoin(Stream<U> other, BiPredicate<T, U> predicate) {
+        return innerJoin(seq(other), predicate);
+    }
+
+    /**
+     * Inner join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> innerJoin(Iterable<U> other, BiPredicate<T, U> predicate) {
+        return innerJoin(seq(other), predicate);
+    }
+
+    /**
+     * Inner join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> innerJoin(Seq<U> other, BiPredicate<T, U> predicate) {
 
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<U> list = seq(other).toList();
+        List<U> list = other.toList();
 
         return flatMap(t -> seq(list)
                            .filter(u -> predicate.test(t, u))
@@ -125,9 +175,33 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<U> other, BiPredicate<T, U> predicate) {
+        return leftOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Left outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(3, null))
+     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Iterable<U> other, BiPredicate<T, U> predicate) {
+        return leftOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Left outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(3, null))
+     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Seq<U> other, BiPredicate<T, U> predicate) {
 
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<U> list = seq(other).toList();
+        List<U> list = other.toList();
 
         return flatMap(t -> seq(list)
                            .filter(u -> predicate.test(t, u))
@@ -144,7 +218,31 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> rightOuterJoin(Stream<U> other, BiPredicate<T, U> predicate) {
-        return seq(other)
+        return rightOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Right outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(null, 3))
+     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Iterable<U> other, BiPredicate<T, U> predicate) {
+        return rightOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Right outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(null, 3))
+     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Seq<U> other, BiPredicate<T, U> predicate) {
+        return other
               .leftOuterJoin(this, (u, t) -> predicate.test(t, u))
               .map(t -> tuple(t.v2, t.v1));
     }
@@ -238,9 +336,37 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @see #concat(Stream[])
      */
-    @SuppressWarnings({ "unchecked" })
     default Seq<T> concat(Stream<T> other) {
-        return Seq.concat(new Stream[] { this, other });
+        return concat(seq(other));
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> concat(Iterable<T> other) {
+        return concat(seq(other));
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    @SuppressWarnings({ "unchecked" })
+    default Seq<T> concat(Seq<T> other) {
+        return Seq.concat(new Seq[] { this, other });
     }
 
     /**
@@ -309,8 +435,64 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @see #zip(Stream, Stream)
      */
+    default <U> Seq<Tuple2<T, U>> zip(Stream<U> other) {
+        return zip(seq(other));
+    }
+
+    /**
+     * Zip two streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     *
+     * @see #zip(Stream, Stream)
+     */
+    default <U> Seq<Tuple2<T, U>> zip(Iterable<U> other) {
+        return zip(seq(other));
+    }
+
+    /**
+     * Zip two streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     *
+     * @see #zip(Stream, Stream)
+     */
     default <U> Seq<Tuple2<T, U>> zip(Seq<U> other) {
         return zip(this, other);
+    }
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     *
+     * @see #zip(Seq, BiFunction)
+     */
+    default <U, R> Seq<R> zip(Stream<U> other, BiFunction<T, U, R> zipper) {
+        return zip(seq(other), zipper);
+    }
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     *
+     * @see #zip(Seq, BiFunction)
+     */
+    default <U, R> Seq<R> zip(Iterable<U> other, BiFunction<T, U, R> zipper) {
+        return zip(seq(other), zipper);
     }
 
     /**
@@ -825,6 +1007,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Wrap a <code>Stream</code> into a <code>Seq</code>.
+     */
+    static <T> Seq<T> seq(Seq<T> stream) {
+        return stream;
+    }
+
+    /**
      * Wrap a <code>IntStream</code> into a <code>Seq</code>.
      */
     static Seq<Integer> seq(IntStream stream) {
@@ -939,6 +1128,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<T> cycle(Stream<T> stream) {
+        return cycle(seq(stream));
+    }
+
+    /**
+     * Repeat a stream infinitely.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 1, 2, 3, ...)
+     * Seq.of(1, 2, 3).cycle();
+     * </pre></code>
+     */
+    static <T> Seq<T> cycle(Iterable<T> iterable) {
+        return cycle(seq(iterable));
+    }
+
+    /**
+     * Repeat a stream infinitely.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 1, 2, 3, ...)
+     * Seq.of(1, 2, 3).cycle();
+     * </pre></code>
+     */
+    static <T> Seq<T> cycle(Seq<T> stream) {
         final List<T> list = new ArrayList<>();
 
         class Cycle implements Iterator<T> {
@@ -983,7 +1196,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2> Tuple2<Seq<T1>, Seq<T2>> unzip(Stream<Tuple2<T1, T2>> stream) {
-        return unzip(stream, t -> t);
+        return unzip(seq(stream));
     }
 
     /**
@@ -995,7 +1208,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function<T1, U1> leftUnzipper, Function<T2, U2> rightUnzipper) {
-        return unzip(stream, t -> tuple(leftUnzipper.apply(t.v1), rightUnzipper.apply(t.v2)));
+        return unzip(seq(stream), leftUnzipper, rightUnzipper);
     }
 
     /**
@@ -1007,7 +1220,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, Function<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
-        return unzip(stream, (t1, t2) -> unzipper.apply(tuple(t1, t2)));
+        return unzip(seq(stream), unzipper);
     }
 
     /**
@@ -1019,7 +1232,103 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Stream<Tuple2<T1, T2>> stream, BiFunction<T1, T2, Tuple2<U1, U2>> unzipper) {
-        return seq(stream)
+        return unzip(seq(stream), unzipper);
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2> Tuple2<Seq<T1>, Seq<T2>> unzip(Iterable<Tuple2<T1, T2>> iterable) {
+        return unzip(seq(iterable));
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Iterable<Tuple2<T1, T2>> iterable, Function<T1, U1> leftUnzipper, Function<T2, U2> rightUnzipper) {
+        return unzip(seq(iterable), leftUnzipper, rightUnzipper);
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Iterable<Tuple2<T1, T2>> iterable, Function<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
+        return unzip(seq(iterable), unzipper);
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Iterable<Tuple2<T1, T2>> iterable, BiFunction<T1, T2, Tuple2<U1, U2>> unzipper) {
+        return unzip(seq(iterable), unzipper);
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2> Tuple2<Seq<T1>, Seq<T2>> unzip(Seq<Tuple2<T1, T2>> stream) {
+        return unzip(stream, t -> t);
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Seq<Tuple2<T1, T2>> stream, Function<T1, U1> leftUnzipper, Function<T2, U2> rightUnzipper) {
+        return unzip(stream, t -> tuple(leftUnzipper.apply(t.v1), rightUnzipper.apply(t.v2)));
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Seq<Tuple2<T1, T2>> stream, Function<Tuple2<T1, T2>, Tuple2<U1, U2>> unzipper) {
+        return unzip(stream, (t1, t2) -> unzipper.apply(tuple(t1, t2)));
+    }
+
+    /**
+     * Unzip one Stream into two.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c")));
+     * </pre></code>
+     */
+    static <T1, T2, U1, U2> Tuple2<Seq<U1>, Seq<U2>> unzip(Seq<Tuple2<T1, T2>> stream, BiFunction<T1, T2, Tuple2<U1, U2>> unzipper) {
+        return stream
               .map(t -> unzipper.apply(t.v1, t.v2))
               .duplicate()
               .map1(s -> s.map(u -> u.v1))
@@ -1036,8 +1345,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> s1, Stream<T2> s2) {
-        return zip(s1, s2, Tuple::tuple);
+        return zip(seq(s1), seq(s2));
     }
 
     /**
@@ -1048,8 +1358,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
-        return zip(s1, s2, s3, Tuple::tuple);
+        return zip(seq(s1), seq(s2), seq(s3));
     }
 
     /**
@@ -1060,8 +1371,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
-        return zip(s1, s2, s3, s4, Tuple::tuple);
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4));
     }
 
     /**
@@ -1072,8 +1384,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
-        return zip(s1, s2, s3, s4, s5, Tuple::tuple);
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5));
     }
 
     /**
@@ -1084,8 +1397,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
-        return zip(s1, s2, s3, s4, s5, s6, Tuple::tuple);
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6));
     }
 
     /**
@@ -1096,8 +1410,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, Tuple::tuple);
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7));
     }
 
     /**
@@ -1108,8 +1423,191 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, Tuple::tuple);
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8));
+    }
+
+    /**
+     * Zip 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Iterable<T1> i1, Iterable<T2> i2) {
+        return zip(seq(i1), seq(i2));
+    }
+
+    /**
+     * Zip 3 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3) {
+        return zip(seq(i1), seq(i2), seq(i3));
+    }
+
+    /**
+     * Zip 4 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4));
+    }
+
+    /**
+     * Zip 5 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5));
+    }
+
+    /**
+     * Zip 6 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6));
+    }
+
+    /**
+     * Zip 7 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7));
+    }
+
+    /**
+     * Zip 8 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
+    }
+
+    /**
+     * Zip 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Seq<T1> s1, Seq<T2> s2) {
+        return zip(s1, s2, (t1, t2) -> tuple(t1, t2));
+    }
+
+    /**
+     * Zip 3 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3) {
+        return zip(s1, s2, s3, (t1, t2, t3) -> tuple(t1, t2, t3));
+    }
+
+    /**
+     * Zip 4 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4) {
+        return zip(s1, s2, s3, s4, (t1, t2, t3, t4) -> tuple(t1, t2, t3, t4));
+    }
+
+    /**
+     * Zip 5 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5) {
+        return zip(s1, s2, s3, s4, s5, (t1, t2, t3, t4, t5) -> tuple(t1, t2, t3, t4, t5));
+    }
+
+    /**
+     * Zip 6 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6) {
+        return zip(s1, s2, s3, s4, s5, s6, (t1, t2, t3, t4, t5, t6) -> tuple(t1, t2, t3, t4, t5, t6));
+    }
+
+    /**
+     * Zip 7 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, (t1, t2, t3, t4, t5, t6, t7) -> tuple(t1, t2, t3, t4, t5, t6, t7));
+    }
+
+    /**
+     * Zip 8 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, (t1, t2, t3, t4, t5, t6, t7, t8) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8));
     }
 
     /**
@@ -1120,7 +1618,190 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, BiFunction<T1, T2, R> zipper) {
+        return zip(seq(s1), seq(s2), zipper);
+    }
+
+    /**
+     * Zip 3 streams into one using a {@link Function3} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Function3<T1, T2, T3, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), zipper);
+    }
+
+    /**
+     * Zip 4 streams into one using a {@link Function4} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Function4<T1, T2, T3, T4, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), zipper);
+    }
+
+    /**
+     * Zip 5 streams into one using a {@link Function5} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Function5<T1, T2, T3, T4, T5, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), zipper);
+    }
+
+    /**
+     * Zip 6 streams into one using a {@link Function6} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Function6<T1, T2, T3, T4, T5, T6, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), zipper);
+    }
+
+    /**
+     * Zip 7 streams into one using a {@link Function7} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Function7<T1, T2, T3, T4, T5, T6, T7, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), zipper);
+    }
+
+    /**
+     * Zip 8 streams into one using a {@link Function8} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), zipper);
+    }
+
+    /**
+     * Zip 2 streams into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, BiFunction<T1, T2, R> zipper) {
+        return zip(seq(i1), seq(i2), zipper);
+    }
+
+    /**
+     * Zip 3 streams into one using a {@link Function3} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Function3<T1, T2, T3, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), zipper);
+    }
+
+    /**
+     * Zip 4 streams into one using a {@link Function4} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Function4<T1, T2, T3, T4, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), zipper);
+    }
+
+    /**
+     * Zip 5 streams into one using a {@link Function5} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Function5<T1, T2, T3, T4, T5, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), zipper);
+    }
+
+    /**
+     * Zip 6 streams into one using a {@link Function6} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Function6<T1, T2, T3, T4, T5, T6, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), zipper);
+    }
+
+    /**
+     * Zip 7 streams into one using a {@link Function7} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Function7<T1, T2, T3, T4, T5, T6, T7, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), zipper);
+    }
+
+    /**
+     * Zip 8 streams into one using a {@link Function8} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), zipper);
+    }
+
+    /**
+     * Zip 2 streams into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, BiFunction<T1, T2, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
 
@@ -1147,7 +1828,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, T3, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Function3<T1, T2, T3, R> zipper) {
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Function3<T1, T2, T3, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
         final Iterator<T3> it3 = s3.iterator();
@@ -1175,7 +1857,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, T3, T4, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Function4<T1, T2, T3, T4, R> zipper) {
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Function4<T1, T2, T3, T4, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
         final Iterator<T3> it3 = s3.iterator();
@@ -1204,7 +1887,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Function5<T1, T2, T3, T4, T5, R> zipper) {
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Function5<T1, T2, T3, T4, T5, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
         final Iterator<T3> it3 = s3.iterator();
@@ -1234,7 +1918,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Function6<T1, T2, T3, T4, T5, T6, R> zipper) {
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Function6<T1, T2, T3, T4, T5, T6, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
         final Iterator<T3> it3 = s3.iterator();
@@ -1265,7 +1950,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Function7<T1, T2, T3, T4, T5, T6, T7, R> zipper) {
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Function7<T1, T2, T3, T4, T5, T6, T7, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
         final Iterator<T3> it3 = s3.iterator();
@@ -1297,7 +1983,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> zipper) {
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> zipper) {
         final Iterator<T1> it1 = s1.iterator();
         final Iterator<T2> it2 = s2.iterator();
         final Iterator<T3> it3 = s3.iterator();
@@ -1333,6 +2020,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
+        return zipWithIndex(seq(stream));
+    }
+
+    /**
+     * Zip a Stream with a corresponding Stream of indexes.
+     * <p>
+     * <code><pre>
+     * // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
+     * Seq.of("a", "b", "c").zipWithIndex()
+     * </pre></code>
+     */
+    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Iterable<T> iterable) {
+        return zipWithIndex(seq(iterable));
+    }
+
+    /**
+     * Zip a Stream with a corresponding Stream of indexes.
+     * <p>
+     * <code><pre>
+     * // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
+     * Seq.of("a", "b", "c").zipWithIndex()
+     * </pre></code>
+     */
+    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Seq<T> stream) {
         final Iterator<T> it = stream.iterator();
 
         class ZipWithIndex implements Iterator<Tuple2<T, Long>> {
@@ -1361,6 +2072,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> U foldLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
+        return foldLeft(seq(stream), seed, function);
+    }
+
+    /**
+     * Fold a stream to the left.
+     * <p>
+     * <code><pre>
+     * // "abc"
+     * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> U foldLeft(Iterable<T> iterable, U seed, BiFunction<U, ? super T, U> function) {
+        return foldLeft(seq(iterable), seed, function);
+    }
+
+    /**
+     * Fold a stream to the left.
+     * <p>
+     * <code><pre>
+     * // "abc"
+     * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> U foldLeft(Seq<T> stream, U seed, BiFunction<U, ? super T, U> function) {
         final Iterator<T> it = stream.iterator();
         U result = seed;
 
@@ -1379,7 +2114,31 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> U foldRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
-        return seq(stream).reverse().foldLeft(seed, (u, t) -> function.apply(t, u));
+        return foldRight(seq(stream), seed, function);
+    }
+
+    /**
+     * Fold a stream to the right.
+     * <p>
+     * <code><pre>
+     * // "cba"
+     * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> U foldRight(Iterable<T> iterable, U seed, BiFunction<? super T, U, U> function) {
+        return foldRight(seq(iterable), seed, function);
+    }
+
+    /**
+     * Fold a stream to the right.
+     * <p>
+     * <code><pre>
+     * // "cba"
+     * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> U foldRight(Seq<T> stream, U seed, BiFunction<? super T, U, U> function) {
+        return stream.reverse().foldLeft(seed, (u, t) -> function.apply(t, u));
     }
 
     /**
@@ -1391,6 +2150,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> scanLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
+        return scanLeft(seq(stream), seed, function);
+    }
+
+    /**
+     * Scan a stream to the left.
+     * <p>
+     * <code><pre>
+     * // ("", "a", "ab", "abc")
+     * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> scanLeft(Iterable<T> iterable, U seed, BiFunction<U, ? super T, U> function) {
+        return scanLeft(seq(iterable), seed, function);
+    }
+
+    /**
+     * Scan a stream to the left.
+     * <p>
+     * <code><pre>
+     * // ("", "a", "ab", "abc")
+     * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> scanLeft(Seq<T> stream, U seed, BiFunction<U, ? super T, U> function) {
         final Iterator<T> it = stream.iterator();
 
         class ScanLeft implements Iterator<U> {
@@ -1425,7 +2208,31 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> scanRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
-        return seq(stream).reverse().scanLeft(seed, (u, t) -> function.apply(t, u));
+        return scanRight(seq(stream), seed, function);
+    }
+
+    /**
+     * Scan a stream to the right.
+     * <p>
+     * <code><pre>
+     * // ("", "c", "cb", "cba")
+     * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> scanRight(Iterable<T> iterable, U seed, BiFunction<? super T, U, U> function) {
+        return scanRight(seq(iterable), seed, function);
+    }
+
+    /**
+     * Scan a stream to the right.
+     * <p>
+     * <code><pre>
+     * // ("", "c", "cb", "cba")
+     * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
+     * </pre></code>
+     */
+    static <T, U> Seq<U> scanRight(Seq<T> stream, U seed, BiFunction<? super T, U, U> function) {
+        return stream.reverse().scanLeft(seed, (u, t) -> function.apply(t, u));
     }
 
     /**
@@ -1482,6 +2289,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<T> reverse(Stream<T> stream) {
+        return reverse(seq(stream));
+    }
+
+    /**
+     * Reverse a stream.
+     * <p>
+     * <code><pre>
+     * // (3, 2, 1)
+     * Seq.of(1, 2, 3).reverse()
+     * </pre></code>
+     */
+    static <T> Seq<T> reverse(Iterable<T> iterable) {
+        return reverse(seq(iterable));
+    }
+
+    /**
+     * Reverse a stream.
+     * <p>
+     * <code><pre>
+     * // (3, 2, 1)
+     * Seq.of(1, 2, 3).reverse()
+     * </pre></code>
+     */
+    static <T> Seq<T> reverse(Seq<T> stream) {
         List<T> list = toList(stream);
         Collections.reverse(list);
         return seq(list);
@@ -1496,6 +2327,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Stream<T> stream) {
+        return shuffle(seq(stream));
+    }
+
+    /**
+     * Shuffle a stream
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle()
+     * </pre></code>
+     */
+    static <T> Seq<T> shuffle(Iterable<T> iterable) {
+        return shuffle(seq(iterable));
+    }
+
+    /**
+     * Shuffle a stream
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle()
+     * </pre></code>
+     */
+    static <T> Seq<T> shuffle(Seq<T> stream) {
         List<T> list = toList(stream);
         Collections.shuffle(list);
         return seq(list);
@@ -1510,6 +2365,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Stream<T> stream, Random random) {
+        return shuffle(seq(stream), random);
+    }
+
+    /**
+     * Shuffle a stream using specified source of randomness
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle(new Random())
+     * </pre></code>
+     */
+    static <T> Seq<T> shuffle(Iterable<T> iterable, Random random) {
+        return shuffle(seq(iterable), random);
+    }
+
+    /**
+     * Shuffle a stream using specified source of randomness
+     * <p>
+     * <code><pre>
+     * // e.g. (2, 3, 1)
+     * Seq.of(1, 2, 3).shuffle(new Random())
+     * </pre></code>
+     */
+    static <T> Seq<T> shuffle(Seq<T> stream, Random random) {
         List<T> list = toList(stream);
         Collections.shuffle(list, random);
         return seq(list);
@@ -1525,10 +2404,191 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
+    @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Stream<T1> s1, Stream<T2> s2) {
+        return crossJoin(seq(s1), seq(s2));
+    }
 
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<T2> list = seq(s2).toList();
+    /**
+     * Cross join 3 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
+        return crossJoin(seq(s1), seq(s2), seq(s3));
+    }
+
+    /**
+     * Cross join 4 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4));
+    }
+
+    /**
+     * Cross join 5 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5));
+    }
+
+    /**
+     * Cross join 6 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6));
+    }
+
+    /**
+     * Cross join 7 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7));
+    }
+
+    /**
+     * Cross join 8 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8));
+    }
+
+    /**
+     * Cross join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Iterable<T1> i1, Iterable<T2> i2) {
+        return crossJoin(seq(i1), seq(i2));
+    }
+
+    /**
+     * Cross join 3 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3) {
+        return crossJoin(seq(i1), seq(i2), seq(i3));
+    }
+
+    /**
+     * Cross join 4 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4));
+    }
+
+    /**
+     * Cross join 5 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5));
+    }
+
+    /**
+     * Cross join 6 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6));
+    }
+
+    /**
+     * Cross join 7 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7));
+    }
+
+    /**
+     * Cross join 8 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
+    }
+
+    /**
+     * Cross join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Seq<T1> s1, Seq<T2> s2) {
+        List<T2> list = s2.toList();
         return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)));
     }
 
@@ -1540,11 +2600,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3) {
         List<Tuple2<T2, T3>> list = crossJoin(s2, s3).toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)));
     }
 
     /**
@@ -1555,11 +2614,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4) {
         List<Tuple3<T2, T3, T4>> list = crossJoin(s2, s3, s4).toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)));
     }
 
     /**
@@ -1570,11 +2628,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5) {
         List<Tuple4<T2, T3, T4, T5>> list = crossJoin(s2, s3, s4, s5).toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)));
     }
 
     /**
@@ -1585,11 +2642,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6) {
         List<Tuple5<T2, T3, T4, T5, T6>> list = crossJoin(s2, s3, s4, s5, s6).toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)));
     }
 
     /**
@@ -1600,11 +2656,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7) {
         List<Tuple6<T2, T3, T4, T5, T6, T7>> list = crossJoin(s2, s3, s4, s5, s6, s7).toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)));
     }
 
     /**
@@ -1615,11 +2670,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
         List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)));
     }
 
 // [jooq-tools] END [crossjoin-static]
@@ -1634,6 +2688,32 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     @SafeVarargs
     static <T> Seq<T> concat(Stream<T>... streams) {
+        return concat(SeqUtils.seqs(streams));
+    }
+
+    /**
+     * Concatenate a number of streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
+     * </pre></code>
+     */
+    @SafeVarargs
+    static <T> Seq<T> concat(Iterable<T>... iterables) {
+        return concat(SeqUtils.seqs(iterables));
+    }
+
+    /**
+     * Concatenate a number of streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).concat(Seq.of(4, 5, 6))
+     * </pre></code>
+     */
+    @SafeVarargs
+    static <T> Seq<T> concat(Seq<T>... streams) {
         if (streams == null || streams.length == 0)
             return Seq.empty();
 
