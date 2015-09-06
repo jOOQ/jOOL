@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1198,6 +1200,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (exclusive)
+     * @param step The increase between two values
      */
     static Seq<Byte> range(byte from, byte to, int step) {
         return to <= from ? empty() : iterate(from, t -> Byte.valueOf((byte) (t + step))).limitWhile(t -> t < to);
@@ -1218,6 +1221,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (exclusive)
+     * @param step The increase between two values
      */
     static Seq<Short> range(short from, short to, int step) {
         return to <= from ? empty() : iterate(from, t -> Short.valueOf((short) (t + step))).limitWhile(t -> t < to);
@@ -1238,6 +1242,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (exclusive)
+     * @param step The increase between two values
      */
     static Seq<Character> range(char from, char to, int step) {
         return to <= from ? empty() : iterate(from, t -> Character.valueOf((char) (t + step))).limitWhile(t -> t < to);
@@ -1258,6 +1263,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (exclusive)
+     * @param step The increase between two values
      */
     static Seq<Integer> range(int from, int to, int step) {
         return to <= from ? empty() : iterate(from, t -> Integer.valueOf(t + step)).limitWhile(t -> t < to);
@@ -1278,9 +1284,31 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (exclusive)
+     * @param step The increase between two values
      */
     static Seq<Long> range(long from, long to, long step) {
         return to <= from ? empty() : iterate(from, t -> Long.valueOf(t + step)).limitWhile(t -> t < to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Instant> range(Instant from, Instant to) {
+        return range(from, to, Duration.ofSeconds(1));
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     * @param step The increase between two values
+     */
+    static Seq<Instant> range(Instant from, Instant to, Duration step) {
+        return to.compareTo(from) <= 0 ? empty() : iterate(from, t -> t.plus(step)).limitWhile(t -> t.compareTo(to) < 0);
     }
 
     /**
@@ -1298,6 +1326,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (inclusive)
+     * @param step The increase between two values
      */
     static Seq<Byte> rangeClosed(byte from, byte to, int step) {
         return to < from ? empty() : iterate(from, t -> Byte.valueOf((byte) (t + step))).limitWhile(t -> t <= to);
@@ -1318,6 +1347,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (inclusive)
+     * @param step The increase between two values
      */
     static Seq<Short> rangeClosed(short from, short to, int step) {
         return to < from ? empty() : iterate(from, t -> Short.valueOf((short) (t + step))).limitWhile(t -> t <= to);
@@ -1338,6 +1368,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (inclusive)
+     * @param step The increase between two values
      */
     static Seq<Character> rangeClosed(char from, char to, int step) {
         return to < from ? empty() : iterate(from, t -> Character.valueOf((char) (t + step))).limitWhile(t -> t <= to);
@@ -1358,6 +1389,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (inclusive)
+     * @param step The increase between two values
      */
     static Seq<Integer> rangeClosed(int from, int to, int step) {
         return to < from ? empty() : iterate(from, t -> Integer.valueOf(t + step)).limitWhile(t -> t <= to);
@@ -1378,9 +1410,31 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      *
      * @param from The lower bound (inclusive)
      * @param to The upper bound (inclusive)
+     * @param step The increase between two values
      */
     static Seq<Long> rangeClosed(long from, long to, long step) {
         return to < from ? empty() : iterate(from, t -> Long.valueOf(t + step)).limitWhile(t -> t <= to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Instant> rangeClosed(Instant from, Instant to) {
+        return rangeClosed(from, to, Duration.ofSeconds(1));
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     * @param step The increase between two values
+     */
+    static Seq<Instant> rangeClosed(Instant from, Instant to, Duration step) {
+        return to.compareTo(from) < 0 ? empty() : iterate(from, t -> t.plus(step)).limitWhile(t -> t.compareTo(to) <= 0);
     }
 
     /**

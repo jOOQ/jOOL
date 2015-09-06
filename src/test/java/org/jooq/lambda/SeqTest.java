@@ -33,6 +33,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1119,6 +1121,25 @@ public class SeqTest {
         assertEquals(Arrays.asList(0L, 1L), Seq.range(0L, 2L).toList());
         assertEquals(Arrays.asList(0L, 2L), Seq.range(0L, 4L, 2).toList());
         assertEquals(Arrays.asList(0L, 2L, 4L), Seq.range(0L, 5L, 2).toList());
+
+        assertEquals(
+            Arrays.asList(),
+            Seq.range(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(-1L)).toList());
+        assertEquals(
+            Arrays.asList(),
+            Seq.range(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(0L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L)),
+            Seq.range(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(1L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(1L)),
+            Seq.range(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L)),
+            Seq.range(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(4L), Duration.ofSeconds(2)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L), Instant.ofEpochSecond(4L)),
+            Seq.range(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(5L), Duration.ofSeconds(2)).toList());
     }
 
     @Test
@@ -1157,5 +1178,24 @@ public class SeqTest {
         assertEquals(Arrays.asList(0L, 1L, 2L), Seq.rangeClosed(0L, 2L).toList());
         assertEquals(Arrays.asList(0L, 2L, 4L), Seq.rangeClosed(0L, 4L, 2).toList());
         assertEquals(Arrays.asList(0L, 2L, 4L), Seq.rangeClosed(0L, 5L, 2).toList());
+
+        assertEquals(
+            Arrays.asList(),
+            Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(-1L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L)),
+            Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(0L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(1L)),
+            Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(1L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(1L), Instant.ofEpochSecond(2L)),
+            Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L), Instant.ofEpochSecond(4L)),
+            Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(4L), Duration.ofSeconds(2)).toList());
+        assertEquals(
+            Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L), Instant.ofEpochSecond(4L)),
+            Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(5L), Duration.ofSeconds(2)).toList());
     }
 }
