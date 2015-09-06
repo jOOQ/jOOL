@@ -22,6 +22,8 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.time.Duration;
@@ -3718,5 +3720,36 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     @Override
     default void forEach(Consumer<? super T> action) {
         Iterable.super.forEach(action);
+    }
+
+    // Debugging tools
+    // ---------------
+
+    /**
+     * Print contents of this stream to {@link System#out}.
+     */
+    default void printOut() {
+        print(System.out);
+    }
+
+    /**
+     * Print contents of this stream to {@link System#err}.
+     */
+    default void printErr() {
+        print(System.err);
+    }
+
+    /**
+     * Print contents of this stream to the argument writer.
+     */
+    default void print(PrintWriter writer) {
+        forEach(writer::println);
+    }
+
+    /**
+     * Print contents of this stream to the argument stream.
+     */
+    default void print(PrintStream stream) {
+        forEach(stream::println);
     }
 }
