@@ -3270,34 +3270,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return seq(stream).join(delimiter, prefix, suffix);
     }
 
-    /**
-     * Print contents of this stream to {@link System#out}.
-     */
-    default void peekOut() {
-        print(System.out);
-    }
-
-    /**
-     * Print contents of this stream to {@link System#err}.
-     */
-    default void peekErr() {
-        peek(System.err);
-    }
-
-    /**
-     * Print contents of this stream to the argument stream.
-     */
-    default void peek(PrintStream stream) {
-        peek(stream::println);
-    }
-
-    /**
-     * Print contents of this stream to the argument stream.
-     */
-    default void peek(PrintWriter writer) {
-        peek(writer::println);
-    }
-
     // Covariant overriding of Stream return types
     // -------------------------------------------
 
