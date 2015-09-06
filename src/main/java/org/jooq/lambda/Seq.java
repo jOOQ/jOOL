@@ -22,8 +22,6 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
@@ -3270,65 +3268,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     static String join(Stream<?> stream, CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
         return seq(stream).join(delimiter, prefix, suffix);
-    }
-
-    // Debugging tools
-    // ---------------
-
-    /**
-     * Print contents of this stream to {@link System#out}.
-     */
-    default void printOut() {
-        print(System.out);
-    }
-
-    /**
-     * Print contents of this stream to {@link System#err}.
-     */
-    default void printErr() {
-        print(System.err);
-    }
-
-    /**
-     * Print contents of this stream to the argument stream.
-     */
-    default void print(PrintStream stream) {
-        forEach(stream::println);
-    }
-
-    /**
-     * Print contents of this stream to the argument stream.
-     */
-    default void print(PrintWriter writer) {
-        forEach(writer::println);
-    }
-
-    /**
-     * Print contents of this stream to {@link System#out}.
-     */
-    default Seq<T> peekOut() {
-        return peek(System.out);
-    }
-
-    /**
-     * Print contents of this stream to {@link System#err}.
-     */
-    default Seq<T> peekErr() {
-        return peek(System.err);
-    }
-
-    /**
-     * Print contents of this stream to the argument stream.
-     */
-    default Seq<T> peek(PrintStream stream) {
-        return peek(stream::println);
-    }
-
-    /**
-     * Print contents of this stream to the argument stream.
-     */
-    default Seq<T> peek(PrintWriter writer) {
-        return peek(writer::println);
     }
 
     // Covariant overriding of Stream return types

@@ -62,6 +62,18 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
+    public void testPeekOut() {
+        char[] c = { 'a', 'b', 'c', 'd' };
+
+        assertEquals(4,
+        Seq.of(0, 1, 2, 3)
+           .peekOut()
+           .map(i -> c[i])
+           .peekOut()
+           .count());
+    }
+
+    @Test
     public void testZipEqualLength() {
         List<Tuple2<Integer, String>> list = Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c")).toList();
 
