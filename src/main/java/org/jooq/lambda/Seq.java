@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -408,6 +409,55 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default boolean contains(T other) {
         return anyMatch(Predicate.isEqual(other));
+    }
+
+    /**
+     * Check whether this stream contains a given value.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAll(2, 3)
+     * </pre><code>
+     */
+    default boolean containsAll(T... other) {
+        return containsAll(of(other));
+    }
+
+    /**
+     * Check whether this stream contains a given value.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAll(2, 3)
+     * </pre><code>
+     */
+    default boolean containsAll(Stream<T> other) {
+        return containsAll(seq(other));
+    }
+
+    /**
+     * Check whether this stream contains a given value.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAll(2, 3)
+     * </pre><code>
+     */
+    default boolean containsAll(Iterable<T> other) {
+        return containsAll(seq(other));
+    }
+
+    /**
+     * Check whether this stream contains a given value.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAll(2, 3)
+     * </pre><code>
+     */
+    default boolean containsAll(Seq<T> other) {
+        Set<T> set = other.toSet(HashSet::new);
+        return set.isEmpty() ? true : filter(t -> set.remove(t)).anyMatch(t -> set.isEmpty());
     }
 
     /**
