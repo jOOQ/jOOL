@@ -3303,6 +3303,34 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         forEach(writer::println);
     }
 
+    /**
+     * Print contents of this stream to {@link System#out}.
+     */
+    default Seq<T> peekOut() {
+        return peek(System.out);
+    }
+
+    /**
+     * Print contents of this stream to {@link System#err}.
+     */
+    default Seq<T> peekErr() {
+        return peek(System.err);
+    }
+
+    /**
+     * Print contents of this stream to the argument stream.
+     */
+    default Seq<T> peek(PrintStream stream) {
+        return peek(stream::println);
+    }
+
+    /**
+     * Print contents of this stream to the argument stream.
+     */
+    default Seq<T> peek(PrintWriter writer) {
+        return peek(writer::println);
+    }
+
     // Covariant overriding of Stream return types
     // -------------------------------------------
 
