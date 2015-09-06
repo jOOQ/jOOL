@@ -22,6 +22,7 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UncheckedIOException;
@@ -3289,7 +3290,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Print contents of this stream to the argument writer.
+     * Print contents of this stream to the argument stream.
+     */
+    default void print(PrintStream stream) {
+        forEach(stream::println);
+    }
+
+    /**
+     * Print contents of this stream to the argument stream.
      */
     default void print(PrintWriter writer) {
         forEach(writer::println);
