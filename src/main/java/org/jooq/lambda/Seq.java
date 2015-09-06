@@ -510,6 +510,68 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Return a new stream where the first occurrence of the argument is removed.
+     * <p>
+     * <code><pre>
+     * // 1, 3, 2, 4
+     * Seq.of(1, 2, 3, 2, 4).remove(2)
+     * </pre><code>
+     */
+    default Seq<T> remove(T other) {
+        boolean[] removed = new boolean[1];
+        return filter(t -> removed[0] || !(removed[0] = Objects.equals(t, other)));
+    }
+
+    /**
+     * Return a new stream where all occurrences of the arguments are removed.
+     * <p>
+     * <code><pre>
+     * // 1, 4
+     * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
+     * </pre><code>
+     */
+    default Seq<T> removeAll(T... other) {
+        return removeAll(of(other));
+    }
+
+    /**
+     * Return a new stream where all occurrences of the arguments are removed.
+     * <p>
+     * <code><pre>
+     * // 1, 4
+     * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
+     * </pre><code>
+     */
+    default Seq<T> removeAll(Stream<T> other) {
+        return removeAll(seq(other));
+    }
+
+    /**
+     * Return a new stream where all occurrences of the arguments are removed.
+     * <p>
+     * <code><pre>
+     * // 1, 4
+     * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
+     * </pre><code>
+     */
+    default Seq<T> removeAll(Iterable<T> other) {
+        return removeAll(seq(other));
+    }
+
+    /**
+     * Return a new stream where all occurrences of the arguments are removed.
+     * <p>
+     * <code><pre>
+     * // 1, 4
+     * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
+     * </pre><code>
+     */
+    default Seq<T> removeAll(Seq<T> other) {
+        Set<T> set = other.toSet(HashSet::new);
+        return set.isEmpty() ? this : filter(t -> !set.contains(t));
+    }
+
+    /**
      * Repeat a stream infinitely.
      * <p>
      * <code><pre>

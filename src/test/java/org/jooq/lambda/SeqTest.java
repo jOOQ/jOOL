@@ -62,18 +62,6 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
-    public void testPeekOut() {
-        char[] c = { 'a', 'b', 'c', 'd' };
-
-        assertEquals(4,
-        Seq.of(0, 1, 2, 3)
-           .peekOut()
-           .map(i -> c[i])
-           .peekOut()
-           .count());
-    }
-
-    @Test
     public void testZipEqualLength() {
         List<Tuple2<Integer, String>> list = Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c")).toList();
 
@@ -1067,5 +1055,23 @@ public class SeqTest {
         assertTrue(Seq.of(1, 2, 3).containsAny(1, 2, 3, 4));
         assertFalse(Seq.of(1, 2, 3).containsAny(4));
         assertFalse(Seq.of(1, 2, 3).containsAny((Integer) null));
+    }
+
+    @Test
+    public void testRemove() {
+        assertEquals(Arrays.asList(1, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).remove(2).toList());
+        assertEquals(Arrays.asList(1, 3, 4), Seq.of(1, 2, 3, 2, 4).remove(2).remove(2).toList());
+        assertEquals(Arrays.asList(1, 3, 4), Seq.of(1, 2, 3, 2, 4).remove(2).remove(2).remove(2).toList());
+        assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).remove(5).toList());
+        assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).remove(null).toList());
+    }
+
+    @Test
+    public void testRemoveAll() {
+        assertEquals(Arrays.asList(1, 3, 4), Seq.of(1, 2, 3, 2, 4).removeAll(2).toList());
+        assertEquals(Arrays.asList(1, 3, 4), Seq.of(1, 2, 3, 2, 4).removeAll(2).removeAll(2).toList());
+        assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).removeAll(5).toList());
+        assertEquals(Arrays.asList(1, 4), Seq.of(1, 2, 3, 2, 4).removeAll(2, 3).toList());
+        assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).removeAll((Integer) null).toList());
     }
 }
