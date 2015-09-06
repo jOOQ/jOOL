@@ -1202,7 +1202,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
             }
         };
 
-        return seq(spliterator);
+        return seq(spliterator).onClose(Unchecked.runnable(is::close));
     }
 
     /**
@@ -1227,7 +1227,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
             }
         };
 
-        return seq(spliterator);
+        return seq(spliterator).onClose(Unchecked.runnable(reader::close));
     }
 
     /**
