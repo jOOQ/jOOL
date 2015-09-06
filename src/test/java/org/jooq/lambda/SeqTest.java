@@ -1074,4 +1074,12 @@ public class SeqTest {
         assertEquals(Arrays.asList(1, 4), Seq.of(1, 2, 3, 2, 4).removeAll(2, 3).toList());
         assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).removeAll((Integer) null).toList());
     }
+
+    @Test
+    public void testRetainAll() {
+        assertEquals(Arrays.asList(2, 3, 2), Seq.of(1, 2, 3, 2, 4).retainAll(2, 3).toList());
+        assertEquals(Arrays.asList(2, 2), Seq.of(1, 2, 3, 2, 4).retainAll(2, 3).retainAll(2).toList());
+        assertEquals(Arrays.asList(), Seq.of(1, 2, 3, 2, 4).retainAll(5).toList());
+        assertEquals(Arrays.asList(), Seq.of(1, 2, 3, 2, 4).retainAll((Integer) null).toList());
+    }
 }
