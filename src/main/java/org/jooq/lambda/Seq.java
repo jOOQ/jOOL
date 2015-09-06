@@ -22,6 +22,7 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
@@ -3268,6 +3269,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     static String join(Stream<?> stream, CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
         return seq(stream).join(delimiter, prefix, suffix);
+    }
+
+    // Debugging tools
+    // ---------------
+
+    /**
+     * Print contents of this stream to {@link System#out}.
+     */
+    default void printOut() {
+        print(System.out);
+    }
+
+    /**
+     * Print contents of this stream to {@link System#err}.
+     */
+    default void printErr() {
+        print(System.err);
+    }
+
+    /**
+     * Print contents of this stream to the argument writer.
+     */
+    default void print(PrintWriter writer) {
+        forEach(writer::println);
     }
 
     // Covariant overriding of Stream return types
