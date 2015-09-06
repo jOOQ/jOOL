@@ -1082,4 +1082,80 @@ public class SeqTest {
         assertEquals(Arrays.asList(), Seq.of(1, 2, 3, 2, 4).retainAll(5).toList());
         assertEquals(Arrays.asList(), Seq.of(1, 2, 3, 2, 4).retainAll((Integer) null).toList());
     }
+
+    @Test
+    public void testRange() {
+        assertEquals(Arrays.asList(), Seq.range((byte) 0, (byte) -1).toList());
+        assertEquals(Arrays.asList(), Seq.range((byte) 0, (byte) 0).toList());
+        assertEquals(Arrays.asList((byte) 0), Seq.range((byte) 0, (byte) 1).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 1), Seq.range((byte) 0, (byte) 2).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 2), Seq.range((byte) 0, (byte) 4, 2).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 2, (byte) 4), Seq.range((byte) 0, (byte) 5, 2).toList());
+
+        assertEquals(Arrays.asList(), Seq.range((short) 0, (short) -1).toList());
+        assertEquals(Arrays.asList(), Seq.range((short) 0, (short) 0).toList());
+        assertEquals(Arrays.asList((short) 0), Seq.range((short) 0, (short) 1).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 1), Seq.range((short) 0, (short) 2).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 2), Seq.range((short) 0, (short) 4, 2).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 2, (short) 4), Seq.range((short) 0, (short) 5, 2).toList());
+
+        assertEquals("", Seq.range('B', 'A').join());
+        assertEquals("", Seq.range('B', 'B').join());
+        assertEquals("A", Seq.range('A', 'B').join());
+        assertEquals("AB", Seq.range('A', 'C').join());
+        assertEquals("AC", Seq.range('A', 'E', 2).join());
+        assertEquals("ACE", Seq.range('A', 'F', 2).join());
+
+        assertEquals(Arrays.asList(), Seq.range(0, -1).toList());
+        assertEquals(Arrays.asList(), Seq.range(0, 0).toList());
+        assertEquals(Arrays.asList(0), Seq.range(0, 1).toList());
+        assertEquals(Arrays.asList(0, 1), Seq.range(0, 2).toList());
+        assertEquals(Arrays.asList(0, 2), Seq.range(0, 4, 2).toList());
+        assertEquals(Arrays.asList(0, 2, 4), Seq.range(0, 5, 2).toList());
+
+        assertEquals(Arrays.asList(), Seq.range(0L, -1L).toList());
+        assertEquals(Arrays.asList(), Seq.range(0L, 0L).toList());
+        assertEquals(Arrays.asList(0L), Seq.range(0L, 1L).toList());
+        assertEquals(Arrays.asList(0L, 1L), Seq.range(0L, 2L).toList());
+        assertEquals(Arrays.asList(0L, 2L), Seq.range(0L, 4L, 2).toList());
+        assertEquals(Arrays.asList(0L, 2L, 4L), Seq.range(0L, 5L, 2).toList());
+    }
+
+    @Test
+    public void testRangeClosed() {
+        assertEquals(Arrays.asList(), Seq.rangeClosed((byte) 0, (byte) -1).toList());
+        assertEquals(Arrays.asList((byte) 0), Seq.rangeClosed((byte) 0, (byte) 0).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 1), Seq.rangeClosed((byte) 0, (byte) 1).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 1, (byte) 2), Seq.rangeClosed((byte) 0, (byte) 2).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 2, (byte) 4), Seq.rangeClosed((byte) 0, (byte) 4, 2).toList());
+        assertEquals(Arrays.asList((byte) 0, (byte) 2, (byte) 4), Seq.rangeClosed((byte) 0, (byte) 5, 2).toList());
+
+        assertEquals(Arrays.asList(), Seq.rangeClosed((short) 0, (short) -1).toList());
+        assertEquals(Arrays.asList((short) 0), Seq.rangeClosed((short) 0, (short) 0).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 1), Seq.rangeClosed((short) 0, (short) 1).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 1, (short) 2), Seq.rangeClosed((short) 0, (short) 2).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 2, (short) 4), Seq.rangeClosed((short) 0, (short) 4, 2).toList());
+        assertEquals(Arrays.asList((short) 0, (short) 2, (short) 4), Seq.rangeClosed((short) 0, (short) 5, 2).toList());
+
+        assertEquals("", Seq.rangeClosed('B', 'A').join());
+        assertEquals("B", Seq.rangeClosed('B', 'B').join());
+        assertEquals("AB", Seq.rangeClosed('A', 'B').join());
+        assertEquals("ABC", Seq.rangeClosed('A', 'C').join());
+        assertEquals("ACE", Seq.rangeClosed('A', 'E', 2).join());
+        assertEquals("ACE", Seq.rangeClosed('A', 'F', 2).join());
+
+        assertEquals(Arrays.asList(), Seq.rangeClosed(0, -1).toList());
+        assertEquals(Arrays.asList(0), Seq.rangeClosed(0, 0).toList());
+        assertEquals(Arrays.asList(0, 1), Seq.rangeClosed(0, 1).toList());
+        assertEquals(Arrays.asList(0, 1, 2), Seq.rangeClosed(0, 2).toList());
+        assertEquals(Arrays.asList(0, 2, 4), Seq.rangeClosed(0, 4, 2).toList());
+        assertEquals(Arrays.asList(0, 2, 4), Seq.rangeClosed(0, 5, 2).toList());
+
+        assertEquals(Arrays.asList(), Seq.rangeClosed(0L, -1L).toList());
+        assertEquals(Arrays.asList(0L), Seq.rangeClosed(0L, 0L).toList());
+        assertEquals(Arrays.asList(0L, 1L), Seq.rangeClosed(0L, 1L).toList());
+        assertEquals(Arrays.asList(0L, 1L, 2L), Seq.rangeClosed(0L, 2L).toList());
+        assertEquals(Arrays.asList(0L, 2L, 4L), Seq.rangeClosed(0L, 4L, 2).toList());
+        assertEquals(Arrays.asList(0L, 2L, 4L), Seq.rangeClosed(0L, 5L, 2).toList());
+    }
 }

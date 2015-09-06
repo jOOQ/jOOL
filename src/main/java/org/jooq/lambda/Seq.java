@@ -1184,6 +1184,206 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Byte> range(byte from, byte to) {
+        return range(from, to, (byte) 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Byte> range(byte from, byte to, int step) {
+        return to <= from ? empty() : iterate(from, t -> Byte.valueOf((byte) (t + step))).limitWhile(t -> t < to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Short> range(short from, short to) {
+        return range(from, to, (short) 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Short> range(short from, short to, int step) {
+        return to <= from ? empty() : iterate(from, t -> Short.valueOf((short) (t + step))).limitWhile(t -> t < to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Character> range(char from, char to) {
+        return range(from, to, (short) 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Character> range(char from, char to, int step) {
+        return to <= from ? empty() : iterate(from, t -> Character.valueOf((char) (t + step))).limitWhile(t -> t < to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Integer> range(int from, int to) {
+        return range(from, to, 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Integer> range(int from, int to, int step) {
+        return to <= from ? empty() : iterate(from, t -> Integer.valueOf(t + step)).limitWhile(t -> t < to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Long> range(long from, long to) {
+        return range(from, to, 1L);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (exclusive)
+     */
+    static Seq<Long> range(long from, long to, long step) {
+        return to <= from ? empty() : iterate(from, t -> Long.valueOf(t + step)).limitWhile(t -> t < to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Byte> rangeClosed(byte from, byte to) {
+        return rangeClosed(from, to, (byte) 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Byte> rangeClosed(byte from, byte to, int step) {
+        return to < from ? empty() : iterate(from, t -> Byte.valueOf((byte) (t + step))).limitWhile(t -> t <= to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Short> rangeClosed(short from, short to) {
+        return rangeClosed(from, to, (short) 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Short> rangeClosed(short from, short to, int step) {
+        return to < from ? empty() : iterate(from, t -> Short.valueOf((short) (t + step))).limitWhile(t -> t <= to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Character> rangeClosed(char from, char to) {
+        return rangeClosed(from, to, 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Character> rangeClosed(char from, char to, int step) {
+        return to < from ? empty() : iterate(from, t -> Character.valueOf((char) (t + step))).limitWhile(t -> t <= to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Integer> rangeClosed(int from, int to) {
+        return rangeClosed(from, to, 1);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Integer> rangeClosed(int from, int to, int step) {
+        return to < from ? empty() : iterate(from, t -> Integer.valueOf(t + step)).limitWhile(t -> t <= to);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Long> rangeClosed(long from, long to) {
+        return rangeClosed(from, to, 1L);
+    }
+
+    /**
+     * The range between two values.
+     *
+     * @param from The lower bound (inclusive)
+     * @param to The upper bound (inclusive)
+     */
+    static Seq<Long> rangeClosed(long from, long to, long step) {
+        return to < from ? empty() : iterate(from, t -> Long.valueOf(t + step)).limitWhile(t -> t <= to);
+    }
+
+    /**
      * @see Stream#empty()
      */
     static <T> Seq<T> empty() {
