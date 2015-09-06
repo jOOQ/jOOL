@@ -1045,4 +1045,15 @@ public class SeqTest {
         assertFalse(Seq.of(1, 2, 3).containsAll(4));
         assertFalse(Seq.of(1, 2, 3).containsAll((Integer) null));
     }
+
+    @Test
+    public void testContainsAny() {
+        assertFalse(Seq.of(1, 2, 3).containsAny());
+        assertTrue(Seq.of(1, 2, 3).containsAny(1));
+        assertTrue(Seq.of(1, 2, 3).containsAny(1, 2));
+        assertTrue(Seq.of(1, 2, 3).containsAny(1, 2, 3));
+        assertTrue(Seq.of(1, 2, 3).containsAny(1, 2, 3, 4));
+        assertFalse(Seq.of(1, 2, 3).containsAny(4));
+        assertFalse(Seq.of(1, 2, 3).containsAny((Integer) null));
+    }
 }

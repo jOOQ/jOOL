@@ -412,7 +412,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Check whether this stream contains a given value.
+     * Check whether this stream contains all given values.
      * <p>
      * <code><pre>
      * // true
@@ -424,7 +424,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Check whether this stream contains a given value.
+     * Check whether this stream contains all given values.
      * <p>
      * <code><pre>
      * // true
@@ -436,7 +436,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Check whether this stream contains a given value.
+     * Check whether this stream contains all given values.
      * <p>
      * <code><pre>
      * // true
@@ -448,7 +448,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Check whether this stream contains a given value.
+     * Check whether this stream contains all given values.
      * <p>
      * <code><pre>
      * // true
@@ -458,6 +458,55 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     default boolean containsAll(Seq<T> other) {
         Set<T> set = other.toSet(HashSet::new);
         return set.isEmpty() ? true : filter(t -> set.remove(t)).anyMatch(t -> set.isEmpty());
+    }
+
+    /**
+     * Check whether this stream contains any of the given values.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAny(2, 4)
+     * </pre><code>
+     */
+    default boolean containsAny(T... other) {
+        return containsAny(of(other));
+    }
+
+    /**
+     * Check whether this stream contains any of the given values.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAny(2, 4)
+     * </pre><code>
+     */
+    default boolean containsAny(Stream<T> other) {
+        return containsAny(seq(other));
+    }
+
+    /**
+     * Check whether this stream contains any of the given values.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAny(2, 4)
+     * </pre><code>
+     */
+    default boolean containsAny(Iterable<T> other) {
+        return containsAny(seq(other));
+    }
+
+    /**
+     * Check whether this stream contains any of the given values.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).containsAny(2, 4)
+     * </pre><code>
+     */
+    default boolean containsAny(Seq<T> other) {
+        Set<T> set = other.toSet(HashSet::new);
+        return set.isEmpty() ? false : anyMatch(set::contains);
     }
 
     /**
