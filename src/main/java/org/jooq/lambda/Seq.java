@@ -399,6 +399,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Check whether this stream contains a given value.
+     * <p>
+     * <code><pre>
+     * // true
+     * Seq.of(1, 2, 3).contains(2)
+     * </pre><code>
+     */
+    default boolean contains(T other) {
+        return anyMatch(Predicate.isEqual(other));
+    }
+
+    /**
      * Repeat a stream infinitely.
      * <p>
      * <code><pre>

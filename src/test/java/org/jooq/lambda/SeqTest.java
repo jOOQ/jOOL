@@ -1027,4 +1027,11 @@ public class SeqTest {
         assertEquals(tuple(1, "one"), s3.get(0));
         assertEquals(tuple(2, "two"), s3.get(1));
     }
+
+    @Test
+    public void testContains() {
+        assertTrue(Seq.of(1, 2, 3).contains(2));
+        assertFalse(Seq.of(1, 2, 3).contains(4));
+        assertFalse(Seq.of(1, 2, 3).contains(null));
+    }
 }
