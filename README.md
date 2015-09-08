@@ -128,6 +128,17 @@ SQL.stream(stmt, Unchecked.function(r ->
 
 (where SQLGoodies.Schema is just an ordinary POJO).
 
+
+Maven
+-----
+```
+<dependency>
+	<groupId>org.jooq</groupId>
+	<artifactId>jool</artifactId>
+	<version>0.9.7</version>
+</dependency>
+```
+
 For more details and other options to write SQL in Java 8, visit this website here:
 
 http://www.jooq.org/java-8-and-sql
