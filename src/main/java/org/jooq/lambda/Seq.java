@@ -621,7 +621,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Seq<T> retainAll(Seq<T> other) {
         Set<T> set = other.toSet(HashSet::new);
-        return set.isEmpty() ? empty() : filter(t -> !set.contains(t));
+        return set.isEmpty() ? empty() : filter(t -> set.contains(t));
     }
 
     /**
