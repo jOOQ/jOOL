@@ -87,6 +87,7 @@ import org.jooq.lambda.tuple.Tuple8;
  * it is sequential and ordered.
  *
  * @author Lukas Eder
+ * @author Roman Tkalenko
  */
 public interface Seq<T> extends Stream<T>, Iterable<T> {
 
