@@ -35,8 +35,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -3547,7 +3547,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                 }
 
                 private ArrayDeque<T> buffer(K k) {
-                    return classes.computeIfAbsent(k, Classification::new).buffer;
+                    // Cannot use constructor reference Classification::new here because of an Eclipse bug
+                    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=477263
+                    return classes.computeIfAbsent(k, x -> new Classification(x)).buffer;
                 }
             }
 
