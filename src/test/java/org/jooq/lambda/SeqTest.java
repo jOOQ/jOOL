@@ -20,8 +20,8 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.collectors;
@@ -79,7 +79,7 @@ public class SeqTest {
     }
 
     @Test
-    public void testTheSameBehaviorAsGroupBy() throws Exception {
+    public void testGroupedSameBehaviorAsGroupBy() throws Exception {
         Random r = new Random(System.nanoTime());
         int runs = r.nextInt(127) + 1;
         for (int i = 0; i < runs; i++) {
