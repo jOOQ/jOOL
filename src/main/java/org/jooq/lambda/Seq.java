@@ -28,6 +28,7 @@ import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,6 +36,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -621,7 +623,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Seq<T> retainAll(Seq<T> other) {
         Set<T> set = other.toSet(HashSet::new);
-        return set.isEmpty() ? empty() : filter(t -> !set.contains(t));
+        return set.isEmpty() ? empty() : filter(t -> set.contains(t));
     }
 
     /**
@@ -915,6 +917,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Tuple2<Seq<T>, Seq<T>> duplicate() {
         return duplicate(this);
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, Seq(1, 3, 5), tuple(0, Seq(2, 4, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
+     * // Seq(tuple(true, Seq(1, 3, 5), tuple(false, Seq(2, 4, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
+     * </pre></code>
+     *
+     * This is a non-terminal analog of Stream#groupBy()
+     * @see Seq#groupBy
+     * @see Seq#partition
+     */
+    default <K> Seq<Tuple2<K, Seq<T>>> grouped(Function<? super T, ? extends K> classifier) {
+        return grouped(this, classifier);
     }
 
     /**
@@ -3473,6 +3493,85 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     static <T> Seq<T> intersperse(Stream<T> stream, T value) {
         return seq(stream.flatMap(t -> Stream.of(value, t)).skip(1));
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, Seq(1, 3, 5), tuple(0, Seq(2, 4, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
+     * // Seq(tuple(true, Seq(1, 3, 5), tuple(false, Seq(2, 4, 6))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
+     * </pre></code>
+     *
+     * This is a non-terminal analog of Stream#groupBy()
+     * @see Seq#groupBy
+     * @see Seq#partition
+     */
+    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Seq<T> seq, Function<? super T, ? extends K> classifier) {
+        class ClassifyingIterator implements Iterator<Tuple2<K, Seq<T>>> {
+            final Map<K, Classification> classes = new LinkedHashMap<>();
+            final Iterator<T> it = seq.iterator();
+
+            class Classification implements Iterator<T> {
+                final K k;
+                final ArrayDeque<T> buffer = new ArrayDeque<>();
+
+                public Classification(K k) {
+                    this.k = k;
+                }
+
+                @Override
+                public boolean hasNext() {
+                    fetch();
+                    return !buffer.isEmpty();
+                }
+
+                @Override
+                public T next() {
+                    return buffer.poll();
+                }
+
+                private void fetch() {
+                    while (buffer.isEmpty() && it.hasNext()) {
+                        T next = it.next();
+                        K nextK = classifier.apply(next);
+                        if (nextK.equals(k)) {
+                            buffer.offer(next);
+                        } else {
+                            buffer(nextK).offer(next);
+                        }
+                    }
+                }
+
+                private ArrayDeque<T> buffer(K k) {
+                    return classes.computeIfAbsent(k, Classification::new).buffer;
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                return it.hasNext() || !classes.isEmpty();
+            }
+
+            @Override
+            public Tuple2<K, Seq<T>> next() {
+                // this branch will be executed just once (on the first call)
+                if (classes.isEmpty()) {
+                    T next = it.next();
+                    K nextK = classifier.apply(next);
+                    Classification c = new Classification(nextK);
+                    c.buffer.offer(next);
+                    return Tuple.tuple(nextK, Seq.seq(c));
+                } else {
+                    K key = classes.keySet().iterator().next();
+                    Classification c = classes.remove(key);
+                    return Tuple.tuple(key, Seq.seq(c));
+                }
+            }
+        }
+        return Seq.seq(new ClassifyingIterator());
     }
 
     /**

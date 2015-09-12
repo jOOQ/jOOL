@@ -18,7 +18,9 @@ package org.jooq.lambda;
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.mapping;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.jooq.lambda.Utils.assertThrows;
@@ -48,6 +50,7 @@ import java.util.Random;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
+import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple3;
 import org.jooq.lambda.tuple.Tuple4;
@@ -62,6 +65,55 @@ import org.junit.Test;
  * @author Lukas Eder
  */
 public class SeqTest {
+
+    @Test
+    public void testGrouped() throws Exception {
+        List<Tuple2<Integer, List<Integer>>> list = Seq.of(1,2,3,4)
+                .grouped(x -> x % 2)
+                .map(kv -> kv.map2(cls -> cls.toList())).toList();
+        assertEquals(
+                Arrays.asList(
+                        Tuple.tuple(1, Arrays.asList(1, 3)),
+                        Tuple.tuple(0, Arrays.asList(2, 4))),
+                list);
+    }
+
+    @Test
+    public void testTheSameBehaviorAsGroupBy() throws Exception {
+        Random r = new Random(System.nanoTime());
+        int runs = r.nextInt(127) + 1;
+        for (int i = 0; i < runs; i++) {
+            int mod = r.nextInt(125) + 2;
+            List<Long> longs = r.longs().limit(1024).boxed().collect(toList());
+            Map<Long, List<Long>> newMethod = Seq.seq(longs).grouped(x -> x % mod).toMap(t -> t.v1, t -> t.v2.toList());
+            Map<Long, List<Long>> libMethod = longs.stream().collect(groupingBy(x -> x % mod));
+            assertEquals(libMethod, newMethod);
+        }
+    }
+
+    @Test
+    public void testGroupedOnEmptySeq() throws Exception {
+        Seq<int[]> seq = Seq.empty();
+        assertEquals(Seq.empty().toList(), seq.grouped(xs -> xs.length).toList());
+    }
+
+    @Test
+    public void testGroupedOnASinleElementSeq() throws Exception {
+        int[] array = { 0 };
+        Seq<int[]> seq = Seq.of(array);
+        assertEquals(
+                asList(tuple(1, asList(array))),
+                seq.grouped(xs -> xs.length).map(t -> t.map2(s -> s.toList())).toList());
+    }
+
+    @Test
+    public void testGroupedOnSeqOfEqualElements() throws Exception {
+        List<String> strings = asList("seq", "seq", "seq", "seq", "seq");
+        Seq<String> seq = Seq.seq(strings);
+        assertEquals(
+                asList(tuple('q', strings)),
+                seq.grouped(xs -> xs.charAt(2)).map(t -> t.map2(s -> s.toList())).toList());
+    }
 
     @Test
     public void testZipEqualLength() {
