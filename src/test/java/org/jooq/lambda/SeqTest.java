@@ -78,6 +78,7 @@ public class SeqTest {
 
         assertTrue(it1.hasNext());
         Tuple2<Integer, Seq<Integer>> t11 = it1.next();
+        assertTrue(it1.hasNext());
         assertEquals(1, (int) t11.v1);
         Iterator<Integer> it11 = t11.v2.iterator();
         assertTrue(it11.hasNext());
@@ -86,6 +87,7 @@ public class SeqTest {
 
         assertTrue(it1.hasNext());
         Tuple2<Integer, Seq<Integer>> t12 = it1.next();
+        assertFalse(it1.hasNext());
         assertEquals(0, (int) t12.v1);
         Iterator<Integer> it12 = t12.v2.iterator();
         assertTrue(it12.hasNext());
