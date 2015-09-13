@@ -3511,9 +3511,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * @see Seq#partition
      */
     public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Seq<T> seq, Function<? super T, ? extends K> classifier) {
+        final Iterator<T> it = seq.iterator();
+
         class ClassifyingIterator implements Iterator<Tuple2<K, Seq<T>>> {
             final Map<K, Classification> classes = new LinkedHashMap<>();
-            final Iterator<T> it = seq.iterator();
 
             class Classification implements Iterator<T> {
                 final K k;
@@ -3538,9 +3539,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                     while (buffer.isEmpty() && it.hasNext()) {
                         T next = it.next();
                         K nextK = classifier.apply(next);
+
                         if (nextK.equals(k)) {
                             buffer.offer(next);
-                        } else {
+                        }
+                        else {
                             buffer(nextK).offer(next);
                         }
                     }
@@ -3560,6 +3563,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
 
             @Override
             public Tuple2<K, Seq<T>> next() {
+
                 // this branch will be executed just once (on the first call)
                 if (classes.isEmpty()) {
                     T next = it.next();
@@ -3567,13 +3571,15 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                     Classification c = new Classification(nextK);
                     c.buffer.offer(next);
                     return Tuple.tuple(nextK, Seq.seq(c));
-                } else {
+                }
+                else {
                     K key = classes.keySet().iterator().next();
                     Classification c = classes.remove(key);
                     return Tuple.tuple(key, Seq.seq(c));
                 }
             }
         }
+
         return Seq.seq(new ClassifyingIterator());
     }
 
