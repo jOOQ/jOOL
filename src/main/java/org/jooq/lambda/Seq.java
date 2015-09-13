@@ -3540,7 +3540,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                         T next = it.next();
                         K nextK = classifier.apply(next);
 
-                        if (nextK.equals(k)) {
+                        if (Objects.equals(nextK, k)) {
                             buffer.offer(next);
                         }
                         else {

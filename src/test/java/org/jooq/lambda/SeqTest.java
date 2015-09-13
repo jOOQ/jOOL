@@ -67,6 +67,19 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
+    public void testGroupedWithNullClassifications() throws Exception {
+        List<Tuple2<Integer, List<Integer>>> list =
+        Seq.of(1, 2, 3, 4)
+           .grouped(x -> x % 2 == 0 ? null : 1)
+           .map(kv -> kv.map2(cls -> cls.toList())).toList();
+
+        assertEquals(asList(
+            Tuple.tuple(1, Arrays.asList(1, 3)),
+            Tuple.tuple(null, Arrays.asList(2, 4))
+        ), list);
+    }
+
+    @Test
     public void testGrouped() throws Exception {
         List<Tuple2<Integer, List<Integer>>> list = Seq.of(1,2,3,4)
                 .grouped(x -> x % 2)
