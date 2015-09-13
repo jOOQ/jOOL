@@ -105,6 +105,40 @@ public class SeqTest {
     }
 
     @Test
+    public void testGroupedIteratorSkipFirstGroup() throws Exception {
+        Iterator<Tuple2<Integer, Seq<Integer>>> it1 =
+        Seq.of(1, 2, 3, 4)
+           .grouped(i -> i % 2)
+           .iterator();
+
+        assertTrue(it1.hasNext());
+        Tuple2<Integer, Seq<Integer>> t11 = it1.next();
+
+        assertTrue(it1.hasNext());
+        Tuple2<Integer, Seq<Integer>> t12 = it1.next();
+        assertEquals(0, (int) t12.v1);
+        Iterator<Integer> it12 = t12.v2.iterator();
+        assertTrue(it12.hasNext());
+        assertEquals(2, (int) it12.next());
+        assertTrue(it12.hasNext());
+        assertEquals(4, (int) it12.next());
+        assertFalse(it12.hasNext());
+        assertThrows(NoSuchElementException.class, () -> it12.next());
+
+        assertEquals(1, (int) t11.v1);
+        Iterator<Integer> it11 = t11.v2.iterator();
+        assertTrue(it11.hasNext());
+        assertEquals(1, (int) it11.next());
+        assertTrue(it11.hasNext());
+        assertEquals(3, (int) it11.next());
+        assertFalse(it11.hasNext());
+        assertThrows(NoSuchElementException.class, () -> it11.next());
+
+        assertFalse(it1.hasNext());
+        assertThrows(NoSuchElementException.class, () -> it1.next());
+    }
+
+    @Test
     public void testGroupedWithNullClassifications() throws Exception {
         List<Tuple2<Integer, List<Integer>>> list =
         Seq.of(1, 2, 3, 4)
