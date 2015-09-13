@@ -3530,9 +3530,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                     if (buffer == null)
                         buffer = buffers.get(key);
 
-                    while (buffer.isEmpty() && it.hasNext()) {
+                    while (buffer.isEmpty() && it.hasNext())
                         fetchNextNewKey();
-                    }
                 }
 
                 @Override
