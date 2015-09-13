@@ -924,9 +924,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Classify this stream's elements according to a given classifier function
      * <p>
      * <code><pre>
-     * // Seq(tuple(1, Seq(1, 3, 5), tuple(0, Seq(2, 4, 6))
+     * // Seq(tuple(1, Seq(1, 3, 5)), tuple(0, Seq(2, 4, 6)))
      * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
-     * // Seq(tuple(true, Seq(1, 3, 5), tuple(false, Seq(2, 4, 6))
+     * // Seq(tuple(true, Seq(1, 3, 5)), tuple(false, Seq(2, 4, 6)))
      * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
      * </pre></code>
      *
@@ -3500,9 +3500,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Classify this stream's elements according to a given classifier function
      * <p>
      * <code><pre>
-     * // Seq(tuple(1, Seq(1, 3, 5), tuple(0, Seq(2, 4, 6))
+     * // Seq(tuple(1, Seq(1, 3, 5)), tuple(0, Seq(2, 4, 6)))
      * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
-     * // Seq(tuple(true, Seq(1, 3, 5), tuple(false, Seq(2, 4, 6))
+     * // Seq(tuple(true, Seq(1, 3, 5)), tuple(false, Seq(2, 4, 6)))
      * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
      * </pre></code>
      *
