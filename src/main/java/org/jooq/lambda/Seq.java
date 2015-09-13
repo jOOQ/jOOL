@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Spliterator;
@@ -3514,19 +3515,29 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         final Iterator<T> it = seq.iterator();
 
         class ClassifyingIterator implements Iterator<Tuple2<K, Seq<T>>> {
-            final Map<K, Classification> classes = new LinkedHashMap<>();
+            final Map<K, Queue<T>> buffers = new LinkedHashMap<>();
+            final Queue<K> keys = new LinkedList<>();
 
             class Classification implements Iterator<T> {
-                final K k;
-                final ArrayDeque<T> buffer = new ArrayDeque<>();
+                final K key;
+                Queue<T> buffer;
 
-                public Classification(K k) {
-                    this.k = k;
+                Classification(K key) {
+                    this.key = key;
+                }
+
+                void fetchClassification() {
+                    if (buffer == null)
+                        buffer = buffers.get(key);
+
+                    while (buffer.isEmpty() && it.hasNext()) {
+                        fetchNextNewKey();
+                    }
                 }
 
                 @Override
                 public boolean hasNext() {
-                    fetch();
+                    fetchClassification();
                     return !buffer.isEmpty();
                 }
 
@@ -3534,53 +3545,47 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                 public T next() {
                     return buffer.poll();
                 }
+            }
 
-                private void fetch() {
-                    while (buffer.isEmpty() && it.hasNext()) {
-                        T next = it.next();
-                        K nextK = classifier.apply(next);
+            void fetchClassifying() {
+                while (it.hasNext() && fetchNextNewKey());
+            }
 
-                        if (Objects.equals(nextK, k)) {
-                            buffer.offer(next);
-                        }
-                        else {
-                            buffer(nextK).offer(next);
-                        }
+            boolean fetchNextNewKey() {
+                T next = it.next();
+                K nextK = classifier.apply(next);
+
+                Queue<T> buffer = buffers.get(nextK);
+
+                try {
+                    if (buffer == null) {
+                        buffer = new ArrayDeque<>();
+                        buffers.put(nextK, buffer);
+                        keys.add(nextK);
+                        return true;
                     }
                 }
-
-                private ArrayDeque<T> buffer(K k) {
-                    // Cannot use constructor reference Classification::new here because of an Eclipse bug
-                    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=477263
-                    return classes.computeIfAbsent(k, x -> new Classification(x)).buffer;
+                finally {
+                    buffer.offer(next);
                 }
+
+                return false;
             }
 
             @Override
             public boolean hasNext() {
-                return it.hasNext() || !classes.isEmpty();
+                fetchClassifying();
+                return !keys.isEmpty();
             }
 
             @Override
             public Tuple2<K, Seq<T>> next() {
-
-                // this branch will be executed just once (on the first call)
-                if (classes.isEmpty()) {
-                    T next = it.next();
-                    K nextK = classifier.apply(next);
-                    Classification c = new Classification(nextK);
-                    c.buffer.offer(next);
-                    return Tuple.tuple(nextK, Seq.seq(c));
-                }
-                else {
-                    K key = classes.keySet().iterator().next();
-                    Classification c = classes.remove(key);
-                    return Tuple.tuple(key, Seq.seq(c));
-                }
+                K nextK = keys.poll();
+                return tuple(nextK, seq(new Classification(nextK)));
             }
         }
 
-        return Seq.seq(new ClassifyingIterator());
+        return seq(new ClassifyingIterator());
     }
 
     /**
