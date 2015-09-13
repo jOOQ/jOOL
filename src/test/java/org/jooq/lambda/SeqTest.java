@@ -63,6 +63,7 @@ import org.junit.Test;
 
 /**
  * @author Lukas Eder
+ * @author Roman Tkalenko
  */
 public class SeqTest {
 
