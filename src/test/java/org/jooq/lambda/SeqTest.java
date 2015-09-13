@@ -41,10 +41,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiPredicate;
@@ -66,6 +68,41 @@ import org.junit.Test;
  * @author Roman Tkalenko
  */
 public class SeqTest {
+
+    @Test
+    public void testGroupedIterator() throws Exception {
+        Iterator<Tuple2<Integer, Seq<Integer>>> it1 =
+        Seq.of(1, 2, 3, 4)
+           .grouped(i -> i % 2)
+           .iterator();
+
+        assertTrue(it1.hasNext());
+        Tuple2<Integer, Seq<Integer>> t11 = it1.next();
+        assertEquals(1, (int) t11.v1);
+        Iterator<Integer> it11 = t11.v2.iterator();
+        assertTrue(it11.hasNext());
+        assertEquals(1, (int) it11.next());
+        assertTrue(it11.hasNext());
+
+        assertTrue(it1.hasNext());
+        Tuple2<Integer, Seq<Integer>> t12 = it1.next();
+        assertEquals(0, (int) t12.v1);
+        Iterator<Integer> it12 = t12.v2.iterator();
+        assertTrue(it12.hasNext());
+        assertEquals(2, (int) it12.next());
+        assertTrue(it12.hasNext());
+
+        assertEquals(3, (int) it11.next());
+        assertEquals(4, (int) it12.next());
+
+        assertFalse(it1.hasNext());
+        assertFalse(it11.hasNext());
+        assertFalse(it12.hasNext());
+
+        assertThrows(NoSuchElementException.class, () -> it1.next());
+        assertThrows(NoSuchElementException.class, () -> it11.next());
+        assertThrows(NoSuchElementException.class, () -> it12.next());
+    }
 
     @Test
     public void testGroupedWithNullClassifications() throws Exception {
