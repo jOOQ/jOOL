@@ -118,15 +118,16 @@ public class SeqTest {
     }
 
     @Test
-    public void testGrouped() throws Exception {
-        List<Tuple2<Integer, List<Integer>>> list = Seq.of(1,2,3,4)
-                .grouped(x -> x % 2)
-                .map(kv -> kv.map2(cls -> cls.toList())).toList();
-        assertEquals(
-                Arrays.asList(
-                        Tuple.tuple(1, Arrays.asList(1, 3)),
-                        Tuple.tuple(0, Arrays.asList(2, 4))),
-                list);
+    public void testGroupedToList() throws Exception {
+        List<Tuple2<Integer, List<Integer>>> list =
+        Seq.of(1, 2, 3, 4)
+           .grouped(x -> x % 2)
+           .map(kv -> kv.map2(cls -> cls.toList())).toList();
+
+        assertEquals(asList(
+            Tuple.tuple(1, Arrays.asList(1, 3)),
+            Tuple.tuple(0, Arrays.asList(2, 4))
+        ), list);
     }
 
     @Test
