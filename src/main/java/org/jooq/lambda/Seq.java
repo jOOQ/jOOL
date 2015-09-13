@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.jooq.lambda;
+
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Spliterator.ORDERED;

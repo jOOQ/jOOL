@@ -737,8 +737,15 @@ public class SeqTest {
 
     @Test
     public void testToString() {
-        assertEquals("123", Seq.of(1, 2, 3).toString());
-        assertEquals("1, 2, 3", Seq.of(1, 2, 3).toString(", "));
+        Seq<Integer> oneTwoThree = Seq.of(1, 2, 3);
+
+        // [#118] toString() operations on a Stream are buffered
+        assertEquals("123", oneTwoThree.toString());
+        assertEquals("123", oneTwoThree.toString());
+
+        assertEquals("1, 2, 3", oneTwoThree.toString(", "));
+        assertEquals("1, 2, 3", oneTwoThree.toString(", "));
+
         assertEquals("1, null, 3", Seq.of(1, null, 3).toString(", "));
     }
 
