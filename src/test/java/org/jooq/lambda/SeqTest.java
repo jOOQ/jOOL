@@ -51,6 +51,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
@@ -164,6 +165,30 @@ public class SeqTest {
             Tuple.tuple(1, Arrays.asList(1, 3)),
             Tuple.tuple(0, Arrays.asList(2, 4))
         ), list);
+    }
+
+    @Test
+    public void testGroupedWithCollector() throws Exception {
+        List<Tuple2<Integer, List<Integer>>> l1 =
+        Seq.of(1, 2, 3, 4)
+           .grouped(x -> x % 2, Collectors.toList())
+           .toList();
+
+        assertEquals(asList(
+            Tuple.tuple(1, Arrays.asList(1, 3)),
+            Tuple.tuple(0, Arrays.asList(2, 4))
+        ), l1);
+
+
+        List<Tuple2<Integer, String>> l2 =
+        Seq.of(1, 2, 3, 4)
+           .grouped(x -> x % 2, Collectors.mapping(Object::toString, Collectors.joining(", ")))
+           .toList();
+
+        assertEquals(asList(
+            Tuple.tuple(1, "1, 3"),
+            Tuple.tuple(0, "2, 4")
+        ), l2);
     }
 
     @Test

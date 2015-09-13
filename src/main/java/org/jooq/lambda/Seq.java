@@ -923,21 +923,39 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Classify this stream's elements according to a given classifier function
+     * Classify this stream's elements according to a given classifier function.
      * <p>
      * <code><pre>
      * // Seq(tuple(1, Seq(1, 3, 5)), tuple(0, Seq(2, 4, 6)))
-     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2)
      * // Seq(tuple(true, Seq(1, 3, 5)), tuple(false, Seq(2, 4, 6)))
      * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
      * </pre></code>
      *
-     * This is a non-terminal analog of Stream#groupBy()
-     * @see Seq#groupBy
-     * @see Seq#partition
+     * This is a non-terminal analog of {@link #groupBy(Function)})
+     * @see #groupBy(Function)
+     * @see #partition(Predicate)
      */
     default <K> Seq<Tuple2<K, Seq<T>>> grouped(Function<? super T, ? extends K> classifier) {
         return grouped(this, classifier);
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * and collect each class's elements using a collector.
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, 9), tuple(0, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2, Collectors.summingInt(i -> i))
+     * // Seq(tuple(true, 9), tuple(false, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0, Collectors.summingInt(i -> i))
+     * </pre></code> This is a non-terminal analog of
+     * {@link #groupBy(Function, Collector)})
+     *
+     * @see #groupBy(Function, Collector)
+     */
+    default <K, A, D> Seq<Tuple2<K, D>> grouped(Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+        return grouped(this, classifier, downstream);
     }
 
     /**
@@ -3508,9 +3526,45 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
      * </pre></code>
      *
-     * This is a non-terminal analog of Stream#groupBy()
-     * @see Seq#groupBy
-     * @see Seq#partition
+     * This is a non-terminal analog of {@link #groupBy(Stream, Function)})
+     * @see #groupBy(Function)
+     * @see #partition(Predicate)
+     */
+    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Stream<T> stream, Function<? super T, ? extends K> classifier) {
+        return grouped(seq(stream), classifier);
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, Seq(1, 3, 5)), tuple(0, Seq(2, 4, 6)))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
+     * // Seq(tuple(true, Seq(1, 3, 5)), tuple(false, Seq(2, 4, 6)))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
+     * </pre></code>
+     *
+     * This is a non-terminal analog of {@link #groupBy(Stream, Function)})
+     * @see #groupBy(Function)
+     * @see #partition(Predicate)
+     */
+    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Iterable<T> iterable, Function<? super T, ? extends K> classifier) {
+        return grouped(seq(iterable), classifier);
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, Seq(1, 3, 5)), tuple(0, Seq(2, 4, 6)))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 )
+     * // Seq(tuple(true, Seq(1, 3, 5)), tuple(false, Seq(2, 4, 6)))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0)
+     * </pre></code>
+     *
+     * This is a non-terminal analog of {@link #groupBy(Stream, Function)})
+     * @see #groupBy(Function)
+     * @see #partition(Predicate)
      */
     public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Seq<T> seq, Function<? super T, ? extends K> classifier) {
         final Iterator<T> it = seq.iterator();
@@ -3586,6 +3640,60 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         }
 
         return seq(new ClassifyingIterator());
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * and collect each class's elements using a collector.
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, 9), tuple(0, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2, Collectors.summingInt(i -> i))
+     * // Seq(tuple(true, 9), tuple(false, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0, Collectors.summingInt(i -> i))
+     * </pre></code> This is a non-terminal analog of
+     * {@link #groupBy(Function, Collector)})
+     *
+     * @see #groupBy(Function, Collector)
+     */
+    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Stream<T> stream, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+        return grouped(seq(stream), classifier, downstream);
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * and collect each class's elements using a collector.
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, 9), tuple(0, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2, Collectors.summingInt(i -> i))
+     * // Seq(tuple(true, 9), tuple(false, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0, Collectors.summingInt(i -> i))
+     * </pre></code> This is a non-terminal analog of
+     * {@link #groupBy(Function, Collector)})
+     *
+     * @see #groupBy(Function, Collector)
+     */
+    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Iterable<T> iterable, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+        return grouped(seq(iterable), classifier, downstream);
+    }
+
+    /**
+     * Classify this stream's elements according to a given classifier function
+     * and collect each class's elements using a collector.
+     * <p>
+     * <code><pre>
+     * // Seq(tuple(1, 9), tuple(0, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2, Collectors.summingInt(i -> i))
+     * // Seq(tuple(true, 9), tuple(false, 12))
+     * Seq.of(1, 2, 3, 4, 5, 6).grouped(i -> i % 2 != 0, Collectors.summingInt(i -> i))
+     * </pre></code> This is a non-terminal analog of
+     * {@link #groupBy(Function, Collector)})
+     *
+     * @see #groupBy(Function, Collector)
+     */
+    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Seq<T> seq, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+        return grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream)));
     }
 
     /**
