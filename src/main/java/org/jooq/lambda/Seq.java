@@ -1076,14 +1076,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Get the maximum value by a function.
+     * Get the minimum value by a function.
      */
     default <U extends Comparable<U>> Optional<T> minBy(Function<T, U> function) {
         return minBy(function, naturalOrder());
     }
 
     /**
-     * Get the maximum value by a function.
+     * Get the minimum value by a function.
      */
     default <U> Optional<T> minBy(Function<T, U> function, Comparator<? super U> comparator) {
         return map(t -> tuple(t, function.apply(t)))
