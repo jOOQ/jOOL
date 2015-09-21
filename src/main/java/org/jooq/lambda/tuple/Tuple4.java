@@ -104,6 +104,62 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     }
 
     /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> concat(Tuple5<T5, T6, T7, T8, T9> tuple) {
+        return new Tuple9<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10> Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> concat(Tuple6<T5, T6, T7, T8, T9, T10> tuple) {
+        return new Tuple10<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10, T11> Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> concat(Tuple7<T5, T6, T7, T8, T9, T10, T11> tuple) {
+        return new Tuple11<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10, T11, T12> Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> concat(Tuple8<T5, T6, T7, T8, T9, T10, T11, T12> tuple) {
+        return new Tuple12<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10, T11, T12, T13> Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> concat(Tuple9<T5, T6, T7, T8, T9, T10, T11, T12, T13> tuple) {
+        return new Tuple13<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8, tuple.v9);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> concat(Tuple10<T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> tuple) {
+        return new Tuple14<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8, tuple.v9, tuple.v10);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> concat(Tuple11<T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> tuple) {
+        return new Tuple15<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8, tuple.v9, tuple.v10, tuple.v11);
+    }
+
+    /**
+     * Concatenate a tuple to this tuple.
+     */
+    public final <T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> concat(Tuple12<T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> tuple) {
+        return new Tuple16<>(v1, v2, v3, v4, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8, tuple.v9, tuple.v10, tuple.v11, tuple.v12);
+    }
+
+    /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function4<T1, T2, T3, T4, R> function) {

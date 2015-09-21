@@ -22,14 +22,14 @@ import java.util.List;
 import java.util.Objects;
 
 import org.jooq.lambda.function.Function1;
-import org.jooq.lambda.function.Function7;
+import org.jooq.lambda.function.Function9;
 
 /**
- * A tuple of degree 7.
+ * A tuple of degree 9.
  *
  * @author Lukas Eder
  */
-public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tuple7<T1, T2, T3, T4, T5, T6, T7>>, Serializable, Cloneable {
+public class Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> implements Tuple, Comparable<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>>, Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,6 +40,8 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
     public final T5 v5;
     public final T6 v6;
     public final T7 v7;
+    public final T8 v8;
+    public final T9 v9;
 
     public T1 v1() {
         return v1;
@@ -69,7 +71,15 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         return v7;
     }
 
-    public Tuple7(Tuple7<T1, T2, T3, T4, T5, T6, T7> tuple) {
+    public T8 v8() {
+        return v8;
+    }
+
+    public T9 v9() {
+        return v9;
+    }
+
+    public Tuple9(Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> tuple) {
         this.v1 = tuple.v1;
         this.v2 = tuple.v2;
         this.v3 = tuple.v3;
@@ -77,9 +87,11 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         this.v5 = tuple.v5;
         this.v6 = tuple.v6;
         this.v7 = tuple.v7;
+        this.v8 = tuple.v8;
+        this.v9 = tuple.v9;
     }
 
-    public Tuple7(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7) {
+    public Tuple9(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9) {
         this.v1 = v1;
         this.v2 = v2;
         this.v3 = v3;
@@ -87,137 +99,139 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         this.v5 = v5;
         this.v6 = v6;
         this.v7 = v7;
+        this.v8 = v8;
+        this.v9 = v9;
     }
 
     /**
      * Concatenate a value to this tuple.
      */
-    public final <T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> concat(T8 value) {
-        return new Tuple8<>(v1, v2, v3, v4, v5, v6, v7, value);
+    public final <T10> Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> concat(T10 value) {
+        return new Tuple10<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, value);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> concat(Tuple1<T8> tuple) {
-        return new Tuple8<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1);
+    public final <T10> Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> concat(Tuple1<T10> tuple) {
+        return new Tuple10<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8, T9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> concat(Tuple2<T8, T9> tuple) {
-        return new Tuple9<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2);
+    public final <T10, T11> Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> concat(Tuple2<T10, T11> tuple) {
+        return new Tuple11<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1, tuple.v2);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8, T9, T10> Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> concat(Tuple3<T8, T9, T10> tuple) {
-        return new Tuple10<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3);
+    public final <T10, T11, T12> Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> concat(Tuple3<T10, T11, T12> tuple) {
+        return new Tuple12<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1, tuple.v2, tuple.v3);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8, T9, T10, T11> Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> concat(Tuple4<T8, T9, T10, T11> tuple) {
-        return new Tuple11<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3, tuple.v4);
+    public final <T10, T11, T12, T13> Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> concat(Tuple4<T10, T11, T12, T13> tuple) {
+        return new Tuple13<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1, tuple.v2, tuple.v3, tuple.v4);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8, T9, T10, T11, T12> Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> concat(Tuple5<T8, T9, T10, T11, T12> tuple) {
-        return new Tuple12<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5);
+    public final <T10, T11, T12, T13, T14> Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> concat(Tuple5<T10, T11, T12, T13, T14> tuple) {
+        return new Tuple14<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8, T9, T10, T11, T12, T13> Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> concat(Tuple6<T8, T9, T10, T11, T12, T13> tuple) {
-        return new Tuple13<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6);
+    public final <T10, T11, T12, T13, T14, T15> Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> concat(Tuple6<T10, T11, T12, T13, T14, T15> tuple) {
+        return new Tuple15<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6);
     }
 
     /**
      * Concatenate a tuple to this tuple.
      */
-    public final <T8, T9, T10, T11, T12, T13, T14> Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> concat(Tuple7<T8, T9, T10, T11, T12, T13, T14> tuple) {
-        return new Tuple14<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7);
-    }
-
-    /**
-     * Concatenate a tuple to this tuple.
-     */
-    public final <T8, T9, T10, T11, T12, T13, T14, T15> Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> concat(Tuple8<T8, T9, T10, T11, T12, T13, T14, T15> tuple) {
-        return new Tuple15<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8);
-    }
-
-    /**
-     * Concatenate a tuple to this tuple.
-     */
-    public final <T8, T9, T10, T11, T12, T13, T14, T15, T16> Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> concat(Tuple9<T8, T9, T10, T11, T12, T13, T14, T15, T16> tuple) {
-        return new Tuple16<>(v1, v2, v3, v4, v5, v6, v7, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7, tuple.v8, tuple.v9);
+    public final <T10, T11, T12, T13, T14, T15, T16> Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> concat(Tuple7<T10, T11, T12, T13, T14, T15, T16> tuple) {
+        return new Tuple16<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7);
     }
 
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function7<T1, T2, T3, T4, T5, T6, T7, R> function) {
+    public final <R> R map(Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> function) {
         return function.apply(this);
     }
 
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U1> Tuple7<U1, T2, T3, T4, T5, T6, T7> map1(Function1<? super T1, ? extends U1> function) {
-        return Tuple.tuple(function.apply(v1), v2, v3, v4, v5, v6, v7);
+    public final <U1> Tuple9<U1, T2, T3, T4, T5, T6, T7, T8, T9> map1(Function1<? super T1, ? extends U1> function) {
+        return Tuple.tuple(function.apply(v1), v2, v3, v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U2> Tuple7<T1, U2, T3, T4, T5, T6, T7> map2(Function1<? super T2, ? extends U2> function) {
-        return Tuple.tuple(v1, function.apply(v2), v3, v4, v5, v6, v7);
+    public final <U2> Tuple9<T1, U2, T3, T4, T5, T6, T7, T8, T9> map2(Function1<? super T2, ? extends U2> function) {
+        return Tuple.tuple(v1, function.apply(v2), v3, v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U3> Tuple7<T1, T2, U3, T4, T5, T6, T7> map3(Function1<? super T3, ? extends U3> function) {
-        return Tuple.tuple(v1, v2, function.apply(v3), v4, v5, v6, v7);
+    public final <U3> Tuple9<T1, T2, U3, T4, T5, T6, T7, T8, T9> map3(Function1<? super T3, ? extends U3> function) {
+        return Tuple.tuple(v1, v2, function.apply(v3), v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 4 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U4> Tuple7<T1, T2, T3, U4, T5, T6, T7> map4(Function1<? super T4, ? extends U4> function) {
-        return Tuple.tuple(v1, v2, v3, function.apply(v4), v5, v6, v7);
+    public final <U4> Tuple9<T1, T2, T3, U4, T5, T6, T7, T8, T9> map4(Function1<? super T4, ? extends U4> function) {
+        return Tuple.tuple(v1, v2, v3, function.apply(v4), v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 5 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U5> Tuple7<T1, T2, T3, T4, U5, T6, T7> map5(Function1<? super T5, ? extends U5> function) {
-        return Tuple.tuple(v1, v2, v3, v4, function.apply(v5), v6, v7);
+    public final <U5> Tuple9<T1, T2, T3, T4, U5, T6, T7, T8, T9> map5(Function1<? super T5, ? extends U5> function) {
+        return Tuple.tuple(v1, v2, v3, v4, function.apply(v5), v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 6 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U6> Tuple7<T1, T2, T3, T4, T5, U6, T7> map6(Function1<? super T6, ? extends U6> function) {
-        return Tuple.tuple(v1, v2, v3, v4, v5, function.apply(v6), v7);
+    public final <U6> Tuple9<T1, T2, T3, T4, T5, U6, T7, T8, T9> map6(Function1<? super T6, ? extends U6> function) {
+        return Tuple.tuple(v1, v2, v3, v4, v5, function.apply(v6), v7, v8, v9);
     }
 
     /**
      * Apply attribute 7 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U7> Tuple7<T1, T2, T3, T4, T5, T6, U7> map7(Function1<? super T7, ? extends U7> function) {
-        return Tuple.tuple(v1, v2, v3, v4, v5, v6, function.apply(v7));
+    public final <U7> Tuple9<T1, T2, T3, T4, T5, T6, U7, T8, T9> map7(Function1<? super T7, ? extends U7> function) {
+        return Tuple.tuple(v1, v2, v3, v4, v5, v6, function.apply(v7), v8, v9);
+    }
+
+    /**
+     * Apply attribute 8 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public final <U8> Tuple9<T1, T2, T3, T4, T5, T6, T7, U8, T9> map8(Function1<? super T8, ? extends U8> function) {
+        return Tuple.tuple(v1, v2, v3, v4, v5, v6, v7, function.apply(v8), v9);
+    }
+
+    /**
+     * Apply attribute 9 as argument to a function and return a new tuple with the substituted argument.
+     */
+    public final <U9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, U9> map9(Function1<? super T9, ? extends U9> function) {
+        return Tuple.tuple(v1, v2, v3, v4, v5, v6, v7, v8, function.apply(v9));
     }
 
     @Override
     public final Object[] array() {
-        return new Object[] { v1, v2, v3, v4, v5, v6, v7 };
+        return new Object[] { v1, v2, v3, v4, v5, v6, v7, v8, v9 };
     }
 
     @Override
@@ -226,11 +240,11 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
     }
 
     /**
-     * The degree of this tuple: 7.
+     * The degree of this tuple: 9.
      */
     @Override
     public final int degree() {
-        return 7;
+        return 9;
     }
 
     @Override
@@ -240,7 +254,7 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
     }
 
     @Override
-    public int compareTo(Tuple7<T1, T2, T3, T4, T5, T6, T7> other) {
+    public int compareTo(Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> other) {
         int result = 0;
 
         result = Tuples.compare(v1, other.v1); if (result != 0) return result;
@@ -250,6 +264,8 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         result = Tuples.compare(v5, other.v5); if (result != 0) return result;
         result = Tuples.compare(v6, other.v6); if (result != 0) return result;
         result = Tuples.compare(v7, other.v7); if (result != 0) return result;
+        result = Tuples.compare(v8, other.v8); if (result != 0) return result;
+        result = Tuples.compare(v9, other.v9); if (result != 0) return result;
 
         return result;
     }
@@ -258,11 +274,11 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof Tuple7))
+        if (!(o instanceof Tuple9))
             return false;
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
-        final Tuple7<T1, T2, T3, T4, T5, T6, T7> that = (Tuple7) o;
+        final Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> that = (Tuple9) o;
 
         if (!Objects.equals(v1, that.v1)) return false;
         if (!Objects.equals(v2, that.v2)) return false;
@@ -271,6 +287,8 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         if (!Objects.equals(v5, that.v5)) return false;
         if (!Objects.equals(v6, that.v6)) return false;
         if (!Objects.equals(v7, that.v7)) return false;
+        if (!Objects.equals(v8, that.v8)) return false;
+        if (!Objects.equals(v9, that.v9)) return false;
 
         return true;
     }
@@ -287,6 +305,8 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         result = prime * result + ((v5 == null) ? 0 : v5.hashCode());
         result = prime * result + ((v6 == null) ? 0 : v6.hashCode());
         result = prime * result + ((v7 == null) ? 0 : v7.hashCode());
+        result = prime * result + ((v8 == null) ? 0 : v8.hashCode());
+        result = prime * result + ((v9 == null) ? 0 : v9.hashCode());
 
         return result;
     }
@@ -301,11 +321,13 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
              + ", " + v5
              + ", " + v6
              + ", " + v7
+             + ", " + v8
+             + ", " + v9
              + ")";
     }
 
     @Override
-    public Tuple7<T1, T2, T3, T4, T5, T6, T7> clone() {
-        return new Tuple7<>(this);
+    public Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> clone() {
+        return new Tuple9<>(this);
     }
 }

@@ -68,13 +68,28 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Generated;
 
+import org.jooq.lambda.function.Function10;
+import org.jooq.lambda.function.Function11;
+import org.jooq.lambda.function.Function12;
+import org.jooq.lambda.function.Function13;
+import org.jooq.lambda.function.Function14;
+import org.jooq.lambda.function.Function15;
+import org.jooq.lambda.function.Function16;
 import org.jooq.lambda.function.Function3;
 import org.jooq.lambda.function.Function4;
 import org.jooq.lambda.function.Function5;
 import org.jooq.lambda.function.Function6;
 import org.jooq.lambda.function.Function7;
 import org.jooq.lambda.function.Function8;
+import org.jooq.lambda.function.Function9;
 import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple10;
+import org.jooq.lambda.tuple.Tuple11;
+import org.jooq.lambda.tuple.Tuple12;
+import org.jooq.lambda.tuple.Tuple13;
+import org.jooq.lambda.tuple.Tuple14;
+import org.jooq.lambda.tuple.Tuple15;
+import org.jooq.lambda.tuple.Tuple16;
 import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple3;
 import org.jooq.lambda.tuple.Tuple4;
@@ -82,6 +97,7 @@ import org.jooq.lambda.tuple.Tuple5;
 import org.jooq.lambda.tuple.Tuple6;
 import org.jooq.lambda.tuple.Tuple7;
 import org.jooq.lambda.tuple.Tuple8;
+import org.jooq.lambda.tuple.Tuple9;
 
 
 /**
@@ -1948,6 +1964,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Zip 9 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9));
+    }
+
+    /**
+     * Zip 10 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10));
+    }
+
+    /**
+     * Zip 11 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11));
+    }
+
+    /**
+     * Zip 12 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12));
+    }
+
+    /**
+     * Zip 13 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13));
+    }
+
+    /**
+     * Zip 14 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14));
+    }
+
+    /**
+     * Zip 15 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15));
+    }
+
+    /**
+     * Zip 16 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Stream<T16> s16) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16));
+    }
+
+    /**
      * Zip 2 streams into one.
      * <p>
      * <code><pre>
@@ -2036,6 +2156,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
+    }
+
+    /**
+     * Zip 9 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9));
+    }
+
+    /**
+     * Zip 10 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10));
+    }
+
+    /**
+     * Zip 11 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11));
+    }
+
+    /**
+     * Zip 12 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12));
+    }
+
+    /**
+     * Zip 13 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13));
+    }
+
+    /**
+     * Zip 14 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14));
+    }
+
+    /**
+     * Zip 15 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15));
+    }
+
+    /**
+     * Zip 16 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Iterable<T16> i16) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16));
     }
 
     /**
@@ -2130,6 +2354,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Zip 9 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9));
+    }
+
+    /**
+     * Zip 10 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
+    }
+
+    /**
+     * Zip 11 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11));
+    }
+
+    /**
+     * Zip 12 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12));
+    }
+
+    /**
+     * Zip 13 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13));
+    }
+
+    /**
+     * Zip 14 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14));
+    }
+
+    /**
+     * Zip 15 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15));
+    }
+
+    /**
+     * Zip 16 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "b"), tuple(3, "c"))
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16) {
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16));
+    }
+
+    /**
      * Zip 2 streams into one using a {@link BiFunction} to produce resulting values.
      * <p>
      * <code><pre>
@@ -2221,6 +2549,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Zip 9 streams into one using a {@link Function9} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), zipper);
+    }
+
+    /**
+     * Zip 10 streams into one using a {@link Function10} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Function10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), zipper);
+    }
+
+    /**
+     * Zip 11 streams into one using a {@link Function11} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Function11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), zipper);
+    }
+
+    /**
+     * Zip 12 streams into one using a {@link Function12} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Function12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), zipper);
+    }
+
+    /**
+     * Zip 13 streams into one using a {@link Function13} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Function13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), zipper);
+    }
+
+    /**
+     * Zip 14 streams into one using a {@link Function14} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Function14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), zipper);
+    }
+
+    /**
+     * Zip 15 streams into one using a {@link Function15} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Function15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), zipper);
+    }
+
+    /**
+     * Zip 16 streams into one using a {@link Function16} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Stream<T16> s16, Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> zipper) {
+        return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16), zipper);
+    }
+
+    /**
      * Zip 2 streams into one using a {@link BiFunction} to produce resulting values.
      * <p>
      * <code><pre>
@@ -2309,6 +2741,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), zipper);
+    }
+
+    /**
+     * Zip 9 streams into one using a {@link Function9} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), zipper);
+    }
+
+    /**
+     * Zip 10 streams into one using a {@link Function10} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Function10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), zipper);
+    }
+
+    /**
+     * Zip 11 streams into one using a {@link Function11} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Function11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), zipper);
+    }
+
+    /**
+     * Zip 12 streams into one using a {@link Function12} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Function12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), zipper);
+    }
+
+    /**
+     * Zip 13 streams into one using a {@link Function13} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Function13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), zipper);
+    }
+
+    /**
+     * Zip 14 streams into one using a {@link Function14} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Function14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), zipper);
+    }
+
+    /**
+     * Zip 15 streams into one using a {@link Function15} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Function15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), zipper);
+    }
+
+    /**
+     * Zip 16 streams into one using a {@link Function16} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Iterable<T16> i16, Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> zipper) {
+        return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16), zipper);
     }
 
     /**
@@ -2522,6 +3058,314 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
             @Override
             public R next() {
                 return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 9 streams into one using a {@link Function9} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 10 streams into one using a {@link Function10} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Function10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 11 streams into one using a {@link Function11} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Function11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+        final Iterator<T11> it11 = s11.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext() && it11.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next(), it11.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 12 streams into one using a {@link Function12} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Function12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+        final Iterator<T11> it11 = s11.iterator();
+        final Iterator<T12> it12 = s12.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext() && it11.hasNext() && it12.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next(), it11.next(), it12.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 13 streams into one using a {@link Function13} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Function13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+        final Iterator<T11> it11 = s11.iterator();
+        final Iterator<T12> it12 = s12.iterator();
+        final Iterator<T13> it13 = s13.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext() && it11.hasNext() && it12.hasNext() && it13.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next(), it11.next(), it12.next(), it13.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 14 streams into one using a {@link Function14} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Function14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+        final Iterator<T11> it11 = s11.iterator();
+        final Iterator<T12> it12 = s12.iterator();
+        final Iterator<T13> it13 = s13.iterator();
+        final Iterator<T14> it14 = s14.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext() && it11.hasNext() && it12.hasNext() && it13.hasNext() && it14.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next(), it11.next(), it12.next(), it13.next(), it14.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 15 streams into one using a {@link Function15} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Function15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+        final Iterator<T11> it11 = s11.iterator();
+        final Iterator<T12> it12 = s12.iterator();
+        final Iterator<T13> it13 = s13.iterator();
+        final Iterator<T14> it14 = s14.iterator();
+        final Iterator<T15> it15 = s15.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext() && it11.hasNext() && it12.hasNext() && it13.hasNext() && it14.hasNext() && it15.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next(), it11.next(), it12.next(), it13.next(), it14.next(), it15.next());
+            }
+        }
+
+        return seq(new Zip());
+    }
+
+    /**
+     * Zip 16 streams into one using a {@link Function16} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:b", "3:c")
+     * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16, Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+        final Iterator<T3> it3 = s3.iterator();
+        final Iterator<T4> it4 = s4.iterator();
+        final Iterator<T5> it5 = s5.iterator();
+        final Iterator<T6> it6 = s6.iterator();
+        final Iterator<T7> it7 = s7.iterator();
+        final Iterator<T8> it8 = s8.iterator();
+        final Iterator<T9> it9 = s9.iterator();
+        final Iterator<T10> it10 = s10.iterator();
+        final Iterator<T11> it11 = s11.iterator();
+        final Iterator<T12> it12 = s12.iterator();
+        final Iterator<T13> it13 = s13.iterator();
+        final Iterator<T14> it14 = s14.iterator();
+        final Iterator<T15> it15 = s15.iterator();
+        final Iterator<T16> it16 = s16.iterator();
+
+        class Zip implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() && it2.hasNext() && it3.hasNext() && it4.hasNext() && it5.hasNext() && it6.hasNext() && it7.hasNext() && it8.hasNext() && it9.hasNext() && it10.hasNext() && it11.hasNext() && it12.hasNext() && it13.hasNext() && it14.hasNext() && it15.hasNext() && it16.hasNext();
+            }
+
+            @Override
+            public R next() {
+                return zipper.apply(it1.next(), it2.next(), it3.next(), it4.next(), it5.next(), it6.next(), it7.next(), it8.next(), it9.next(), it10.next(), it11.next(), it12.next(), it13.next(), it14.next(), it15.next(), it16.next());
             }
         }
 
@@ -3007,6 +3851,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Cross join 9 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9));
+    }
+
+    /**
+     * Cross join 10 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10));
+    }
+
+    /**
+     * Cross join 11 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11));
+    }
+
+    /**
+     * Cross join 12 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12));
+    }
+
+    /**
+     * Cross join 13 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13));
+    }
+
+    /**
+     * Cross join 14 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14));
+    }
+
+    /**
+     * Cross join 15 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15));
+    }
+
+    /**
+     * Cross join 16 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Stream<T16> s16) {
+        return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16));
+    }
+
+    /**
      * Cross join 2 streams into one.
      * <p>
      * <code><pre>
@@ -3095,6 +4043,110 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
+    }
+
+    /**
+     * Cross join 9 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9));
+    }
+
+    /**
+     * Cross join 10 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10));
+    }
+
+    /**
+     * Cross join 11 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11));
+    }
+
+    /**
+     * Cross join 12 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12));
+    }
+
+    /**
+     * Cross join 13 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13));
+    }
+
+    /**
+     * Cross join 14 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14));
+    }
+
+    /**
+     * Cross join 15 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15));
+    }
+
+    /**
+     * Cross join 16 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Iterable<T16> i16) {
+        return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16));
     }
 
     /**
@@ -3193,6 +4245,118 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
         List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)));
+    }
+
+    /**
+     * Cross join 9 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9) {
+        List<Tuple8<T2, T3, T4, T5, T6, T7, T8, T9>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8)));
+    }
+
+    /**
+     * Cross join 10 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10) {
+        List<Tuple9<T2, T3, T4, T5, T6, T7, T8, T9, T10>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9)));
+    }
+
+    /**
+     * Cross join 11 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11) {
+        List<Tuple10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10)));
+    }
+
+    /**
+     * Cross join 12 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12) {
+        List<Tuple11<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11)));
+    }
+
+    /**
+     * Cross join 13 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13) {
+        List<Tuple12<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12)));
+    }
+
+    /**
+     * Cross join 14 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14) {
+        List<Tuple13<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13)));
+    }
+
+    /**
+     * Cross join 15 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15) {
+        List<Tuple14<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14)));
+    }
+
+    /**
+     * Cross join 16 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(1, "b"), tuple(2, "a"), tuple(2, "b"))
+     * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16) {
+        List<Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16).toList();
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14, t.v15)));
     }
 
 // [jooq-tools] END [crossjoin-static]
