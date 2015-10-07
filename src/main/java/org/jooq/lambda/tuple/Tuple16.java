@@ -153,6 +153,363 @@ public class Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     }
 
     /**
+     * Split this tuple into two tuples of degree 0 and 16.
+     */
+    public final Tuple2<Tuple0, Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split0() {
+        return new Tuple2<>(limit0(), skip0());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 1 and 15.
+     */
+    public final Tuple2<Tuple1<T1>, Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split1() {
+        return new Tuple2<>(limit1(), skip1());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 2 and 14.
+     */
+    public final Tuple2<Tuple2<T1, T2>, Tuple14<T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split2() {
+        return new Tuple2<>(limit2(), skip2());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 3 and 13.
+     */
+    public final Tuple2<Tuple3<T1, T2, T3>, Tuple13<T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split3() {
+        return new Tuple2<>(limit3(), skip3());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 4 and 12.
+     */
+    public final Tuple2<Tuple4<T1, T2, T3, T4>, Tuple12<T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split4() {
+        return new Tuple2<>(limit4(), skip4());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 5 and 11.
+     */
+    public final Tuple2<Tuple5<T1, T2, T3, T4, T5>, Tuple11<T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split5() {
+        return new Tuple2<>(limit5(), skip5());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 6 and 10.
+     */
+    public final Tuple2<Tuple6<T1, T2, T3, T4, T5, T6>, Tuple10<T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> split6() {
+        return new Tuple2<>(limit6(), skip6());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 7 and 9.
+     */
+    public final Tuple2<Tuple7<T1, T2, T3, T4, T5, T6, T7>, Tuple9<T8, T9, T10, T11, T12, T13, T14, T15, T16>> split7() {
+        return new Tuple2<>(limit7(), skip7());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 8 and 8.
+     */
+    public final Tuple2<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>, Tuple8<T9, T10, T11, T12, T13, T14, T15, T16>> split8() {
+        return new Tuple2<>(limit8(), skip8());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 9 and 7.
+     */
+    public final Tuple2<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>, Tuple7<T10, T11, T12, T13, T14, T15, T16>> split9() {
+        return new Tuple2<>(limit9(), skip9());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 10 and 6.
+     */
+    public final Tuple2<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>, Tuple6<T11, T12, T13, T14, T15, T16>> split10() {
+        return new Tuple2<>(limit10(), skip10());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 11 and 5.
+     */
+    public final Tuple2<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>, Tuple5<T12, T13, T14, T15, T16>> split11() {
+        return new Tuple2<>(limit11(), skip11());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 12 and 4.
+     */
+    public final Tuple2<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>, Tuple4<T13, T14, T15, T16>> split12() {
+        return new Tuple2<>(limit12(), skip12());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 13 and 3.
+     */
+    public final Tuple2<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>, Tuple3<T14, T15, T16>> split13() {
+        return new Tuple2<>(limit13(), skip13());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 14 and 2.
+     */
+    public final Tuple2<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>, Tuple2<T15, T16>> split14() {
+        return new Tuple2<>(limit14(), skip14());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 15 and 1.
+     */
+    public final Tuple2<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>, Tuple1<T16>> split15() {
+        return new Tuple2<>(limit15(), skip15());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 16 and 0.
+     */
+    public final Tuple2<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, Tuple0> split16() {
+        return new Tuple2<>(limit16(), skip16());
+    }
+
+    /**
+     * Limit this tuple to degree 0.
+     */
+    public final Tuple0 limit0() {
+        return new Tuple0();
+    }
+
+    /**
+     * Limit this tuple to degree 1.
+     */
+    public final Tuple1<T1> limit1() {
+        return new Tuple1<>(v1);
+    }
+
+    /**
+     * Limit this tuple to degree 2.
+     */
+    public final Tuple2<T1, T2> limit2() {
+        return new Tuple2<>(v1, v2);
+    }
+
+    /**
+     * Limit this tuple to degree 3.
+     */
+    public final Tuple3<T1, T2, T3> limit3() {
+        return new Tuple3<>(v1, v2, v3);
+    }
+
+    /**
+     * Limit this tuple to degree 4.
+     */
+    public final Tuple4<T1, T2, T3, T4> limit4() {
+        return new Tuple4<>(v1, v2, v3, v4);
+    }
+
+    /**
+     * Limit this tuple to degree 5.
+     */
+    public final Tuple5<T1, T2, T3, T4, T5> limit5() {
+        return new Tuple5<>(v1, v2, v3, v4, v5);
+    }
+
+    /**
+     * Limit this tuple to degree 6.
+     */
+    public final Tuple6<T1, T2, T3, T4, T5, T6> limit6() {
+        return new Tuple6<>(v1, v2, v3, v4, v5, v6);
+    }
+
+    /**
+     * Limit this tuple to degree 7.
+     */
+    public final Tuple7<T1, T2, T3, T4, T5, T6, T7> limit7() {
+        return new Tuple7<>(v1, v2, v3, v4, v5, v6, v7);
+    }
+
+    /**
+     * Limit this tuple to degree 8.
+     */
+    public final Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> limit8() {
+        return new Tuple8<>(v1, v2, v3, v4, v5, v6, v7, v8);
+    }
+
+    /**
+     * Limit this tuple to degree 9.
+     */
+    public final Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> limit9() {
+        return new Tuple9<>(v1, v2, v3, v4, v5, v6, v7, v8, v9);
+    }
+
+    /**
+     * Limit this tuple to degree 10.
+     */
+    public final Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> limit10() {
+        return new Tuple10<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10);
+    }
+
+    /**
+     * Limit this tuple to degree 11.
+     */
+    public final Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> limit11() {
+        return new Tuple11<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Limit this tuple to degree 12.
+     */
+    public final Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> limit12() {
+        return new Tuple12<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12);
+    }
+
+    /**
+     * Limit this tuple to degree 13.
+     */
+    public final Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> limit13() {
+        return new Tuple13<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13);
+    }
+
+    /**
+     * Limit this tuple to degree 14.
+     */
+    public final Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> limit14() {
+        return new Tuple14<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14);
+    }
+
+    /**
+     * Limit this tuple to degree 15.
+     */
+    public final Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> limit15() {
+        return new Tuple15<>(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15);
+    }
+
+    /**
+     * Limit this tuple to degree 16.
+     */
+    public final Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> limit16() {
+        return this;
+    }
+
+    /**
+     * Skip 0 degrees from this tuple.
+     */
+    public final Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip0() {
+        return this;
+    }
+
+    /**
+     * Skip 1 degrees from this tuple.
+     */
+    public final Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip1() {
+        return new Tuple15<>(v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 2 degrees from this tuple.
+     */
+    public final Tuple14<T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip2() {
+        return new Tuple14<>(v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 3 degrees from this tuple.
+     */
+    public final Tuple13<T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip3() {
+        return new Tuple13<>(v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 4 degrees from this tuple.
+     */
+    public final Tuple12<T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip4() {
+        return new Tuple12<>(v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 5 degrees from this tuple.
+     */
+    public final Tuple11<T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip5() {
+        return new Tuple11<>(v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 6 degrees from this tuple.
+     */
+    public final Tuple10<T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> skip6() {
+        return new Tuple10<>(v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 7 degrees from this tuple.
+     */
+    public final Tuple9<T8, T9, T10, T11, T12, T13, T14, T15, T16> skip7() {
+        return new Tuple9<>(v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 8 degrees from this tuple.
+     */
+    public final Tuple8<T9, T10, T11, T12, T13, T14, T15, T16> skip8() {
+        return new Tuple8<>(v9, v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 9 degrees from this tuple.
+     */
+    public final Tuple7<T10, T11, T12, T13, T14, T15, T16> skip9() {
+        return new Tuple7<>(v10, v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 10 degrees from this tuple.
+     */
+    public final Tuple6<T11, T12, T13, T14, T15, T16> skip10() {
+        return new Tuple6<>(v11, v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 11 degrees from this tuple.
+     */
+    public final Tuple5<T12, T13, T14, T15, T16> skip11() {
+        return new Tuple5<>(v12, v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 12 degrees from this tuple.
+     */
+    public final Tuple4<T13, T14, T15, T16> skip12() {
+        return new Tuple4<>(v13, v14, v15, v16);
+    }
+
+    /**
+     * Skip 13 degrees from this tuple.
+     */
+    public final Tuple3<T14, T15, T16> skip13() {
+        return new Tuple3<>(v14, v15, v16);
+    }
+
+    /**
+     * Skip 14 degrees from this tuple.
+     */
+    public final Tuple2<T15, T16> skip14() {
+        return new Tuple2<>(v15, v16);
+    }
+
+    /**
+     * Skip 15 degrees from this tuple.
+     */
+    public final Tuple1<T16> skip15() {
+        return new Tuple1<>(v16);
+    }
+
+    /**
+     * Skip 16 degrees from this tuple.
+     */
+    public final Tuple0 skip16() {
+        return new Tuple0();
+    }
+
+    /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> function) {

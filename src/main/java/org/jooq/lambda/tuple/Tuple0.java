@@ -159,6 +159,27 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
     }
 
     /**
+     * Split this tuple into two tuples of degree 0 and 0.
+     */
+    public final Tuple2<Tuple0, Tuple0> split0() {
+        return new Tuple2<>(limit0(), skip0());
+    }
+
+    /**
+     * Limit this tuple to degree 0.
+     */
+    public final Tuple0 limit0() {
+        return this;
+    }
+
+    /**
+     * Skip 0 degrees from this tuple.
+     */
+    public final Tuple0 skip0() {
+        return this;
+    }
+
+    /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function0<R> function) {

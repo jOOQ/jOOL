@@ -161,6 +161,69 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     }
 
     /**
+     * Split this tuple into two tuples of degree 0 and 2.
+     */
+    public final Tuple2<Tuple0, Tuple2<T1, T2>> split0() {
+        return new Tuple2<>(limit0(), skip0());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 1 and 1.
+     */
+    public final Tuple2<Tuple1<T1>, Tuple1<T2>> split1() {
+        return new Tuple2<>(limit1(), skip1());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 2 and 0.
+     */
+    public final Tuple2<Tuple2<T1, T2>, Tuple0> split2() {
+        return new Tuple2<>(limit2(), skip2());
+    }
+
+    /**
+     * Limit this tuple to degree 0.
+     */
+    public final Tuple0 limit0() {
+        return new Tuple0();
+    }
+
+    /**
+     * Limit this tuple to degree 1.
+     */
+    public final Tuple1<T1> limit1() {
+        return new Tuple1<>(v1);
+    }
+
+    /**
+     * Limit this tuple to degree 2.
+     */
+    public final Tuple2<T1, T2> limit2() {
+        return this;
+    }
+
+    /**
+     * Skip 0 degrees from this tuple.
+     */
+    public final Tuple2<T1, T2> skip0() {
+        return this;
+    }
+
+    /**
+     * Skip 1 degrees from this tuple.
+     */
+    public final Tuple1<T2> skip1() {
+        return new Tuple1<>(v2);
+    }
+
+    /**
+     * Skip 2 degrees from this tuple.
+     */
+    public final Tuple0 skip2() {
+        return new Tuple0();
+    }
+
+    /**
      * Get a tuple with the two attributes swapped.
      */
     public final Tuple2<T2, T1> swap() {

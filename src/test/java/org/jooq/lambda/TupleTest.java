@@ -195,10 +195,97 @@ public class TupleTest {
             tuple(3L, "1, 2, 3", 2.0),
             Stream.of(1, 2, 3)
                   .collect(collectors(
-                      counting(),
-                      mapping(Object::toString, joining(", ")),
-                      averagingInt(Integer::intValue)
+                          counting(),
+                          mapping(Object::toString, joining(", ")),
+                          averagingInt(Integer::intValue)
                   ))
+        );
+    }
+
+    @Test
+    public void testLimit() {
+        assertEquals(
+            tuple(),
+            tuple(1, "A", 2, "B").limit0()
+        );
+        assertEquals(
+            tuple(1),
+            tuple(1, "A", 2, "B").limit1()
+        );
+        assertEquals(
+            tuple(1, "A"),
+            tuple(1, "A", 2, "B").limit2()
+        );
+        assertEquals(
+            tuple(1, "A", 2),
+            tuple(1, "A", 2, "B").limit3()
+        );
+        assertEquals(
+            tuple(1, "A", 2, "B"),
+            tuple(1, "A", 2, "B").limit4()
+        );
+    }
+
+    @Test
+    public void testSkip() {
+        assertEquals(
+            tuple(              ),
+            tuple(1, "A", 2, "B").skip4()
+        );
+        assertEquals(
+            tuple(           "B"),
+            tuple(1, "A", 2, "B").skip3()
+        );
+        assertEquals(
+            tuple(        2, "B"),
+            tuple(1, "A", 2, "B").skip2()
+        );
+        assertEquals(
+            tuple(   "A", 2, "B"),
+            tuple(1, "A", 2, "B").skip1()
+        );
+        assertEquals(
+            tuple(1, "A", 2, "B"),
+            tuple(1, "A", 2, "B").skip0()
+        );
+    }
+
+    @Test
+    public void testSplit() {
+        assertEquals(
+            tuple(
+                tuple(              ),
+                tuple(1, "A", 2, "B")
+            ),
+            tuple(1, "A", 2, "B").split0()
+        );
+        assertEquals(
+            tuple(
+                tuple(1             ),
+                tuple(   "A", 2, "B")
+            ),
+            tuple(1, "A", 2, "B").split1()
+        );
+        assertEquals(
+            tuple(
+                tuple(1, "A"        ),
+                new Tuple2<>(        2, "B") // Strange IntelliJ Bug here
+            ),
+            tuple(1, "A", 2, "B").split2()
+        );
+        assertEquals(
+            tuple(
+                tuple(1, "A", 2     ),
+                tuple(           "B")
+            ),
+            tuple(1, "A", 2, "B").split3()
+        );
+        assertEquals(
+            tuple(
+                tuple(1, "A", 2, "B"),
+                tuple(              )
+            ),
+            tuple(1, "A", 2, "B").split4()
         );
     }
 }

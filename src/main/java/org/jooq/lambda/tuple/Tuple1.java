@@ -159,6 +159,48 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     }
 
     /**
+     * Split this tuple into two tuples of degree 0 and 1.
+     */
+    public final Tuple2<Tuple0, Tuple1<T1>> split0() {
+        return new Tuple2<>(limit0(), skip0());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 1 and 0.
+     */
+    public final Tuple2<Tuple1<T1>, Tuple0> split1() {
+        return new Tuple2<>(limit1(), skip1());
+    }
+
+    /**
+     * Limit this tuple to degree 0.
+     */
+    public final Tuple0 limit0() {
+        return new Tuple0();
+    }
+
+    /**
+     * Limit this tuple to degree 1.
+     */
+    public final Tuple1<T1> limit1() {
+        return this;
+    }
+
+    /**
+     * Skip 0 degrees from this tuple.
+     */
+    public final Tuple1<T1> skip0() {
+        return this;
+    }
+
+    /**
+     * Skip 1 degrees from this tuple.
+     */
+    public final Tuple0 skip1() {
+        return new Tuple0();
+    }
+
+    /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function1<T1, R> function) {

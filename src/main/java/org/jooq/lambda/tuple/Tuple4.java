@@ -160,6 +160,111 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     }
 
     /**
+     * Split this tuple into two tuples of degree 0 and 4.
+     */
+    public final Tuple2<Tuple0, Tuple4<T1, T2, T3, T4>> split0() {
+        return new Tuple2<>(limit0(), skip0());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 1 and 3.
+     */
+    public final Tuple2<Tuple1<T1>, Tuple3<T2, T3, T4>> split1() {
+        return new Tuple2<>(limit1(), skip1());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 2 and 2.
+     */
+    public final Tuple2<Tuple2<T1, T2>, Tuple2<T3, T4>> split2() {
+        return new Tuple2<>(limit2(), skip2());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 3 and 1.
+     */
+    public final Tuple2<Tuple3<T1, T2, T3>, Tuple1<T4>> split3() {
+        return new Tuple2<>(limit3(), skip3());
+    }
+
+    /**
+     * Split this tuple into two tuples of degree 4 and 0.
+     */
+    public final Tuple2<Tuple4<T1, T2, T3, T4>, Tuple0> split4() {
+        return new Tuple2<>(limit4(), skip4());
+    }
+
+    /**
+     * Limit this tuple to degree 0.
+     */
+    public final Tuple0 limit0() {
+        return new Tuple0();
+    }
+
+    /**
+     * Limit this tuple to degree 1.
+     */
+    public final Tuple1<T1> limit1() {
+        return new Tuple1<>(v1);
+    }
+
+    /**
+     * Limit this tuple to degree 2.
+     */
+    public final Tuple2<T1, T2> limit2() {
+        return new Tuple2<>(v1, v2);
+    }
+
+    /**
+     * Limit this tuple to degree 3.
+     */
+    public final Tuple3<T1, T2, T3> limit3() {
+        return new Tuple3<>(v1, v2, v3);
+    }
+
+    /**
+     * Limit this tuple to degree 4.
+     */
+    public final Tuple4<T1, T2, T3, T4> limit4() {
+        return this;
+    }
+
+    /**
+     * Skip 0 degrees from this tuple.
+     */
+    public final Tuple4<T1, T2, T3, T4> skip0() {
+        return this;
+    }
+
+    /**
+     * Skip 1 degrees from this tuple.
+     */
+    public final Tuple3<T2, T3, T4> skip1() {
+        return new Tuple3<>(v2, v3, v4);
+    }
+
+    /**
+     * Skip 2 degrees from this tuple.
+     */
+    public final Tuple2<T3, T4> skip2() {
+        return new Tuple2<>(v3, v4);
+    }
+
+    /**
+     * Skip 3 degrees from this tuple.
+     */
+    public final Tuple1<T4> skip3() {
+        return new Tuple1<>(v4);
+    }
+
+    /**
+     * Skip 4 degrees from this tuple.
+     */
+    public final Tuple0 skip4() {
+        return new Tuple0();
+    }
+
+    /**
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function4<T1, T2, T3, T4, R> function) {
