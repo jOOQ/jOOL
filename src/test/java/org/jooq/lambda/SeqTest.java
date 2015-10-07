@@ -950,6 +950,15 @@ public class SeqTest {
     }
 
     @Test
+    public void testMode() {
+        assertEquals(1, (int) Seq.of(1, 1, 1, 2, 3).mode().get());
+        assertEquals(2, (int) Seq.of(1, 2, 2, 2, 3, 3, 3, 4).mode().get());
+        assertEquals(3, (int) Seq.of(1, 2, 2, 2, 3, 3, 3, 4).reverse().mode().get());
+        assertEquals("B", Seq.of("A", "B", "B", "B", "C").mode().get());
+        assertEquals(Optional.empty(), Seq.of().mode());
+    }
+
+    @Test
     public void testUnzip() {
         Supplier<Seq<Tuple2<Integer, String>>> s = () -> Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
 
