@@ -188,8 +188,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         List<U> list = other.toList();
 
         return flatMap(t -> seq(list)
-              .filter(u -> predicate.test(t, u))
-              .map(u -> tuple(t, u)));
+                .filter(u -> predicate.test(t, u))
+                .map(u -> tuple(t, u)));
     }
 
     /**
@@ -230,9 +230,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         List<U> list = other.toList();
 
         return flatMap(t -> seq(list)
-              .filter(u -> predicate.test(t, u))
-              .onEmpty(null)
-              .map(u -> tuple(t, u)));
+                .filter(u -> predicate.test(t, u))
+                .onEmpty(null)
+                .map(u -> tuple(t, u)));
     }
 
     /**
@@ -422,6 +422,150 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     @SuppressWarnings({ "unchecked" })
     default Seq<T> concat(T... other) {
         return concat(Seq.of(other));
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).append(Seq.of(4, 5, 6))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> append(Stream<T> other) {
+        return concat(other);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).append(Seq.of(4, 5, 6))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> append(Iterable<T> other) {
+        return concat(other);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).append(Seq.of(4, 5, 6))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    @SuppressWarnings({ "unchecked" })
+    default Seq<T> append(Seq<T> other) {
+        return concat(other);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4)
+     * Seq.of(1, 2, 3).append(4)
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> append(T other) {
+        return concat(other);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(1, 2, 3).append(4, 5, 6)
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    @SuppressWarnings({ "unchecked" })
+    default Seq<T> append(T... other) {
+        return concat(other);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(4, 5, 6).prepend(Seq.of(1, 2, 3))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> prepend(Stream<T> other) {
+        return seq(other).concat(this);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(4, 5, 6).prepend(Seq.of(1, 2, 3))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> prepend(Iterable<T> other) {
+        return seq(other).concat(this);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(4, 5, 6).prepend(Seq.of(1, 2, 3))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    @SuppressWarnings({ "unchecked" })
+    default Seq<T> prepend(Seq<T> other) {
+        return other.concat(this);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4)
+     * Seq.of(2, 3, 4).prepend(1)
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    default Seq<T> prepend(T other) {
+        return Seq.of(other).concat(this);
+    }
+
+    /**
+     * Concatenate two streams.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4, 5, 6)
+     * Seq.of(4, 5, 6).prepend(Seq.of(1, 2, 3))
+     * </pre></code>
+     *
+     * @see #concat(Stream[])
+     */
+    @SuppressWarnings({ "unchecked" })
+    default Seq<T> prepend(T... other) {
+        return Seq.of(other).concat(this);
     }
 
     /**
@@ -1085,7 +1229,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Consume a stream and concatenate all elements using a separator.
+     * Consume a stream and concatenate aTll elements using a separator.
      */
     default String toString(String separator) {
         return toString(this, separator);

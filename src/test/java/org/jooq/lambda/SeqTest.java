@@ -753,6 +753,22 @@ public class SeqTest {
     }
 
     @Test
+    public void testAppend() {
+        assertEquals(asList(1, 2, 3, 4), Seq.of(1).append(Seq.of(2, 3, 4)).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(1, 2).append(Seq.of(3, 4)).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(1).append(2, 3, 4).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(1, 2).append(3, 4).toList());
+    }
+
+    @Test
+    public void testPrepend() {
+        assertEquals(asList(1, 2, 3, 4), Seq.of(4).prepend(Seq.of(1, 2, 3)).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(3, 4).prepend(Seq.of(1, 2)).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(4).prepend(1, 2, 3).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(3, 4).prepend(1, 2).toList());
+    }
+
+    @Test
     public void testIntersperse() {
         assertEquals(asList(), Seq.of().intersperse(0).toList());
         assertEquals(asList(1), Seq.of(1).intersperse(0).toList());
