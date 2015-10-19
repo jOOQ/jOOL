@@ -125,10 +125,11 @@ public final class SQL {
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
     public static <T> Seq<T> seq(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
-        return Seq.seq(new ResultSetIterator<>(supplier, rowFunction, exceptionTranslator));
+        ResultSetIterator it = new ResultSetIterator<>(supplier, rowFunction, exceptionTranslator);
+        return Seq.seq(it).onClose(() -> it.close());
     }
 
-    static class ResultSetIterator<T> implements Iterator<T> {
+    static class ResultSetIterator<T> implements Iterator<T>, AutoCloseable {
 
         private final Supplier<? extends ResultSet>  supplier;
         private final Function<ResultSet, T>         rowFunction;
@@ -163,9 +164,6 @@ public final class SQL {
                     hasNext = rs().next();
                 }
 
-                if (!hasNext)
-                    rs().close();
-
                 return hasNext;
             }
             catch (SQLException e) {
@@ -184,6 +182,17 @@ public final class SQL {
             }
             finally {
                 hasNext = null;
+            }
+        }
+
+        @Override
+        public void close() {
+            try {
+                rs().close();
+            }
+            catch (SQLException e) {
+                exceptionTranslator.accept(e);
+                throw new IllegalStateException("Must throw an exception in exceptionTranslator", e);
             }
         }
     }
