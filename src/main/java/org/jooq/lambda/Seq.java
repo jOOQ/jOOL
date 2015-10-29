@@ -5235,16 +5235,34 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     // These methods have no effect
     // ----------------------------
 
+    /**
+     * Returns this stream. All Seq streams are sequential, hence the name.
+     *
+     * @return this stream unmodified
+     */
     @Override
     default Seq<T> sequential() {
         return this;
     }
 
+    /**
+     * Seq streams are always sequential and, as such, doesn't support
+     * parallelization.
+     *
+     * @return this sequential stream unmodified
+     * @see <a href="https://github.com/jOOQ/jOOL/issues/130">jOOL Issue #130</a>
+     */
     @Override
     default Seq<T> parallel() {
         return this;
     }
 
+    /**
+     * Returns this stream. All Seq streams are ordered so this method has
+     * no effect.
+     *
+     * @return this stream unmodified
+     */
     @Override
     default Seq<T> unordered() {
         return this;
