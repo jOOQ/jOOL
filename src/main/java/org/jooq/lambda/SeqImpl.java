@@ -226,6 +226,13 @@ class SeqImpl<T> implements Seq<T> {
         return stream().spliterator();
     }
 
+    /**
+     * Always returns false. Seq streams are always sequential and, as such,
+     * doesn't support parallelization.
+     *
+     * @return false
+     * @see <a href="https://github.com/jOOQ/jOOL/issues/130">jOOL Issue #130</a>
+     */
     @Override
     public boolean isParallel() {
         return false;
