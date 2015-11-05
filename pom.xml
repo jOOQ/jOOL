@@ -13,7 +13,7 @@
     <groupId>org.jooq</groupId>
     <artifactId>jool</artifactId>
     <version>0.9.8-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
 
     <name>jOOL</name>
     <description>jOOλ is part of the jOOQ series (along with jOOQ, jOOX, jOOR, jOOU) providing some useful extensions to Java 8 lambdas.</description>
@@ -115,6 +115,17 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.4.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                    </instructions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -214,7 +225,7 @@
         </developer>
     </developers>
 
-    <dependencies>
+    <dependencies>        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
