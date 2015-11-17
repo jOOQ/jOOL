@@ -37,18 +37,7 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -656,6 +645,32 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).innerJoin(Seq.of(1, 2), TRUE).toList());
+    }
+
+    @Test
+    public void testInnerJoinWithMap() {
+        Map<Integer, List<Integer>> map = Collections.unmodifiableMap(new HashMap<Integer, List<Integer>>() {
+            {
+                put(1, new ArrayList<Integer>() {{
+                    add(1);
+                    add(2);
+                }});
+                put(2, new ArrayList<Integer>() {{
+                    add(1);
+                    add(2);
+                }});
+            }
+        });
+        assertEquals(asList(
+                        tuple(1, new ArrayList<Integer>() {{
+                            add(1);
+                            add(2);
+                        }}),
+                        tuple(1, new ArrayList<Integer>() {{
+                            add(1);
+                            add(2);
+                        }})),
+                Seq.of(1, 1).innerJoin(map, v -> v).toList());
     }
 
     @Test

@@ -68,20 +68,7 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Generated;
 
-import org.jooq.lambda.function.Function10;
-import org.jooq.lambda.function.Function11;
-import org.jooq.lambda.function.Function12;
-import org.jooq.lambda.function.Function13;
-import org.jooq.lambda.function.Function14;
-import org.jooq.lambda.function.Function15;
-import org.jooq.lambda.function.Function16;
-import org.jooq.lambda.function.Function3;
-import org.jooq.lambda.function.Function4;
-import org.jooq.lambda.function.Function5;
-import org.jooq.lambda.function.Function6;
-import org.jooq.lambda.function.Function7;
-import org.jooq.lambda.function.Function8;
-import org.jooq.lambda.function.Function9;
+import org.jooq.lambda.function.*;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple10;
 import org.jooq.lambda.tuple.Tuple11;
@@ -190,6 +177,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return flatMap(t -> seq(list)
                 .filter(u -> predicate.test(t, u))
                 .map(u -> tuple(t, u)));
+    }
+
+    /**
+     * Inner join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> innerJoin(Map<?, U> other, Function1<? super T, ?> keyFunction) {
+
+        return filter(t -> other.containsKey(keyFunction.apply(t)))
+                .map(u -> tuple(u, other.get(keyFunction.apply(u))));
     }
 
     /**
