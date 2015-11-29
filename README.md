@@ -16,7 +16,14 @@ Tuple support is essential in functional programming. A variety of things can be
 org.jooq.lambda.Seq
 -------------------
 
-The new Streams API was implemented with a strong focus on parallelisation. Many of the useful methods that we know from other functional languages (e.g Scala) are missing. This is why jOOλ knows a `Seq` interface that extends `Stream` and adds a variety of additional methods to, such as:
+The new Streams API was implemented to provide filter/map/reduce-like operations leveraging the new lambdas.
+Many of the useful methods that we know from other functional languages (e.g Scala) are missing. This is why jOOλ knows
+a `Seq` (short of _Sequential_) interface that extends `Stream` and adds a variety of additional methods to.
+
+Please note that all `Seq`'s are **sequential and ordered streams**, so don't bother to call `parallel()` on it, it will
+return the same `Seq`.
+
+`Seq` adds a handful of useful methods, such as:
 
 ```java
 // (1, 2, 3, 4, 5, 6)
