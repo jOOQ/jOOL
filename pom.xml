@@ -29,7 +29,7 @@
     <scm>
         <developerConnection>https://github.com/jOOQ/jOOL.git</developerConnection>
         <url>https://github.com/jOOQ/jOOL.git</url>
-        <connection>https://github.com/jOOQ/jOOL.gitn</connection>
+        <connection>https://github.com/jOOQ/jOOL.git</connection>
     </scm>
 
     <properties>
