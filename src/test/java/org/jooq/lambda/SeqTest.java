@@ -1403,4 +1403,13 @@ public class SeqTest {
             Arrays.asList(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(2L), Instant.ofEpochSecond(4L)),
             Seq.rangeClosed(Instant.ofEpochSecond(0L), Instant.ofEpochSecond(5L), Duration.ofSeconds(2)).toList());
     }
+
+    @Test
+    public void testGet() {
+        assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(-1));
+        assertEquals(Optional.of(1), Seq.of(1, 2, 3).get(0));
+        assertEquals(Optional.of(2), Seq.of(1, 2, 3).get(1));
+        assertEquals(Optional.of(3), Seq.of(1, 2, 3).get(2));
+        assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(3));
+    }
 }

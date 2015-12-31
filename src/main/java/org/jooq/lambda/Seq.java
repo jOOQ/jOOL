@@ -679,6 +679,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Get a single element from the stream at a given index
+     */
+    default Optional<T> get(long index) {
+        if (index < 0L)
+            return Optional.empty();
+        else if (index == 0L)
+            return findFirst();
+        else
+            return skip(index).findFirst();
+    }
+
+    /**
      * Return a new stream where the first occurrence of the argument is removed.
      * <p>
      * <code><pre>
