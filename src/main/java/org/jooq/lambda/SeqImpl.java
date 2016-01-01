@@ -47,7 +47,7 @@ class SeqImpl<T> implements Seq<T> {
     private Object[]        buffered;
 
     SeqImpl(Stream<T> stream) {
-        this.stream = stream;
+        this.stream = stream.sequential();
     }
 
     @SuppressWarnings("unchecked")
