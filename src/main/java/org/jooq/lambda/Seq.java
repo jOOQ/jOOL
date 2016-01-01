@@ -1885,31 +1885,28 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<T> cycle(Seq<T> stream) {
-        return transform(stream, new SeqUtils.DelegatingSpliterator<T, T>() {
-            List<T> list = new ArrayList<>();
-            Spliterator<T> sp;
+        List<T> list = new ArrayList<>();
+        Spliterator<T>[] sp = new Spliterator[1];
 
-            @Override
-            public boolean tryAdvance(Spliterator<T> delegate, Consumer<? super T> action) {
-                if (sp == null) {
-                    if (delegate.tryAdvance(t -> {
-                        list.add(t);
-                        action.accept(t);
-                    }))
-                        return true;
-                    else
-                        sp = list.spliterator();
-                }
-
-                if (!sp.tryAdvance(action)) {
-                    sp = list.spliterator();
-
-                    if (!sp.tryAdvance(action))
-                        return false;
-                }
-
-                return true;
+        return transform(stream, (delegate, action) -> {
+            if (sp[0] == null) {
+                if (delegate.tryAdvance(t -> {
+                    list.add(t);
+                    action.accept(t);
+                }))
+                    return true;
+                else
+                    sp[0] = list.spliterator();
             }
+
+            if (!sp[0].tryAdvance(action)) {
+                sp[0] = list.spliterator();
+
+                if (!sp[0].tryAdvance(action))
+                    return false;
+            }
+
+            return true;
         });
     }
 
