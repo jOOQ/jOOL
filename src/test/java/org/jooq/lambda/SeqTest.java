@@ -37,18 +37,7 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -1411,5 +1400,17 @@ public class SeqTest {
         assertEquals(Optional.of(2), Seq.of(1, 2, 3).get(1));
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).get(2));
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(3));
+    }
+
+    @Test
+    public void testXXX() {
+        Spliterator<Integer> s = Seq.<Integer>of().spliterator();
+
+        System.out.println(s.tryAdvance(System.out::println));
+        System.out.println(s.tryAdvance(System.out::println));
+        System.out.println(s.tryAdvance(System.out::println));
+        System.out.println(s.tryAdvance(System.out::println));
+        System.out.println(s.tryAdvance(System.out::println));
+        System.out.println(s.tryAdvance(System.out::println));
     }
 }

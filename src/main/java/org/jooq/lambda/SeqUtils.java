@@ -15,6 +15,8 @@
  */
 package org.jooq.lambda;
 
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -36,5 +38,50 @@ class SeqUtils {
             return null;
 
         return Seq.of(iterables).map(Seq::seq).toArray(Seq[]::new);
+    }
+
+    static <T, U> Seq<U> transform(Stream<T> stream, DelegatingSpliterator<T, U> delegating) {
+        Spliterator<T> delegate = stream.spliterator();
+
+        return Seq.seq(new Spliterator<U>() {
+            @Override
+            public boolean tryAdvance(Consumer<? super U> action) {
+                return delegating.tryAdvance(delegate, action);
+            }
+
+            @Override
+            public Spliterator<U> trySplit() {
+                return this;
+            }
+
+            @Override
+            public long estimateSize() {
+                return delegate.estimateSize();
+            }
+
+            @Override
+            public int characteristics() {
+                return delegate.characteristics();
+            }
+        });
+    }
+
+    /**
+     * Sneaky throw any type of Throwable.
+     */
+    static void sneakyThrow(Throwable throwable) {
+        SeqUtils.<RuntimeException>sneakyThrow0(throwable);
+    }
+
+    /**
+     * Sneaky throw any type of Throwable.
+     */
+    static <E extends Throwable> void sneakyThrow0(Throwable throwable) throws E {
+        throw (E) throwable;
+    }
+
+    @FunctionalInterface
+    interface DelegatingSpliterator<T, U> {
+        boolean tryAdvance(Spliterator<T> delegate, Consumer<? super U> action);
     }
 }

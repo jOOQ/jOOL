@@ -19,6 +19,8 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
+import static org.jooq.lambda.SeqUtils.sneakyThrow;
+import static org.jooq.lambda.SeqUtils.transform;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
@@ -286,34 +288,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <code>supplier</code>, in case this stream is empty.
      */
     default Seq<T> onEmptyGet(Supplier<T> supplier) {
-        Iterator<T> it = iterator();
+        boolean[] first = { true };
 
-        class OnEmptyGet implements Iterator<T> {
-            Iterator<T> delegate;
+        return transform(this, (delegate, action) -> {
+            if (first[0]) {
+                first[0] = false;
 
-            private Iterator<T> delegate() {
-                if (delegate == null) {
-                    if (it.hasNext())
-                        delegate = it;
-                    else
-                        delegate = of(supplier.get()).iterator();
-                }
+                if (!delegate.tryAdvance(action))
+                    action.accept(supplier.get());
 
-                return delegate;
+                return true;
+            } else {
+                return delegate.tryAdvance(action);
             }
-
-            @Override
-            public boolean hasNext() {
-                return delegate().hasNext();
-            }
-
-            @Override
-            public T next() {
-                return delegate().next();
-            }
-        }
-
-        return seq(new OnEmptyGet());
+        });
     }
 
     /**
@@ -321,35 +309,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * <code>supplier</code>, in case this stream is empty.
      */
     default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<X> supplier) {
-        Iterator<T> it = iterator();
+        boolean[] first = { true };
 
-        class OnEmptyThrow implements Iterator<T> {
-            Iterator<T> delegate;
+        return transform(this, (delegate, action) -> {
+            if (first[0]) {
+                first[0] = false;
 
-            @SuppressWarnings("unchecked")
-            private <E extends Throwable> Iterator<T> delegate() throws E {
-                if (delegate == null) {
-                    if (it.hasNext())
-                        delegate = it;
-                    else
-                        throw (E) supplier.get();
-                }
+                if (!delegate.tryAdvance(action))
+                    sneakyThrow(supplier.get());
 
-                return delegate;
+                return true;
+            } else {
+                return delegate.tryAdvance(action);
             }
-
-            @Override
-            public boolean hasNext() {
-                return delegate().hasNext();
-            }
-
-            @Override
-            public T next() {
-                return delegate().next();
-            }
-        }
-
-        return seq(new OnEmptyThrow());
+        });
     }
 
     /**
@@ -3572,23 +3545,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T> Seq<Tuple2<T, Long>> zipWithIndex(Seq<T> stream) {
-        final Iterator<T> it = stream.iterator();
+        long[] index = { -1L };
 
-        class ZipWithIndex implements Iterator<Tuple2<T, Long>> {
-            long index;
-
-            @Override
-            public boolean hasNext() {
-                return it.hasNext();
-            }
-
-            @Override
-            public Tuple2<T, Long> next() {
-                return tuple(it.next(), index++);
-            }
-        }
-
-        return seq(new ZipWithIndex());
+        return transform(stream, (delegate, action) ->
+                        delegate.tryAdvance(t ->
+                                        action.accept(tuple(t, index[0] = index[0] + 1))
+                        )
+        );
     }
 
     /**
@@ -3702,29 +3665,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> scanLeft(Seq<T> stream, U seed, BiFunction<U, ? super T, U> function) {
-        final Iterator<T> it = stream.iterator();
+        U[] value = (U[]) new Object[] { seed };
 
-        class ScanLeft implements Iterator<U> {
-            boolean first = true;
-            U value = seed;
-
-            @Override
-            public boolean hasNext() {
-                return first || it.hasNext();
-            }
-
-            @Override
-            public U next() {
-                if (first) {
-                    first = false;
-                } else {
-                    value = function.apply(value, it.next());
-                }
-                return value;
-            }
-        }
-
-        return seq(new ScanLeft());
+        return Seq.of(seed).concat(transform(stream, (delegate, action) ->
+            delegate.tryAdvance(t ->
+                action.accept(value[0] = function.apply(value[0], t))
+            )
+        ));
     }
 
     /**
@@ -3772,40 +3719,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */
     static <T, U> Seq<T> unfold(U seed, Function<U, Optional<Tuple2<T, U>>> unfolder) {
-        class Unfold implements Iterator<T> {
-            U u;
-            Optional<Tuple2<T, U>> unfolded;
+        Tuple2<T, U>[] unfolded = new Tuple2[] { tuple((T) null, seed) };
 
-            public Unfold(U u) {
-                this.u = u;
-            }
+        return seq((FunctionalSpliterator<T>) action -> {
+            Optional<Tuple2<T, U>> result = unfolder.apply(unfolded[0].v2);
 
-            void unfold() {
-                if (unfolded == null)
-                    unfolded = unfolder.apply(u);
-            }
+            if (result.isPresent())
+                action.accept((unfolded[0] = result.get()).v1);
 
-            @Override
-            public boolean hasNext() {
-                unfold();
-                return unfolded.isPresent();
-            }
-
-            @Override
-            public T next() {
-                unfold();
-
-                try {
-                    return unfolded.get().v1;
-                }
-                finally {
-                    u = unfolded.get().v2;
-                    unfolded = null;
-                }
-            }
-        }
-
-        return seq(new Unfold(seed));
+            return result.isPresent();
+        });
     }
 
     /**
@@ -4721,44 +4644,15 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
-        final Iterator<T> it = stream.iterator();
+        boolean[] test = { false };
 
-        class SkipUntil implements Iterator<T> {
-            T next = (T) SeqImpl.NULL;
-            boolean test = false;
-
-            void skip() {
-                while (next == SeqImpl.NULL && it.hasNext()) {
-                    next = it.next();
-
-                    if (test || (test = predicate.test(next)))
-                        break;
-                    else
-                        next = (T) SeqImpl.NULL;
-                }
-            }
-
-            @Override
-            public boolean hasNext() {
-                skip();
-                return next != SeqImpl.NULL;
-            }
-
-            @Override
-            public T next() {
-                if (next == SeqImpl.NULL)
-                    throw new NoSuchElementException();
-
-                try {
-                    return next;
-                }
-                finally {
-                    next = (T) SeqImpl.NULL;
-                }
-            }
-        }
-
-        return seq(new SkipUntil());
+        return transform(stream, (delegate, action) -> !test[0]
+            ?   delegate.tryAdvance(t -> {
+                    if (test[0] = predicate.test(t))
+                        action.accept(t);
+                })
+            :   delegate.tryAdvance(action)
+        );
     }
 
     /**
@@ -4795,42 +4689,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
-        final Iterator<T> it = stream.iterator();
+        boolean[] test = { false };
 
-        class LimitUntil implements Iterator<T> {
-            T next = (T) SeqImpl.NULL;
-            boolean test = false;
-
-            void test() {
-                if (!test && next == SeqImpl.NULL && it.hasNext()) {
-                    next = it.next();
-
-                    if (test = predicate.test(next))
-                        next = (T) SeqImpl.NULL;
-                }
-            }
-
-            @Override
-            public boolean hasNext() {
-                test();
-                return next != SeqImpl.NULL;
-            }
-
-            @Override
-            public T next() {
-                if (next == SeqImpl.NULL)
-                    throw new NoSuchElementException();
-
-                try {
-                    return next;
-                }
-                finally {
-                    next = (T) SeqImpl.NULL;
-                }
-            }
-        }
-
-        return seq(new LimitUntil());
+        return transform(stream, (delegate, action) ->
+            delegate.tryAdvance(t -> {
+                if (!(test[0] = predicate.test(t)))
+                    action.accept(t);
+            }) && !test[0]
+        );
     }
 
     /**
