@@ -1292,7 +1292,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     /**
      * Get the minimum value by a function.
      */
-    default <U extends Comparable<U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
+    default <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
         return minBy(function, naturalOrder());
     }
 
@@ -1308,7 +1308,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     /**
      * Get the maximum value by a function.
      */
-    default <U extends Comparable<U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
+    default <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
         return maxBy(function, naturalOrder());
     }
 
@@ -1319,6 +1319,48 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return map(t -> tuple(t, function.apply(t)))
               .max(comparing(Tuple2::v2, comparator))
               .map(t -> t.v1);
+    }
+
+    /**
+     * Get the median value.
+     */
+    default Optional<T> median(Comparator<? super T> comparator) {
+        return collect(Agg.median(comparator));
+    }
+
+    /**
+     * Get the median value by a function.
+     */
+    default <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.medianBy(function));
+    }
+
+    /**
+     * Get the median value by a function.
+     */
+    default <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.medianBy(function, comparator));
+    }
+
+    /**
+     * Get the discrete percentile value.
+     */
+    default Optional<T> percentileDisc(double percentile, Comparator<? super T> comparator) {
+        return collect(Agg.percentileDisc(percentile, comparator));
+    }
+
+    /**
+     * Get the discrete percentile value by a function.
+     */
+    default <U extends Comparable<? super U>> Optional<T> percentileDiscBy(double percentile, Function<? super T, ? extends U> function) {
+        return collect(Agg.percentileDiscBy(percentile, function));
+    }
+
+    /**
+     * Get the discrete percentile value by a function.
+     */
+    default <U> Optional<T> percentileDiscBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.percentileDiscBy(percentile, function, comparator));
     }
 
     /**
