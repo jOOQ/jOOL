@@ -838,6 +838,17 @@ public class SeqTest {
     }
 
     @Test
+    public void testSkipWhileClosed() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(2, 3, 4, 5), s.get().skipWhileClosed(i -> false).toList());
+        assertEquals(asList(4, 5), s.get().skipWhileClosed(i -> i % 3 != 0).toList());
+        assertEquals(asList(4, 5), s.get().skipWhileClosed(i -> i < 3).toList());
+        assertEquals(asList(5), s.get().skipWhileClosed(i -> i < 4).toList());
+        assertEquals(asList(), s.get().skipWhileClosed(i -> true).toList());
+    }
+
+    @Test
     public void testSkipUntil() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
 
@@ -846,6 +857,17 @@ public class SeqTest {
         assertEquals(asList(3, 4, 5), s.get().skipUntil(i -> i == 3).toList());
         assertEquals(asList(4, 5), s.get().skipUntil(i -> i == 4).toList());
         assertEquals(asList(1, 2, 3, 4, 5), s.get().skipUntil(i -> true).toList());
+    }
+
+    @Test
+    public void testSkipUntilClosed() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(), s.get().skipUntilClosed(i -> false).toList());
+        assertEquals(asList(4, 5), s.get().skipUntilClosed(i -> i % 3 == 0).toList());
+        assertEquals(asList(4, 5), s.get().skipUntilClosed(i -> i == 3).toList());
+        assertEquals(asList(5), s.get().skipUntilClosed(i -> i == 4).toList());
+        assertEquals(asList(2, 3, 4, 5), s.get().skipUntilClosed(i -> true).toList());
     }
 
     @Test
@@ -867,6 +889,17 @@ public class SeqTest {
     }
 
     @Test
+    public void testLimitWhileClosed() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(1), s.get().limitWhileClosed(i -> false).toList());
+        assertEquals(asList(1, 2, 3), s.get().limitWhileClosed(i -> i % 3 != 0).toList());
+        assertEquals(asList(1, 2, 3), s.get().limitWhileClosed(i -> i < 3).toList());
+        assertEquals(asList(1, 2, 3, 4), s.get().limitWhileClosed(i -> i < 4).toList());
+        assertEquals(asList(1, 2, 3, 4, 5), s.get().limitWhileClosed(i -> true).toList());
+    }
+
+    @Test
     public void testLimitUntil() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
 
@@ -875,6 +908,17 @@ public class SeqTest {
         assertEquals(asList(1, 2), s.get().limitUntil(i -> i == 3).toList());
         assertEquals(asList(1, 2, 3), s.get().limitUntil(i -> i == 4).toList());
         assertEquals(asList(), s.get().limitUntil(i -> true).toList());
+    }
+
+    @Test
+    public void testLimitUntilClosed() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(1, 2, 3, 4, 5), s.get().limitUntilClosed(i -> false).toList());
+        assertEquals(asList(1, 2, 3), s.get().limitUntilClosed(i -> i % 3 == 0).toList());
+        assertEquals(asList(1, 2, 3), s.get().limitUntilClosed(i -> i == 3).toList());
+        assertEquals(asList(1, 2, 3, 4), s.get().limitUntilClosed(i -> i == 4).toList());
+        assertEquals(asList(1), s.get().limitUntilClosed(i -> true).toList());
     }
 
     @Test

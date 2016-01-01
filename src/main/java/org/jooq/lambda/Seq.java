@@ -998,6 +998,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>
+     * plus the first element for which it evaluates to false.
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipWhileClosed(i -> i &lt; 3)
+     * </pre></code>
+     *
+     * @see #skipWhileClosed(Stream, Predicate)
+     */
+    default Seq<T> skipWhileClosed(Predicate<? super T> predicate) {
+        return skipWhileClosed(this, predicate);
+    }
+
+    /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
      * <p>
      * <code><pre>
@@ -1009,6 +1024,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Seq<T> skipUntil(Predicate<? super T> predicate) {
         return skipUntil(this, predicate);
+    }
+
+    /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>
+     * plus the first element for which it evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipUntilClosed(i -> i == 3)
+     * </pre></code>
+     *
+     * @see #skipUntilClosed(Stream, Predicate)
+     */
+    default Seq<T> skipUntilClosed(Predicate<? super T> predicate) {
+        return skipUntilClosed(this, predicate);
     }
 
     /**
@@ -1026,6 +1056,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>
+     * plus the first element for which it evaluates to <code>false</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3, 4, 5).limitWhileClosed(i -> i &lt; 3)
+     * </pre></code>
+     *
+     * @see #limitWhileClosed(Stream, Predicate)
+     */
+    default Seq<T> limitWhileClosed(Predicate<? super T> predicate) {
+        return limitWhileClosed(this, predicate);
+    }
+
+    /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>false</code>.
      * <p>
      * <code><pre>
@@ -1037,6 +1082,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      */
     default Seq<T> limitUntil(Predicate<? super T> predicate) {
         return limitUntil(this, predicate);
+    }
+
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>false</code>
+     * plus the first element for which it evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3, 4, 5).limitUntilClosed(i -> i == 3)
+     * </pre></code>
+     *
+     * @see #limitUntilClosed(Stream, Predicate)
+     */
+    default Seq<T> limitUntilClosed(Predicate<? super T> predicate) {
+        return limitUntilClosed(this, predicate);
     }
 
     /**
@@ -4635,6 +4695,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>true</code>
+     * plus the first element for which it evaluates to <code>false</code>.
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipWhileClosed(i -> i &lt; 3)
+     * </pre></code>
+     */
+    static <T> Seq<T> skipWhileClosed(Stream<T> stream, Predicate<? super T> predicate) {
+        return skipUntilClosed(stream, predicate.negate());
+    }
+
+    /**
      * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>.
      * <p>
      * <code><pre>
@@ -4652,6 +4725,25 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                         action.accept(t);
                 })
             :   delegate.tryAdvance(action)
+        );
+    }
+
+    /**
+     * Returns a stream with all elements skipped for which a predicate evaluates to <code>false</code>
+     * plus the first element for which it evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5).skipUntilClosed(i -> i == 3)
+     * </pre></code>
+     */
+    @SuppressWarnings("unchecked")
+    static <T> Seq<T> skipUntilClosed(Stream<T> stream, Predicate<? super T> predicate) {
+        boolean[] test = { false };
+
+        return transform(stream, (delegate, action) -> !test[0]
+            ? delegate.tryAdvance(t -> test[0] = predicate.test(t))
+            : delegate.tryAdvance(action)
         );
     }
 
@@ -4680,7 +4772,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>
+     * plus the first element for which it evaluates to <code>false</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3, 4, 5).limitWhileClosed(i -> i &lt; 3)
+     * </pre></code>
+     */
+    static <T> Seq<T> limitWhileClosed(Stream<T> stream, Predicate<? super T> predicate) {
+        return limitUntilClosed(stream, predicate.negate());
+    }
+
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>false</code>.
      * <p>
      * <code><pre>
      * // (1, 2)
@@ -4696,6 +4801,27 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
                 if (!(test[0] = predicate.test(t)))
                     action.accept(t);
             }) && !test[0]
+        );
+    }
+
+    /**
+     * Returns a stream limited to all elements for which a predicate evaluates to <code>false</code>
+     * plus the first element for which it evaluates to <code>true</code>.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3, 4, 5).limitUntilClosed(i -> i == 3)
+     * </pre></code>
+     */
+    @SuppressWarnings("unchecked")
+    static <T> Seq<T> limitUntilClosed(Stream<T> stream, Predicate<? super T> predicate) {
+        boolean[] test = { false };
+
+        return transform(stream, (delegate, action) ->
+            !test[0] && delegate.tryAdvance(t -> {
+                test[0] = predicate.test(t);
+                action.accept(t);
+            })
         );
     }
 
