@@ -51,7 +51,7 @@ class SeqUtils {
 
             @Override
             public Spliterator<U> trySplit() {
-                return this;
+                return null;
             }
 
             @Override
