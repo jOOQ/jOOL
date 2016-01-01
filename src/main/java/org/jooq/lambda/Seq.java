@@ -1284,9 +1284,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Get the mode, i.e. the value that appears most often in the stream.
      */
     default Optional<T> mode() {
-        return grouped(v -> v, Collectors.counting())
-              .maxBy(t -> t.v2)
-              .map(t -> t.v1);
+        return collect(Agg.mode());
     }
 
     /**

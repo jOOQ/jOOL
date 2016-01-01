@@ -17,9 +17,7 @@ package org.jooq.lambda;
 
 import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
@@ -34,6 +32,21 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
  * @author Lukas Eder
  */
 public class Agg {
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MODE()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<T>> mode() {
+        return Collector.of(
+            () -> new LinkedHashMap<T, Long>(),
+            (m, v) -> m.compute(v, (k1, v1) -> v1 == null ? 1L : v1 + 1L),
+            (m1, m2) -> {
+                m1.putAll(m2);
+                return m1;
+            },
+            m -> Seq.seq(m).maxBy(t -> t.v2).map(t -> t.v1)
+        );
+    }
 
     /**
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given natural ordering.
