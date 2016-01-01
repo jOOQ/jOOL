@@ -1130,6 +1130,7 @@ public class SeqTest {
 
     @Test
     public void testCycle() {
+        assertEquals(asList(), Seq.empty().cycle().toList());
         assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle().limit(6).toList());
         assertEquals(asList(1, 2, 3, 1, 2, 3), Seq.of(1, 2, 3).cycle().limit(6).toList());
     }
