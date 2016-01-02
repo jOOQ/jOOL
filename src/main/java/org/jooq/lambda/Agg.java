@@ -22,6 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 
 import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.reverseOrder;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
@@ -45,6 +46,55 @@ public class Agg {
                 return m1;
             },
             m -> Seq.seq(m).maxBy(t -> t.v2).map(t -> t.v1)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>RANK()</code> function given natural ordering.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<Long>> rank(T value) {
+        return rank(value, t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>RANK()</code> function given a specific ordering.
+     */
+    public static <T> Collector<T, ?, Optional<Long>> rank(T value, Comparator<? super T> comparator) {
+        return rank(value, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>RANK()</code> function given natural ordering.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Long>> rank(U value, Function<? super T, ? extends U> function) {
+        return rank(value, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>RANK()</code> function given a specific ordering.
+     */
+    public static <T, U> Collector<T, ?, Optional<Long>> rank(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return Collector.of(
+            () -> new ArrayList<U>(),
+            (l, v) -> l.add(function.apply(v)),
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            },
+            l -> {
+                int size = l.size();
+
+                if (size == 0)
+                    return Optional.empty();
+
+                // TODO: Find a faster implementation using binarySearch
+                l.sort(comparator);
+                for (int i = 0; i < size; i++)
+                    if (comparator.compare(value, l.get(i)) <= 0)
+                        return Optional.of((long) i);
+
+                return Optional.of((long) size);
+            }
         );
     }
 

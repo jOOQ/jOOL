@@ -20,6 +20,7 @@ import org.junit.Test;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.jooq.lambda.Agg.rank;
 import static org.jooq.lambda.Agg.median;
 import static org.jooq.lambda.Agg.percentileDisc;
 import static org.jooq.lambda.Agg.percentileDiscBy;
@@ -290,5 +291,200 @@ public class CollectorTests {
         // Illegal args
         Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileDiscBy(-1, String::length)));
         Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileDiscBy(2, String::length)));
+    }
+
+    @Test
+    public void testRank() {
+
+        // Values can be obtained from PostgreSQL, e.g. with this query:
+        // SELECT rank(20) WITHIN GROUP (ORDER BY a)
+        // FROM unnest(array[1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22]) t(a)
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(0)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(1)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(2)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(3)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(3)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(4)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank(4)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(rank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4).collect(rank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10).collect(rank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(4)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(4)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(4)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(4)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(4)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(4)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(5)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank(5)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank(5)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(rank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(rank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10).collect(rank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(5)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(5)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(5)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(5)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(5)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(5)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank(20)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank(20)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank(20)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(rank(20)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(rank(20)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10).collect(rank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank(20)));
+        assertEquals(Optional.of(7L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank(20)));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank(20)));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank(20)));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank(20)));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank(20)));
+    }
+
+    @Test
+    public void testRankWithFunction() {
+        String[] strings = Seq.rangeClosed('a', 'z').map(Object::toString).toArray(String[]::new);
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("a", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("b", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("c", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("d", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("e", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("e", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("f", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("f", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(7L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("u", i -> strings[i])));
+        assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("u", i -> strings[i])));
     }
 }
