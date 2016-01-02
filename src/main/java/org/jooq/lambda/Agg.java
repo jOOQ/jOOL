@@ -99,6 +99,56 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that calculates the <code>DENSE_RANK()</code> function given natural ordering.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<Long>> denseRank(T value) {
+        return denseRank(value, t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>DENSE_RANK()</code> function given a specific ordering.
+     */
+    public static <T> Collector<T, ?, Optional<Long>> denseRank(T value, Comparator<? super T> comparator) {
+        return denseRank(value, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>DENSE_RANK()</code> function given natural ordering.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Long>> denseRank(U value, Function<? super T, ? extends U> function) {
+        return denseRank(value, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>DENSE_RANK()</code> function given a specific ordering.
+     */
+    public static <T, U> Collector<T, ?, Optional<Long>> denseRank(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return Collector.of(
+            () -> new TreeSet<U>(comparator),
+            (l, v) -> l.add(function.apply(v)),
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            },
+            l -> {
+                int size = l.size();
+
+                if (size == 0)
+                    return Optional.empty();
+
+                // TODO: Find a faster implementation using binarySearch
+                int i = -1;
+                Iterator<U> it = l.iterator();
+                while (it.hasNext() && i++ < l.size())
+                    if (comparator.compare(value, it.next()) <= 0)
+                        return Optional.of((long) i);
+
+                return Optional.of((long) size);
+            }
+        );
+    }
+
+    /**
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> median() {

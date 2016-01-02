@@ -21,9 +21,10 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.jooq.lambda.Agg.rank;
+import static org.jooq.lambda.Agg.denseRank;
 import static org.jooq.lambda.Agg.median;
-import static org.jooq.lambda.Agg.percentileDisc;
-import static org.jooq.lambda.Agg.percentileDiscBy;
+import static org.jooq.lambda.Agg.percentile;
+import static org.jooq.lambda.Agg.percentileBy;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -48,249 +49,249 @@ public class CollectorTests {
     }
 
     @Test
-    public void testPercentileDiscWithInts() {
+    public void testPercentileWithInts() {
 
         // Values can be obtained from PostgreSQL, e.g. with this query:
-        // SELECT percentile_disc(0.75) WITHIN GROUP (ORDER BY a)
+        // SELECT percentile_(0.75) WITHIN GROUP (ORDER BY a)
         // FROM unnest(array[1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22]) t(a)
 
         // Min
-        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentileDisc(0.0)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentileDisc(0.0)));
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentile(0.0)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(0.0)));
 
         // 0.25 percentile
-        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(1), Stream.of(1).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(1), Stream.of(1, 2).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10, 9).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentileDisc(0.25)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentileDisc(0.25)));
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentile(0.25)));
+        assertEquals(Optional.of(1), Stream.of(1).collect(percentile(0.25)));
+        assertEquals(Optional.of(1), Stream.of(1, 2).collect(percentile(0.25)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3).collect(percentile(0.25)));
+        assertEquals(Optional.of(1), Stream.of(1, 2, 3, 4).collect(percentile(0.25)));
+        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10).collect(percentile(0.25)));
+        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10, 9).collect(percentile(0.25)));
+        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentile(0.25)));
+        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentile(0.25)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentile(0.25)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentile(0.25)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(0.25)));
 
         // Median
-        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(1), Stream.of(1).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(1), Stream.of(1, 2).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(2), Stream.of(1, 2, 3).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentileDisc(0.5)));
-        assertEquals(Optional.of(4), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentileDisc(0.5)));
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentile(0.5)));
+        assertEquals(Optional.of(1), Stream.of(1).collect(percentile(0.5)));
+        assertEquals(Optional.of(1), Stream.of(1, 2).collect(percentile(0.5)));
+        assertEquals(Optional.of(2), Stream.of(1, 2, 3).collect(percentile(0.5)));
+        assertEquals(Optional.of(2), Stream.of(1, 2, 3, 4).collect(percentile(0.5)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10).collect(percentile(0.5)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9).collect(percentile(0.5)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentile(0.5)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentile(0.5)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentile(0.5)));
+        assertEquals(Optional.of(3), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentile(0.5)));
+        assertEquals(Optional.of(4), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(0.5)));
 
         // 0.75 percentile
-        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(1) , Stream.of(1).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(2) , Stream.of(1, 2).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(3) , Stream.of(1, 2, 3).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(3) , Stream.of(1, 2, 3, 4).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(4) , Stream.of(1, 2, 3, 4, 10).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(9) , Stream.of(1, 2, 3, 4, 10, 9).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(9) , Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(4) , Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(9) , Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentileDisc(0.75)));
-        assertEquals(Optional.of(20), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentileDisc(0.75)));
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentile(0.75)));
+        assertEquals(Optional.of(1) , Stream.of(1).collect(percentile(0.75)));
+        assertEquals(Optional.of(2) , Stream.of(1, 2).collect(percentile(0.75)));
+        assertEquals(Optional.of(3) , Stream.of(1, 2, 3).collect(percentile(0.75)));
+        assertEquals(Optional.of(3) , Stream.of(1, 2, 3, 4).collect(percentile(0.75)));
+        assertEquals(Optional.of(4) , Stream.of(1, 2, 3, 4, 10).collect(percentile(0.75)));
+        assertEquals(Optional.of(9) , Stream.of(1, 2, 3, 4, 10, 9).collect(percentile(0.75)));
+        assertEquals(Optional.of(9) , Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentile(0.75)));
+        assertEquals(Optional.of(4) , Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentile(0.75)));
+        assertEquals(Optional.of(9) , Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentile(0.75)));
+        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentile(0.75)));
+        assertEquals(Optional.of(20), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(0.75)));
 
         // Max
-        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(1) , Stream.of(1).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(2) , Stream.of(1, 2).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(3) , Stream.of(1, 2, 3).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(4) , Stream.of(1, 2, 3, 4).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(20), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(21), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentileDisc(1.0)));
-        assertEquals(Optional.of(22), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentileDisc(1.0)));
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentile(1.0)));
+        assertEquals(Optional.of(1) , Stream.of(1).collect(percentile(1.0)));
+        assertEquals(Optional.of(2) , Stream.of(1, 2).collect(percentile(1.0)));
+        assertEquals(Optional.of(3) , Stream.of(1, 2, 3).collect(percentile(1.0)));
+        assertEquals(Optional.of(4) , Stream.of(1, 2, 3, 4).collect(percentile(1.0)));
+        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10).collect(percentile(1.0)));
+        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9).collect(percentile(1.0)));
+        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentile(1.0)));
+        assertEquals(Optional.of(10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentile(1.0)));
+        assertEquals(Optional.of(20), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentile(1.0)));
+        assertEquals(Optional.of(21), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentile(1.0)));
+        assertEquals(Optional.of(22), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(1.0)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentileDisc(-1)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentileDisc(2)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(-1)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(2)));
     }
 
     @Test
-    public void testPercentileDiscWithStrings() {
+    public void testPercentileWithStrings() {
 
         // Values can be obtained from PostgreSQL, e.g. with this query:
-        // SELECT percentile_disc(0.75) WITHIN GROUP (ORDER BY a)
+        // SELECT percentile_(0.75) WITHIN GROUP (ORDER BY a)
         // FROM unnest(array['a', 'b', 'c', 'd', 'j', 'i', 'c', 'c', 't', 'u', 'v']) t(a)
 
         // Min
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDisc(0.0)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDisc(0.0)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentile(0.0)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(0.0)));
 
         // 0.25 percentile
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDisc(0.25)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDisc(0.25)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentile(0.25)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentile(0.25)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentile(0.25)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentile(0.25)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentile(0.25)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentile(0.25)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentile(0.25)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentile(0.25)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentile(0.25)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentile(0.25)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentile(0.25)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(0.25)));
 
         // Median
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDisc(0.5)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDisc(0.5)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentile(0.5)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentile(0.5)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentile(0.5)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentile(0.5)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentile(0.5)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentile(0.5)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentile(0.5)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentile(0.5)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentile(0.5)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentile(0.5)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentile(0.5)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(0.5)));
 
         // 0.75 percentile
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDisc(0.75)));
-        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDisc(0.75)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentile(0.75)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentile(0.75)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentile(0.75)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentile(0.75)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentile(0.75)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentile(0.75)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentile(0.75)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentile(0.75)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentile(0.75)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentile(0.75)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentile(0.75)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(0.75)));
 
         // Max
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDisc(1.0)));
-        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDisc(1.0)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentile(1.0)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentile(1.0)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentile(1.0)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentile(1.0)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentile(1.0)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentile(1.0)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentile(1.0)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentile(1.0)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentile(1.0)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentile(1.0)));
+        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentile(1.0)));
+        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(1.0)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileDisc(-1)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileDisc(2)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(-1)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(2)));
     }
 
     @Test
-    public void testPercentileDiscWithStringsAndFunction() {
+    public void testPercentileWithStringsAndFunction() {
 
         // Values can be obtained from PostgreSQL, e.g. with this query:
-        // SELECT percentile_disc(0.75) WITHIN GROUP (ORDER BY a)
+        // SELECT percentile_(0.75) WITHIN GROUP (ORDER BY a)
         // FROM unnest(array['a', 'b', 'c', 'd', 'j', 'i', 'c', 'c', 't', 'u', 'v']) t(a)
 
         // Min
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDiscBy(0.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDiscBy(0.0, String::length)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.0, String::length)));
 
         // 0.25 percentile
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDiscBy(0.25, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDiscBy(0.25, String::length)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.25, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.25, String::length)));
 
         // Median
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDiscBy(0.5, String::length)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDiscBy(0.5, String::length)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.5, String::length)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.5, String::length)));
 
         // 0.75 percentile
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDiscBy(0.75, String::length)));
-        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDiscBy(0.75, String::length)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.75, String::length)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.75, String::length)));
 
         // Max
-        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileDiscBy(1.0, String::length)));
-        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileDiscBy(1.0, String::length)));
+        assertEquals(Optional.empty(), Stream.<String> of().collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(1.0, String::length)));
+        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, String::length)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileDiscBy(-1, String::length)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileDiscBy(2, String::length)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(-1, String::length)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(2, String::length)));
     }
 
     @Test
@@ -486,5 +487,200 @@ public class CollectorTests {
         assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(rank("u", i -> strings[i])));
         assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(rank("u", i -> strings[i])));
         assertEquals(Optional.of(8L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(rank("u", i -> strings[i])));
+    }
+
+    @Test
+    public void testDensedenseRank() {
+
+        // Values can be obtained from PostgreSQL, e.g. with this query:
+        // SELECT dense_denseRank(20) WITHIN GROUP (ORDER BY a)
+        // FROM unnest(array[1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22]) t(a)
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(0)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(0)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(1)));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(1)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(2)));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(2)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(3)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(3)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(3)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(4)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank(4)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(4)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(4)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(5)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank(5)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank(5)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(5)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(5)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(20)));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank(20)));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank(20)));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(denseRank(20)));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(denseRank(20)));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10).collect(denseRank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank(20)));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank(20)));
+    }
+
+    @Test
+    public void testDenseRankWithFunction() {
+        String[] strings = Seq.rangeClosed('a', 'z').map(Object::toString).toArray(String[]::new);
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("a", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("a", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("b", i -> strings[i])));
+        assertEquals(Optional.of(0L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("b", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("c", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("c", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("d", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("d", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("e", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("e", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("f", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("f", i -> strings[i])));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(1L), Stream.of(1).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(2L), Stream.of(1, 2).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(3L), Stream.of(1, 2, 3).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(4L), Stream.of(1, 2, 3, 4).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(5L), Stream.of(1, 2, 3, 4, 10).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("u", i -> strings[i])));
+        assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("u", i -> strings[i])));
     }
 }
