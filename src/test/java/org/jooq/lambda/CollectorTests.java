@@ -15,9 +15,12 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple9;
 import org.junit.Test;
 
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import static org.jooq.lambda.Agg.rank;
@@ -26,6 +29,7 @@ import static org.jooq.lambda.Agg.percentRank;
 import static org.jooq.lambda.Agg.median;
 import static org.jooq.lambda.Agg.percentile;
 import static org.jooq.lambda.Agg.percentileBy;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -782,5 +786,46 @@ public class CollectorTests {
         assertEquals(Optional.of(8.0 / 9), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(20)));
         assertEquals(Optional.of(8.0 /10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(20)));
         assertEquals(Optional.of(8.0 /11), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(20)));
+    }
+
+    @Test
+    public void testRanksCombined() {
+        // Inferring this type inline on the collect() call would be very slow
+        Collector<Integer, ?, Tuple9<
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Double>,
+            Optional<Double>,
+            Optional<Double>
+        >> collectors = Tuple.collectors(
+            rank(0),
+            rank(10),
+            rank(20),
+            denseRank(0),
+            denseRank(10),
+            denseRank(20),
+            percentRank(0),
+            percentRank(10),
+            percentRank(20)
+        );
+        
+        assertEquals(
+            tuple(
+                Optional.of(0L),
+                Optional.of(7L),
+                Optional.of(8L),
+                Optional.of(0L),
+                Optional.of(5L),
+                Optional.of(6L),
+                Optional.of(0.0 / 11),
+                Optional.of(7.0 / 11),
+                Optional.of(8.0 / 11)
+            ),
+            Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(collectors)
+        );
     }
 }

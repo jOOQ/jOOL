@@ -1446,16 +1446,4 @@ public class SeqTest {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).get(2));
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(3));
     }
-
-    @Test
-    public void testXXX() {
-        Spliterator<Integer> s = Seq.<Integer>of().spliterator();
-
-        System.out.println(s.tryAdvance(System.out::println));
-        System.out.println(s.tryAdvance(System.out::println));
-        System.out.println(s.tryAdvance(System.out::println));
-        System.out.println(s.tryAdvance(System.out::println));
-        System.out.println(s.tryAdvance(System.out::println));
-        System.out.println(s.tryAdvance(System.out::println));
-    }
 }
