@@ -1409,6 +1409,283 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return cast(this, type);
     }
 
+    // Collect overloads
+    // -----------------
+
+    // [jooq-tools] START [collect]
+
+    /**
+     * Collect this stream into 2 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, A1, A2> Tuple2<R1, R2> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2
+    ) {
+        return collect(Tuple.collectors(collector1, collector2));
+    }
+
+    /**
+     * Collect this stream into 3 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, A1, A2, A3> Tuple3<R1, R2, R3> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3));
+    }
+
+    /**
+     * Collect this stream into 4 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, A1, A2, A3, A4> Tuple4<R1, R2, R3, R4> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4));
+    }
+
+    /**
+     * Collect this stream into 5 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, A1, A2, A3, A4, A5> Tuple5<R1, R2, R3, R4, R5> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5));
+    }
+
+    /**
+     * Collect this stream into 6 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, A1, A2, A3, A4, A5, A6> Tuple6<R1, R2, R3, R4, R5, R6> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6));
+    }
+
+    /**
+     * Collect this stream into 7 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, A1, A2, A3, A4, A5, A6, A7> Tuple7<R1, R2, R3, R4, R5, R6, R7> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7));
+    }
+
+    /**
+     * Collect this stream into 8 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<R1, R2, R3, R4, R5, R6, R7, R8> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8));
+    }
+
+    /**
+     * Collect this stream into 9 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, A1, A2, A3, A4, A5, A6, A7, A8, A9> Tuple9<R1, R2, R3, R4, R5, R6, R7, R8, R9> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9));
+    }
+
+    /**
+     * Collect this stream into 10 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> Tuple10<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10));
+    }
+
+    /**
+     * Collect this stream into 11 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11> Tuple11<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10,
+        Collector<? super T, A11, R11> collector11
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11));
+    }
+
+    /**
+     * Collect this stream into 12 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12> Tuple12<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10,
+        Collector<? super T, A11, R11> collector11,
+        Collector<? super T, A12, R12> collector12
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11, collector12));
+    }
+
+    /**
+     * Collect this stream into 13 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13> Tuple13<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10,
+        Collector<? super T, A11, R11> collector11,
+        Collector<? super T, A12, R12> collector12,
+        Collector<? super T, A13, R13> collector13
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11, collector12, collector13));
+    }
+
+    /**
+     * Collect this stream into 14 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14> Tuple14<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10,
+        Collector<? super T, A11, R11> collector11,
+        Collector<? super T, A12, R12> collector12,
+        Collector<? super T, A13, R13> collector13,
+        Collector<? super T, A14, R14> collector14
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11, collector12, collector13, collector14));
+    }
+
+    /**
+     * Collect this stream into 15 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15> Tuple15<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10,
+        Collector<? super T, A11, R11> collector11,
+        Collector<? super T, A12, R12> collector12,
+        Collector<? super T, A13, R13> collector13,
+        Collector<? super T, A14, R14> collector14,
+        Collector<? super T, A15, R15> collector15
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11, collector12, collector13, collector14, collector15));
+    }
+
+    /**
+     * Collect this stream into 16 {@link Collector}s.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16> Tuple16<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16> collect(
+        Collector<? super T, A1, R1> collector1,
+        Collector<? super T, A2, R2> collector2,
+        Collector<? super T, A3, R3> collector3,
+        Collector<? super T, A4, R4> collector4,
+        Collector<? super T, A5, R5> collector5,
+        Collector<? super T, A6, R6> collector6,
+        Collector<? super T, A7, R7> collector7,
+        Collector<? super T, A8, R8> collector8,
+        Collector<? super T, A9, R9> collector9,
+        Collector<? super T, A10, R10> collector10,
+        Collector<? super T, A11, R11> collector11,
+        Collector<? super T, A12, R12> collector12,
+        Collector<? super T, A13, R13> collector13,
+        Collector<? super T, A14, R14> collector14,
+        Collector<? super T, A15, R15> collector15,
+        Collector<? super T, A16, R16> collector16
+    ) {
+        return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11, collector12, collector13, collector14, collector15, collector16));
+    }
+
+// [jooq-tools] END [collect]
+
     // Shortcuts to Collectors
     // -----------------------
 

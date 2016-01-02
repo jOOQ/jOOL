@@ -23,6 +23,9 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.jooq.lambda.Agg.count;
+import static org.jooq.lambda.Agg.max;
+import static org.jooq.lambda.Agg.min;
 import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
@@ -1468,5 +1471,33 @@ public class SeqTest {
         assertEquals(4L, Seq.of(1, 2, 2, 4).count());
         assertEquals(3L, Seq.of(1, 2, 2, 4).countDistinct());
         assertEquals(2L, Seq.of(1, 2, 2, 4).countDistinctBy(l -> l % 3L));
+    }
+
+    @Test
+    public void testCollect() {
+        assertEquals(
+            tuple(0L, Optional.empty(), Optional.empty()),
+            Seq.<Integer>of().collect(count(), min(), max())
+        );
+
+        assertEquals(
+            tuple(1L, Optional.of(1), Optional.of(1)),
+            Seq.of(1).collect(count(), min(), max())
+        );
+
+        assertEquals(
+            tuple(2L, Optional.of(1), Optional.of(2)),
+            Seq.of(1, 2).collect(count(), min(), max())
+        );
+
+        assertEquals(
+            tuple(3L, Optional.of(1), Optional.of(3)),
+            Seq.of(1, 2, 3).collect(count(), min(), max())
+        );
+
+        assertEquals(
+            tuple(4L, Optional.of(1), Optional.of(4)),
+            Seq.of(1, 2, 3, 4).collect(count(), min(), max())
+        );
     }
 }

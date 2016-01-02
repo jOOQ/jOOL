@@ -148,7 +148,7 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 1.
      */
     static <T, A1, D1> Collector<T, Tuple1<A1>, Tuple1<D1>> collectors(
-        Collector<T, A1, D1> collector1
+        Collector<? super T, A1, D1> collector1
     ) {
         return Collector.<T, Tuple1<A1>, Tuple1<D1>>of(
             () -> tuple(
@@ -170,8 +170,8 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 2.
      */
     static <T, A1, A2, D1, D2> Collector<T, Tuple2<A1, A2>, Tuple2<D1, D2>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
     ) {
         return Collector.<T, Tuple2<A1, A2>, Tuple2<D1, D2>>of(
             () -> tuple(
@@ -197,9 +197,9 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 3.
      */
     static <T, A1, A2, A3, D1, D2, D3> Collector<T, Tuple3<A1, A2, A3>, Tuple3<D1, D2, D3>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
     ) {
         return Collector.<T, Tuple3<A1, A2, A3>, Tuple3<D1, D2, D3>>of(
             () -> tuple(
@@ -229,10 +229,10 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 4.
      */
     static <T, A1, A2, A3, A4, D1, D2, D3, D4> Collector<T, Tuple4<A1, A2, A3, A4>, Tuple4<D1, D2, D3, D4>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
     ) {
         return Collector.<T, Tuple4<A1, A2, A3, A4>, Tuple4<D1, D2, D3, D4>>of(
             () -> tuple(
@@ -266,11 +266,11 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 5.
      */
     static <T, A1, A2, A3, A4, A5, D1, D2, D3, D4, D5> Collector<T, Tuple5<A1, A2, A3, A4, A5>, Tuple5<D1, D2, D3, D4, D5>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
     ) {
         return Collector.<T, Tuple5<A1, A2, A3, A4, A5>, Tuple5<D1, D2, D3, D4, D5>>of(
             () -> tuple(
@@ -308,12 +308,12 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 6.
      */
     static <T, A1, A2, A3, A4, A5, A6, D1, D2, D3, D4, D5, D6> Collector<T, Tuple6<A1, A2, A3, A4, A5, A6>, Tuple6<D1, D2, D3, D4, D5, D6>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
     ) {
         return Collector.<T, Tuple6<A1, A2, A3, A4, A5, A6>, Tuple6<D1, D2, D3, D4, D5, D6>>of(
             () -> tuple(
@@ -355,13 +355,13 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 7.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, D1, D2, D3, D4, D5, D6, D7> Collector<T, Tuple7<A1, A2, A3, A4, A5, A6, A7>, Tuple7<D1, D2, D3, D4, D5, D6, D7>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
     ) {
         return Collector.<T, Tuple7<A1, A2, A3, A4, A5, A6, A7>, Tuple7<D1, D2, D3, D4, D5, D6, D7>>of(
             () -> tuple(
@@ -407,14 +407,14 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 8.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, D1, D2, D3, D4, D5, D6, D7, D8> Collector<T, Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>, Tuple8<D1, D2, D3, D4, D5, D6, D7, D8>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
     ) {
         return Collector.<T, Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>, Tuple8<D1, D2, D3, D4, D5, D6, D7, D8>>of(
             () -> tuple(
@@ -464,15 +464,15 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 9.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, D1, D2, D3, D4, D5, D6, D7, D8, D9> Collector<T, Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>, Tuple9<D1, D2, D3, D4, D5, D6, D7, D8, D9>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
     ) {
         return Collector.<T, Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>, Tuple9<D1, D2, D3, D4, D5, D6, D7, D8, D9>>of(
             () -> tuple(
@@ -526,16 +526,16 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 10.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10> Collector<T, Tuple10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>, Tuple10<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
     ) {
         return Collector.<T, Tuple10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>, Tuple10<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10>>of(
             () -> tuple(
@@ -593,17 +593,17 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 11.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11> Collector<T, Tuple11<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11>, Tuple11<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
-      , Collector<T, A11, D11> collector11
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
+      , Collector<? super T, A11, D11> collector11
     ) {
         return Collector.<T, Tuple11<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11>, Tuple11<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11>>of(
             () -> tuple(
@@ -665,18 +665,18 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 12.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12> Collector<T, Tuple12<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12>, Tuple12<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
-      , Collector<T, A11, D11> collector11
-      , Collector<T, A12, D12> collector12
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
+      , Collector<? super T, A11, D11> collector11
+      , Collector<? super T, A12, D12> collector12
     ) {
         return Collector.<T, Tuple12<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12>, Tuple12<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12>>of(
             () -> tuple(
@@ -742,19 +742,19 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 13.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13> Collector<T, Tuple13<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13>, Tuple13<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
-      , Collector<T, A11, D11> collector11
-      , Collector<T, A12, D12> collector12
-      , Collector<T, A13, D13> collector13
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
+      , Collector<? super T, A11, D11> collector11
+      , Collector<? super T, A12, D12> collector12
+      , Collector<? super T, A13, D13> collector13
     ) {
         return Collector.<T, Tuple13<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13>, Tuple13<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13>>of(
             () -> tuple(
@@ -824,20 +824,20 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 14.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14> Collector<T, Tuple14<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14>, Tuple14<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
-      , Collector<T, A11, D11> collector11
-      , Collector<T, A12, D12> collector12
-      , Collector<T, A13, D13> collector13
-      , Collector<T, A14, D14> collector14
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
+      , Collector<? super T, A11, D11> collector11
+      , Collector<? super T, A12, D12> collector12
+      , Collector<? super T, A13, D13> collector13
+      , Collector<? super T, A14, D14> collector14
     ) {
         return Collector.<T, Tuple14<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14>, Tuple14<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14>>of(
             () -> tuple(
@@ -911,21 +911,21 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 15.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15> Collector<T, Tuple15<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15>, Tuple15<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
-      , Collector<T, A11, D11> collector11
-      , Collector<T, A12, D12> collector12
-      , Collector<T, A13, D13> collector13
-      , Collector<T, A14, D14> collector14
-      , Collector<T, A15, D15> collector15
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
+      , Collector<? super T, A11, D11> collector11
+      , Collector<? super T, A12, D12> collector12
+      , Collector<? super T, A13, D13> collector13
+      , Collector<? super T, A14, D14> collector14
+      , Collector<? super T, A15, D15> collector15
     ) {
         return Collector.<T, Tuple15<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15>, Tuple15<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15>>of(
             () -> tuple(
@@ -1003,22 +1003,22 @@ public interface Tuple extends Iterable<Object> {
      * Construct a tuple collector of degree 16.
      */
     static <T, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16> Collector<T, Tuple16<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16>, Tuple16<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16>> collectors(
-        Collector<T, A1, D1> collector1
-      , Collector<T, A2, D2> collector2
-      , Collector<T, A3, D3> collector3
-      , Collector<T, A4, D4> collector4
-      , Collector<T, A5, D5> collector5
-      , Collector<T, A6, D6> collector6
-      , Collector<T, A7, D7> collector7
-      , Collector<T, A8, D8> collector8
-      , Collector<T, A9, D9> collector9
-      , Collector<T, A10, D10> collector10
-      , Collector<T, A11, D11> collector11
-      , Collector<T, A12, D12> collector12
-      , Collector<T, A13, D13> collector13
-      , Collector<T, A14, D14> collector14
-      , Collector<T, A15, D15> collector15
-      , Collector<T, A16, D16> collector16
+        Collector<? super T, A1, D1> collector1
+      , Collector<? super T, A2, D2> collector2
+      , Collector<? super T, A3, D3> collector3
+      , Collector<? super T, A4, D4> collector4
+      , Collector<? super T, A5, D5> collector5
+      , Collector<? super T, A6, D6> collector6
+      , Collector<? super T, A7, D7> collector7
+      , Collector<? super T, A8, D8> collector8
+      , Collector<? super T, A9, D9> collector9
+      , Collector<? super T, A10, D10> collector10
+      , Collector<? super T, A11, D11> collector11
+      , Collector<? super T, A12, D12> collector12
+      , Collector<? super T, A13, D13> collector13
+      , Collector<? super T, A14, D14> collector14
+      , Collector<? super T, A15, D15> collector15
+      , Collector<? super T, A16, D16> collector16
     ) {
         return Collector.<T, Tuple16<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16>, Tuple16<D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16>>of(
             () -> tuple(
