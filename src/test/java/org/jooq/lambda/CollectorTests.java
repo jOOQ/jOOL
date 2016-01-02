@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import static org.jooq.lambda.Agg.rank;
 import static org.jooq.lambda.Agg.denseRank;
+import static org.jooq.lambda.Agg.percentRank;
 import static org.jooq.lambda.Agg.median;
 import static org.jooq.lambda.Agg.percentile;
 import static org.jooq.lambda.Agg.percentileBy;
@@ -490,10 +491,10 @@ public class CollectorTests {
     }
 
     @Test
-    public void testDensedenseRank() {
+    public void testDenseRank() {
 
         // Values can be obtained from PostgreSQL, e.g. with this query:
-        // SELECT dense_denseRank(20) WITHIN GROUP (ORDER BY a)
+        // SELECT dense_rank(20) WITHIN GROUP (ORDER BY a)
         // FROM unnest(array[1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22]) t(a)
 
         assertEquals(Optional.empty(), Stream.<Integer> of().collect(denseRank(0)));
@@ -682,5 +683,104 @@ public class CollectorTests {
         assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(denseRank("u", i -> strings[i])));
         assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRank("u", i -> strings[i])));
         assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRank("u", i -> strings[i])));
+    }
+    
+    @Test
+    public void testPercentRank() {
+
+        // Values can be obtained from PostgreSQ.0 / x, e.g. with this query:
+        // SE.0 / xECT percent_rank(20) WITHIN GROUP (ORDER BY a)
+        // FROM unnest(array[1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22]) t(a)
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(0)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(0)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(1)));
+        assertEquals(Optional.of(0.0), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(1)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 1), Stream.of(1).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 2), Stream.of(1, 2).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 3), Stream.of(1, 2, 3).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 4), Stream.of(1, 2, 3, 4).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 5), Stream.of(1, 2, 3, 4, 10).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 6), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 7), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 8), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 / 9), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 /10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(2)));
+        assertEquals(Optional.of(1.0 /11), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(2)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(3)));
+        assertEquals(Optional.of(1.0 / 1), Stream.of(1).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 2), Stream.of(1, 2).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 3), Stream.of(1, 2, 3).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 4), Stream.of(1, 2, 3, 4).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 5), Stream.of(1, 2, 3, 4, 10).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 6), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 7), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 8), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 / 9), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 /10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(3)));
+        assertEquals(Optional.of(2.0 /11), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(3)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(4)));
+        assertEquals(Optional.of(1.0 / 1), Stream.of(1).collect(percentRank(4)));
+        assertEquals(Optional.of(2.0 / 2), Stream.of(1, 2).collect(percentRank(4)));
+        assertEquals(Optional.of(3.0 / 3), Stream.of(1, 2, 3).collect(percentRank(4)));
+        assertEquals(Optional.of(3.0 / 4), Stream.of(1, 2, 3, 4).collect(percentRank(4)));
+        assertEquals(Optional.of(3.0 / 5), Stream.of(1, 2, 3, 4, 10).collect(percentRank(4)));
+        assertEquals(Optional.of(3.0 / 6), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(4)));
+        assertEquals(Optional.of(4.0 / 7), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(4)));
+        assertEquals(Optional.of(5.0 / 8), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(4)));
+        assertEquals(Optional.of(5.0 / 9), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(4)));
+        assertEquals(Optional.of(5.0 /10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(4)));
+        assertEquals(Optional.of(5.0 /11), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(4)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(5)));
+        assertEquals(Optional.of(1.0 / 1), Stream.of(1).collect(percentRank(5)));
+        assertEquals(Optional.of(2.0 / 2), Stream.of(1, 2).collect(percentRank(5)));
+        assertEquals(Optional.of(3.0 / 3), Stream.of(1, 2, 3).collect(percentRank(5)));
+        assertEquals(Optional.of(4.0 / 4), Stream.of(1, 2, 3, 4).collect(percentRank(5)));
+        assertEquals(Optional.of(4.0 / 5), Stream.of(1, 2, 3, 4, 10).collect(percentRank(5)));
+        assertEquals(Optional.of(4.0 / 6), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(5)));
+        assertEquals(Optional.of(5.0 / 7), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(5)));
+        assertEquals(Optional.of(6.0 / 8), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(5)));
+        assertEquals(Optional.of(6.0 / 9), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(5)));
+        assertEquals(Optional.of(6.0 /10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(5)));
+        assertEquals(Optional.of(6.0 /11), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(5)));
+
+        assertEquals(Optional.empty(), Stream.<Integer> of().collect(percentRank(20)));
+        assertEquals(Optional.of(1.0 / 1), Stream.of(1).collect(percentRank(20)));
+        assertEquals(Optional.of(2.0 / 2), Stream.of(1, 2).collect(percentRank(20)));
+        assertEquals(Optional.of(3.0 / 3), Stream.of(1, 2, 3).collect(percentRank(20)));
+        assertEquals(Optional.of(4.0 / 4), Stream.of(1, 2, 3, 4).collect(percentRank(20)));
+        assertEquals(Optional.of(5.0 / 5), Stream.of(1, 2, 3, 4, 10).collect(percentRank(20)));
+        assertEquals(Optional.of(6.0 / 6), Stream.of(1, 2, 3, 4, 10, 9).collect(percentRank(20)));
+        assertEquals(Optional.of(7.0 / 7), Stream.of(1, 2, 3, 4, 10, 9, 3).collect(percentRank(20)));
+        assertEquals(Optional.of(8.0 / 8), Stream.of(1, 2, 3, 4, 10, 9, 3, 3).collect(percentRank(20)));
+        assertEquals(Optional.of(8.0 / 9), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20).collect(percentRank(20)));
+        assertEquals(Optional.of(8.0 /10), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(percentRank(20)));
+        assertEquals(Optional.of(8.0 /11), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentRank(20)));
     }
 }

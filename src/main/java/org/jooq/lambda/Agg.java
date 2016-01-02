@@ -149,6 +149,55 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that calculates the <code>PERCENT_RANK()</code> function given natural ordering.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<Double>> percentRank(T value) {
+        return percentRank(value, t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENT_RANK()</code> function given a specific ordering.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> percentRank(T value, Comparator<? super T> comparator) {
+        return percentRank(value, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENT_RANK()</code> function given natural ordering.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Double>> percentRank(U value, Function<? super T, ? extends U> function) {
+        return percentRank(value, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENT_RANK()</code> function given a specific ordering.
+     */
+    public static <T, U> Collector<T, ?, Optional<Double>> percentRank(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return Collector.of(
+            () -> new ArrayList<U>(),
+            (l, v) -> l.add(function.apply(v)),
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            },
+            l -> {
+                int size = l.size();
+
+                if (size == 0)
+                    return Optional.empty();
+
+                // TODO: Find a faster implementation using binarySearch
+                l.sort(comparator);
+                for (int i = 0; i < size; i++)
+                    if (comparator.compare(value, l.get(i)) <= 0)
+                        return Optional.of((double) i / (double) size);
+
+                return Optional.of(1.0);
+            }
+        );
+    }
+
+    /**
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> median() {
