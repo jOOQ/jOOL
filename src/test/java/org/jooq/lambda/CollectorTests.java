@@ -790,7 +790,31 @@ public class CollectorTests {
 
     @Test
     public void testRanksCombined() {
-        
+
+        // javac cannot compile this with reasonable speeds, if the type needs to be inferred on the collect() call
+        Collector<Integer, ?, Tuple9<
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Long>,
+            Optional<Double>,
+            Optional<Double>,
+            Optional<Double>
+        >> collectors =
+        Tuple.collectors(
+            rank(0),
+            rank(10),
+            rank(20),
+            denseRank(0),
+            denseRank(10),
+            denseRank(20),
+            percentRank(0),
+            percentRank(10),
+            percentRank(20)
+        );
+
         assertEquals(
             tuple(
                 Optional.of(0L),
@@ -803,17 +827,7 @@ public class CollectorTests {
                 Optional.of(7.0 / 11),
                 Optional.of(8.0 / 11)
             ),
-            Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(Tuple.collectors(
-                rank(0),
-                rank(10),
-                rank(20), 
-                denseRank(0), 
-                denseRank(10), 
-                denseRank(20), 
-                percentRank(0), 
-                percentRank(10), 
-                percentRank(20)
-            ))
+            Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(collectors)
         );
     }
 }
