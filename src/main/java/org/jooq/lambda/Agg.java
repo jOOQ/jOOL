@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.reverseOrder;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
@@ -145,6 +146,47 @@ public class Agg {
             },
             t -> Optional.ofNullable(t[0])
         );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>EVERY()</code> function.
+     */
+    public static Collector<Boolean, ?, Optional<Boolean>> every() {
+        return everyBy(t -> t);
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>EVERY()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Boolean>> everyBy(Predicate<? super T> predicate) {
+        return Collector.of(
+            () -> new Boolean[1],
+            (a, t) -> {
+                if (a[0] == null)
+                    a[0] = predicate.test(t);
+                else
+                    a[0] = a[0] && predicate.test(t);
+            },
+            (a1, a2) -> {
+                a1[0] = a1[0] && a2[0];
+                return a1;
+            },
+            a -> Optional.ofNullable(a[0])
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>NONE()</code> function.
+     */
+    public static Collector<Boolean, ?, Optional<Boolean>> none() {
+        return noneBy(t -> t);
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>NONE()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Boolean>> noneBy(Predicate<? super T> predicate) {
+        return everyBy(predicate.negate());
     }
 
     /**

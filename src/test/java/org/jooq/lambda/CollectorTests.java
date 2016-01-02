@@ -855,4 +855,19 @@ public class CollectorTests {
         assertEquals(Optional.of(1), Seq.of(1).collect(any()));
         assertEquals(Optional.of(1), Seq.of(1, 2).collect(any()));
     }
+    
+    @Test
+    public void testEveryNone() {
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(everyBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(true), Seq.of(0).collect(everyBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(true), Seq.of(0, 3).collect(everyBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(false), Seq.of(0, 3, 4).collect(everyBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(false), Seq.of(0, 3, 4, 5).collect(everyBy(i -> i % 3 == 0)));
+        
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(true), Seq.of(1).collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(true), Seq.of(1, 2).collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(false), Seq.of(1, 2, 3, 4).collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(Optional.of(false), Seq.of(1, 2, 3, 4, 5).collect(noneBy(i -> i % 3 == 0)));
+    }
 }
