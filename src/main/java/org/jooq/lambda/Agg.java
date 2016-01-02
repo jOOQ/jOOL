@@ -65,6 +65,71 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> min() {
+        return minBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<T>> min(Comparator<? super T> comparator) {
+        return minBy(t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN(expr)</code> function.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> minBy(Function<? super T, ? extends U> function) {
+        return minBy(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN(expr)</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<T>> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return maxBy(function, comparator.reversed());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> max() {
+        return maxBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<T>> max(Comparator<? super T> comparator) {
+        return maxBy(t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX(expr)</code> function.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function) {
+        return maxBy(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN(expr)</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return Collector.of(
+            () -> (Tuple2<T, U>[]) new Tuple2[] { tuple(null, null) },
+            (a, t) -> {
+                U u = function.apply(t);
+                if (a[0].v2 == null || comparator.compare(a[0].v2, u) < 0)
+                    a[0] = tuple(t, u);
+            },
+            (a1, a2) -> comparator.compare(a1[0].v2, a2[0].v2) < 0 ? a2 : a1,
+            a -> Optional.ofNullable(a[0].v1)
+        );
+    }
+
+    /**
      * Get a {@link Collector} that calculates the <code>MODE()</code> function.
      */
     public static <T> Collector<T, ?, Optional<T>> mode() {

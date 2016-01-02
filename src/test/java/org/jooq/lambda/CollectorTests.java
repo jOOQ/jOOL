@@ -23,12 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import static org.jooq.lambda.Agg.rank;
-import static org.jooq.lambda.Agg.denseRank;
-import static org.jooq.lambda.Agg.percentRank;
-import static org.jooq.lambda.Agg.median;
-import static org.jooq.lambda.Agg.percentile;
-import static org.jooq.lambda.Agg.percentileBy;
+import static org.jooq.lambda.Agg.*;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
@@ -829,5 +824,28 @@ public class CollectorTests {
             ),
             Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(collectors)
         );
+    }
+
+    @Test
+    public void testMinMax() {
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(min()));
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(max()));
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(minBy(i -> -i)));
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(maxBy(i -> -i)));
+
+        assertEquals(Optional.of(1), Seq.of(1).collect(min()));
+        assertEquals(Optional.of(1), Seq.of(1).collect(max()));
+        assertEquals(Optional.of(1), Seq.of(1).collect(minBy(i -> -i)));
+        assertEquals(Optional.of(1), Seq.of(1).collect(maxBy(i -> -i)));
+
+        assertEquals(Optional.of(1), Seq.of(1, 2).collect(min()));
+        assertEquals(Optional.of(2), Seq.of(1, 2).collect(max()));
+        assertEquals(Optional.of(2), Seq.of(1, 2).collect(minBy(i -> -i)));
+        assertEquals(Optional.of(1), Seq.of(1, 2).collect(maxBy(i -> -i)));
+
+        assertEquals(Optional.of(1), Seq.of(1, 2, 3).collect(min()));
+        assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(max()));
+        assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(minBy(i -> -i)));
+        assertEquals(Optional.of(1), Seq.of(1, 2, 3).collect(maxBy(i -> -i)));
     }
 }

@@ -1291,32 +1291,28 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Get the minimum value by a function.
      */
     default <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
-        return minBy(function, naturalOrder());
+        return collect(Agg.minBy(function));
     }
 
     /**
      * Get the minimum value by a function.
      */
     default <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return map(t -> tuple(t, function.apply(t)))
-              .min(comparing(Tuple2::v2, comparator))
-              .map(t -> t.v1);
+        return collect(Agg.minBy(function, comparator));
     }
 
     /**
      * Get the maximum value by a function.
      */
     default <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
-        return maxBy(function, naturalOrder());
+        return collect(Agg.maxBy(function));
     }
 
     /**
      * Get the maximum value by a function.
      */
     default <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return map(t -> tuple(t, function.apply(t)))
-              .max(comparing(Tuple2::v2, comparator))
-              .map(t -> t.v1);
+        return collect(Agg.maxBy(function, comparator));
     }
 
     /**
