@@ -20,6 +20,7 @@ import org.jooq.lambda.tuple.Tuple2;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.reverseOrder;
@@ -33,6 +34,35 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
  * @author Lukas Eder
  */
 public class Agg {
+
+    /**
+     * Get a {@link Collector} that calculates the <code>COUNT(*)</code> function.
+     */
+    public static <T> Collector<T, ?, Long> count() {
+        return Collectors.counting();
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>COUNT (DISTINCT *)</code> function.
+     */
+    public static <T> Collector<T, ?, Long> countDistinct() {
+        return countDistinctBy(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>COUNT (DISTINCT expr)</code> function.
+     */
+    public static <T, U> Collector<T, ?, Long> countDistinctBy(Function<? super T, ? extends U> function) {
+        return Collector.of(
+            () -> new HashSet<U>(),
+            (s, v) -> s.add(function.apply(v)),
+            (s1, s2) -> {
+                s1.addAll(s2);
+                return s1;
+            },
+            s -> (long) s.size()
+        );
+    }
 
     /**
      * Get a {@link Collector} that calculates the <code>MODE()</code> function.

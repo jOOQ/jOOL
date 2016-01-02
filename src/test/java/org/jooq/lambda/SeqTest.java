@@ -1446,4 +1446,27 @@ public class SeqTest {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).get(2));
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(3));
     }
+
+    @Test
+    public void testCount() {
+        assertEquals(0L, Seq.of().count());
+        assertEquals(0L, Seq.of().countDistinct());
+        assertEquals(0L, Seq.<Integer>of().countDistinctBy(l -> l % 3));
+
+        assertEquals(1L, Seq.of(1).count());
+        assertEquals(1L, Seq.of(1).countDistinct());
+        assertEquals(1L, Seq.of(1).countDistinctBy(l -> l % 3L));
+
+        assertEquals(2L, Seq.of(1, 2).count());
+        assertEquals(2L, Seq.of(1, 2).countDistinct());
+        assertEquals(2L, Seq.of(1, 2).countDistinctBy(l -> l % 3L));
+
+        assertEquals(3L, Seq.of(1, 2, 2).count());
+        assertEquals(2L, Seq.of(1, 2, 2).countDistinct());
+        assertEquals(2L, Seq.of(1, 2, 2).countDistinctBy(l -> l % 3L));
+
+        assertEquals(4L, Seq.of(1, 2, 2, 4).count());
+        assertEquals(3L, Seq.of(1, 2, 2, 4).countDistinct());
+        assertEquals(2L, Seq.of(1, 2, 2, 4).countDistinctBy(l -> l % 3L));
+    }
 }

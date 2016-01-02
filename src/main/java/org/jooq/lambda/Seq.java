@@ -5266,6 +5266,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     @Override
     long count();
 
+    /**
+     * Count the distinct values in this stream.
+     */
+    default long countDistinct() {
+        return collect(Agg.countDistinct());
+    }
+
+    /**
+     * Count the distinct values of a given expression in this stream.
+     */
+    default <U> long countDistinctBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.countDistinctBy(function));
+    }
+
     // These methods have no effect
     // ----------------------------
 
