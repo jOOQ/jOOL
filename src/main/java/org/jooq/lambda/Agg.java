@@ -132,22 +132,6 @@ public class Agg {
         );
     }
 
-    public static <T> Collector<T, ?, Optional<T>> anySomeOtherNameNeededHere() {
-        return Collector.<T, T[], Optional<T>>of(
-            () -> (T[]) new Object[1],
-            (t1, t2) -> {
-                if (t1[0] == null)
-                    t1[0] = t2;
-            },
-            (t1, t2) -> {
-                if (t1[0] == null)
-                    t1[0] = t2[0];
-                return t1;
-            },
-            t -> Optional.ofNullable(t[0])
-        );
-    }
-
     /**
      * Get a {@link Collector} that calculates the <code>ALL()</code> function.
      */
