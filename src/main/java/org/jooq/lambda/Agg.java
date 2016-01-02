@@ -132,7 +132,7 @@ public class Agg {
         );
     }
 
-    public static <T> Collector<T, ?, Optional<T>> any() {
+    public static <T> Collector<T, ?, Optional<T>> anySomeOtherNameNeededHere() {
         return Collector.<T, T[], Optional<T>>of(
             () -> (T[]) new Object[1],
             (t1, t2) -> {
@@ -147,18 +147,18 @@ public class Agg {
             t -> Optional.ofNullable(t[0])
         );
     }
-    
+
     /**
-     * Get a {@link Collector} that calculates the <code>EVERY()</code> function.
+     * Get a {@link Collector} that calculates the <code>ALL()</code> function.
      */
-    public static Collector<Boolean, ?, Optional<Boolean>> every() {
-        return everyBy(t -> t);
+    public static Collector<Boolean, ?, Boolean> all() {
+        return allBy(t -> t);
     }
-    
+
     /**
      * Get a {@link Collector} that calculates the <code>EVERY()</code> function.
      */
-    public static <T> Collector<T, ?, Optional<Boolean>> everyBy(Predicate<? super T> predicate) {
+    public static <T> Collector<T, ?, Boolean> allBy(Predicate<? super T> predicate) {
         return Collector.of(
             () -> new Boolean[1],
             (a, t) -> {
@@ -171,22 +171,36 @@ public class Agg {
                 a1[0] = a1[0] && a2[0];
                 return a1;
             },
-            a -> Optional.ofNullable(a[0])
+            a -> a[0] == null || a[0]
         );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>ANY()</code> function.
+     */
+    public static Collector<Boolean, ?, Boolean> any() {
+        return anyBy(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>ANY()</code> function.
+     */
+    public static <T> Collector<T, ?, Boolean> anyBy(Predicate<? super T    > predicate) {
+        return Collectors.collectingAndThen(noneBy(predicate), t -> !t);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>NONE()</code> function.
      */
-    public static Collector<Boolean, ?, Optional<Boolean>> none() {
+    public static Collector<Boolean, ?, Boolean> none() {
         return noneBy(t -> t);
     }
     
     /**
      * Get a {@link Collector} that calculates the <code>NONE()</code> function.
      */
-    public static <T> Collector<T, ?, Optional<Boolean>> noneBy(Predicate<? super T> predicate) {
-        return everyBy(predicate.negate());
+    public static <T> Collector<T, ?, Boolean> noneBy(Predicate<? super T> predicate) {
+        return allBy(predicate.negate());
     }
 
     /**

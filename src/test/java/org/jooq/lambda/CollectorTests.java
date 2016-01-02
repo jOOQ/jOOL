@@ -851,23 +851,53 @@ public class CollectorTests {
 
     @Test
     public void testAny() {
-        assertEquals(Optional.empty(), Seq.<Integer>of().collect(any()));
-        assertEquals(Optional.of(1), Seq.of(1).collect(any()));
-        assertEquals(Optional.of(1), Seq.of(1, 2).collect(any()));
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(anySomeOtherNameNeededHere()));
+        assertEquals(Optional.of(1), Seq.of(1).collect(anySomeOtherNameNeededHere()));
+        assertEquals(Optional.of(1), Seq.of(1, 2).collect(anySomeOtherNameNeededHere()));
     }
     
     @Test
-    public void testEveryNone() {
-        assertEquals(Optional.empty(), Seq.<Integer>of().collect(everyBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(true), Seq.of(0).collect(everyBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(true), Seq.of(0, 3).collect(everyBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(false), Seq.of(0, 3, 4).collect(everyBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(false), Seq.of(0, 3, 4, 5).collect(everyBy(i -> i % 3 == 0)));
+    public void testAllAnyNone() {
         
-        assertEquals(Optional.empty(), Seq.<Integer>of().collect(noneBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(true), Seq.of(1).collect(noneBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(true), Seq.of(1, 2).collect(noneBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(false), Seq.of(1, 2, 3, 4).collect(noneBy(i -> i % 3 == 0)));
-        assertEquals(Optional.of(false), Seq.of(1, 2, 3, 4, 5).collect(noneBy(i -> i % 3 == 0)));
+        // jOOL API with explicit collectors
+        // ---------------------------------
+        assertEquals(true, Seq.<Integer>of().collect(allBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(0).collect(allBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(0, 3).collect(allBy(i -> i % 3 == 0)));
+        assertEquals(false, Seq.of(0, 3, 4).collect(allBy(i -> i % 3 == 0)));
+        assertEquals(false, Seq.of(0, 3, 4, 5).collect(allBy(i -> i % 3 == 0)));
+        
+        assertEquals(false, Seq.<Integer>of().collect(anyBy(i -> i % 3 == 0)));
+        assertEquals(false, Seq.of(1, 2).collect(anyBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(1, 2, 3).collect(anyBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(1, 2, 3, 4).collect(anyBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(1, 2, 3, 4, 5).collect(anyBy(i -> i % 3 == 0)));
+        
+        assertEquals(true, Seq.<Integer>of().collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(1).collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(true, Seq.of(1, 2).collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(false, Seq.of(1, 2, 3, 4).collect(noneBy(i -> i % 3 == 0)));
+        assertEquals(false, Seq.of(1, 2, 3, 4, 5).collect(noneBy(i -> i % 3 == 0)));
+        
+        
+        // Stream API with implicit collectors
+        // -----------------------------------
+        assertEquals(true, Seq.<Integer>of().allMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(0).allMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(0, 3).allMatch(i -> i % 3 == 0));
+        assertEquals(false, Seq.of(0, 3, 4).allMatch(i -> i % 3 == 0));
+        assertEquals(false, Seq.of(0, 3, 4, 5).allMatch(i -> i % 3 == 0));
+        
+        assertEquals(false, Seq.<Integer>of().anyMatch(i -> i % 3 == 0));
+        assertEquals(false, Seq.of(1, 2).anyMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(1, 2, 3).anyMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(1, 2, 3, 4).anyMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(1, 2, 3, 4, 5).anyMatch(i -> i % 3 == 0));
+        
+        assertEquals(true, Seq.<Integer>of().noneMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(1).noneMatch(i -> i % 3 == 0));
+        assertEquals(true, Seq.of(1, 2).noneMatch(i -> i % 3 == 0));
+        assertEquals(false, Seq.of(1, 2, 3, 4).noneMatch(i -> i % 3 == 0));
+        assertEquals(false, Seq.of(1, 2, 3, 4, 5).noneMatch(i -> i % 3 == 0));
     }
 }
