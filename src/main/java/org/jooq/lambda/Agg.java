@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.reverseOrder;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
@@ -126,6 +128,22 @@ public class Agg {
             },
             (a1, a2) -> comparator.compare(a1[0].v2, a2[0].v2) < 0 ? a2 : a1,
             a -> Optional.ofNullable(a[0].v1)
+        );
+    }
+
+    public static <T> Collector<T, ?, Optional<T>> any() {
+        return Collector.<T, T[], Optional<T>>of(
+            () -> (T[]) new Object[1],
+            (t1, t2) -> {
+                if (t1[0] == null)
+                    t1[0] = t2;
+            },
+            (t1, t2) -> {
+                if (t1[0] == null)
+                    t1[0] = t2[0];
+                return t1;
+            },
+            t -> Optional.ofNullable(t[0])
         );
     }
 

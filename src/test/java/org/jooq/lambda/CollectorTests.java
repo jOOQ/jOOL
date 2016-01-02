@@ -848,4 +848,11 @@ public class CollectorTests {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(minBy(i -> -i)));
         assertEquals(Optional.of(1), Seq.of(1, 2, 3).collect(maxBy(i -> -i)));
     }
+
+    @Test
+    public void testAny() {
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(any()));
+        assertEquals(Optional.of(1), Seq.of(1).collect(any()));
+        assertEquals(Optional.of(1), Seq.of(1, 2).collect(any()));
+    }
 }
