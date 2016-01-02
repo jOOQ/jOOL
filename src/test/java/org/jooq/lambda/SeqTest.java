@@ -17,6 +17,7 @@ package org.jooq.lambda;
 
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
@@ -1499,5 +1500,214 @@ public class SeqTest {
             tuple(4L, Optional.of(1), Optional.of(4)),
             Seq.of(1, 2, 3, 4).collect(count(), min(), max())
         );
+    }
+    
+    @Test
+    public void testWindow() {
+        Seq.of(1, 2, 2, 3, 4)
+           .window(Comparator.naturalOrder())
+           .map(w -> tuple(
+                w.value() % 2,
+                w.value(), 
+                w.rowNumber(),
+                w.rank(),
+                w.denseRank(),
+                w.percentRank(),
+                w.lead(2), 
+                w.lead(), 
+                w.value(), 
+                w.lag(),
+                w.lag(2), 
+                w.min(), 
+                w.max(),
+                w.count()
+           ))
+           .printOut();
+        
+    }
+    
+    @Test
+    public void testWindowFunctionRowNumber() {
+        assertEquals(asList(0L, 1L, 2L, 3L, 4L), Seq.of(1, 2, 4, 2, 3).window().map(Window::rowNumber).toList());
+        assertEquals(asList(0L, 1L, 4L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::rowNumber).toList());
+        assertEquals(asList(0L, 0L, 1L, 2L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(Window::rowNumber).toList());
+        assertEquals(asList(0L, 0L, 2L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::rowNumber).toList());
+    }
+        
+    @Test
+    public void testWindowFunctionRank() {
+        assertEquals(asList(0L, 1L, 4L, 1L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(OrderedWindow::rank).toList());
+        assertEquals(asList(0L, 0L, 2L, 0L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(OrderedWindow::rank).toList());
+    }
+      
+    @Test
+    public void testWindowFunctionDenseRank() {
+        assertEquals(asList(0L, 1L, 3L, 1L, 2L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(OrderedWindow::denseRank).toList());
+        assertEquals(asList(0L, 0L, 1L, 0L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(OrderedWindow::denseRank).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionPercentRank() {
+        assertEquals(asList(0.0, 0.25, 1.0, 0.25, 0.75), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(OrderedWindow::percentRank).toList());
+        assertEquals(asList(0.0, 0.0, 1.0, 0.0, 1.0), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(OrderedWindow::percentRank).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionNtile() {
+        assertEquals(asList(1L, 1L, 1L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(1)).toList());
+        assertEquals(asList(1L, 1L, 1L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(1)).toList());
+        assertEquals(asList(1L, 1L, 1L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(1)).toList());
+        assertEquals(asList(1L, 1L, 1L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(1)).toList());
+        
+        assertEquals(asList(1L, 1L, 1L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(2)).toList());
+        assertEquals(asList(1L, 1L, 2L, 1L, 2L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(2)).toList());
+        assertEquals(asList(1L, 1L, 1L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(2)).toList());
+        assertEquals(asList(1L, 1L, 2L, 1L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(2)).toList());
+        
+        assertEquals(asList(1L, 1L, 2L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(3)).toList());
+        assertEquals(asList(1L, 1L, 3L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(3)).toList());
+        assertEquals(asList(1L, 1L, 2L, 3L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(3)).toList());
+        assertEquals(asList(1L, 1L, 3L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(3)).toList());
+        
+        assertEquals(asList(1L, 1L, 2L, 3L, 4L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(4)).toList());
+        assertEquals(asList(1L, 1L, 4L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(4)).toList());
+        assertEquals(asList(1L, 1L, 2L, 3L, 3L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(4)).toList());
+        assertEquals(asList(1L, 1L, 3L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(4)).toList());
+        
+        assertEquals(asList(1L, 2L, 3L, 4L, 5L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(5)).toList());
+        assertEquals(asList(1L, 2L, 5L, 3L, 4L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(5)).toList());
+        assertEquals(asList(1L, 1L, 2L, 4L, 3L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(5)).toList());
+        assertEquals(asList(1L, 1L, 4L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(5)).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionLead() {
+        assertEquals(optional(2, 4, 2, 3, null), Seq.of(1, 2, 4, 2, 3).window().map(Window::lead).toList());
+        assertEquals(optional(3, 4, 2, null, null), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(Window::lead).toList());
+        
+        assertEquals(optional(2, 2, null, 3, 4), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::lead).toList());
+        assertEquals(optional(3, 2, null, 4, null), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::lead).toList());
+        
+        
+        assertEquals(optional(4, 2, 3, null, null), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lead(2)).toList());
+        assertEquals(optional(null, 2, null, null, null), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.lead(2)).toList());
+        
+        assertEquals(optional(2, 3, null, 4, null), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.lead(2)).toList());
+        assertEquals(optional(null, 4, null, null, null), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.lead(2)).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionLag() {
+        assertEquals(optional(null, 1, 2, 4, 2), Seq.of(1, 2, 4, 2, 3).window().map(Window::lag).toList());
+        assertEquals(optional(null, null, 2, 4, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(Window::lag).toList());
+        
+        assertEquals(optional(null, 1, 3, 2, 2), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::lag).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::lag).toList());
+        
+        
+        assertEquals(optional(null, null, 1, 2, 4), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lag(2)).toList());
+        assertEquals(optional(null, null, null, 2, null), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.lag(2)).toList());
+        
+        assertEquals(optional(null, null, 2, 1, 2), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.lag(2)).toList());
+        assertEquals(optional(null, null, 2, null, null), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.lag(2)).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionFirstValue() {
+        assertEquals(optional(1, 1, 1, 1, 1), Seq.of(1, 2, 4, 2, 3).window().map(FramedWindow::firstValue).toList());
+        assertEquals(optional(1, 1, 2, 4, 2), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(null, 1, 1, 1, 2), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(FramedWindow::firstValue).toList());
+        
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(1, 2, 2, 4, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(FramedWindow::firstValue).toList());
+        
+        assertEquals(optional(1, 1, 1, 1, 1), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(1, 1, 3, 2, 2), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(null, 1, 2, 1, 1), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(FramedWindow::firstValue).toList());
+        
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(FramedWindow::firstValue).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(FramedWindow::firstValue).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionLastValue() {
+        assertEquals(optional(3, 3, 3, 3, 3), Seq.of(1, 2, 4, 2, 3).window().map(FramedWindow::lastValue).toList());
+        assertEquals(optional(2, 4, 2, 3, 3), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(null, 1, 2, 4, 2), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(FramedWindow::lastValue).toList());
+        
+        assertEquals(optional(3, 2, 2, 2, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(3, 4, 2, 2, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(null, null, 2, 4, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(FramedWindow::lastValue).toList());
+        
+        assertEquals(optional(1, 2, 4, 2, 3), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(2, 2, 4, 3, 4), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(null, 1, 3, 2, 2), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(FramedWindow::lastValue).toList());
+        
+        assertEquals(optional(1, 2, 4, 2, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(3, 2, 4, 4, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(FramedWindow::lastValue).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(FramedWindow::lastValue).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionCount() {
+        assertEquals(asList(5L, 5L, 5L, 5L, 5L), Seq.of(1, 2, 4, 2, 3).window().map(FramedWindow::count).toList());
+        assertEquals(asList(2L, 3L, 3L, 3L, 2L), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(FramedWindow::count).toList());
+        assertEquals(asList(0L, 1L, 2L, 3L, 3L), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(FramedWindow::count).toList());
+        
+        assertEquals(asList(2L, 3L, 3L, 3L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(FramedWindow::count).toList());
+        assertEquals(asList(2L, 2L, 3L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(FramedWindow::count).toList());
+        assertEquals(asList(0L, 0L, 1L, 2L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(FramedWindow::count).toList());
+                
+        assertEquals(asList(1L, 2L, 5L, 3L, 4L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(FramedWindow::count).toList());
+        assertEquals(asList(2L, 3L, 2L, 3L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(FramedWindow::count).toList());
+        assertEquals(asList(0L, 1L, 3L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(FramedWindow::count).toList());
+        
+        assertEquals(asList(1L, 1L, 3L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(FramedWindow::count).toList());
+        assertEquals(asList(2L, 2L, 2L, 3L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(FramedWindow::count).toList());
+        assertEquals(asList(0L, 0L, 2L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(FramedWindow::count).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionMax() {
+        assertEquals(optional(4, 4, 4, 4, 4), Seq.of(1, 2, 4, 2, 3).window().map(FramedWindow::max).toList());
+        assertEquals(optional(2, 4, 4, 4, 3), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(FramedWindow::max).toList());
+        assertEquals(optional(null, 1, 2, 4, 4), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(FramedWindow::max).toList());
+        
+        assertEquals(optional(3, 4, 4, 4, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(FramedWindow::max).toList());
+        assertEquals(optional(3, 4, 4, 4, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(FramedWindow::max).toList());
+        assertEquals(optional(null, null, 2, 4, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(FramedWindow::max).toList());
+                
+        assertEquals(optional(1, 2, 4, 2, 3), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(FramedWindow::max).toList());
+        assertEquals(optional(2, 2, 4, 3, 4), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(FramedWindow::max).toList());
+        assertEquals(optional(null, 1, 3, 2, 2), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(FramedWindow::max).toList());
+        
+        assertEquals(optional(1, 2, 4, 2, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(FramedWindow::max).toList());
+        assertEquals(optional(3, 2, 4, 4, 3), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(FramedWindow::max).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(FramedWindow::max).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionMin() {
+        assertEquals(optional(1, 1, 1, 1, 1), Seq.of(1, 2, 4, 2, 3).window().map(FramedWindow::min).toList());
+        assertEquals(optional(1, 1, 2, 2, 2), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(FramedWindow::min).toList());
+        assertEquals(optional(null, 1, 1, 1, 2), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(FramedWindow::min).toList());
+        
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(FramedWindow::min).toList());
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(FramedWindow::min).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(FramedWindow::min).toList());
+                
+        assertEquals(optional(1, 1, 1, 1, 1), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(FramedWindow::min).toList());
+        assertEquals(optional(1, 1, 3, 2, 2), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(FramedWindow::min).toList());
+        assertEquals(optional(null, 1, 2, 1, 1), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(FramedWindow::min).toList());
+        
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(FramedWindow::min).toList());
+        assertEquals(optional(1, 2, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(FramedWindow::min).toList());
+        assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(FramedWindow::min).toList());
+    }
+    
+    private <T> List<Optional<T>> optional(T... list) {
+        return Seq.of(list).map(Optional::ofNullable).toList();
     }
 }

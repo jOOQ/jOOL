@@ -49,6 +49,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -1378,6 +1379,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
         return sorted(comparing(function));
     }
 
+    /**
+     * Sort by the results of function.
+     */
+    default <U> Seq<T> sorted(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return sorted(comparing(function, comparator));
+    }
+
     // Methods taken from LINQ
     // -----------------------
 
@@ -1408,7 +1416,126 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     default <U> Seq<U> cast(Class<U> type) {
         return cast(this, type);
     }
-
+    
+    /**
+     * Map this stream to a windowed stream using the default partition and order.
+     * <p>
+     * <code><pre>
+     * // (0, 1, 2, 3, 4)
+     * Seq.of(1, 2, 4, 2, 3).window().map(Window::rowNumber)
+     * </pre></code>
+     */ 
+    default Seq<Window<T, ?>> window() {
+        return (Seq) window(t -> SeqImpl.NULL, null, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+   
+    /**
+     * Map this stream to a windowed stream using the default partition and order with frame.
+     * <p>
+     * <code><pre>
+     * // (2, 4, 4, 4, 3)
+     * Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(Window::max)
+     * </pre></code>
+     */ 
+    default Seq<FramedWindow<T, ?>> window(long lower, long upper) {
+        return (Seq) window(t -> SeqImpl.NULL, null, lower, upper);
+    }
+   
+    /**
+     * Map this stream to a windowed stream using the default partition and a specific order.
+     * <p>
+     * <code><pre>
+     * // (0, 1, 4, 2, 3)
+     * Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::rowNumber)
+     * </pre></code>
+     */ 
+    default Seq<OrderedWindow<T, ?>> window(Comparator<? super T> orderBy) {
+        return (Seq) window(t -> SeqImpl.NULL, orderBy, Long.MIN_VALUE, 0);
+    }
+    
+    /**
+     * Map this stream to a windowed stream using the default partition and a specific order with frame.
+     * <p>
+     * <code><pre>
+     * // (1, 1, 3, 2, 2)
+     * Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(Window::min)
+     * </pre></code>
+     */ 
+    default Seq<FramedWindow<T, ?>> window(Comparator<? super T> orderBy, long lower, long upper) {
+        return (Seq) window(t -> SeqImpl.NULL, orderBy, lower, upper);
+    }
+    
+    /**
+     * Map this stream to a windowed stream using a specific partition and the default order.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 2, 2, 1)
+     * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(Window::min)
+     * </pre></code>
+     */ 
+    default <U> Seq<Window<T, U>> window(Function<? super T, ? extends U> partitionBy) {
+        return (Seq) window(partitionBy, null, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+    
+    /**
+     * Map this stream to a windowed stream using a specific partition and the default order.
+     * <p>
+     * <code><pre>
+     * // (3, 4, 4, 2, 3)
+     * Seq.of(1, 4, 2, 2, 3).window(i -> i % 2, -1, 1).map(Window::max)
+     * </pre></code>
+     */ 
+    default <U> Seq<FramedWindow<T, U>> window(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
+        return (Seq) window(partitionBy, null, lower, upper);
+    }
+    
+    /**
+     * Map this stream to a windowed stream using a specific partition and order.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 4, 4, 3)
+     * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::max)
+     * </pre></code>
+     */ 
+    default <U> Seq<OrderedWindow<T, U>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
+        return (Seq) window(partitionBy, orderBy, Long.MIN_VALUE, 0);
+    }
+    
+    /**
+     * Map this stream to a windowed stream using a specific partition and order with frame.
+     * <p>
+     * <code><pre>
+     * // (3, 2, 4, 4, 3)
+     * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(Window::max)
+     * </pre></code>
+     */ 
+    default <U> Seq<FramedWindow<T, U>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
+        
+        // The index helps identify values regardless of identity or value equality
+        List<Tuple2<T, Long>> collected = zipWithIndex().toList();
+        Map<U, List<Tuple2<T, Long>>> partitions = seq(collected).groupBy(
+            partitionBy.compose(t -> t.v1), 
+            Collector.<Tuple2<T, Long>, Collection<Tuple2<T, Long>>, List<Tuple2<T, Long>>>of(
+                () -> orderBy == null
+                    ? new ArrayList<>()
+                    : new TreeSet<>(Comparator.<Tuple2<T, Long>, T>comparing(t -> t.v1, orderBy).thenComparing(t -> t.v2)),
+                (s, t) -> s.add(t),
+                (s1, s2) -> { s1.addAll(s2); return s1; },
+                s -> s instanceof ArrayList ? (List<Tuple2<T, Long>>) s : new ArrayList<>(s)
+            )
+        );
+        
+        return seq(collected)
+              .map(t1 -> new WindowImpl<T, U>(
+                   t1, 
+                   partitions.get(partitionBy.apply(t1.v1)), 
+                   partitionBy,
+                   orderBy, 
+                   lower, 
+                   upper
+              ));
+    }
+    
     // Collect overloads
     // -----------------
 
