@@ -102,55 +102,55 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> median() {
-        return percentileDiscBy(0.5, t -> t, naturalOrder());
+        return percentileBy(0.5, t -> t, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given a specific ordering.
      */
     public static <T> Collector<T, ?, Optional<T>> median(Comparator<? super T> comparator) {
-        return percentileDiscBy(0.5, t -> t, comparator);
+        return percentileBy(0.5, t -> t, comparator);
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given natural ordering.
      */
     public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> medianBy(Function<? super T, ? extends U> function) {
-        return percentileDiscBy(0.5, function, naturalOrder());
+        return percentileBy(0.5, function, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given a specific ordering.
      */
     public static <T, U> Collector<T, ?, Optional<T>> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return percentileDiscBy(0.5, function, comparator);
+        return percentileBy(0.5, function, comparator);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given natural ordering.
      */
-    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> percentileDisc(double percentile) {
-        return percentileDisc(percentile, naturalOrder());
+    public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> percentile(double percentile) {
+        return percentile(percentile, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering.
      */
-    public static <T> Collector<T, ?, Optional<T>> percentileDisc(double percentile, Comparator<? super T> comparator) {
-        return percentileDiscBy(percentile, t -> t, comparator);
+    public static <T> Collector<T, ?, Optional<T>> percentile(double percentile, Comparator<? super T> comparator) {
+        return percentileBy(percentile, t -> t, comparator);
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given natural ordering.
      */
-    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> percentileDiscBy(double percentile, Function<? super T, ? extends U> function) {
-        return percentileDiscBy(percentile, function, naturalOrder());
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> percentileBy(double percentile, Function<? super T, ? extends U> function) {
+        return percentileBy(percentile, function, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering.
      */
-    public static <T, U> Collector<T, ?, Optional<T>> percentileDiscBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+    public static <T, U> Collector<T, ?, Optional<T>> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         if (percentile < 0.0 || percentile > 1.0)
             throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
 

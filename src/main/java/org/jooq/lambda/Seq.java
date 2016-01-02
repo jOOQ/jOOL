@@ -1343,22 +1343,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     /**
      * Get the discrete percentile value.
      */
-    default Optional<T> percentileDisc(double percentile, Comparator<? super T> comparator) {
-        return collect(Agg.percentileDisc(percentile, comparator));
+    default Optional<T> percentile(double percentile, Comparator<? super T> comparator) {
+        return collect(Agg.percentile(percentile, comparator));
     }
 
     /**
      * Get the discrete percentile value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<T> percentileDiscBy(double percentile, Function<? super T, ? extends U> function) {
-        return collect(Agg.percentileDiscBy(percentile, function));
+    default <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function) {
+        return collect(Agg.percentileBy(percentile, function));
     }
 
     /**
      * Get the discrete percentile value by a function.
      */
-    default <U> Optional<T> percentileDiscBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.percentileDiscBy(percentile, function, comparator));
+    default <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.percentileBy(percentile, function, comparator));
     }
 
     /**
