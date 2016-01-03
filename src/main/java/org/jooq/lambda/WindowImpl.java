@@ -263,7 +263,7 @@ class WindowImpl<T, P> implements Window<T> {
 
     @Override
     public long ntile(long bucket) {
-        return (bucket * rowNumber() / partition.size()) + 1;
+        return (bucket * rowNumber() / partition.size());
     }
 
     @Override
