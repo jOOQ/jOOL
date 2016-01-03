@@ -17,6 +17,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -236,6 +237,20 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     @SuppressWarnings("unchecked")
     public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
+    }
+
+    /**
+     * A comparator to order by element 1 ascendingly.
+     */
+    public Comparator<Tuple1<T1>> asc1() {
+        return Comparator.comparing((Tuple1<T1> t) -> t.v1, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 1 descendingly.
+     */
+    public Comparator<Tuple1<T1>> desc1() {
+        return Comparator.comparing((Tuple1<T1> t) -> t.v1, (Comparator) Comparator.reverseOrder());
     }
 
     @Override

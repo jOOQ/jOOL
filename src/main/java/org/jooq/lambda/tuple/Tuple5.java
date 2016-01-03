@@ -17,6 +17,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -349,6 +350,76 @@ public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple5<T1, 
     @SuppressWarnings("unchecked")
     public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
+    }
+
+    /**
+     * A comparator to order by element 1 ascendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> asc1() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v1, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 2 ascendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> asc2() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v2, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 3 ascendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> asc3() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v3, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 4 ascendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> asc4() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v4, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 5 ascendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> asc5() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v5, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 1 descendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> desc1() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v1, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 2 descendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> desc2() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v2, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 3 descendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> desc3() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v3, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 4 descendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> desc4() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v4, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 5 descendingly.
+     */
+    public Comparator<Tuple5<T1, T2, T3, T4, T5>> desc5() {
+        return Comparator.comparing((Tuple5<T1, T2, T3, T4, T5> t) -> t.v5, (Comparator) Comparator.reverseOrder());
     }
 
     @Override

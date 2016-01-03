@@ -17,6 +17,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -293,6 +294,48 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     @SuppressWarnings("unchecked")
     public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
+    }
+
+    /**
+     * A comparator to order by element 1 ascendingly.
+     */
+    public Comparator<Tuple3<T1, T2, T3>> asc1() {
+        return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v1, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 2 ascendingly.
+     */
+    public Comparator<Tuple3<T1, T2, T3>> asc2() {
+        return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v2, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 3 ascendingly.
+     */
+    public Comparator<Tuple3<T1, T2, T3>> asc3() {
+        return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v3, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 1 descendingly.
+     */
+    public Comparator<Tuple3<T1, T2, T3>> desc1() {
+        return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v1, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 2 descendingly.
+     */
+    public Comparator<Tuple3<T1, T2, T3>> desc2() {
+        return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v2, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 3 descendingly.
+     */
+    public Comparator<Tuple3<T1, T2, T3>> desc3() {
+        return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v3, (Comparator) Comparator.reverseOrder());
     }
 
     @Override

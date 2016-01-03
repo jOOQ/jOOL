@@ -17,6 +17,7 @@ package org.jooq.lambda.tuple;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -629,6 +630,216 @@ public class Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     @SuppressWarnings("unchecked")
     public final Iterator<Object> iterator() {
         return (Iterator<Object>) list().iterator();
+    }
+
+    /**
+     * A comparator to order by element 1 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc1() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v1, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 2 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc2() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v2, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 3 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc3() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v3, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 4 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc4() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v4, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 5 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc5() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v5, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 6 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc6() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v6, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 7 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc7() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v7, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 8 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc8() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v8, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 9 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc9() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v9, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 10 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc10() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v10, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 11 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc11() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v11, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 12 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc12() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v12, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 13 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc13() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v13, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 14 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc14() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v14, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 15 ascendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> asc15() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v15, (Comparator) Comparator.naturalOrder());
+    }
+
+    /**
+     * A comparator to order by element 1 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc1() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v1, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 2 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc2() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v2, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 3 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc3() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v3, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 4 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc4() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v4, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 5 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc5() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v5, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 6 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc6() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v6, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 7 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc7() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v7, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 8 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc8() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v8, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 9 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc9() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v9, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 10 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc10() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v10, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 11 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc11() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v11, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 12 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc12() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v12, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 13 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc13() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v13, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 14 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc14() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v14, (Comparator) Comparator.reverseOrder());
+    }
+
+    /**
+     * A comparator to order by element 15 descendingly.
+     */
+    public Comparator<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> desc15() {
+        return Comparator.comparing((Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> t) -> t.v15, (Comparator) Comparator.reverseOrder());
     }
 
     @Override
