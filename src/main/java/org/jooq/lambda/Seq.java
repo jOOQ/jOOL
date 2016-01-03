@@ -1275,10 +1275,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
-     * Consume a stream and concatenate aTll elements using a separator.
+     * Consume a stream and concatenate all elements using a separator.
      */
-    default String toString(String separator) {
-        return toString(this, separator);
+    default String toString(CharSequence delimiter) {
+        return toString(this, delimiter);
+    }
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
+     * collector.
+     */
+    default String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+        return map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
     }
 
     /**
@@ -1844,7 +1853,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining()}
      * collector.
+     * 
+     * @deprecated - Use {@link #toString()} instead. This method will be
+     * removed in the future as it causes confusion with
+     * {@link #innerJoin(Seq, BiPredicate)}.
      */
+    @Deprecated
     default String join() {
         return map(Objects::toString).collect(Collectors.joining());
     }
@@ -1853,7 +1867,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence)}
      * collector.
+     * 
+     * @deprecated - Use {@link #toString(CharSequence)} instead. This method
+     * will be removed in the future as it causes confusion with
+     * {@link #innerJoin(Seq, BiPredicate)}.
      */
+    @Deprecated
     default String join(CharSequence delimiter) {
         return map(Objects::toString).collect(Collectors.joining(delimiter));
     }
@@ -1862,7 +1881,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
      * collector.
+     * 
+     * @deprecated - Use
+     * {@link #toString(CharSequence, CharSequence, CharSequence)} instead. This
+     * method will be removed in the future as it causes confusion with
+     * {@link #innerJoin(Seq, BiPredicate)}.
      */
+    @Deprecated
     default String join(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
         return map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
     }
@@ -5046,8 +5071,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     /**
      * Consume a stream and concatenate all elements using a separator.
      */
-    static String toString(Stream<?> stream, String separator) {
-        return stream.map(Objects::toString).collect(Collectors.joining(separator));
+    static String toString(Stream<?> stream, CharSequence delimiter) {
+        return stream.map(Objects::toString).collect(Collectors.joining(delimiter));
     }
 
     /**
