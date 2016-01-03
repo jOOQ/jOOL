@@ -313,38 +313,6 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
         return (Iterator<Object>) list().iterator();
     }
 
-    /**
-     * A comparator to order by element 1 ascendingly.
-     */
-    @SuppressWarnings("unchecked")
-    public Comparator<Tuple2<T1, T2>> asc1() {
-        return Comparator.comparing((Tuple2<T1, T2> t) -> t.v1, (Comparator) Comparator.naturalOrder());
-    }
-
-    /**
-     * A comparator to order by element 2 ascendingly.
-     */
-    @SuppressWarnings("unchecked")
-    public Comparator<Tuple2<T1, T2>> asc2() {
-        return Comparator.comparing((Tuple2<T1, T2> t) -> t.v2, (Comparator) Comparator.naturalOrder());
-    }
-
-    /**
-     * A comparator to order by element 1 descendingly.
-     */
-    @SuppressWarnings("unchecked")
-    public Comparator<Tuple2<T1, T2>> desc1() {
-        return Comparator.comparing((Tuple2<T1, T2> t) -> t.v1, (Comparator) Comparator.reverseOrder());
-    }
-
-    /**
-     * A comparator to order by element 2 descendingly.
-     */
-    @SuppressWarnings("unchecked")
-    public Comparator<Tuple2<T1, T2>> desc2() {
-        return Comparator.comparing((Tuple2<T1, T2> t) -> t.v2, (Comparator) Comparator.reverseOrder());
-    }
-
     @Override
     public int compareTo(Tuple2<T1, T2> other) {
         int result = 0;
