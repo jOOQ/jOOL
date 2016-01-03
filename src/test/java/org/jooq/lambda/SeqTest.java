@@ -44,6 +44,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 import org.jooq.lambda.tuple.Tuple;
@@ -1473,6 +1475,32 @@ public class SeqTest {
         assertEquals(3L, Seq.of(1, 2, 2, 4).countDistinct());
         assertEquals(2L, Seq.of(1, 2, 2, 4).countDistinctBy(l -> l % 3L));
     }
+    
+    @Test
+    public void testSum() {
+        assertEquals(Optional.empty(), Seq.of().sum());
+        
+        assertEquals(Optional.of(1), Seq.of(1).sum());
+        assertEquals(Optional.of(3), Seq.of(1, 2).sum());
+        assertEquals(Optional.of(6), Seq.of(1, 2, 3).sum());
+        
+        assertEquals(Optional.of(1.0), Seq.of(1.0).sum());
+        assertEquals(Optional.of(3.0), Seq.of(1.0, 2.0).sum());
+        assertEquals(Optional.of(6.0), Seq.of(1.0, 2.0, 3.0).sum());
+    }
+    
+    @Test
+    public void testAvg() {
+        assertEquals(Optional.empty(), Seq.of().avg());
+        
+        assertEquals(Optional.of(1), Seq.of(1).avg());
+        assertEquals(Optional.of(1), Seq.of(1, 2).avg());
+        assertEquals(Optional.of(2), Seq.of(1, 2, 3).avg());
+        
+        assertEquals(Optional.of(1.0), Seq.of(1.0).avg());
+        assertEquals(Optional.of(1.5), Seq.of(1.0, 2.0).avg());
+        assertEquals(Optional.of(2.0), Seq.of(1.0, 2.0, 3.0).avg());
+    }
 
     @Test
     public void testCollect() {
@@ -1724,6 +1752,25 @@ public class SeqTest {
         assertEquals(asList(1L, 1L, 3L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::count).toList());
         assertEquals(asList(2L, 2L, 2L, 3L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(Window::count).toList());
         assertEquals(asList(0L, 0L, 2L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(Window::count).toList());
+    }
+    
+    @Test
+    public void testWindowFunctionSum() {
+        assertEquals(optional(12, 12, 12, 12, 12), Seq.of(1, 2, 4, 2, 3).window().map(Window::sum).toList());
+        assertEquals(optional(3, 7, 8, 9, 5), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(Window::sum).toList());
+        assertEquals(optional(null, 1, 3, 7, 8), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(Window::sum).toList());
+        
+        assertEquals(optional(4, 8, 8, 8, 4), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(Window::sum).toList());
+        assertEquals(optional(4, 6, 8, 6, 4), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(Window::sum).toList());
+        assertEquals(optional(null, null, 2, 6, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(Window::sum).toList());
+                
+        assertEquals(optional(1, 3, 12, 5, 8), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::sum).toList());
+        assertEquals(optional(3, 5, 7, 7, 9), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(Window::sum).toList());
+        assertEquals(optional(null, 1, 7, 3, 5), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(Window::sum).toList());
+        
+        assertEquals(optional(1, 2, 8, 4, 4), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::sum).toList());
+        assertEquals(optional(4, 4, 6, 8, 4), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(Window::sum).toList());
+        assertEquals(optional(null, null, 4, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(Window::sum).toList());
     }
     
     @Test

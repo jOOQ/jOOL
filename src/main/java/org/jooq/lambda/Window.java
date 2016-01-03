@@ -25,7 +25,11 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * A window containing the data for its partition, to perform calculations upon.
@@ -158,6 +162,110 @@ public interface Window<T> {
      * </code></pre>
      */
     long ntile(long buckets);
+    
+    /**
+     * The next value in the window.
+     * <p>
+     * This is the same as calling <code>lead(1)</code>
+     * <p>
+     * <pre><code>
+     * // (2, 2, 3, 4, empty)
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lead());
+     * </code></pre>
+     */
+    Optional<T> lead();
+    
+    /**
+     * The next value by <code>lead</code> in the window.
+     * <p>
+     * <pre><code>
+     * // (2, 2, 3, 4, empty)
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lead());
+     * </code></pre>
+     */
+    Optional<T> lead(long lead);
+    
+    /**
+     * The previous value in the window.
+     * <p>
+     * This is the same as calling <code>lag(1)</code>
+     * <p>
+     * <pre><code>
+     * // (empty, 1, 2, 2, 3)
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lag());
+     * </code></pre>
+     */
+    Optional<T> lag();
+    
+    /**
+     * The previous value by <code>lag</code> in the window.
+     * <p>
+     * <pre><code>
+     * // (empty, 1, 2, 2, 3)
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lag());
+     * </code></pre>
+     */
+    Optional<T> lag(long lag);
+    
+    /**
+     * The first value in the window.
+     * <p>
+     * <pre><code>
+     * // (1, 1, 1, 1, 1)
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.firstValue());
+     * </code></pre>
+     */
+    Optional<T> firstValue();
+
+    /**
+     * The first value in the window.
+     * <p>
+     * <pre><code>
+     * // (1, 1, 1, 1, 1)
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.firstValue());
+     * </code></pre>
+     */
+    <U> Optional<U> firstValue(Function<? super T, ? extends U> function);
+    
+    /**
+     * The last value in the window.
+     * <p>
+     * <pre><code>
+     * // (3, 3, 3, 3, 3)
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lastValue());
+     * </code></pre>
+     */
+    Optional<T> lastValue();
+    
+    /**
+     * The last value in the window.
+     * <p>
+     * <pre><code>
+     * // (3, 3, 3, 3, 3)
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lastValue());
+     * </code></pre>
+     */
+    <U> Optional<U> lastValue(Function<? super T, ? extends U> function);
+
+    /**
+     * The nth value in the window.
+     * <p>
+     * <pre><code>
+     * // (4, 4, 4, 4, 4)
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.nthValue(2));
+     * </code></pre>
+     */
+    Optional<T> nthValue(long n);
+
+    /**
+     * The nth value in the window.
+     * <p>
+     * <pre><code>
+     * // (4, 4, 4, 4, 4)
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.nthValue(2));
+     * </code></pre>
+     */
+    <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function);
 
     /**
      * The number of elements in the window.
@@ -189,6 +297,46 @@ public interface Window<T> {
      */
     <U> long countDistinctBy(Function<? super T, ? extends U> function);
     
+    /**
+     * Get the sum of the elements in the window.
+     */
+    Optional<T> sum();
+    
+    /**
+     * Get the sum of the elements in the window as <code>int</code>.
+     */
+    int sumInt(ToIntFunction<? super T> function);
+    
+    /**
+     * Get the sum of the elements in the window as <code>long</code>.
+     */
+    long sumLong(ToLongFunction<? super T> function);
+  
+    /**
+     * Get the sum of the elements in the window as <code>double</code>.
+     */
+    double sumDouble(ToDoubleFunction<? super T> function);
+
+    /**
+     * Get the average of the elements in the window.
+     */
+    Optional<T> avg();
+    
+    /**
+     * Get the average of the elements in the window as <code>int</code>.
+     */
+    double avgInt(ToIntFunction<? super T> function);
+    
+    /**
+     * Get the average of the elements in the window as <code>long</code>.
+     */
+    double avgLong(ToLongFunction<? super T> function);
+  
+    /**
+     * Get the average of the elements in the window as <code>double</code>.
+     */
+    double avgDouble(ToDoubleFunction<? super T> function);
+  
     /**
      * The lowest value in the window.
      * <p>
@@ -358,110 +506,6 @@ public interface Window<T> {
      * </code></pre>
      */
     Optional<T> mode();
-    
-    /**
-     * The next value in the window.
-     * <p>
-     * This is the same as calling <code>lead(1)</code>
-     * <p>
-     * <pre><code>
-     * // (2, 2, 3, 4, empty)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lead());
-     * </code></pre>
-     */
-    Optional<T> lead();
-    
-    /**
-     * The next value by <code>lead</code> in the window.
-     * <p>
-     * <pre><code>
-     * // (2, 2, 3, 4, empty)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lead());
-     * </code></pre>
-     */
-    Optional<T> lead(long lead);
-    
-    /**
-     * The previous value in the window.
-     * <p>
-     * This is the same as calling <code>lag(1)</code>
-     * <p>
-     * <pre><code>
-     * // (empty, 1, 2, 2, 3)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lag());
-     * </code></pre>
-     */
-    Optional<T> lag();
-    
-    /**
-     * The previous value by <code>lag</code> in the window.
-     * <p>
-     * <pre><code>
-     * // (empty, 1, 2, 2, 3)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lag());
-     * </code></pre>
-     */
-    Optional<T> lag(long lag);
-    
-    /**
-     * The first value in the window.
-     * <p>
-     * <pre><code>
-     * // (1, 1, 1, 1, 1)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.firstValue());
-     * </code></pre>
-     */
-    Optional<T> firstValue();
-
-    /**
-     * The first value in the window.
-     * <p>
-     * <pre><code>
-     * // (1, 1, 1, 1, 1)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.firstValue());
-     * </code></pre>
-     */
-    <U> Optional<U> firstValue(Function<? super T, ? extends U> function);
-    
-    /**
-     * The last value in the window.
-     * <p>
-     * <pre><code>
-     * // (3, 3, 3, 3, 3)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lastValue());
-     * </code></pre>
-     */
-    Optional<T> lastValue();
-    
-    /**
-     * The last value in the window.
-     * <p>
-     * <pre><code>
-     * // (3, 3, 3, 3, 3)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lastValue());
-     * </code></pre>
-     */
-    <U> Optional<U> lastValue(Function<? super T, ? extends U> function);
-
-    /**
-     * The nth value in the window.
-     * <p>
-     * <pre><code>
-     * // (4, 4, 4, 4, 4)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.nthValue(2));
-     * </code></pre>
-     */
-    Optional<T> nthValue(long n);
-
-    /**
-     * The nth value in the window.
-     * <p>
-     * <pre><code>
-     * // (4, 4, 4, 4, 4)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.nthValue(2));
-     * </code></pre>
-     */
-    <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function);
 
     /**
      * Whether all elements in the window match a given predicate.

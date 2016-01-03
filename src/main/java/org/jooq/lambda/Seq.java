@@ -1298,6 +1298,62 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
 
     /**
+     * Get the sum of the elements in this stream.
+     */
+    default Optional<T> sum() {
+        return collect(Agg.sum());
+    }
+    
+    /**
+     * Get the sum of the elements in this stream as <code>int</code>.
+     */
+    default int sumInt(ToIntFunction<? super T> function) {
+        return collect(Collectors.summingInt(function));
+    }
+    
+    /**
+     * Get the sum of the elements in this stream as <code>long</code>.
+     */
+    default long sumLong(ToLongFunction<? super T> function) {
+        return collect(Collectors.summingLong(function));
+    }
+  
+    /**
+     * Get the sum of the elements in this stream as <code>double</code>.
+     */
+    default double sumDouble(ToDoubleFunction<? super T> function) {
+        return collect(Collectors.summingDouble(function));
+    }
+
+    /**
+     * Get the average of the elements in this stream.
+     */
+    default Optional<T> avg() {
+        return collect(Agg.avg());
+    }
+
+    /**
+     * Get the average of the elements in this stream as <code>int</code>.
+     */
+    default double avgInt(ToIntFunction<? super T> function) {
+        return collect(Collectors.averagingInt(function));
+    }
+    
+    /**
+     * Get the average of the elements in this stream as <code>long</code>.
+     */
+    default double avgLong(ToLongFunction<? super T> function) {
+        return collect(Collectors.averagingLong(function));
+    }
+  
+    /**
+     * Get the average of the elements in this stream as <code>double</code>.
+     */
+    default double avgDouble(ToDoubleFunction<? super T> function) {
+        return collect(Collectors.averagingDouble(function));
+    }
+  
+    /**
      * Get the minimum value by a function.
      */
     default <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {

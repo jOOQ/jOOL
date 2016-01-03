@@ -27,6 +27,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 
 import org.jooq.lambda.tuple.Tuple2;
@@ -73,6 +76,100 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
+    public long rowNumber() {
+        return (long) index;
+    }
+
+    @Override
+    public long rank() {
+        return seq(partition).map(t -> t.v1).collect(Agg.rank(value.v1, order)).get();
+    }
+
+    @Override
+    public long denseRank() {
+        return seq(partition).map(t -> t.v1).collect(Agg.denseRank(value.v1, order)).get();
+    }
+
+    @Override
+    public double percentRank() {
+        return ((double) rank()) / ((double) (partition.size() - 1));
+    }
+
+    @Override
+    public long ntile(long bucket) {
+        return (bucket * rowNumber() / partition.size());
+    }
+
+    @Override
+    public Optional<T> lead() {
+        return lead(1);
+    }
+
+    @Override
+    public Optional<T> lead(long lead) {
+        return lead0(lead);
+    }
+
+    @Override
+    public Optional<T> lag() {
+        return lag(1);
+    }
+
+    @Override
+    public Optional<T> lag(long lag) {
+        return lead0(-lag);
+    }
+
+    private Optional<T> lead0(long lead) {
+        if (lead == 0)
+            return Optional.of(value.v1);
+        else if (index + lead >= 0 && index + lead < partition.size())
+            return Optional.of(partition.get(index + (int) lead).v1);
+        else
+            return Optional.empty();
+    }
+
+    @Override
+    public Optional<T> firstValue() {
+        return firstValue(t -> t);
+    }
+
+    @Override
+    public <U> Optional<U> firstValue(Function<? super T, ? extends U> function) {
+        return lowerInPartition()
+             ? Optional.of(function.apply(partition.get(lower()).v1))
+             : upperInPartition()
+             ? Optional.of(function.apply(partition.get(0).v1))
+             : Optional.empty();
+    }
+
+    @Override
+    public Optional<T> lastValue() {
+        return lastValue(t -> t);
+    }
+
+    @Override
+    public <U> Optional<U> lastValue(Function<? super T, ? extends U> function) {
+        return upperInPartition()
+             ? Optional.of(function.apply(partition.get(upper()).v1))
+             : lowerInPartition()
+             ? Optional.of(function.apply(partition.get(partition.size() - 1).v1))
+             : Optional.empty();
+    }
+
+    @Override
+    public Optional<T> nthValue(long n) {
+        return nthValue(n, t -> t);
+    }
+
+    @Override
+    public <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function) {
+        return lower() + n <= upper()
+             ? Optional.of(function.apply(partition.get(lower() + (int) n).v1))
+             : Optional.empty();
+    }
+    
+    @Override
     public long count() {
         return 1 + upper() - lower();
     }
@@ -85,6 +182,46 @@ class WindowImpl<T, P> implements Window<T> {
     @Override
     public <U> long countDistinctBy(Function<? super T, ? extends U> function) {
         return window().countDistinctBy(function);
+    }
+
+    @Override
+    public Optional<T> sum() {
+        return window().sum();
+    }
+
+    @Override
+    public int sumInt(ToIntFunction<? super T> function) {
+        return window().sumInt(function);
+    }
+
+    @Override
+    public long sumLong(ToLongFunction<? super T> function) {
+        return window().sumLong(function);
+    }
+
+    @Override
+    public double sumDouble(ToDoubleFunction<? super T> function) {
+        return window().sumDouble(function);
+    }
+
+    @Override
+    public Optional<T> avg() {
+        return window().avg();
+    }
+
+    @Override
+    public double avgInt(ToIntFunction<? super T> function) {
+        return window().avgInt(function);
+    }
+
+    @Override
+    public double avgLong(ToLongFunction<? super T> function) {
+        return window().avgLong(function);
+    }
+
+    @Override
+    public double avgDouble(ToDoubleFunction<? super T> function) {
+        return window().avgDouble(function);
     }
 
     @Override
@@ -170,100 +307,6 @@ class WindowImpl<T, P> implements Window<T> {
     @Override
     public Optional<T> mode() {
         return window().mode();
-    }
-
-    @Override
-    public Optional<T> lead() {
-        return lead(1);
-    }
-
-    @Override
-    public Optional<T> lead(long lead) {
-        return lead0(lead);
-    }
-
-    @Override
-    public Optional<T> lag() {
-        return lag(1);
-    }
-
-    @Override
-    public Optional<T> lag(long lag) {
-        return lead0(-lag);
-    }
-
-    private Optional<T> lead0(long lead) {
-        if (lead == 0)
-            return Optional.of(value.v1);
-        else if (index + lead >= 0 && index + lead < partition.size())
-            return Optional.of(partition.get(index + (int) lead).v1);
-        else
-            return Optional.empty();
-    }
-
-    @Override
-    public Optional<T> firstValue() {
-        return firstValue(t -> t);
-    }
-
-    @Override
-    public <U> Optional<U> firstValue(Function<? super T, ? extends U> function) {
-        return lowerInPartition()
-             ? Optional.of(function.apply(partition.get(lower()).v1))
-             : upperInPartition()
-             ? Optional.of(function.apply(partition.get(0).v1))
-             : Optional.empty();
-    }
-
-    @Override
-    public Optional<T> lastValue() {
-        return lastValue(t -> t);
-    }
-
-    @Override
-    public <U> Optional<U> lastValue(Function<? super T, ? extends U> function) {
-        return upperInPartition()
-             ? Optional.of(function.apply(partition.get(upper()).v1))
-             : lowerInPartition()
-             ? Optional.of(function.apply(partition.get(partition.size() - 1).v1))
-             : Optional.empty();
-    }
-
-    @Override
-    public Optional<T> nthValue(long n) {
-        return nthValue(n, t -> t);
-    }
-
-    @Override
-    public <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function) {
-        return lower() + n <= upper()
-             ? Optional.of(function.apply(partition.get(lower() + (int) n).v1))
-             : Optional.empty();
-    }
-    
-    @Override
-    public long rowNumber() {
-        return (long) index;
-    }
-
-    @Override
-    public long rank() {
-        return seq(partition).map(t -> t.v1).collect(Agg.rank(value.v1, order)).get();
-    }
-
-    @Override
-    public long denseRank() {
-        return seq(partition).map(t -> t.v1).collect(Agg.denseRank(value.v1, order)).get();
-    }
-
-    @Override
-    public double percentRank() {
-        return ((double) rank()) / ((double) (partition.size() - 1));
-    }
-
-    @Override
-    public long ntile(long bucket) {
-        return (bucket * rowNumber() / partition.size());
     }
 
     @Override

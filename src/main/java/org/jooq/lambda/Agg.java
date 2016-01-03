@@ -36,21 +36,24 @@ import org.jooq.lambda.tuple.Tuple2;
 public class Agg {
 
     /**
-     * Get a {@link Collector} that calculates the <code>COUNT(*)</code> function.
+     * Get a {@link Collector} that calculates the <code>COUNT(*)</code>
+     * function.
      */
     public static <T> Collector<T, ?, Long> count() {
         return Collectors.counting();
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>COUNT (DISTINCT *)</code> function.
+     * Get a {@link Collector} that calculates the
+     * <code>COUNT (DISTINCT *)</code> function.
      */
     public static <T> Collector<T, ?, Long> countDistinct() {
         return countDistinctBy(t -> t);
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>COUNT (DISTINCT expr)</code> function.
+     * Get a {@link Collector} that calculates the
+     * <code>COUNT (DISTINCT expr)</code> function.
      */
     public static <T, U> Collector<T, ?, Long> countDistinctBy(Function<? super T, ? extends U> function) {
         return Collector.of(
@@ -61,6 +64,48 @@ public class Agg {
                 return s1;
             },
             s -> (long) s.size()
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>SUM()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T> Collector<T, ?, Optional<T>> sum() {
+        return Collector.of(
+            () -> (Sum<T>[]) new Sum[1],
+            (s, v) -> { 
+                if (s[0] == null)
+                    s[0] = Sum.create(v);
+                else 
+                    s[0].add(v);
+            },
+            (s1, s2) -> {
+                s1[0].add(s2[0]);
+                return s1;
+            },
+            s -> s[0] == null ? Optional.empty() : Optional.of(s[0].sum())
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>AVG()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T> Collector<T, ?, Optional<T>> avg() {
+        return Collector.of(
+            () -> (Sum<T>[]) new Sum[1],
+            (s, v) -> { 
+                if (s[0] == null)
+                    s[0] = Sum.create(v);
+                else
+                    s[0].add(v);
+            },
+            (s1, s2) -> {
+                s1[0].add(s2[0]);
+                return s1;
+            },
+            s -> s[0] == null ? Optional.empty() : Optional.of(s[0].avg())
         );
     }
 
