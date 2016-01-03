@@ -15,10 +15,16 @@
  */
 package org.jooq.lambda;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 /**
@@ -27,7 +33,17 @@ import java.util.stream.Collector;
  *
  * @author Lukas Eder
  */
-public interface Window<T, U> {
+public interface Window<T> {
+        
+    /**
+     * The value of the current row in the window.
+     */
+    T value();
+    
+    /**
+     * Stream all elements in the window.
+     */
+    Seq<T> window();
     
     /**
      * The row number of the current row within the partition.
@@ -53,17 +69,7 @@ public interface Window<T, U> {
      * The bucket number ("ntile") of the current row within the partition.
      */
     long ntile(long buckets);
-    
-    /**
-     * The value of the current row in the window.
-     */
-    T value();
-    
-    /**
-     * The partition of the current row.
-     */
-    U partition();
-    
+
     /**
      * The number of elements in the partition.
      */
@@ -194,5 +200,29 @@ public interface Window<T, U> {
      * Apply any aggregate function (collector) to the partition.
      */
     <R, A> R collect(Collector<? super T, A, R> collector);
-  
+
+    /**
+     * Collect the partition into an {@link ArrayList}
+     */
+    List<T> toList();
+    
+    /**
+     * Collect the partition into a {@link List}
+     */
+    <L extends List<T>> L toList(Supplier<L> factory);
+    
+    /**
+     * Collect the partition into a {@link LinkedHashSet}
+     */
+    Set<T> toSet();
+    
+    /**
+     * Collect the partition into a {@link Set}
+     */
+    <S extends Set<T>> S toSet(Supplier<S> factory);
+    
+    /**
+     * Collect the partition into a {@link Collection}
+     */
+    <C extends Collection<T>> C toCollection(Supplier<C> factory);
 }

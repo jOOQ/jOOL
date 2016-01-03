@@ -15,14 +15,18 @@
  */
 package org.jooq.lambda;
 
+import java.util.Collection;
+
 import static java.util.Comparator.naturalOrder;
 import static org.jooq.lambda.Seq.seq;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 import org.jooq.lambda.tuple.Tuple2;
@@ -30,12 +34,12 @@ import org.jooq.lambda.tuple.Tuple2;
 /**
  * @author Lukas Eder
  */
-class WindowImpl<T, U> implements Window<T, U> {
+class WindowImpl<T, P> implements Window<T> {
     
     final Tuple2<T, Long>                  value;
     final int                              index;
     final List<Tuple2<T, Long>>            partition;
-    final Function<? super T, ? extends U> partitionBy;
+    final Function<? super T, ? extends P> partitionBy;
     final Comparator<? super T>            order;
     final long                             lower;
     final long                             upper;
@@ -43,7 +47,7 @@ class WindowImpl<T, U> implements Window<T, U> {
     WindowImpl(
         Tuple2<T, Long> value,
         List<Tuple2<T, Long>> partition, 
-        Function<? super T, ? extends U> partitionBy, 
+        Function<? super T, ? extends P> partitionBy, 
         Comparator<? super T> order, 
         long lower, 
         long upper
@@ -64,8 +68,8 @@ class WindowImpl<T, U> implements Window<T, U> {
     }
     
     @Override
-    public U partition() {
-        return partitionBy.apply(value());
+    public Seq<T> window() {
+        return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1);
     }
 
     @Override
@@ -75,42 +79,42 @@ class WindowImpl<T, U> implements Window<T, U> {
 
     @Override
     public Optional<T> min() {
-        return frame().min((Comparator) naturalOrder());
+        return window().min((Comparator) naturalOrder());
     }
 
     @Override
     public Optional<T> min(Comparator<? super T> comparator) {
-        return frame().min(comparator);
+        return window().min(comparator);
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
-        return frame().minBy(function);
+        return window().minBy(function);
     }
 
     @Override
     public <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return frame().minBy(function, comparator);
+        return window().minBy(function, comparator);
     }
 
     @Override
     public Optional<T> max() {
-        return frame().max((Comparator) naturalOrder());
+        return window().max((Comparator) naturalOrder());
     }
 
     @Override
     public Optional<T> max(Comparator<? super T> comparator) {
-        return frame().max(comparator);
+        return window().max(comparator);
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
-        return frame().maxBy(function);
+        return window().maxBy(function);
     }
 
     @Override
     public <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return frame().maxBy(function, comparator);
+        return window().maxBy(function, comparator);
     }
 
     @Override
@@ -209,22 +213,47 @@ class WindowImpl<T, U> implements Window<T, U> {
 
     @Override
     public boolean all(Predicate<? super T> predicate) {
-        return frame().allMatch(predicate);
+        return window().allMatch(predicate);
     }
 
     @Override
     public boolean any(Predicate<? super T> predicate) {
-        return frame().anyMatch(predicate);
+        return window().anyMatch(predicate);
     }
 
     @Override
     public boolean none(Predicate<? super T> predicate) {
-        return frame().noneMatch(predicate);
+        return window().noneMatch(predicate);
     }
 
     @Override
     public <R, A> R collect(Collector<? super T, A, R> collector) {
-        return frame().collect(collector);
+        return window().collect(collector);
+    }
+
+    @Override
+    public List<T> toList() {
+        return window().toList();
+    }
+    
+    @Override
+    public <L extends List<T>> L toList(Supplier<L> factory) {
+        return window().toList(factory);
+    }
+
+    @Override
+    public Set<T> toSet() {
+        return window().toSet();
+    }
+
+    @Override
+    public <S extends Set<T>> S toSet(Supplier<S> factory) {
+        return window().toSet(factory);
+    }
+
+    @Override
+    public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
+        return window().toCollection(factory);
     }
     
     private int lower() {
@@ -245,9 +274,5 @@ class WindowImpl<T, U> implements Window<T, U> {
     private boolean upperInPartition() {
         // TODO: What about under/overflows?
         return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
-    }
-    
-    private Seq<T> frame() {
-        return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1);
     }
 }
