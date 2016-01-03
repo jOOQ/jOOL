@@ -15,6 +15,7 @@
  */
 package org.jooq.lambda;
 
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -84,11 +85,41 @@ public interface Window<T, U> {
      * The lowest value in the partition.
      */
     Optional<T> min();
+     
+    /**
+     * The lowest value in the partition.
+     */
+    Optional<T> min(Comparator<? super T> comparator);
+    
+    /**
+     * The lowest value in the partition.
+     */
+    <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function);
+     
+    /**
+     * The lowest value in the partition.
+     */
+    <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
     
     /**
      * The highest value in the partition.
      */
     Optional<T> max();
+    
+    /**
+     * The highest value in the partition.
+     */
+    Optional<T> max(Comparator<? super T> comparator);
+    
+    /**
+     * The highest value in the partition.
+     */
+    <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function);
+    
+    /**
+     * The highest value in the partition.
+     */
+    <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
     
     /**
      * The next value in the partition.

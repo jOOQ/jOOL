@@ -79,8 +79,38 @@ class WindowImpl<T, U> implements Window<T, U> {
     }
 
     @Override
+    public Optional<T> min(Comparator<? super T> comparator) {
+        return frame().min(comparator);
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
+        return frame().minBy(function);
+    }
+
+    @Override
+    public <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return frame().minBy(function, comparator);
+    }
+
+    @Override
     public Optional<T> max() {
         return frame().max((Comparator) naturalOrder());
+    }
+
+    @Override
+    public Optional<T> max(Comparator<? super T> comparator) {
+        return frame().max(comparator);
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
+        return frame().maxBy(function);
+    }
+
+    @Override
+    public <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return frame().maxBy(function, comparator);
     }
 
     @Override
