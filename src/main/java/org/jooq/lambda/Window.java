@@ -168,6 +168,11 @@ public interface Window<T> {
     <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator);
 
     /**
+     * The mode of the window.
+     */
+    Optional<T> mode();
+    
+    /**
      * The next value in the window.
      * <p>
      * This is the same as calling <code>lead(1)</code>

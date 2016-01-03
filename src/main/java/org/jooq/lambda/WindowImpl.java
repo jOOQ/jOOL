@@ -158,6 +158,11 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
+    public Optional<T> mode() {
+        return window().mode();
+    }
+
+    @Override
     public Optional<T> lead() {
         return lead(1);
     }
