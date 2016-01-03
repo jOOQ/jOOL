@@ -37,12 +37,11 @@ import org.jooq.lambda.tuple.Tuple2;
 /**
  * @author Lukas Eder
  */
-class WindowImpl<T, P> implements Window<T> {
+class WindowImpl<T> implements Window<T> {
     
     final Tuple2<T, Long>                  value;
     final int                              index;
     final List<Tuple2<T, Long>>            partition;
-    final Function<? super T, ? extends P> partitionBy;
     final Comparator<? super T>            order;
     final long                             lower;
     final long                             upper;
@@ -50,19 +49,15 @@ class WindowImpl<T, P> implements Window<T> {
     WindowImpl(
         Tuple2<T, Long> value,
         List<Tuple2<T, Long>> partition, 
-        Function<? super T, ? extends P> partitionBy, 
-        Comparator<? super T> order, 
-        long lower, 
-        long upper
+        WindowSpecification<T> specification
     ) {
         this.value = value;
         // TODO: Speed this up by using binary search
         this.index = partition.indexOf(value);
         this.partition = partition;
-        this.partitionBy = partitionBy;
-        this.order = order;
-        this.lower = lower;
-        this.upper = upper;
+        this.order = specification.order().orElse((Comparator<? super T>) naturalOrder());
+        this.lower = specification.lower();
+        this.upper = specification.upper();
     }
 
     @Override

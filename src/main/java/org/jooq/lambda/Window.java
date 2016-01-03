@@ -102,7 +102,39 @@ import java.util.stream.Collectors;
  * @author Lukas Eder
  */
 public interface Window<T> {
+
+    static <T> WindowSpecification<T> of() {
+        return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, null, Long.MIN_VALUE, 0);
+    }
         
+    static <T> WindowSpecification<T> of(long lower, long upper) {
+        return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, null, lower, upper);
+    }
+
+    static <T> WindowSpecification<T> of(Comparator<? super T> orderBy) {
+        return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, orderBy, Long.MIN_VALUE, 0);
+    }
+    
+    static <T> WindowSpecification<T> of(Comparator<? super T> orderBy, long lower, long upper) {
+        return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, orderBy, lower, upper);
+    }
+    
+    static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy) {
+        return new WindowSpecificationImpl<>(partitionBy, null, Long.MIN_VALUE, 0);
+    }
+        
+    static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
+        return new WindowSpecificationImpl<>(partitionBy, null, lower, upper);
+    }
+
+    static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
+        return new WindowSpecificationImpl<>(partitionBy, orderBy, Long.MIN_VALUE, 0);
+    }
+    
+    static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
+        return new WindowSpecificationImpl<>(partitionBy, orderBy, lower, upper);
+    }
+  
     /**
      * The value of the current row in the window.
      */

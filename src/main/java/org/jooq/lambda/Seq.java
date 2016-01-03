@@ -16,7 +16,6 @@
 package org.jooq.lambda;
 
 import static java.util.Comparator.comparing;
-import static java.util.Comparator.naturalOrder;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static org.jooq.lambda.SeqUtils.sneakyThrow;
@@ -42,7 +41,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
@@ -86,6 +84,7 @@ import org.jooq.lambda.function.Function7;
 import org.jooq.lambda.function.Function8;
 import org.jooq.lambda.function.Function9;
 import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple1;
 import org.jooq.lambda.tuple.Tuple10;
 import org.jooq.lambda.tuple.Tuple11;
 import org.jooq.lambda.tuple.Tuple12;
@@ -1491,7 +1490,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default Seq<Window<T>> window() {
-        return window(t -> SeqImpl.NULL, null, Long.MIN_VALUE, Long.MAX_VALUE);
+        return window(Window.of()).map(t -> t.v1);
     }
    
     /**
@@ -1503,7 +1502,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default Seq<Window<T>> window(long lower, long upper) {
-        return window(t -> SeqImpl.NULL, null, lower, upper);
+        return window(Window.of(lower, upper)).map(t -> t.v1);
     }
    
     /**
@@ -1515,7 +1514,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default Seq<Window<T>> window(Comparator<? super T> orderBy) {
-        return window(t -> SeqImpl.NULL, orderBy, Long.MIN_VALUE, 0);
+        return window(Window.of(orderBy)).map(t -> t.v1);
     }
     
     /**
@@ -1527,7 +1526,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default Seq<Window<T>> window(Comparator<? super T> orderBy, long lower, long upper) {
-        return window(t -> SeqImpl.NULL, orderBy, lower, upper);
+        return window(Window.of(orderBy, lower, upper)).map(t -> t.v1);
     }
     
     /**
@@ -1539,7 +1538,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy) {
-        return window(partitionBy, null, Long.MIN_VALUE, Long.MAX_VALUE);
+        return window(Window.of(partitionBy)).map(t -> t.v1);
     }
     
     /**
@@ -1551,7 +1550,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
-        return window(partitionBy, null, lower, upper);
+        return window(Window.of(partitionBy, lower, upper)).map(t -> t.v1);
     }
     
     /**
@@ -1563,7 +1562,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
-        return window(partitionBy, orderBy, Long.MIN_VALUE, 0);
+        return window(Window.of(partitionBy, orderBy)).map(t -> t.v1);
     }
     
     /**
@@ -1575,31 +1574,644 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
-        
-        // The index helps identify values regardless of identity or value equality
-        List<Tuple2<T, Long>> collected = zipWithIndex().toList();
-        Map<U, List<Tuple2<T, Long>>> partitions = seq(collected).groupBy(
-            partitionBy.compose(t -> t.v1), 
-            Collector.<Tuple2<T, Long>, Collection<Tuple2<T, Long>>, List<Tuple2<T, Long>>>of(
-                () -> orderBy == null
-                    ? new ArrayList<>()
-                    : new TreeSet<>(Comparator.<Tuple2<T, Long>, T>comparing(t -> t.v1, orderBy).thenComparing(t -> t.v2)),
-                (s, t) -> s.add(t),
-                (s1, s2) -> { s1.addAll(s2); return s1; },
-                s -> s instanceof ArrayList ? (List<Tuple2<T, Long>>) s : new ArrayList<>(s)
-            )
-        );
-        
-        return seq(collected)
-              .map(t1 -> new WindowImpl<T, U>(
-                   t1, 
-                   partitions.get(partitionBy.apply(t1.v1)), 
-                   partitionBy,
-                   orderBy, 
-                   lower, 
-                   upper
+        return window(Window.of(partitionBy, orderBy, lower, upper)).map(t -> t.v1);
+    }
+
+    // [jooq-tools] START [windows]
+
+    /**
+     * Map this stream to a windowed stream with 1 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple1<Window<T>>> window(
+        WindowSpecification<T> specification1
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1)
               ));
     }
+
+    /**
+     * Map this stream to a windowed stream with 2 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple2<Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 3 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple3<Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 4 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple4<Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 5 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple5<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 6 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple6<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 7 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple7<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 8 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple8<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 9 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple9<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 10 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple10<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 11 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple11<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10,
+        WindowSpecification<T> specification11
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 12 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple12<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10,
+        WindowSpecification<T> specification11,
+        WindowSpecification<T> specification12
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 13 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple13<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10,
+        WindowSpecification<T> specification11,
+        WindowSpecification<T> specification12,
+        WindowSpecification<T> specification13
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 14 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple14<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10,
+        WindowSpecification<T> specification11,
+        WindowSpecification<T> specification12,
+        WindowSpecification<T> specification13,
+        WindowSpecification<T> specification14
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions14 = SeqUtils.partitions(specification14, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
+                   new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 15 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple15<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10,
+        WindowSpecification<T> specification11,
+        WindowSpecification<T> specification12,
+        WindowSpecification<T> specification13,
+        WindowSpecification<T> specification14,
+        WindowSpecification<T> specification15
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions14 = SeqUtils.partitions(specification14, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions15 = SeqUtils.partitions(specification15, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
+                   new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14),
+                   new WindowImpl<>(t, partitions15.get(specification15.partition().apply(t.v1)), specification15)
+              ));
+    }
+
+    /**
+     * Map this stream to a windowed stream with 16 distinct windows.
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    default Seq<Tuple16<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
+        WindowSpecification<T> specification1,
+        WindowSpecification<T> specification2,
+        WindowSpecification<T> specification3,
+        WindowSpecification<T> specification4,
+        WindowSpecification<T> specification5,
+        WindowSpecification<T> specification6,
+        WindowSpecification<T> specification7,
+        WindowSpecification<T> specification8,
+        WindowSpecification<T> specification9,
+        WindowSpecification<T> specification10,
+        WindowSpecification<T> specification11,
+        WindowSpecification<T> specification12,
+        WindowSpecification<T> specification13,
+        WindowSpecification<T> specification14,
+        WindowSpecification<T> specification15,
+        WindowSpecification<T> specification16
+    ) {
+        List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
+
+        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions14 = SeqUtils.partitions(specification14, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions15 = SeqUtils.partitions(specification15, buffer);
+        Map<?, List<Tuple2<T, Long>>> partitions16 = SeqUtils.partitions(specification16, buffer);
+
+        return seq(buffer)
+              .map(t -> tuple(
+                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
+                   new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14),
+                   new WindowImpl<>(t, partitions15.get(specification15.partition().apply(t.v1)), specification15),
+                   new WindowImpl<>(t, partitions16.get(specification16.partition().apply(t.v1)), specification16)
+              ));
+    }
+
+// [jooq-tools] END [windows]
     
     // Collect overloads
     // -----------------

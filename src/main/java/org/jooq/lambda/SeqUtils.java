@@ -15,9 +15,19 @@
  */
 package org.jooq.lambda;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.Spliterator;
+import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
+import org.jooq.lambda.tuple.Tuple2;
+
+import static org.jooq.lambda.Seq.seq;
 
 /**
  * @author Lukas Eder
@@ -64,6 +74,22 @@ class SeqUtils {
                 return delegate.characteristics();
             }
         });
+    }
+    
+    static <T> Map<?, List<Tuple2<T, Long>>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
+        
+        // Help the poor old compiler infer some types that it cannot seem to guess
+        return seq(input).groupBy(
+            window.partition().compose(t -> t.v1), 
+            Collector.<Tuple2<T, Long>, Collection<Tuple2<T, Long>>, List<Tuple2<T, Long>>>of(
+                () -> window.order().isPresent()
+                    ? new TreeSet<>(Comparator.<Tuple2<T, Long>, T>comparing(t -> t.v1, window.order().get()).thenComparing(t -> t.v2))
+                    : new ArrayList<>(),
+                (s, t) -> s.add(t),
+                (s1, s2) -> { s1.addAll(s2); return s1; },
+                s -> s instanceof ArrayList ? (List<Tuple2<T, Long>>) s : new ArrayList<>(s)
+            )
+        );
     }
 
     /**

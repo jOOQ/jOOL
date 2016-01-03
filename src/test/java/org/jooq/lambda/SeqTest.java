@@ -18,6 +18,7 @@ package org.jooq.lambda;
 import static java.util.Arrays.asList;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
@@ -44,8 +45,6 @@ import java.time.Instant;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 import org.jooq.lambda.tuple.Tuple;
@@ -1552,6 +1551,35 @@ public class SeqTest {
            ))
            .printOut();
         
+    }
+    
+    @Test
+    public void testWindowSpecifications() {
+        assertEquals(
+            asList(
+                tuple(0, 0, 0, 0, 4),
+                tuple(1, 0, 1, 1, 2),
+                tuple(2, 1, 0, 4, 0),
+                tuple(3, 2, 2, 2, 3),
+                tuple(4, 1, 1, 3, 1)
+            ),
+            Seq.of(1, 2, 4, 2, 3)
+               .window(
+                    Window.of(),
+                    Window.of(i -> i % 2),
+                    Window.of(i -> i < 3),
+                    Window.of(naturalOrder()),
+                    Window.of(reverseOrder())
+                )
+                .map(t -> tuple(
+                    (int) t.v1.rowNumber(),
+                    (int) t.v2.rowNumber(),
+                    (int) t.v3.rowNumber(),
+                    (int) t.v4.rowNumber(),
+                    (int) t.v5.rowNumber()
+                ))
+                .toList()
+        );
     }
     
     @Test
