@@ -2016,7 +2016,8 @@ public class SeqTest {
             Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(w -> w.collect(toList())).toList());
     }
     
-    private <T> List<Optional<T>> optional(T... list) {
+    @SafeVarargs
+    private final <T> List<Optional<T>> optional(T... list) {
         return Seq.of(list).map(Optional::ofNullable).toList();
     }
 }
