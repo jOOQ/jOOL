@@ -95,4 +95,14 @@ public interface FramedWindow<T, U> {
      */
     <V> Optional<V> lastValue(Function<? super T, ? extends V> function);
 
+    /**
+     * The nth value in the partition.
+     */
+    Optional<T> nthValue(long n);
+
+    /**
+     * The nth value in the partition.
+     */
+    <V> Optional<V> nthValue(long n, Function<? super T, ? extends V> function);
+    
 }

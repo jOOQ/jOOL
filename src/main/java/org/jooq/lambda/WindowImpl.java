@@ -155,6 +155,18 @@ class WindowImpl<T, U> implements OrderedWindow<T, U> {
              ? Optional.of(function.apply(partition.get(partition.size() - 1).v1))
              : Optional.empty();
     }
+
+    @Override
+    public Optional<T> nthValue(long n) {
+        return nthValue(n, t -> t);
+    }
+
+    @Override
+    public <V> Optional<V> nthValue(long n, Function<? super T, ? extends V> function) {
+        return lower() + n <= upper()
+             ? Optional.of(function.apply(partition.get(lower() + (int) n).v1))
+             : Optional.empty();
+    }
     
     @Override
     public long rowNumber() {

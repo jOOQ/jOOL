@@ -15,8 +15,6 @@
  */
 package org.jooq.lambda;
 
-import java.util.Optional;
-
 /**
  * A window containing the data for its partition, to perform
  * calculations upon.
@@ -33,5 +31,5 @@ public interface Window<T, U> extends FramedWindow<T, U> {
     /**
      * The bucket number ("ntile") of the current row within the partition.
      */
-    long ntile(long bucket);
+    long ntile(long buckets);
 }
