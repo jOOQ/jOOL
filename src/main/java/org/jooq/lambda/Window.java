@@ -75,17 +75,15 @@ public interface Window<T> {
      */
     long count();
   
-//    TODO: Add support for these...
-//
-//    /**
-//     * The number of distinct elements in the window.
-//     */
-//    long countDistinct();
-//    
-//    /**
-//     * The number of distinct elements in the window.
-//     */
-//    <V> long countDistinctBy(Function<? super T, ? extends V> function);
+    /**
+     * The number of distinct elements in the window.
+     */
+    long countDistinct();
+    
+    /**
+     * The number of distinct elements in the window.
+     */
+    <U> long countDistinctBy(Function<? super T, ? extends U> function);
     
     /**
      * The lowest value in the window.
@@ -204,7 +202,7 @@ public interface Window<T> {
     /**
      * The first value in the window.
      */
-    <V> Optional<V> firstValue(Function<? super T, ? extends V> function);
+    <U> Optional<U> firstValue(Function<? super T, ? extends U> function);
     
     /**
      * The last value in the window.
@@ -214,7 +212,7 @@ public interface Window<T> {
     /**
      * The last value in the window.
      */
-    <V> Optional<V> lastValue(Function<? super T, ? extends V> function);
+    <U> Optional<U> lastValue(Function<? super T, ? extends U> function);
 
     /**
      * The nth value in the window.
@@ -224,7 +222,7 @@ public interface Window<T> {
     /**
      * The nth value in the window.
      */
-    <V> Optional<V> nthValue(long n, Function<? super T, ? extends V> function);
+    <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function);
 
     /**
      * Whether all elements in the window match a given predicate.

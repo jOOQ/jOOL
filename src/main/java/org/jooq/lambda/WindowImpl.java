@@ -78,6 +78,16 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
+    public long countDistinct() {
+        return window().countDistinct();
+    }
+
+    @Override
+    public <U> long countDistinctBy(Function<? super T, ? extends U> function) {
+        return window().countDistinctBy(function);
+    }
+
+    @Override
     public Optional<T> min() {
         return window().min((Comparator) naturalOrder());
     }
@@ -197,7 +207,7 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
-    public <V> Optional<V> firstValue(Function<? super T, ? extends V> function) {
+    public <U> Optional<U> firstValue(Function<? super T, ? extends U> function) {
         return lowerInPartition()
              ? Optional.of(function.apply(partition.get(lower()).v1))
              : upperInPartition()
@@ -211,7 +221,7 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
-    public <V> Optional<V> lastValue(Function<? super T, ? extends V> function) {
+    public <U> Optional<U> lastValue(Function<? super T, ? extends U> function) {
         return upperInPartition()
              ? Optional.of(function.apply(partition.get(upper()).v1))
              : lowerInPartition()
@@ -225,7 +235,7 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
-    public <V> Optional<V> nthValue(long n, Function<? super T, ? extends V> function) {
+    public <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function) {
         return lower() + n <= upper()
              ? Optional.of(function.apply(partition.get(lower() + (int) n).v1))
              : Optional.empty();
