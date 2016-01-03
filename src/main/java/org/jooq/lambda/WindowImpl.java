@@ -118,6 +118,46 @@ class WindowImpl<T, P> implements Window<T> {
     }
 
     @Override
+    public Optional<T> median() {
+        return window().median((Comparator) naturalOrder());
+    }
+
+    @Override
+    public Optional<T> median(Comparator<? super T> comparator) {
+        return window().median(comparator);
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function) {
+        return window().medianBy(function);
+    }
+
+    @Override
+    public <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return window().medianBy(function, comparator);
+    }
+
+    @Override
+    public Optional<T> percentile(double percentile) {
+        return window().percentile(percentile, (Comparator) naturalOrder());
+    }
+
+    @Override
+    public Optional<T> percentile(double percentile, Comparator<? super T> comparator) {
+        return window().percentile(percentile, comparator);
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function) {
+        return window().percentileBy(percentile, function);
+    }
+
+    @Override
+    public <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return window().percentileBy(percentile, function, comparator);
+    }
+
+    @Override
     public Optional<T> lead() {
         return lead(1);
     }

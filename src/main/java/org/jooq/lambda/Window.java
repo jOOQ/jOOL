@@ -71,158 +71,198 @@ public interface Window<T> {
     long ntile(long buckets);
 
     /**
-     * The number of elements in the partition.
+     * The number of elements in the window.
      */
     long count();
   
 //    TODO: Add support for these...
 //
 //    /**
-//     * The number of distinct elements in the partition.
+//     * The number of distinct elements in the window.
 //     */
 //    long countDistinct();
 //    
 //    /**
-//     * The number of distinct elements in the partition.
+//     * The number of distinct elements in the window.
 //     */
 //    <V> long countDistinctBy(Function<? super T, ? extends V> function);
     
     /**
-     * The lowest value in the partition.
+     * The lowest value in the window.
      */
     Optional<T> min();
      
     /**
-     * The lowest value in the partition.
+     * The lowest value in the window.
      */
     Optional<T> min(Comparator<? super T> comparator);
     
     /**
-     * The lowest value in the partition.
+     * The lowest value in the window.
      */
     <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function);
      
     /**
-     * The lowest value in the partition.
+     * The lowest value in the window.
      */
     <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
     
     /**
-     * The highest value in the partition.
+     * The highest value in the window.
      */
     Optional<T> max();
     
     /**
-     * The highest value in the partition.
+     * The highest value in the window.
      */
     Optional<T> max(Comparator<? super T> comparator);
     
     /**
-     * The highest value in the partition.
+     * The highest value in the window.
      */
     <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function);
     
     /**
-     * The highest value in the partition.
+     * The highest value in the window.
      */
     <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
     
     /**
-     * The next value in the partition.
+     * The median of the window.
+     */
+    Optional<T> median();
+    
+    /**
+     * The median of the window.
+     */
+    Optional<T> median(Comparator<? super T> comparator);
+    
+    /**
+     * The median of the window.
+     */
+    <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function);
+    
+    /**
+     * The median of the window.
+     */
+    <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
+    
+    /**
+     * The percentile of the window.
+     */
+    Optional<T> percentile(double percentile);
+   
+    /**
+     * The percentile of the window.
+     */
+    Optional<T> percentile(double percentile, Comparator<? super T> comparator);
+
+    /**
+     * The percentile of the window.
+     */
+    <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function);
+
+    /**
+     * The percentile of the window.
+     */
+    <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator);
+
+    /**
+     * The next value in the window.
      * <p>
      * This is the same as calling <code>lead(1)</code>
      */
     Optional<T> lead();
     
     /**
-     * The next value by <code>lead</code> in the partition.
+     * The next value by <code>lead</code> in the window.
      */
     Optional<T> lead(long lead);
     
     /**
-     * The previous value in the partition.
+     * The previous value in the window.
      * <p>
      * This is the same as calling <code>lag(1)</code>
      */
     Optional<T> lag();
     
     /**
-     * The previous value by <code>lag</code> in the partition.
+     * The previous value by <code>lag</code> in the window.
      */
     Optional<T> lag(long lag);
     
     /**
-     * The first value in the partition.
+     * The first value in the window.
      */
     Optional<T> firstValue();
 
     /**
-     * The first value in the partition.
+     * The first value in the window.
      */
     <V> Optional<V> firstValue(Function<? super T, ? extends V> function);
     
     /**
-     * The last value in the partition.
+     * The last value in the window.
      */
     Optional<T> lastValue();
     
     /**
-     * The last value in the partition.
+     * The last value in the window.
      */
     <V> Optional<V> lastValue(Function<? super T, ? extends V> function);
 
     /**
-     * The nth value in the partition.
+     * The nth value in the window.
      */
     Optional<T> nthValue(long n);
 
     /**
-     * The nth value in the partition.
+     * The nth value in the window.
      */
     <V> Optional<V> nthValue(long n, Function<? super T, ? extends V> function);
 
     /**
-     * Whether all elements in the partition match a given predicate.
+     * Whether all elements in the window match a given predicate.
      */ 
     boolean all(Predicate<? super T> predicate);
     
     /**
-     * Whether any element in the partition matches a given predicate.
+     * Whether any element in the window matches a given predicate.
      */
     boolean any(Predicate<? super T> predicate);
     
     /**
-     * Whether no element in the partition matches a given predicate.
+     * Whether no element in the window matches a given predicate.
      */
     boolean none(Predicate<? super T> predicate);
     
     /**
-     * Apply any aggregate function (collector) to the partition.
+     * Apply any aggregate function (collector) to the window.
      */
     <R, A> R collect(Collector<? super T, A, R> collector);
 
     /**
-     * Collect the partition into an {@link ArrayList}
+     * Collect the window into an {@link ArrayList}
      */
     List<T> toList();
     
     /**
-     * Collect the partition into a {@link List}
+     * Collect the window into a {@link List}
      */
     <L extends List<T>> L toList(Supplier<L> factory);
     
     /**
-     * Collect the partition into a {@link LinkedHashSet}
+     * Collect the window into a {@link LinkedHashSet}
      */
     Set<T> toSet();
     
     /**
-     * Collect the partition into a {@link Set}
+     * Collect the window into a {@link Set}
      */
     <S extends Set<T>> S toSet(Supplier<S> factory);
     
     /**
-     * Collect the partition into a {@link Collection}
+     * Collect the window into a {@link Collection}
      */
     <C extends Collection<T>> C toCollection(Supplier<C> factory);
 }
