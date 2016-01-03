@@ -1437,7 +1437,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(Window::max)
      * </pre></code>
      */ 
-    default Seq<FramedWindow<T, ?>> window(long lower, long upper) {
+    default Seq<Window<T, ?>> window(long lower, long upper) {
         return (Seq) window(t -> SeqImpl.NULL, null, lower, upper);
     }
    
@@ -1449,7 +1449,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::rowNumber)
      * </pre></code>
      */ 
-    default Seq<OrderedWindow<T, ?>> window(Comparator<? super T> orderBy) {
+    default Seq<Window<T, ?>> window(Comparator<? super T> orderBy) {
         return (Seq) window(t -> SeqImpl.NULL, orderBy, Long.MIN_VALUE, 0);
     }
     
@@ -1461,7 +1461,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(Window::min)
      * </pre></code>
      */ 
-    default Seq<FramedWindow<T, ?>> window(Comparator<? super T> orderBy, long lower, long upper) {
+    default Seq<Window<T, ?>> window(Comparator<? super T> orderBy, long lower, long upper) {
         return (Seq) window(t -> SeqImpl.NULL, orderBy, lower, upper);
     }
     
@@ -1474,7 +1474,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * </pre></code>
      */ 
     default <U> Seq<Window<T, U>> window(Function<? super T, ? extends U> partitionBy) {
-        return (Seq) window(partitionBy, null, Long.MIN_VALUE, Long.MAX_VALUE);
+        return window(partitionBy, null, Long.MIN_VALUE, Long.MAX_VALUE);
     }
     
     /**
@@ -1485,8 +1485,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 4, 2, 2, 3).window(i -> i % 2, -1, 1).map(Window::max)
      * </pre></code>
      */ 
-    default <U> Seq<FramedWindow<T, U>> window(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
-        return (Seq) window(partitionBy, null, lower, upper);
+    default <U> Seq<Window<T, U>> window(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
+        return window(partitionBy, null, lower, upper);
     }
     
     /**
@@ -1497,8 +1497,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::max)
      * </pre></code>
      */ 
-    default <U> Seq<OrderedWindow<T, U>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
-        return (Seq) window(partitionBy, orderBy, Long.MIN_VALUE, 0);
+    default <U> Seq<Window<T, U>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
+        return window(partitionBy, orderBy, Long.MIN_VALUE, 0);
     }
     
     /**
@@ -1509,7 +1509,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
      * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(Window::max)
      * </pre></code>
      */ 
-    default <U> Seq<FramedWindow<T, U>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
+    default <U> Seq<Window<T, U>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
         
         // The index helps identify values regardless of identity or value equality
         List<Tuple2<T, Long>> collected = zipWithIndex().toList();

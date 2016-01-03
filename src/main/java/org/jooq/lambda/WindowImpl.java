@@ -23,13 +23,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 
 import org.jooq.lambda.tuple.Tuple2;
 
 /**
  * @author Lukas Eder
  */
-class WindowImpl<T, U> implements OrderedWindow<T, U> {
+class WindowImpl<T, U> implements Window<T, U> {
     
     final Tuple2<T, Long>                  value;
     final int                              index;
@@ -189,6 +190,11 @@ class WindowImpl<T, U> implements OrderedWindow<T, U> {
     @Override
     public boolean none(Predicate<? super T> predicate) {
         return frame().noneMatch(predicate);
+    }
+
+    @Override
+    public <R, A> R collect(Collector<? super T, A, R> collector) {
+        return frame().collect(collector);
     }
     
     private int lower() {
