@@ -1764,6 +1764,63 @@ public class SeqTest {
         assertEquals(optional(null, null, 2, 2, 1), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(FramedWindow::min).toList());
     }
     
+    @Test
+    public void testWindowFunctionAll() {
+        assertEquals(asList(false, false, false, false, false), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, false, false, false, true), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, true, true, false, false), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(w -> w.all(i -> i < 4)).toList());
+
+        assertEquals(asList(true, false, false, false, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, false, false, false, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, true, true, false, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(w -> w.all(i -> i < 4)).toList());
+
+        assertEquals(asList(true, true, false, true, true), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, true, false, true, false), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(w -> w.all(i -> i < 4)).toList());
+
+        assertEquals(asList(true, true, false, true, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, true, false, false, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(w -> w.all(i -> i < 4)).toList());
+        assertEquals(asList(true, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(w -> w.all(i -> i < 4)).toList());
+    }
+        
+    @Test
+    public void testWindowFunctionAny() {
+        assertEquals(asList(true, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(false, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(false, false, false, true, true), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(w -> w.any(i -> i > 2)).toList());
+
+        assertEquals(asList(true, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(true, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(false, false, false, true, false), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(w -> w.any(i -> i > 2)).toList());
+
+        assertEquals(asList(false, false, true, false, true), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(false, false, true, true, true), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(false, false, true, false, false), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(w -> w.any(i -> i > 2)).toList());
+
+        assertEquals(asList(false, false, true, false, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(true, false, true, true, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(w -> w.any(i -> i > 2)).toList());
+        assertEquals(asList(false, false, false, false, false), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(w -> w.any(i -> i > 2)).toList());
+    }
+           
+    @Test
+    public void testWindowFunctionNone() {
+        assertEquals(asList(false, false, false, false, false), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(true, false, false, false, false), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(true, true, true, false, false), Seq.of(1, 2, 4, 2, 3).window(-3, -1).map(w -> w.none(i -> i > 2)).toList());
+
+        assertEquals(asList(false, false, false, false, false), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(false, false, false, false, false), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -1, 1).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(true, true, true, false, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, -3, -1).map(w -> w.none(i -> i > 2)).toList());
+
+        assertEquals(asList(true, true, false, true, false), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(true, true, false, false, false), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(true, true, false, true, true), Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -3, -1).map(w -> w.none(i -> i > 2)).toList());
+
+        assertEquals(asList(true, true, false, true, false), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(false, true, false, false, false), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(w -> w.none(i -> i > 2)).toList());
+        assertEquals(asList(true, true, true, true, true), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -3, -1).map(w -> w.none(i -> i > 2)).toList());
+    }
+    
     private <T> List<Optional<T>> optional(T... list) {
         return Seq.of(list).map(Optional::ofNullable).toList();
     }

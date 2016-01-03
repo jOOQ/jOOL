@@ -15,19 +15,16 @@
  */
 package org.jooq.lambda;
 
-import org.jooq.lambda.tuple.Tuple2;
+import static java.util.Comparator.naturalOrder;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.reverseOrder;
-import java.util.function.BiConsumer;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
-import static org.jooq.lambda.tuple.Tuple.tuple;
+
+import org.jooq.lambda.tuple.Tuple2;
 
 /**
  * A set of additional {@link Collector} implementations.

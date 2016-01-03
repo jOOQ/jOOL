@@ -17,6 +17,7 @@ package org.jooq.lambda;
 
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * A window containing the data for its ordered partition, to perform
@@ -40,6 +41,18 @@ public interface FramedWindow<T, U> {
      * The number of elements in the partition.
      */
     long count();
+  
+//    TODO: Add support for these...
+//
+//    /**
+//     * The number of distinct elements in the partition.
+//     */
+//    long countDistinct();
+//    
+//    /**
+//     * The number of distinct elements in the partition.
+//     */
+//    <V> long countDistinctBy(Function<? super T, ? extends V> function);
     
     /**
      * The lowest value in the partition.
@@ -104,5 +117,20 @@ public interface FramedWindow<T, U> {
      * The nth value in the partition.
      */
     <V> Optional<V> nthValue(long n, Function<? super T, ? extends V> function);
+
+    /**
+     * Whether all elements in the partition match a given predicate.
+     */ 
+    boolean all(Predicate<? super T> predicate);
+    
+    /**
+     * Whether any element in the partition matches a given predicate.
+     */
+    boolean any(Predicate<? super T> predicate);
+    
+    /**
+     * Whether no element in the partition matches a given predicate.
+     */
+    boolean none(Predicate<? super T> predicate);
     
 }

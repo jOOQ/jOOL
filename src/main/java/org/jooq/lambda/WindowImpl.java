@@ -15,26 +15,29 @@
  */
 package org.jooq.lambda;
 
+import static java.util.Comparator.naturalOrder;
+import static org.jooq.lambda.Seq.seq;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
+
 import org.jooq.lambda.tuple.Tuple2;
-import static org.jooq.lambda.Seq.seq;
-import static java.util.Comparator.naturalOrder;
 
 /**
  * @author Lukas Eder
  */
 class WindowImpl<T, U> implements OrderedWindow<T, U> {
     
-    final Tuple2<T, Long> value;
-    final int index;
-    final List<Tuple2<T, Long>> partition;
+    final Tuple2<T, Long>                  value;
+    final int                              index;
+    final List<Tuple2<T, Long>>            partition;
     final Function<? super T, ? extends U> partitionBy;
-    final Comparator<? super T> order;
-    final long lower;
-    final long upper;
+    final Comparator<? super T>            order;
+    final long                             lower;
+    final long                             upper;
 
     WindowImpl(
         Tuple2<T, Long> value,
@@ -63,26 +66,6 @@ class WindowImpl<T, U> implements OrderedWindow<T, U> {
     public U partition() {
         return partitionBy.apply(value());
     }
-    
-    private int lower() {
-        // TODO: What about under/overflows?
-        return lower == Long.MIN_VALUE ? 0 : (int) Math.max(0L, index + lower);
-    }
-    
-    private boolean lowerInPartition() {
-        // TODO: What about under/overflows?
-        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.size());
-    }
-    
-    private int upper() {
-        // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE ? partition.size() - 1 : (int) Math.min(partition.size() - 1, (index + upper));
-    }
-    
-    private boolean upperInPartition() {
-        // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
-    }
 
     @Override
     public long count() {
@@ -91,12 +74,12 @@ class WindowImpl<T, U> implements OrderedWindow<T, U> {
 
     @Override
     public Optional<T> min() {
-        return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1).min((Comparator) naturalOrder());
+        return frame().min((Comparator) naturalOrder());
     }
 
     @Override
     public Optional<T> max() {
-        return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1).max((Comparator) naturalOrder());
+        return frame().max((Comparator) naturalOrder());
     }
 
     @Override
@@ -191,5 +174,44 @@ class WindowImpl<T, U> implements OrderedWindow<T, U> {
     @Override
     public long ntile(long bucket) {
         return (bucket * rowNumber() / partition.size()) + 1;
+    }
+
+    @Override
+    public boolean all(Predicate<? super T> predicate) {
+        return frame().allMatch(predicate);
+    }
+
+    @Override
+    public boolean any(Predicate<? super T> predicate) {
+        return frame().anyMatch(predicate);
+    }
+
+    @Override
+    public boolean none(Predicate<? super T> predicate) {
+        return frame().noneMatch(predicate);
+    }
+    
+    private int lower() {
+        // TODO: What about under/overflows?
+        return lower == Long.MIN_VALUE ? 0 : (int) Math.max(0L, index + lower);
+    }
+    
+    private boolean lowerInPartition() {
+        // TODO: What about under/overflows?
+        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.size());
+    }
+    
+    private int upper() {
+        // TODO: What about under/overflows?
+        return upper == Long.MAX_VALUE ? partition.size() - 1 : (int) Math.min(partition.size() - 1, (index + upper));
+    }
+    
+    private boolean upperInPartition() {
+        // TODO: What about under/overflows?
+        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
+    }
+    
+    private Seq<T> frame() {
+        return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1);
     }
 }
