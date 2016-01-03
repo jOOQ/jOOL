@@ -383,6 +383,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 1 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> asc1() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v1, (Comparator) Comparator.naturalOrder());
     }
@@ -390,6 +391,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 2 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> asc2() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v2, (Comparator) Comparator.naturalOrder());
     }
@@ -397,6 +399,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 3 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> asc3() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v3, (Comparator) Comparator.naturalOrder());
     }
@@ -404,6 +407,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 4 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> asc4() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v4, (Comparator) Comparator.naturalOrder());
     }
@@ -411,6 +415,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 5 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> asc5() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v5, (Comparator) Comparator.naturalOrder());
     }
@@ -418,6 +423,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 6 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> asc6() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v6, (Comparator) Comparator.naturalOrder());
     }
@@ -425,6 +431,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 1 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> desc1() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v1, (Comparator) Comparator.reverseOrder());
     }
@@ -432,6 +439,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 2 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> desc2() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v2, (Comparator) Comparator.reverseOrder());
     }
@@ -439,6 +447,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 3 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> desc3() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v3, (Comparator) Comparator.reverseOrder());
     }
@@ -446,6 +455,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 4 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> desc4() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v4, (Comparator) Comparator.reverseOrder());
     }
@@ -453,6 +463,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 5 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> desc5() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v5, (Comparator) Comparator.reverseOrder());
     }
@@ -460,6 +471,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * A comparator to order by element 6 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple6<T1, T2, T3, T4, T5, T6>> desc6() {
         return Comparator.comparing((Tuple6<T1, T2, T3, T4, T5, T6> t) -> t.v6, (Comparator) Comparator.reverseOrder());
     }

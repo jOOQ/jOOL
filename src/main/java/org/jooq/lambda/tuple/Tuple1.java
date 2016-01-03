@@ -242,6 +242,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     /**
      * A comparator to order by element 1 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple1<T1>> asc1() {
         return Comparator.comparing((Tuple1<T1> t) -> t.v1, (Comparator) Comparator.naturalOrder());
     }
@@ -249,6 +250,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     /**
      * A comparator to order by element 1 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple1<T1>> desc1() {
         return Comparator.comparing((Tuple1<T1> t) -> t.v1, (Comparator) Comparator.reverseOrder());
     }

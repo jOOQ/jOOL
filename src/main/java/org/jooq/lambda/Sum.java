@@ -174,7 +174,7 @@ abstract class Sum<N> {
         }
     }
     static class OfBigInteger extends Sum<BigInteger> {
-        BigInteger sum;
+        BigInteger sum = BigInteger.ZERO;
 
         @Override
         void add0(BigInteger value) {
@@ -192,7 +192,7 @@ abstract class Sum<N> {
         }
     }
     static class OfBigDecimal extends Sum<BigDecimal> {
-        BigDecimal sum;
+        BigDecimal sum = BigDecimal.ZERO;
 
         @Override
         void add0(BigDecimal value) {

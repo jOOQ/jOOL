@@ -185,6 +185,11 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public <U> Optional<U> sum(Function<? super T, ? extends U> function) {
+        return window().sum(function);
+    }
+
+    @Override
     public int sumInt(ToIntFunction<? super T> function) {
         return window().sumInt(function);
     }
@@ -202,6 +207,11 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public Optional<T> avg() {
         return window().avg();
+    }
+
+    @Override
+    public <U> Optional<U> avg(Function<? super T, ? extends U> function) {
+        return window().avg(function);
     }
 
     @Override

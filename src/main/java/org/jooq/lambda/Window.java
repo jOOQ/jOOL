@@ -29,7 +29,6 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * A window containing the data for its partition, to perform calculations upon.
@@ -104,7 +103,7 @@ import java.util.stream.Collectors;
 public interface Window<T> {
 
     static <T> WindowSpecification<T> of() {
-        return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, null, Long.MIN_VALUE, 0);
+        return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, null, Long.MIN_VALUE, Long.MAX_VALUE);
     }
         
     static <T> WindowSpecification<T> of(long lower, long upper) {
@@ -120,7 +119,7 @@ public interface Window<T> {
     }
     
     static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy) {
-        return new WindowSpecificationImpl<>(partitionBy, null, Long.MIN_VALUE, 0);
+        return new WindowSpecificationImpl<>(partitionBy, null, Long.MIN_VALUE, Long.MAX_VALUE);
     }
         
     static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
@@ -333,6 +332,11 @@ public interface Window<T> {
      * Get the sum of the elements in the window.
      */
     Optional<T> sum();
+        
+    /**
+     * Get the sum of the elements in the window.
+     */
+    <U> Optional<U> sum(Function<? super T, ? extends U> function);
     
     /**
      * Get the sum of the elements in the window as <code>int</code>.
@@ -353,6 +357,11 @@ public interface Window<T> {
      * Get the average of the elements in the window.
      */
     Optional<T> avg();
+    
+    /**
+     * Get the average of the elements in the window.
+     */
+    <U> Optional<U> avg(Function<? super T, ? extends U> function);
     
     /**
      * Get the average of the elements in the window as <code>int</code>.

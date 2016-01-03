@@ -1304,6 +1304,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     }
     
     /**
+     * Get the sum of the elements in this stream.
+     */
+    default <U> Optional<U> sum(Function<? super T, ? extends U> function) {
+        return collect(Collectors.mapping(function, Agg.sum()));
+    }
+    
+    /**
      * Get the sum of the elements in this stream as <code>int</code>.
      */
     default int sumInt(ToIntFunction<? super T> function) {
@@ -1330,7 +1337,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T> {
     default Optional<T> avg() {
         return collect(Agg.avg());
     }
-
+ 
+    /**
+     * Get the average of the elements in this stream.
+     */
+    default <U> Optional<U> avg(Function<? super T, ? extends U> function) {
+        return collect(Collectors.mapping(function, Agg.avg()));
+    }
+    
     /**
      * Get the average of the elements in this stream as <code>int</code>.
      */

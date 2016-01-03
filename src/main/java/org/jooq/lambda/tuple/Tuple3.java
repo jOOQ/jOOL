@@ -299,6 +299,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * A comparator to order by element 1 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple3<T1, T2, T3>> asc1() {
         return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v1, (Comparator) Comparator.naturalOrder());
     }
@@ -306,6 +307,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * A comparator to order by element 2 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple3<T1, T2, T3>> asc2() {
         return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v2, (Comparator) Comparator.naturalOrder());
     }
@@ -313,6 +315,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * A comparator to order by element 3 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple3<T1, T2, T3>> asc3() {
         return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v3, (Comparator) Comparator.naturalOrder());
     }
@@ -320,6 +323,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * A comparator to order by element 1 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple3<T1, T2, T3>> desc1() {
         return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v1, (Comparator) Comparator.reverseOrder());
     }
@@ -327,6 +331,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * A comparator to order by element 2 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple3<T1, T2, T3>> desc2() {
         return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v2, (Comparator) Comparator.reverseOrder());
     }
@@ -334,6 +339,7 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
     /**
      * A comparator to order by element 3 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple3<T1, T2, T3>> desc3() {
         return Comparator.comparing((Tuple3<T1, T2, T3> t) -> t.v3, (Comparator) Comparator.reverseOrder());
     }

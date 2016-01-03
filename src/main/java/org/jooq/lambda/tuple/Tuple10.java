@@ -495,6 +495,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 1 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc1() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v1, (Comparator) Comparator.naturalOrder());
     }
@@ -502,6 +503,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 2 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc2() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v2, (Comparator) Comparator.naturalOrder());
     }
@@ -509,6 +511,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 3 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc3() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v3, (Comparator) Comparator.naturalOrder());
     }
@@ -516,6 +519,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 4 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc4() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v4, (Comparator) Comparator.naturalOrder());
     }
@@ -523,6 +527,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 5 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc5() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v5, (Comparator) Comparator.naturalOrder());
     }
@@ -530,6 +535,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 6 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc6() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v6, (Comparator) Comparator.naturalOrder());
     }
@@ -537,6 +543,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 7 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc7() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v7, (Comparator) Comparator.naturalOrder());
     }
@@ -544,6 +551,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 8 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc8() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v8, (Comparator) Comparator.naturalOrder());
     }
@@ -551,6 +559,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 9 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc9() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v9, (Comparator) Comparator.naturalOrder());
     }
@@ -558,6 +567,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 10 ascendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> asc10() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v10, (Comparator) Comparator.naturalOrder());
     }
@@ -565,6 +575,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 1 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc1() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v1, (Comparator) Comparator.reverseOrder());
     }
@@ -572,6 +583,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 2 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc2() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v2, (Comparator) Comparator.reverseOrder());
     }
@@ -579,6 +591,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 3 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc3() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v3, (Comparator) Comparator.reverseOrder());
     }
@@ -586,6 +599,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 4 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc4() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v4, (Comparator) Comparator.reverseOrder());
     }
@@ -593,6 +607,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 5 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc5() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v5, (Comparator) Comparator.reverseOrder());
     }
@@ -600,6 +615,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 6 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc6() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v6, (Comparator) Comparator.reverseOrder());
     }
@@ -607,6 +623,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 7 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc7() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v7, (Comparator) Comparator.reverseOrder());
     }
@@ -614,6 +631,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 8 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc8() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v8, (Comparator) Comparator.reverseOrder());
     }
@@ -621,6 +639,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 9 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc9() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v9, (Comparator) Comparator.reverseOrder());
     }
@@ -628,6 +647,7 @@ public class Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> implements Tuple, 
     /**
      * A comparator to order by element 10 descendingly.
      */
+    @SuppressWarnings("unchecked")
     public Comparator<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> desc10() {
         return Comparator.comparing((Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> t) -> t.v10, (Comparator) Comparator.reverseOrder());
     }

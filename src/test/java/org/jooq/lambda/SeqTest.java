@@ -40,8 +40,10 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
@@ -1579,6 +1581,45 @@ public class SeqTest {
                     (int) t.v5.rowNumber()
                 ))
                 .toList()
+        );
+    }
+    
+    @Test
+    public void testRunningTotal() {
+        
+        // Do the calculation from this blog post in Java
+        // http://blog.jooq.org/2014/04/29/nosql-no-sql-how-to-calculate-running-totals/
+        
+        // | ID   | VALUE_DATE | AMOUNT |  BALANCE |
+        // |------|------------|--------|----------|
+        // | 9997 | 2014-03-18 |  99.17 | 19985.81 |
+        // | 9981 | 2014-03-16 |  71.44 | 19886.64 |
+        // | 9979 | 2014-03-16 | -94.60 | 19815.20 |
+        // | 9977 | 2014-03-16 |  -6.96 | 19909.80 |
+        // | 9971 | 2014-03-15 | -65.95 | 19916.76 |
+        
+        BigDecimal currentBalance = new BigDecimal("19985.81");
+        
+        assertEquals(
+            asList(
+                new BigDecimal("19985.81"),
+                new BigDecimal("19886.64"),
+                new BigDecimal("19815.20"),
+                new BigDecimal("19909.80"),
+                new BigDecimal("19916.76")
+            ),
+            Seq.of(
+                    tuple(9997, "2014-03-18", new BigDecimal("99.17")),
+                    tuple(9981, "2014-03-16", new BigDecimal("71.44")),
+                    tuple(9979, "2014-03-16", new BigDecimal("-94.60")),
+                    tuple(9977, "2014-03-16", new BigDecimal("-6.96")),
+                    tuple(9971, "2014-03-15", new BigDecimal("-65.95")))
+               .window(Comparator.comparing((Tuple3<Integer, String, BigDecimal> t) -> t.v1, reverseOrder()).thenComparing(t -> t.v2), Long.MIN_VALUE, -1)
+               .map(w -> w.value().concat(
+                    currentBalance.subtract(w.sum(t -> t.v3).orElse(BigDecimal.ZERO))
+               ))
+               .map(t -> t.v4)
+               .toList()
         );
     }
     
