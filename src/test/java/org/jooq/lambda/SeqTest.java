@@ -1532,30 +1532,6 @@ public class SeqTest {
     }
     
     @Test
-    public void testWindow() {
-        Seq.of(1, 2, 2, 3, 4)
-           .window(Comparator.naturalOrder())
-           .map(w -> tuple(
-                w.value() % 2,
-                w.value(), 
-                w.rowNumber(),
-                w.rank(),
-                w.denseRank(),
-                w.percentRank(),
-                w.lead(2), 
-                w.lead(), 
-                w.value(), 
-                w.lag(),
-                w.lag(2), 
-                w.min(), 
-                w.max(),
-                w.count()
-           ))
-           .printOut();
-        
-    }
-    
-    @Test
     public void testWindowSpecifications() {
         assertEquals(
             asList(
