@@ -1213,6 +1213,18 @@ public class SeqTest {
         assertEquals("1, 2, 3", Seq.of(1, 2, 3).join(", "));
         assertEquals("^1|2|3$", Seq.of(1, 2, 3).join("|", "^", "$"));
     }
+    
+    @Test
+    public void testFormat() {
+        System.out.println(
+            Seq.of(
+                    tuple(12, (Double) null, new BigDecimal("0.12341234"), (String) null),
+                    tuple(1, 1.1, null, "abc"),
+                    tuple(12, 3.25, new BigDecimal("3134.256"), "xyz abc")
+                )
+               .format()
+        );
+    }
 
     @Test
     public void testMap() {
