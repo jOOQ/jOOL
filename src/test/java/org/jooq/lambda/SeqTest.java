@@ -1205,6 +1205,26 @@ public class SeqTest {
         assertEquals("1, 2, 3", map4.get(1).v2);
         assertEquals("4, 5", map4.get(2).v2);
     }
+    
+    @Test
+    public void testGroupByAndMax() {
+        // Not THAT impressive. I wish JEP 101 was more sophisticated, including
+        // inference on chained method calls
+        // openjdk.java.net/jeps/101
+        assertEquals(
+            asList(tuple("A", 5), tuple("B", 2), tuple("C", 6)),
+            Seq.of(
+                tuple("A", 1),
+                tuple("B", 2),
+                tuple("C", 3),
+                tuple("A", 4),
+                tuple("A", 5),
+                tuple("C", 6))
+               .grouped(t -> t.v1, Agg.maxBy(t -> t.v2))
+               .map(grp -> tuple(grp.v1, grp.v2.map(t -> t.v2).get()))
+               .toList()
+        );
+    }
 
     @Test
     @SuppressWarnings("deprecation")
