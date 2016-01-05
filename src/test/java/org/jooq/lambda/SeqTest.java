@@ -1208,22 +1208,20 @@ public class SeqTest {
     
     @Test
     public void testGroupByAndMax() {
-        // Not THAT impressive. I wish JEP 101 was more sophisticated, including
-        // inference on chained method calls
-        // openjdk.java.net/jeps/101
-        assertEquals(
-            asList(tuple("A", 5), tuple("B", 2), tuple("C", 6)),
-            Seq.of(
-                tuple("A", 1),
-                tuple("B", 2),
-                tuple("C", 3),
-                tuple("A", 4),
-                tuple("A", 5),
-                tuple("C", 6))
-               .grouped(t -> t.v1, Agg.maxBy(t -> t.v2))
-               .map(grp -> tuple(grp.v1, grp.v2.map(t -> t.v2).get()))
-               .toList()
-        );
+        Map<String, Optional<Integer>> map = 
+        Seq.of(
+            tuple("A", 1),
+            tuple("B", 2),
+            tuple("C", 3),
+            tuple("A", 4),
+            tuple("A", 5),
+            tuple("C", 6))
+           .groupBy(t -> t.v1, Agg.max(t -> t.v2));
+        
+        assertEquals(3, map.size());
+        assertEquals(5, (int) map.get("A").get());
+        assertEquals(2, (int) map.get("B").get());
+        assertEquals(6, (int) map.get("C").get());
     }
 
     @Test
@@ -1539,28 +1537,28 @@ public class SeqTest {
     @Test
     public void testCollect() {
         assertEquals(
-            tuple(0L, Optional.empty(), Optional.empty()),
-            Seq.<Integer>of().collect(count(), min(), max())
+            tuple(0L, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty()),
+            Seq.<Integer>of().collect(count(), min(), min(i -> -i), max(), max(i -> -i))
         );
 
         assertEquals(
-            tuple(1L, Optional.of(1), Optional.of(1)),
-            Seq.of(1).collect(count(), min(), max())
+            tuple(1L, Optional.of(1), Optional.of(-1), Optional.of(1), Optional.of(-1)),
+            Seq.of(1).collect(count(), min(), min(i -> -i), max(), max(i -> -i))
         );
 
         assertEquals(
-            tuple(2L, Optional.of(1), Optional.of(2)),
-            Seq.of(1, 2).collect(count(), min(), max())
+            tuple(2L, Optional.of(1), Optional.of(-2), Optional.of(2), Optional.of(-1)),
+            Seq.of(1, 2).collect(count(), min(), min(i -> -i), max(), max(i -> -i))
         );
 
         assertEquals(
-            tuple(3L, Optional.of(1), Optional.of(3)),
-            Seq.of(1, 2, 3).collect(count(), min(), max())
+            tuple(3L, Optional.of(1), Optional.of(-3), Optional.of(3), Optional.of(-1)),
+            Seq.of(1, 2, 3).collect(count(), min(), min(i -> -i), max(), max(i -> -i))
         );
 
         assertEquals(
-            tuple(4L, Optional.of(1), Optional.of(4)),
-            Seq.of(1, 2, 3, 4).collect(count(), min(), max())
+            tuple(4L, Optional.of(1), Optional.of(-4), Optional.of(4), Optional.of(-1)),
+            Seq.of(1, 2, 3, 4).collect(count(), min(), min(i -> -i), max(), max(i -> -i))
         );
     }
     

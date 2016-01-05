@@ -72,13 +72,21 @@ public class Agg {
      * type of {@link Number}.
      */
     public static <T> Collector<T, ?, Optional<T>> sum() {
+        return sum(t -> t);
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>SUM()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> sum(Function<? super T, ? extends U> function) {
         return Collector.of(
-            () -> (Sum<T>[]) new Sum[1],
+            () -> (Sum<U>[]) new Sum[1],
             (s, v) -> { 
                 if (s[0] == null)
-                    s[0] = Sum.create(v);
+                    s[0] = Sum.create(function.apply(v));
                 else 
-                    s[0].add(v);
+                    s[0].add(function.apply(v));
             },
             (s1, s2) -> {
                 s1[0].add(s2[0]);
@@ -93,13 +101,21 @@ public class Agg {
      * type of {@link Number}.
      */
     public static <T> Collector<T, ?, Optional<T>> avg() {
+        return avg(t -> t);
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>AVG()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> avg(Function<? super T, ? extends U> function) {
         return Collector.of(
-            () -> (Sum<T>[]) new Sum[1],
+            () -> (Sum<U>[]) new Sum[1],
             (s, v) -> { 
                 if (s[0] == null)
-                    s[0] = Sum.create(v);
+                    s[0] = Sum.create(function.apply(v));
                 else
-                    s[0].add(v);
+                    s[0].add(function.apply(v));
             },
             (s1, s2) -> {
                 s1[0].add(s2[0]);
@@ -124,14 +140,28 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>MIN(expr)</code> function.
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<U>> min(Function<? super T, ? extends U> function) {
+        return min(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return Collectors.collectingAndThen(minBy(function, comparator), t -> t.map(function));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
      */
     public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> minBy(Function<? super T, ? extends U> function) {
         return minBy(function, naturalOrder());
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>MIN(expr)</code> function.
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<T>> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return maxBy(function, comparator.reversed());
@@ -152,14 +182,28 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>MAX(expr)</code> function.
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<U>> max(Function<? super T, ? extends U> function) {
+        return max(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return Collectors.collectingAndThen(maxBy(function, comparator), t -> t.map(function));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function.
      */
     public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function) {
         return maxBy(function, naturalOrder());
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>MIN(expr)</code> function.
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
