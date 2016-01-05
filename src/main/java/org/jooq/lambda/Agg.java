@@ -16,6 +16,7 @@
 package org.jooq.lambda;
 
 import static java.util.Comparator.naturalOrder;
+import static java.util.stream.Collectors.collectingAndThen;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.util.*;
@@ -150,7 +151,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MIN()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<U>> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return Collectors.collectingAndThen(minBy(function, comparator), t -> t.map(function));
+        return collectingAndThen(minBy(function, comparator), t -> t.map(function));
     }
 
     /**
@@ -192,7 +193,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MAX()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<U>> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return Collectors.collectingAndThen(maxBy(function, comparator), t -> t.map(function));
+        return collectingAndThen(maxBy(function, comparator), t -> t.map(function));
     }
 
     /**
@@ -221,14 +222,14 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>ALL()</code> function.
      */
-    public static Collector<Boolean, ?, Boolean> all() {
-        return allBy(t -> t);
+    public static Collector<Boolean, ?, Boolean> allMatch() {
+        return allMatch(t -> t);
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>EVERY()</code> function.
+     * Get a {@link Collector} that calculates the <code>ALL()</code> function.
      */
-    public static <T> Collector<T, ?, Boolean> allBy(Predicate<? super T> predicate) {
+    public static <T> Collector<T, ?, Boolean> allMatch(Predicate<? super T> predicate) {
         return Collector.of(
             () -> new Boolean[1],
             (a, t) -> {
@@ -248,29 +249,29 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>ANY()</code> function.
      */
-    public static Collector<Boolean, ?, Boolean> any() {
-        return anyBy(t -> t);
+    public static Collector<Boolean, ?, Boolean> anyMatch() {
+        return anyMatch(t -> t);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>ANY()</code> function.
      */
-    public static <T> Collector<T, ?, Boolean> anyBy(Predicate<? super T    > predicate) {
-        return Collectors.collectingAndThen(noneBy(predicate), t -> !t);
+    public static <T> Collector<T, ?, Boolean> anyMatch(Predicate<? super T> predicate) {
+        return collectingAndThen(noneMatch(predicate), t -> !t);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>NONE()</code> function.
      */
-    public static Collector<Boolean, ?, Boolean> none() {
-        return noneBy(t -> t);
+    public static Collector<Boolean, ?, Boolean> noneMatch() {
+        return noneMatch(t -> t);
     }
     
     /**
      * Get a {@link Collector} that calculates the <code>NONE()</code> function.
      */
-    public static <T> Collector<T, ?, Boolean> noneBy(Predicate<? super T> predicate) {
-        return allBy(predicate.negate());
+    public static <T> Collector<T, ?, Boolean> noneMatch(Predicate<? super T> predicate) {
+        return allMatch(predicate.negate());
     }
 
     /**
@@ -292,27 +293,27 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>RANK()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<Long>> rank(T value) {
-        return rank(value, t -> t, naturalOrder());
+        return rankBy(value, t -> t, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>RANK()</code> function given a specific ordering.
      */
     public static <T> Collector<T, ?, Optional<Long>> rank(T value, Comparator<? super T> comparator) {
-        return rank(value, t -> t, comparator);
+        return rankBy(value, t -> t, comparator);
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>RANK()</code> function given natural ordering.
      */
-    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Long>> rank(U value, Function<? super T, ? extends U> function) {
-        return rank(value, function, naturalOrder());
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Long>> rankBy(U value, Function<? super T, ? extends U> function) {
+        return rankBy(value, function, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>RANK()</code> function given a specific ordering.
      */
-    public static <T, U> Collector<T, ?, Optional<Long>> rank(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+    public static <T, U> Collector<T, ?, Optional<Long>> rankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
             () -> new ArrayList<U>(),
             (l, v) -> l.add(function.apply(v)),
@@ -341,27 +342,27 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>DENSE_RANK()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<Long>> denseRank(T value) {
-        return denseRank(value, t -> t, naturalOrder());
+        return denseRankBy(value, t -> t, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>DENSE_RANK()</code> function given a specific ordering.
      */
     public static <T> Collector<T, ?, Optional<Long>> denseRank(T value, Comparator<? super T> comparator) {
-        return denseRank(value, t -> t, comparator);
+        return denseRankBy(value, t -> t, comparator);
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>DENSE_RANK()</code> function given natural ordering.
      */
-    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Long>> denseRank(U value, Function<? super T, ? extends U> function) {
-        return denseRank(value, function, naturalOrder());
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Long>> denseRankBy(U value, Function<? super T, ? extends U> function) {
+        return denseRankBy(value, function, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>DENSE_RANK()</code> function given a specific ordering.
      */
-    public static <T, U> Collector<T, ?, Optional<Long>> denseRank(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+    public static <T, U> Collector<T, ?, Optional<Long>> denseRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
             () -> new TreeSet<U>(comparator),
             (l, v) -> l.add(function.apply(v)),
@@ -391,27 +392,27 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>PERCENT_RANK()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<Double>> percentRank(T value) {
-        return percentRank(value, t -> t, naturalOrder());
+        return percentRankBy(value, t -> t, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>PERCENT_RANK()</code> function given a specific ordering.
      */
     public static <T> Collector<T, ?, Optional<Double>> percentRank(T value, Comparator<? super T> comparator) {
-        return percentRank(value, t -> t, comparator);
+        return percentRankBy(value, t -> t, comparator);
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>PERCENT_RANK()</code> function given natural ordering.
      */
-    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Double>> percentRank(U value, Function<? super T, ? extends U> function) {
-        return percentRank(value, function, naturalOrder());
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<Double>> percentRankBy(U value, Function<? super T, ? extends U> function) {
+        return percentRankBy(value, function, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the derived <code>PERCENT_RANK()</code> function given a specific ordering.
      */
-    public static <T, U> Collector<T, ?, Optional<Double>> percentRank(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+    public static <T, U> Collector<T, ?, Optional<Double>> percentRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
             () -> new ArrayList<U>(),
             (l, v) -> l.add(function.apply(v)),
@@ -440,14 +441,28 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> median() {
-        return percentileBy(0.5, t -> t, naturalOrder());
+        return percentile(0.5);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given a specific ordering.
      */
     public static <T> Collector<T, ?, Optional<T>> median(Comparator<? super T> comparator) {
-        return percentileBy(0.5, t -> t, comparator);
+        return percentile(0.5, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given a specific ordering.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<U>> median(Function<? super T, ? extends U> function) {
+        return percentile(0.5, function);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MEDIAN()</code> function given a specific ordering.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> median(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return percentile(0.5, function, comparator);
     }
 
     /**
@@ -468,14 +483,28 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> percentile(double percentile) {
-        return percentile(percentile, naturalOrder());
+        return percentile(percentile, t -> t, naturalOrder());
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering.
      */
     public static <T> Collector<T, ?, Optional<T>> percentile(double percentile, Comparator<? super T> comparator) {
-        return percentileBy(percentile, t -> t, comparator);
+        return percentile(percentile, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Optional<U>> percentile(double percentile, Function<? super T, ? extends U> function) {
+        return percentile(percentile, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> percentile(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collectingAndThen(percentileBy(percentile, function, comparator), t -> t.map(function));
     }
 
     /**

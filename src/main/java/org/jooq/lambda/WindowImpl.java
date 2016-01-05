@@ -315,17 +315,17 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
-    public boolean all(Predicate<? super T> predicate) {
+    public boolean allMatch(Predicate<? super T> predicate) {
         return window().allMatch(predicate);
     }
 
     @Override
-    public boolean any(Predicate<? super T> predicate) {
+    public boolean anyMatch(Predicate<? super T> predicate) {
         return window().anyMatch(predicate);
     }
 
     @Override
-    public boolean none(Predicate<? super T> predicate) {
+    public boolean noneMatch(Predicate<? super T> predicate) {
         return window().noneMatch(predicate);
     }
 
