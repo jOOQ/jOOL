@@ -31,6 +31,7 @@ import java.util.stream.StreamSupport;
  * Simplifications for the JDBC APIs when used with Java 8.
  *
  * @author Lukas Eder
+ * @deprecated - See https://github.com/jOOQ/jOOL/issues/169
  */
 public final class SQL {
 

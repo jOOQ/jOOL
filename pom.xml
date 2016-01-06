@@ -12,7 +12,7 @@
 
     <groupId>org.jooq</groupId>
     <artifactId>jool</artifactId>
-    <version>0.9.9-SNAPSHOT</version>
+    <version>0.9.9</version>
     <packaging>bundle</packaging>
 
     <name>jOOL</name>
@@ -32,52 +32,11 @@
         <connection>https://github.com/jOOQ/jOOL.git</connection>
     </scm>
 
-    <properties>
-        <org.h2.version>1.4.181</org.h2.version>
-    </properties>
-
     <build>
         <defaultGoal>deploy</defaultGoal>
         <finalName>${project.artifactId}-${project.version}</finalName>
 
         <plugins>
-
-            <!-- The H2 test schema is loaded here -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sql-maven-plugin</artifactId>
-                <version>1.5</version>
-
-                <executions>
-                    <execution>
-                        <id>create-database-h2</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <driver>org.h2.Driver</driver>
-                            <url>jdbc:h2:~/jool-test</url>
-                            <username>sa</username>
-                            <password></password>
-
-                            <autocommit>true</autocommit>
-                            <srcFiles>
-                                <srcFile>src/test/resources/jool-test.sql</srcFile>
-                            </srcFiles>
-                        </configuration>
-                    </execution>
-                </executions>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>${org.h2.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -235,20 +194,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${org.h2.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-            <version>3.6.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
