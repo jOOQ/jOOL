@@ -15,9 +15,18 @@
  */
 package org.jooq.lambda;
 
+import static java.util.Comparator.naturalOrder;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -31,10 +40,12 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import org.jooq.lambda.tuple.Tuple;
 
 /**
  * @author Lukas Eder
@@ -177,8 +188,103 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public long count() {
+        return stream().count();
+    }
+
+    @Override
+    public long countDistinct() {
+        return collect(Agg.countDistinct());
+    }
+
+    @Override
+    public <U> long countDistinctBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.countDistinctBy(function));
+    }
+
+    @Override
+    public Optional<T> sum() {
+        return collect(Agg.sum());
+    }
+
+    @Override
+    public <U> Optional<U> sum(Function<? super T, ? extends U> function) {
+        return collect(Agg.sum(function));
+    }
+
+    @Override
+    public int sumInt(ToIntFunction<? super T> function) {
+        return collect(Collectors.summingInt(function));
+    }
+
+    @Override
+    public long sumLong(ToLongFunction<? super T> function) {
+        return collect(Collectors.summingLong(function));
+    }
+
+    @Override
+    public double sumDouble(ToDoubleFunction<? super T> function) {
+        return collect(Collectors.summingDouble(function));
+    }
+
+    @Override
+    public Optional<T> avg() {
+        return collect(Agg.avg());
+    }
+
+    @Override
+    public <U> Optional<U> avg(Function<? super T, ? extends U> function) {
+        return collect(Agg.avg(function));
+    }
+
+    @Override
+    public double avgInt(ToIntFunction<? super T> function) {
+        return collect(Collectors.averagingInt(function));
+    }
+
+    @Override
+    public double avgLong(ToLongFunction<? super T> function) {
+        return collect(Collectors.averagingLong(function));
+    }
+
+    @Override
+    public double avgDouble(ToDoubleFunction<? super T> function) {
+        return collect(Collectors.averagingDouble(function));
+    }
+
+    @Override
+    public Optional<T> min() {
+        return min((Comparator) naturalOrder());
+    }
+
+    @Override
     public Optional<T> min(Comparator<? super T> comparator) {
         return stream().min(comparator);
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<U> min(Function<? super T, ? extends U> function) {
+        return collect(Agg.min(function));
+    }
+
+    @Override
+    public <U> Optional<U> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.min(function, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.minBy(function));
+    }
+
+    @Override
+    public <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.minBy(function, comparator));
+    }
+
+    @Override
+    public Optional<T> max() {
+        return max((Comparator) naturalOrder());
     }
 
     @Override
@@ -187,8 +293,68 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    public long count() {
-        return stream().count();
+    public <U extends Comparable<? super U>> Optional<U> max(Function<? super T, ? extends U> function) {
+        return collect(Agg.max(function));
+    }
+
+    @Override
+    public <U> Optional<U> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.max(function, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.maxBy(function));
+    }
+
+    @Override
+    public <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.maxBy(function, comparator));
+    }
+
+    @Override
+    public Optional<T> median() {
+        return median((Comparator) naturalOrder());
+    }
+
+    @Override
+    public Optional<T> median(Comparator<? super T> comparator) {
+        return collect(Agg.median(comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.medianBy(function));
+    }
+
+    @Override
+    public <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.medianBy(function, comparator));
+    }
+
+    @Override
+    public Optional<T> percentile(double percentile) {
+        return percentile(percentile, (Comparator) naturalOrder());
+    }
+
+    @Override
+    public Optional<T> percentile(double percentile, Comparator<? super T> comparator) {
+        return collect(Agg.percentile(percentile, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function) {
+        return collect(Agg.percentileBy(percentile, function));
+    }
+
+    @Override
+    public <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.percentileBy(percentile, function, comparator));
+    }
+
+    @Override
+    public Optional<T> mode() {
+        return collect(Agg.mode());
     }
 
     @Override
@@ -249,8 +415,130 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public List<T> toList() {
+        return Seq.toList(this);
+    }
+    
+    @Override
+    public <L extends List<T>> L toList(Supplier<L> factory) {
+        return Seq.toCollection(this, factory);
+    }
+
+    @Override
+    public Set<T> toSet() {
+        return Seq.toSet(this);
+    }
+
+    @Override
+    public <S extends Set<T>> S toSet(Supplier<S> factory) {
+        return Seq.toCollection(this, factory);
+    }
+
+    @Override
+    public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
+        return Seq.toCollection(this, factory);
+    }
+    
+    @Override
+    public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
+        return Seq.toMap(this, keyMapper, valueMapper);
+    }
+
+    @Override
     public String toString() {
         buffered = toArray();
         return Seq.toString(stream());
+    }
+    
+    @Override
+    public String toString(CharSequence delimiter) {
+        return Seq.toString(this, delimiter);
+    }
+
+    @Override
+    public String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+        return map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
+    }
+
+    @Override
+    public String format() {
+        final List<String[]> strings = new ArrayList<>();
+        Class<?>[] types0 = null;
+        
+        for (T t : this) {
+            Object[] array = t instanceof Tuple
+                           ? ((Tuple) t).array()
+                           : new Object[] { t };
+            
+            if (types0 == null) 
+                types0 = new Class[array.length];
+            
+            for (int i = 0; i < array.length; i++)
+                if (types0[i] == null && array[i] != null)
+                    types0[i] = array[i].getClass();
+            
+            strings.add(Seq
+                .of(array)
+                .map(o -> 
+                     o instanceof Optional
+                   ? ((Optional) o).map(Objects::toString).orElse("{empty}")
+                   : Objects.toString(o))
+                .toArray(String[]::new));
+        }
+        
+        if (strings.isEmpty())
+            return "(empty seq)";
+        
+        final Class<?>[] types = types0;
+        final int length = types.length;
+        final int[] maxLengths = new int[length];
+        for (int s = 0; s < strings.size(); s++)
+            for (int l = 0; l < length; l++)
+                maxLengths[l] = Math.max(2, Math.max(maxLengths[l], strings.get(s)[l].length()));
+        
+        Function<String, String>[] pad = IntStream
+            .range(0, length)
+            .mapToObj(i -> (Function<String, String>) string -> {
+                boolean number = Number.class.isAssignableFrom(types[i]);
+                return Seq.seq(Collections.nCopies(maxLengths[i] - string.length(), " ")).toString("", number ? "" : string, number ? string : "");
+            })
+            .toArray(Function[]::new);
+                
+        StringBuilder separator = new StringBuilder("+-");
+        for (int l = 0; l < length; l++) {
+            if (l > 0)
+                separator.append("-+-");
+            
+            for (int p = 0; p < maxLengths[l]; p++)
+                separator.append('-');
+        }
+        separator.append("-+\n");
+        
+        StringBuilder result = new StringBuilder(separator).append("| ");
+        for (int l = 0; l < length; l++) {
+            String n = "v" + l;
+            
+            if (l > 0)
+                result.append(" | ");
+            
+            result.append(pad[l].apply(n));
+        }
+        result.append(" |\n").append(separator);
+        for (int s = 0; s < strings.size(); s++) {
+            result.append("| ");
+                    
+            for (int l = 0; l < length; l++) {
+                String string = strings.get(s)[l];
+                
+                if (l > 0)
+                    result.append(" | ");
+                
+                result.append(pad[l].apply(string));
+            }
+            
+            result.append(" |\n");
+        }
+        
+        return result.append(separator).toString();
     }
 }

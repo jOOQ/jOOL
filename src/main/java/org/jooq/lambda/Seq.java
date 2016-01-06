@@ -1219,22 +1219,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Consume a stream and concatenate all elements using a separator.
-     */
-    default String toString(CharSequence delimiter) {
-        return toString(this, delimiter);
-    }
-
-    /**
-     * Shortcut for calling {@link Stream#collect(Collector)} with a
-     * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
-     * collector.
-     */
-    default String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
-        return map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
-    }
-
-    /**
      * Check if the sequence has any elements
      */
     default boolean isEmpty() {
@@ -5814,7 +5798,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining()}
      * collector.
+     * 
+     * @deprecated - Use {@link #toString()} instead. This method will be
+     * removed in the future as it causes confusion with
+     * {@link #innerJoin(Seq, BiPredicate)}.
      */
+    @Deprecated
     static String join(Stream<?> stream) {
         return seq(stream).join();
     }
@@ -5823,7 +5812,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence)}
      * collector.
+     * 
+     * @deprecated - Use {@link #toString()} instead. This method will be
+     * removed in the future as it causes confusion with
+     * {@link #innerJoin(Seq, BiPredicate)}.
      */
+    @Deprecated
     static String join(Stream<?> stream, CharSequence delimiter) {
         return seq(stream).join(delimiter);
     }
@@ -5832,7 +5826,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
      * collector.
+     * 
+     * @deprecated - Use {@link #toString()} instead. This method will be
+     * removed in the future as it causes confusion with
+     * {@link #innerJoin(Seq, BiPredicate)}.
      */
+    @Deprecated
     static String join(Stream<?> stream, CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
         return seq(stream).join(delimiter, prefix, suffix);
     }
@@ -5949,86 +5948,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Clients should not rely on the concrete formatting of this method, which
      * is intended for debugging convenience only.
      */
-    default String format() {
-        final List<String[]> strings = new ArrayList<>();
-        Class<?>[] types0 = null;
-        
-        for (T t : this) {
-            Object[] array = t instanceof Tuple
-                           ? ((Tuple) t).array()
-                           : new Object[] { t };
-            
-            if (types0 == null) 
-                types0 = new Class[array.length];
-            
-            for (int i = 0; i < array.length; i++)
-                if (types0[i] == null && array[i] != null)
-                    types0[i] = array[i].getClass();
-            
-            strings.add(Seq
-                .of(array)
-                .map(o -> 
-                     o instanceof Optional
-                   ? ((Optional) o).map(Objects::toString).orElse("{empty}")
-                   : Objects.toString(o))
-                .toArray(String[]::new));
-        }
-        
-        if (strings.isEmpty())
-            return "(empty seq)";
-        
-        final Class<?>[] types = types0;
-        final int length = types.length;
-        final int[] maxLengths = new int[length];
-        for (int s = 0; s < strings.size(); s++)
-            for (int l = 0; l < length; l++)
-                maxLengths[l] = Math.max(2, Math.max(maxLengths[l], strings.get(s)[l].length()));
-        
-        Function<String, String>[] pad = IntStream
-            .range(0, length)
-            .mapToObj(i -> (Function<String, String>) string -> {
-                boolean number = Number.class.isAssignableFrom(types[i]);
-                return Seq.seq(Collections.nCopies(maxLengths[i] - string.length(), " ")).toString("", number ? "" : string, number ? string : "");
-            })
-            .toArray(Function[]::new);
-                
-        StringBuilder separator = new StringBuilder("+-");
-        for (int l = 0; l < length; l++) {
-            if (l > 0)
-                separator.append("-+-");
-            
-            for (int p = 0; p < maxLengths[l]; p++)
-                separator.append('-');
-        }
-        separator.append("-+\n");
-        
-        StringBuilder result = new StringBuilder(separator).append("| ");
-        for (int l = 0; l < length; l++) {
-            String n = "v" + l;
-            
-            if (l > 0)
-                result.append(" | ");
-            
-            result.append(pad[l].apply(n));
-        }
-        result.append(" |\n").append(separator);
-        for (int s = 0; s < strings.size(); s++) {
-            result.append("| ");
-                    
-            for (int l = 0; l < length; l++) {
-                String string = strings.get(s)[l];
-                
-                if (l > 0)
-                    result.append(" | ");
-                
-                result.append(pad[l].apply(string));
-            }
-            
-            result.append(" |\n");
-        }
-        
-        return result.append(separator).toString();
-    }
+    String format();
     
     /**
      * Print contents of this stream to {@link System#out}.

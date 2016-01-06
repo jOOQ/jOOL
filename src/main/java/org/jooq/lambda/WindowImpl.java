@@ -22,6 +22,8 @@ import static org.jooq.lambda.Seq.seq;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -31,6 +33,7 @@ import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.jooq.lambda.tuple.Tuple2;
 
@@ -60,6 +63,9 @@ class WindowImpl<T> implements Window<T> {
         this.upper = specification.upper();
     }
 
+    // Accessor methods
+    // -------------------------------------------------------------------------
+    
     @Override
     public T value() {
         return value.v1;
@@ -70,6 +76,32 @@ class WindowImpl<T> implements Window<T> {
         return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1);
     }
 
+    // Utilities
+    // -------------------------------------------------------------------------
+    
+    private int lower() {
+        // TODO: What about under/overflows?
+        return lower == Long.MIN_VALUE ? 0 : (int) Math.max(0L, index + lower);
+    }
+    
+    private boolean lowerInPartition() {
+        // TODO: What about under/overflows?
+        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.size());
+    }
+    
+    private int upper() {
+        // TODO: What about under/overflows?
+        return upper == Long.MAX_VALUE ? partition.size() - 1 : (int) Math.min(partition.size() - 1, (index + upper));
+    }
+    
+    private boolean upperInPartition() {
+        // TODO: What about under/overflows?
+        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
+    }
+    
+    // Ranking functions
+    // -------------------------------------------------------------------------
+    
     @Override
     public long rowNumber() {
         return (long) index;
@@ -164,6 +196,9 @@ class WindowImpl<T> implements Window<T> {
              : Optional.empty();
     }
     
+    // Aggregate functions
+    // -------------------------------------------------------------------------
+    
     @Override
     public long count() {
         return 1 + upper() - lower();
@@ -240,6 +275,16 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public <U extends Comparable<? super U>> Optional<U> min(Function<? super T, ? extends U> function) {
+        return window().min(function);
+    }
+
+    @Override
+    public <U> Optional<U> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return window().min(function, comparator);
+    }
+
+    @Override
     public <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
         return window().minBy(function);
     }
@@ -257,6 +302,16 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public Optional<T> max(Comparator<? super T> comparator) {
         return window().max(comparator);
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Optional<U> max(Function<? super T, ? extends U> function) {
+        return window().max(function);
+    }
+
+    @Override
+    public <U> Optional<U> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return window().max(function, comparator);
     }
 
     @Override
@@ -359,28 +414,23 @@ class WindowImpl<T> implements Window<T> {
         return window().toCollection(factory);
     }
     
-    private int lower() {
-        // TODO: What about under/overflows?
-        return lower == Long.MIN_VALUE ? 0 : (int) Math.max(0L, index + lower);
+    @Override
+    public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
+        return window().toMap(keyMapper, valueMapper);
     }
-    
-    private boolean lowerInPartition() {
-        // TODO: What about under/overflows?
-        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.size());
-    }
-    
-    private int upper() {
-        // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE ? partition.size() - 1 : (int) Math.min(partition.size() - 1, (index + upper));
-    }
-    
-    private boolean upperInPartition() {
-        // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
-    }
-    
+
     @Override
     public String toString() {
         return Seq.toString(window());
+    }
+    
+    @Override
+    public String toString(CharSequence delimiter) {
+        return Seq.toString(window(), delimiter);
+    }
+
+    @Override
+    public String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+        return window().map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
     }
 }

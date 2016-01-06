@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -346,93 +347,67 @@ public interface Collectable<T> {
     /**
      * Count the distinct values in this collectable.
      */
-    default long countDistinct() {
-        return collect(Agg.countDistinct());
-    }
+    long countDistinct();
 
     /**
      * Count the distinct values of a given expression in this collectable.
      */
-    default <U> long countDistinctBy(Function<? super T, ? extends U> function) {
-        return collect(Agg.countDistinctBy(function));
-    }
+    <U> long countDistinctBy(Function<? super T, ? extends U> function);
 
     /**
      * Get the mode, i.e. the value that appears most often in the collectable.
      */
-    default Optional<T> mode() {
-        return collect(Agg.mode());
-    }
+    Optional<T> mode();
 
     /**
      * Get the sum of the elements in this collectable.
      */
-    default Optional<T> sum() {
-        return collect(Agg.sum());
-    }
+    Optional<T> sum();
     
     /**
      * Get the sum of the elements in this collectable.
      */
-    default <U> Optional<U> sum(Function<? super T, ? extends U> function) {
-        return collect(Collectors.mapping(function, Agg.sum()));
-    }
+    <U> Optional<U> sum(Function<? super T, ? extends U> function);
     
     /**
      * Get the sum of the elements in this collectable as <code>int</code>.
      */
-    default int sumInt(ToIntFunction<? super T> function) {
-        return collect(Collectors.summingInt(function));
-    }
+    int sumInt(ToIntFunction<? super T> function);
     
     /**
      * Get the sum of the elements in this collectable as <code>long</code>.
      */
-    default long sumLong(ToLongFunction<? super T> function) {
-        return collect(Collectors.summingLong(function));
-    }
+    long sumLong(ToLongFunction<? super T> function);
   
     /**
      * Get the sum of the elements in this collectable as <code>double</code>.
      */
-    default double sumDouble(ToDoubleFunction<? super T> function) {
-        return collect(Collectors.summingDouble(function));
-    }
+    double sumDouble(ToDoubleFunction<? super T> function);
 
     /**
      * Get the average of the elements in this collectable.
      */
-    default Optional<T> avg() {
-        return collect(Agg.avg());
-    }
+    Optional<T> avg();
  
     /**
      * Get the average of the elements in this collectable.
      */
-    default <U> Optional<U> avg(Function<? super T, ? extends U> function) {
-        return collect(Collectors.mapping(function, Agg.avg()));
-    }
+    <U> Optional<U> avg(Function<? super T, ? extends U> function);
     
     /**
      * Get the average of the elements in this collectable as <code>int</code>.
      */
-    default double avgInt(ToIntFunction<? super T> function) {
-        return collect(Collectors.averagingInt(function));
-    }
+    double avgInt(ToIntFunction<? super T> function);
     
     /**
      * Get the average of the elements in this collectable as <code>long</code>.
      */
-    default double avgLong(ToLongFunction<? super T> function) {
-        return collect(Collectors.averagingLong(function));
-    }
+    double avgLong(ToLongFunction<? super T> function);
   
     /**
      * Get the average of the elements in this collectable as <code>double</code>.
      */
-    default double avgDouble(ToDoubleFunction<? super T> function) {
-        return collect(Collectors.averagingDouble(function));
-    }
+    double avgDouble(ToDoubleFunction<? super T> function);
   
     /**
      * Get the minimum value.
@@ -440,9 +415,7 @@ public interface Collectable<T> {
      * This makes the unsafe assumption that
      * <code>&lt;T extends Comparable&lt;? super T>></code>
      */
-    default Optional<T> min() {
-        return (Optional) collect(Agg.<Comparable>min());
-    }
+    Optional<T> min();
     
     /**
      * Get the minimum value by a function.
@@ -452,30 +425,22 @@ public interface Collectable<T> {
     /**
      * Get the minimum value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<U> min(Function<? super T, ? extends U> function) {
-        return collect(Agg.min(function));
-    }
+    <U extends Comparable<? super U>> Optional<U> min(Function<? super T, ? extends U> function);
    
     /**
      * Get the minimum value by a function.
      */
-    default <U> Optional<U> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.min(function, comparator));
-    }
+    <U> Optional<U> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
  
     /**
      * Get the minimum value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
-        return collect(Agg.minBy(function));
-    }
+    <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function);
 
     /**
      * Get the minimum value by a function.
      */
-    default <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.minBy(function, comparator));
-    }
+    <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
   
     /**
      * Get the maximum value.
@@ -483,9 +448,7 @@ public interface Collectable<T> {
      * This makes the unsafe assumption that
      * <code>&lt;T extends Comparable&lt;? super T>></code>
      */
-    default Optional<T> max() {
-        return (Optional) collect(Agg.<Comparable>max());
-    }
+    Optional<T> max();
 
     /**
      * Get the maximum value by a function.
@@ -495,30 +458,22 @@ public interface Collectable<T> {
     /**
      * Get the maximum value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<U> max(Function<? super T, ? extends U> function) {
-        return collect(Agg.max(function));
-    }
+    <U extends Comparable<? super U>> Optional<U> max(Function<? super T, ? extends U> function);
    
     /**
      * Get the maximum value by a function.
      */
-    default <U> Optional<U> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.max(function, comparator));
-    }
+    <U> Optional<U> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
 
     /**
      * Get the maximum value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
-        return collect(Agg.maxBy(function));
-    }
+    <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function);
 
     /**
      * Get the maximum value by a function.
      */
-    default <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.maxBy(function, comparator));
-    }
+    <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
   
     /**
      * Get the median value.
@@ -526,30 +481,22 @@ public interface Collectable<T> {
      * This makes the unsafe assumption that
      * <code>&lt;T extends Comparable&lt;? super T>></code>
      */
-    default Optional<T> median() {
-        return (Optional) collect(Agg.<Comparable>median());
-    }
+    Optional<T> median();
 
     /**
      * Get the median value.
      */
-    default Optional<T> median(Comparator<? super T> comparator) {
-        return collect(Agg.median(comparator));
-    }
+    Optional<T> median(Comparator<? super T> comparator);
 
     /**
      * Get the median value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function) {
-        return collect(Agg.medianBy(function));
-    }
+    <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function);
 
     /**
      * Get the median value by a function.
      */
-    default <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.medianBy(function, comparator));
-    }
+    <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
   
     /**
      * Get the discrete percentile value.
@@ -557,30 +504,22 @@ public interface Collectable<T> {
      * This makes the unsafe assumption that
      * <code>&lt;T extends Comparable&lt;? super T>></code>
      */
-    default Optional<T> percentile(double percentile) {
-        return (Optional) collect(Agg.<Comparable>percentile(percentile));
-    }
+    Optional<T> percentile(double percentile);
 
     /**
      * Get the discrete percentile value.
      */
-    default Optional<T> percentile(double percentile, Comparator<? super T> comparator) {
-        return collect(Agg.percentile(percentile, comparator));
-    }
+    Optional<T> percentile(double percentile, Comparator<? super T> comparator);
 
     /**
      * Get the discrete percentile value by a function.
      */
-    default <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function) {
-        return collect(Agg.percentileBy(percentile, function));
-    }
+    <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function);
 
     /**
      * Get the discrete percentile value by a function.
      */
-    default <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return collect(Agg.percentileBy(percentile, function, comparator));
-    }
+    <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator);
     
     /**
      * Whether all elements in the collectable match a given predicate.
@@ -600,44 +539,44 @@ public interface Collectable<T> {
     /**
      * Collect the collectable into an {@link ArrayList}.
      */
-    default List<T> toList() {
-        return collect(Collectors.toList());
-    }
+    List<T> toList();
     
     /**
      * Collect the collectable into a {@link List}.
      */
-    default <L extends List<T>> L toList(Supplier<L> factory) {
-        return collect(Collectors.toCollection(factory));
-    }
+    <L extends List<T>> L toList(Supplier<L> factory);
     
     /**
      * Collect the collectable into a {@link LinkedHashSet}.
      */
-    default Set<T> toSet() {
-        return toSet(LinkedHashSet::new);
-    }
+    Set<T> toSet();
     
     /**
      * Collect the collectable into a {@link Set}.
      */
-    default <S extends Set<T>> S toSet(Supplier<S> factory) {
-        return collect(Collectors.toCollection(factory));
-    } 
+    <S extends Set<T>> S toSet(Supplier<S> factory);
     
     /**
      * Collect the collectable into a {@link Collection}.
      */
-    default <C extends Collection<T>> C toCollection(Supplier<C> factory) {
-        return collect(Collectors.toCollection(factory));
-    }
+    <C extends Collection<T>> C toCollection(Supplier<C> factory);
 
     /**
      * Collect the collectable into a {@link Map}.
      *
      * @see #toMap(Stream, Function, Function)
      */
-    default <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
-        return collect(Collectors.toMap(keyMapper, valueMapper));
-    }
+    <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper);
+    
+    /**
+     * Consume a stream and concatenate all elements using a separator.
+     */
+    String toString(CharSequence delimiter);
+
+    /**
+     * Shortcut for calling {@link Stream#collect(Collector)} with a
+     * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
+     * collector.
+     */
+    String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix);
 }
