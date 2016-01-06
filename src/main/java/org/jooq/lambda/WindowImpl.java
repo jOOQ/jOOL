@@ -378,4 +378,9 @@ class WindowImpl<T> implements Window<T> {
         // TODO: What about under/overflows?
         return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
     }
+    
+    @Override
+    public String toString() {
+        return Seq.toString(window());
+    }
 }

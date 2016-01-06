@@ -5965,7 +5965,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 if (types0[i] == null && array[i] != null)
                     types0[i] = array[i].getClass();
             
-            strings.add(Seq.of(array).map(Objects::toString).toArray(String[]::new));
+            strings.add(Seq
+                .of(array)
+                .map(o -> 
+                     o instanceof Optional
+                   ? ((Optional) o).map(Objects::toString).orElse("{empty}")
+                   : Objects.toString(o))
+                .toArray(String[]::new));
         }
         
         if (strings.isEmpty())
@@ -5976,7 +5982,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final int[] maxLengths = new int[length];
         for (int s = 0; s < strings.size(); s++)
             for (int l = 0; l < length; l++)
-                maxLengths[l] = Math.max(maxLengths[l], strings.get(s)[l].length());
+                maxLengths[l] = Math.max(2, Math.max(maxLengths[l], strings.get(s)[l].length()));
         
         Function<String, String>[] pad = IntStream
             .range(0, length)
