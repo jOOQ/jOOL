@@ -516,7 +516,7 @@ class SeqImpl<T> implements Seq<T> {
         
         StringBuilder result = new StringBuilder(separator).append("| ");
         for (int l = 0; l < length; l++) {
-            String n = "v" + l;
+            String n = "v" + (l + 1);
             
             if (l > 0)
                 result.append(" | ");
