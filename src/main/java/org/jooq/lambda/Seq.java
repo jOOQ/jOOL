@@ -1381,6 +1381,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     // [jooq-tools] START [windows]
+
     /**
      * Map this stream to a windowed stream with 1 distinct windows.
      */
