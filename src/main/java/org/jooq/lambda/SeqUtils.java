@@ -76,18 +76,16 @@ class SeqUtils {
         });
     }
     
-    static <T> Map<?, List<Tuple2<T, Long>>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
-        
-        // Help the poor old compiler infer some types that it cannot seem to guess
+    static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
         return seq(input).groupBy(
             window.partition().compose(t -> t.v1), 
-            Collector.<Tuple2<T, Long>, Collection<Tuple2<T, Long>>, List<Tuple2<T, Long>>>of(
+            Collector.of(
                 () -> window.order().isPresent()
-                    ? new TreeSet<>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
-                    : new ArrayList<>(),
+                    ? new TreeSet<Tuple2<T, Long>>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
+                    : new ArrayList<Tuple2<T, Long>>(),
                 (s, t) -> s.add(t),
                 (s1, s2) -> { s1.addAll(s2); return s1; },
-                s -> s instanceof ArrayList ? (List<Tuple2<T, Long>>) s : new ArrayList<>(s)
+                s -> new Partition<>(s instanceof ArrayList ? (List<Tuple2<T, Long>>) s : new ArrayList<>(s))
             )
         );
     }

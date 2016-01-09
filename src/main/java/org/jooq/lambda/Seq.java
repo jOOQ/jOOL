@@ -1381,7 +1381,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     // [jooq-tools] START [windows]
-
     /**
      * Map this stream to a windowed stream with 1 distinct windows.
      */
@@ -1391,7 +1390,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1409,8 +1408,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1430,9 +1429,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1454,10 +1453,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1481,11 +1480,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1511,12 +1510,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1544,13 +1543,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1580,14 +1579,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1619,15 +1618,15 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1661,16 +1660,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1706,17 +1705,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions11 = SeqUtils.partitions(specification11, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1754,18 +1753,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, Partition<T>> partitions12 = SeqUtils.partitions(specification12, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1805,19 +1804,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, Partition<T>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, Partition<T>> partitions13 = SeqUtils.partitions(specification13, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1859,20 +1858,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions14 = SeqUtils.partitions(specification14, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, Partition<T>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, Partition<T>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, Partition<T>> partitions14 = SeqUtils.partitions(specification14, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1916,21 +1915,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions14 = SeqUtils.partitions(specification14, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions15 = SeqUtils.partitions(specification15, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, Partition<T>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, Partition<T>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, Partition<T>> partitions14 = SeqUtils.partitions(specification14, buffer);
+        Map<?, Partition<T>> partitions15 = SeqUtils.partitions(specification15, buffer);
 
         return seq(buffer)
               .map(t -> tuple(
@@ -1976,22 +1975,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     ) {
         List<Tuple2<T, Long>> buffer = zipWithIndex().toList();
 
-        Map<?, List<Tuple2<T, Long>>> partitions1 = SeqUtils.partitions(specification1, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions2 = SeqUtils.partitions(specification2, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions3 = SeqUtils.partitions(specification3, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions4 = SeqUtils.partitions(specification4, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions5 = SeqUtils.partitions(specification5, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions6 = SeqUtils.partitions(specification6, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions7 = SeqUtils.partitions(specification7, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions8 = SeqUtils.partitions(specification8, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions9 = SeqUtils.partitions(specification9, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions10 = SeqUtils.partitions(specification10, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions11 = SeqUtils.partitions(specification11, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions12 = SeqUtils.partitions(specification12, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions13 = SeqUtils.partitions(specification13, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions14 = SeqUtils.partitions(specification14, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions15 = SeqUtils.partitions(specification15, buffer);
-        Map<?, List<Tuple2<T, Long>>> partitions16 = SeqUtils.partitions(specification16, buffer);
+        Map<?, Partition<T>> partitions1 = SeqUtils.partitions(specification1, buffer);
+        Map<?, Partition<T>> partitions2 = SeqUtils.partitions(specification2, buffer);
+        Map<?, Partition<T>> partitions3 = SeqUtils.partitions(specification3, buffer);
+        Map<?, Partition<T>> partitions4 = SeqUtils.partitions(specification4, buffer);
+        Map<?, Partition<T>> partitions5 = SeqUtils.partitions(specification5, buffer);
+        Map<?, Partition<T>> partitions6 = SeqUtils.partitions(specification6, buffer);
+        Map<?, Partition<T>> partitions7 = SeqUtils.partitions(specification7, buffer);
+        Map<?, Partition<T>> partitions8 = SeqUtils.partitions(specification8, buffer);
+        Map<?, Partition<T>> partitions9 = SeqUtils.partitions(specification9, buffer);
+        Map<?, Partition<T>> partitions10 = SeqUtils.partitions(specification10, buffer);
+        Map<?, Partition<T>> partitions11 = SeqUtils.partitions(specification11, buffer);
+        Map<?, Partition<T>> partitions12 = SeqUtils.partitions(specification12, buffer);
+        Map<?, Partition<T>> partitions13 = SeqUtils.partitions(specification13, buffer);
+        Map<?, Partition<T>> partitions14 = SeqUtils.partitions(specification14, buffer);
+        Map<?, Partition<T>> partitions15 = SeqUtils.partitions(specification15, buffer);
+        Map<?, Partition<T>> partitions16 = SeqUtils.partitions(specification16, buffer);
 
         return seq(buffer)
               .map(t -> tuple(

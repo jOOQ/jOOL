@@ -66,7 +66,6 @@ public interface Collectable<T> {
     <R, A> R collect(Collector<? super T, A, R> collector);
 
     // [jooq-tools] START [collect]
-
     /**
      * Collect this collectable into 2 {@link Collector}s.
      */

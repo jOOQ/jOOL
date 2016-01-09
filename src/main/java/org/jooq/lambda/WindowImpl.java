@@ -21,6 +21,7 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.comparing;
 import static java.util.Collections.binarySearch;
 import static org.jooq.lambda.Seq.seq;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.util.Comparator;
 import java.util.List;
@@ -44,16 +45,16 @@ import org.jooq.lambda.tuple.Tuple2;
  */
 class WindowImpl<T> implements Window<T> {
     
-    final Tuple2<T, Long>                  value;
-    final int                              index;
-    final List<Tuple2<T, Long>>            partition;
-    final Comparator<? super T>            order;
-    final long                             lower;
-    final long                             upper;
+    final Tuple2<T, Long>       value;
+    final int                   index;
+    final Partition<T>          partition;
+    final Comparator<? super T> order;
+    final long                  lower;
+    final long                  upper;
 
     WindowImpl(
         Tuple2<T, Long> value,
-        List<Tuple2<T, Long>> partition, 
+        Partition<T> partition, 
         WindowSpecification<T> specification
     ) {
         this.value = value;
@@ -63,8 +64,8 @@ class WindowImpl<T> implements Window<T> {
         this.upper = specification.upper();
         
         int i = specification.order().isPresent()
-              ? binarySearch(partition, value, comparing((Tuple2<T, Long> t) -> t.v1, specification.order().get()).thenComparing(t -> t.v2))
-              : binarySearch(partition, value, comparing(t -> t.v2));
+              ? binarySearch(partition.list, value, comparing((Tuple2<T, Long> t) -> t.v1, specification.order().get()).thenComparing(t -> t.v2))
+              : binarySearch(partition.list, value, comparing(t -> t.v2));
         this.index = (i >= 0 ? i : -i - 1);
     }
 
@@ -78,7 +79,7 @@ class WindowImpl<T> implements Window<T> {
     
     @Override
     public Seq<T> window() {
-        return Seq.seq(partition.subList(lower(), upper() + 1)).map(t -> t.v1);
+        return Seq.seq(partition.list.subList(lower(), upper() + 1)).map(t -> t.v1);
     }
 
     // Utilities
@@ -91,17 +92,21 @@ class WindowImpl<T> implements Window<T> {
     
     private boolean lowerInPartition() {
         // TODO: What about under/overflows?
-        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.size());
+        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.list.size());
     }
     
     private int upper() {
         // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE ? partition.size() - 1 : (int) Math.min(partition.size() - 1, (index + upper));
+        return upper == Long.MAX_VALUE ? partition.list.size() - 1 : (int) Math.min(partition.list.size() - 1, (index + upper));
     }
     
     private boolean upperInPartition() {
         // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.size());
+        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.list.size());
+    }
+    
+    private boolean completePartition() {
+        return count() == partition.list.size();
     }
     
     // Ranking functions
@@ -114,22 +119,22 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public long rank() {
-        return seq(partition).map(t -> t.v1).collect(Agg.rank(value.v1, order)).get();
+        return seq(partition.list).map(t -> t.v1).collect(Agg.rank(value.v1, order)).get();
     }
 
     @Override
     public long denseRank() {
-        return seq(partition).map(t -> t.v1).collect(Agg.denseRank(value.v1, order)).get();
+        return seq(partition.list).map(t -> t.v1).collect(Agg.denseRank(value.v1, order)).get();
     }
 
     @Override
     public double percentRank() {
-        return ((double) rank()) / ((double) (partition.size() - 1));
+        return ((double) rank()) / ((double) (partition.list.size() - 1));
     }
 
     @Override
     public long ntile(long bucket) {
-        return (bucket * rowNumber() / partition.size());
+        return (bucket * rowNumber() / partition.list.size());
     }
 
     @Override
@@ -155,8 +160,8 @@ class WindowImpl<T> implements Window<T> {
     private Optional<T> lead0(long lead) {
         if (lead == 0)
             return Optional.of(value.v1);
-        else if (index + lead >= 0 && index + lead < partition.size())
-            return Optional.of(partition.get(index + (int) lead).v1);
+        else if (index + lead >= 0 && index + lead < partition.list.size())
+            return Optional.of(partition.list.get(index + (int) lead).v1);
         else
             return Optional.empty();
     }
@@ -169,9 +174,9 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public <U> Optional<U> firstValue(Function<? super T, ? extends U> function) {
         return lowerInPartition()
-             ? Optional.of(function.apply(partition.get(lower()).v1))
+             ? Optional.of(function.apply(partition.list.get(lower()).v1))
              : upperInPartition()
-             ? Optional.of(function.apply(partition.get(0).v1))
+             ? Optional.of(function.apply(partition.list.get(0).v1))
              : Optional.empty();
     }
 
@@ -183,9 +188,9 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public <U> Optional<U> lastValue(Function<? super T, ? extends U> function) {
         return upperInPartition()
-             ? Optional.of(function.apply(partition.get(upper()).v1))
+             ? Optional.of(function.apply(partition.list.get(upper()).v1))
              : lowerInPartition()
-             ? Optional.of(function.apply(partition.get(partition.size() - 1).v1))
+             ? Optional.of(function.apply(partition.list.get(partition.list.size() - 1).v1))
              : Optional.empty();
     }
 
@@ -197,7 +202,7 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function) {
         return lower() + n <= upper()
-             ? Optional.of(function.apply(partition.get(lower() + (int) n).v1))
+             ? Optional.of(function.apply(partition.list.get(lower() + (int) n).v1))
              : Optional.empty();
     }
     
@@ -211,231 +216,231 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public long countDistinct() {
-        return window().countDistinct();
+        return partition.cacheIf(completePartition(), "countDistinct", () -> window().countDistinct());
     }
 
     @Override
     public <U> long countDistinctBy(Function<? super T, ? extends U> function) {
-        return window().countDistinctBy(function);
+        return partition.cacheIf(completePartition(), () -> tuple("countDistinctBy", function), () -> window().countDistinctBy(function));
     }
 
     @Override
     public Optional<T> sum() {
-        return window().sum();
+        return partition.cacheIf(completePartition(), "sum", () -> window().sum());
     }
 
     @Override
     public <U> Optional<U> sum(Function<? super T, ? extends U> function) {
-        return window().sum(function);
+        return partition.cacheIf(completePartition(), () -> tuple("sum", function), () -> window().sum(function));
     }
 
     @Override
     public int sumInt(ToIntFunction<? super T> function) {
-        return window().sumInt(function);
+        return partition.cacheIf(completePartition(), () -> tuple("sumInt", function), () -> window().sumInt(function));
     }
 
     @Override
     public long sumLong(ToLongFunction<? super T> function) {
-        return window().sumLong(function);
+        return partition.cacheIf(completePartition(), () -> tuple("sumLong", function), () -> window().sumLong(function));
     }
 
     @Override
     public double sumDouble(ToDoubleFunction<? super T> function) {
-        return window().sumDouble(function);
+        return partition.cacheIf(completePartition(), () -> tuple("sumDouble", function), () -> window().sumDouble(function));
     }
 
     @Override
     public Optional<T> avg() {
-        return window().avg();
+        return partition.cacheIf(completePartition(), "avg", () -> window().avg());
     }
 
     @Override
     public <U> Optional<U> avg(Function<? super T, ? extends U> function) {
-        return window().avg(function);
+        return partition.cacheIf(completePartition(), () -> tuple("avg", function), () -> window().avg(function));
     }
 
     @Override
     public double avgInt(ToIntFunction<? super T> function) {
-        return window().avgInt(function);
+        return partition.cacheIf(completePartition(), () -> tuple("avgInt", function), () -> window().avgInt(function));
     }
 
     @Override
     public double avgLong(ToLongFunction<? super T> function) {
-        return window().avgLong(function);
+        return partition.cacheIf(completePartition(), () -> tuple("avgLong", function), () -> window().avgLong(function));
     }
 
     @Override
     public double avgDouble(ToDoubleFunction<? super T> function) {
-        return window().avgDouble(function);
+        return partition.cacheIf(completePartition(), () -> tuple("avgDouble", function), () -> window().avgDouble(function));
     }
 
     @Override
     public Optional<T> min() {
-        return window().min((Comparator) naturalOrder());
+        return partition.cacheIf(completePartition(), "min", () -> window().min((Comparator) naturalOrder()));
     }
 
     @Override
     public Optional<T> min(Comparator<? super T> comparator) {
-        return window().min(comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("min", comparator), () -> window().min(comparator));
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<U> min(Function<? super T, ? extends U> function) {
-        return window().min(function);
+        return partition.cacheIf(completePartition(), () -> tuple("min", function), () -> window().min(function));
     }
 
     @Override
     public <U> Optional<U> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return window().min(function, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("min", function, comparator), () -> window().min(function, comparator));
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<T> minBy(Function<? super T, ? extends U> function) {
-        return window().minBy(function);
+        return partition.cacheIf(completePartition(), () -> tuple("minBy", function), () -> window().minBy(function));
     }
 
     @Override
     public <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return window().minBy(function, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("minBy", function, comparator), () -> window().minBy(function, comparator));
     }
 
     @Override
     public Optional<T> max() {
-        return window().max((Comparator) naturalOrder());
+        return partition.cacheIf(completePartition(), "max", () -> window().max((Comparator) naturalOrder()));
     }
 
     @Override
     public Optional<T> max(Comparator<? super T> comparator) {
-        return window().max(comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("max", comparator), () -> window().max(comparator));
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<U> max(Function<? super T, ? extends U> function) {
-        return window().max(function);
+        return partition.cacheIf(completePartition(), () -> tuple("max", function), () -> window().max(function));
     }
 
     @Override
     public <U> Optional<U> max(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return window().max(function, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("max", function, comparator), () -> window().max(function, comparator));
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<T> maxBy(Function<? super T, ? extends U> function) {
-        return window().maxBy(function);
+        return partition.cacheIf(completePartition(), () -> tuple("maxBy", function), () -> window().maxBy(function));
     }
 
     @Override
     public <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return window().maxBy(function, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("maxBy", function, comparator), () -> window().maxBy(function, comparator));
     }
 
     @Override
     public Optional<T> median() {
-        return window().median((Comparator) naturalOrder());
+        return partition.cacheIf(completePartition(), "median", () -> window().median((Comparator) naturalOrder()));
     }
 
     @Override
     public Optional<T> median(Comparator<? super T> comparator) {
-        return window().median(comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("median", comparator), () -> window().median(comparator));
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<T> medianBy(Function<? super T, ? extends U> function) {
-        return window().medianBy(function);
+        return partition.cacheIf(completePartition(), () -> tuple("medianBy", function), () -> window().medianBy(function));
     }
 
     @Override
     public <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return window().medianBy(function, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("medianBy", function, comparator), () -> window().medianBy(function, comparator));
     }
 
     @Override
     public Optional<T> percentile(double percentile) {
-        return window().percentile(percentile, (Comparator) naturalOrder());
+        return partition.cacheIf(completePartition(), () -> tuple("percentile", percentile), () -> window().percentile(percentile, (Comparator) naturalOrder()));
     }
 
     @Override
     public Optional<T> percentile(double percentile, Comparator<? super T> comparator) {
-        return window().percentile(percentile, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("percentile", percentile, comparator), () -> window().percentile(percentile, comparator));
     }
 
     @Override
     public <U extends Comparable<? super U>> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function) {
-        return window().percentileBy(percentile, function);
+        return partition.cacheIf(completePartition(), () -> tuple("percentileBy", percentile, function), () -> window().percentileBy(percentile, function));
     }
 
     @Override
     public <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return window().percentileBy(percentile, function, comparator);
+        return partition.cacheIf(completePartition(), () -> tuple("percentileBy", percentile, function, comparator), () -> window().percentileBy(percentile, function, comparator));
     }
 
     @Override
     public Optional<T> mode() {
-        return window().mode();
+        return partition.cacheIf(completePartition(), "mode", () -> window().mode());
     }
 
     @Override
     public boolean allMatch(Predicate<? super T> predicate) {
-        return window().allMatch(predicate);
+        return partition.cacheIf(completePartition(), () -> tuple("allMatch", predicate), () -> window().allMatch(predicate));
     }
 
     @Override
     public boolean anyMatch(Predicate<? super T> predicate) {
-        return window().anyMatch(predicate);
+        return partition.cacheIf(completePartition(), () -> tuple("anyMatch", predicate), () -> window().anyMatch(predicate));
     }
 
     @Override
     public boolean noneMatch(Predicate<? super T> predicate) {
-        return window().noneMatch(predicate);
+        return partition.cacheIf(completePartition(), () -> tuple("noneMatch", predicate), () -> window().noneMatch(predicate));
     }
 
     @Override
     public <R, A> R collect(Collector<? super T, A, R> collector) {
-        return window().collect(collector);
+        return partition.cacheIf(completePartition(), () -> tuple("collect", collector), () -> window().collect(collector));
     }
 
     @Override
     public List<T> toList() {
-        return window().toList();
+        return partition.cacheIf(completePartition(), "toList", () -> window().toList());
     }
     
     @Override
     public <L extends List<T>> L toList(Supplier<L> factory) {
-        return window().toList(factory);
+        return partition.cacheIf(completePartition(), () -> tuple("toList", factory), () -> window().toList(factory));
     }
 
     @Override
     public Set<T> toSet() {
-        return window().toSet();
+        return partition.cacheIf(completePartition(), "toSet", () -> window().toSet());
     }
 
     @Override
     public <S extends Set<T>> S toSet(Supplier<S> factory) {
-        return window().toSet(factory);
+        return partition.cacheIf(completePartition(), () -> tuple("toSet", factory), () -> window().toSet(factory));
     }
 
     @Override
     public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
-        return window().toCollection(factory);
+        return partition.cacheIf(completePartition(), () -> tuple("toCollection", factory), () -> window().toCollection(factory));
     }
     
     @Override
     public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
-        return window().toMap(keyMapper, valueMapper);
+        return partition.cacheIf(completePartition(), () -> tuple("toMap", keyMapper, valueMapper), () -> window().toMap(keyMapper, valueMapper));
     }
 
     @Override
     public String toString() {
-        return Seq.toString(window());
+        return partition.cacheIf(completePartition(), "toString", () -> window().toString());
     }
     
     @Override
     public String toString(CharSequence delimiter) {
-        return Seq.toString(window(), delimiter);
+        return partition.cacheIf(completePartition(), () -> tuple("toString", delimiter), () -> Seq.toString(window(), delimiter));
     }
 
     @Override
     public String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
-        return window().map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix));
+        return partition.cacheIf(completePartition(), () -> tuple("toString", delimiter, prefix, suffix), () -> window().map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix)));
     }
 }
