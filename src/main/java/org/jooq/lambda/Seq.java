@@ -651,7 +651,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Get a single element from the stream at a given index
+     * Get a single element from the stream at a given index.
      */
     default Optional<T> get(long index) {
         if (index < 0L)
@@ -660,6 +660,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             return findFirst();
         else
             return skip(index).findFirst();
+    }
+    
+    /**
+     * Get a single element from the stream given a predicate.
+     */
+    default Optional<T> findFirst(Predicate<? super T> predicate) {
+        return filter(predicate).findFirst();
     }
 
     /**

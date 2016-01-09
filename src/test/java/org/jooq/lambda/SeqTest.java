@@ -1483,6 +1483,15 @@ public class SeqTest {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).get(2));
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(3));
     }
+    
+    @Test
+    public void testFindFirst() {
+        assertEquals(Optional.empty(), Seq.of(1, 2, 3).findFirst(t -> false));
+        assertEquals(Optional.empty(), Seq.of(1, 2, 3).findFirst(t -> t > 3));
+        assertEquals(Optional.of(3), Seq.of(1, 2, 3).findFirst(t -> t > 2));
+        assertEquals(Optional.of(2), Seq.of(1, 2, 3).findFirst(t -> t > 1));
+        assertEquals(Optional.of(1), Seq.of(1, 2, 3).findFirst(t -> t > 0));
+    }
 
     @Test
     public void testCount() {
