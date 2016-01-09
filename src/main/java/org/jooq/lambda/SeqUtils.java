@@ -17,7 +17,6 @@ package org.jooq.lambda;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Spliterator;
@@ -27,6 +26,7 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 import org.jooq.lambda.tuple.Tuple2;
 
+import static java.util.Comparator.comparing;
 import static org.jooq.lambda.Seq.seq;
 
 /**
@@ -83,7 +83,7 @@ class SeqUtils {
             window.partition().compose(t -> t.v1), 
             Collector.<Tuple2<T, Long>, Collection<Tuple2<T, Long>>, List<Tuple2<T, Long>>>of(
                 () -> window.order().isPresent()
-                    ? new TreeSet<>(Comparator.<Tuple2<T, Long>, T>comparing(t -> t.v1, window.order().get()).thenComparing(t -> t.v2))
+                    ? new TreeSet<>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
                     : new ArrayList<>(),
                 (s, t) -> s.add(t),
                 (s1, s2) -> { s1.addAll(s2); return s1; },

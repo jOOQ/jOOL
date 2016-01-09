@@ -18,6 +18,8 @@ package org.jooq.lambda;
 import java.util.Collection;
 
 import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.comparing;
+import static java.util.Collections.binarySearch;
 import static org.jooq.lambda.Seq.seq;
 
 import java.util.Comparator;
@@ -55,12 +57,15 @@ class WindowImpl<T> implements Window<T> {
         WindowSpecification<T> specification
     ) {
         this.value = value;
-        // TODO: Speed this up by using binary search
-        this.index = partition.indexOf(value);
         this.partition = partition;
         this.order = specification.order().orElse((Comparator<? super T>) naturalOrder());
         this.lower = specification.lower();
         this.upper = specification.upper();
+        
+        int i = specification.order().isPresent()
+              ? binarySearch(partition, value, comparing((Tuple2<T, Long> t) -> t.v1, specification.order().get()).thenComparing(t -> t.v2))
+              : binarySearch(partition, value, comparing(t -> t.v2));
+        this.index = (i >= 0 ? i : -i - 1);
     }
 
     // Accessor methods
