@@ -47,6 +47,7 @@ import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.jooq.lambda.exception.TooManyElementsException;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
@@ -1482,6 +1483,14 @@ public class SeqTest {
         assertEquals(Optional.of(2), Seq.of(1, 2, 3).get(1));
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).get(2));
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).get(3));
+    }
+    
+    @Test
+    public void testFindSingle() {
+        assertEquals(Optional.empty(), Seq.of().findSingle());
+        assertEquals(Optional.empty(), Seq.of(1, 2, 3).filter(i -> i > 5).findSingle());
+        assertEquals(Optional.of(1), Seq.of(1).findSingle());
+        assertThrows(TooManyElementsException.class, () -> Seq.of(1, 2).findSingle());
     }
     
     @Test

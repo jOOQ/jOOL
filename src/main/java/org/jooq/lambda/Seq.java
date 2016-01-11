@@ -67,6 +67,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.annotation.Generated;
+import org.jooq.lambda.exception.TooManyElementsException;
 
 import org.jooq.lambda.function.Function10;
 import org.jooq.lambda.function.Function11;
@@ -660,6 +661,23 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             return findFirst();
         else
             return skip(index).findFirst();
+    }
+    
+    /**
+     * Get the single element from the stream, or throw an exception if the
+     * stream holds more than one element.
+     */
+    default Optional<T> findSingle() throws TooManyElementsException {
+        Iterator<T> it = iterator();
+
+        if (!it.hasNext())
+            return Optional.empty();
+
+        T result = it.next();
+        if (!it.hasNext())
+            return Optional.of(result);
+            
+        throw new TooManyElementsException("Stream contained more than one element.");
     }
     
     /**
