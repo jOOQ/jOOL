@@ -215,13 +215,28 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public long count(Predicate<? super T> predicate) {
+        return partition.cacheIf(completePartition(), tuple("count", predicate), () -> window().count(predicate));
+    }
+
+    @Override
     public long countDistinct() {
         return partition.cacheIf(completePartition(), "countDistinct", () -> window().countDistinct());
     }
 
     @Override
+    public long countDistinct(Predicate<? super T> predicate) {
+        return partition.cacheIf(completePartition(), tuple("countDistinct", predicate), () -> window().countDistinct(predicate));
+    }
+
+    @Override
     public <U> long countDistinctBy(Function<? super T, ? extends U> function) {
         return partition.cacheIf(completePartition(), () -> tuple("countDistinctBy", function), () -> window().countDistinctBy(function));
+    }
+
+    @Override
+    public <U> long countDistinctBy(Function<? super T, ? extends U> function, Predicate<? super U> predicate) {
+        return partition.cacheIf(completePartition(), tuple("countDistinctBy", function, predicate), () -> window().countDistinctBy(function, predicate));
     }
 
     @Override

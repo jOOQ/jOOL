@@ -342,6 +342,12 @@ public interface Collectable<T> {
      * Count the values in this collectable.
      */
     long count();
+    
+    /**
+     * Count the values in this collectable, for which a predicate evaluates to
+     * true.
+     */
+    long count(Predicate<? super T> predicate);
 
     /**
      * Count the distinct values in this collectable.
@@ -349,9 +355,21 @@ public interface Collectable<T> {
     long countDistinct();
 
     /**
+     * Count the distinct values in this collectable, for which a predicate
+     * evaluates to true.
+     */
+    long countDistinct(Predicate<? super T> predicate);
+
+    /**
      * Count the distinct values of a given expression in this collectable.
      */
     <U> long countDistinctBy(Function<? super T, ? extends U> function);
+
+    /**
+     * Count the distinct values of a given expression in this collectable, for
+     * which a predicate evaluates to true.
+     */
+    <U> long countDistinctBy(Function<? super T, ? extends U> function, Predicate<? super U> predicate);
 
     /**
      * Get the mode, i.e. the value that appears most often in the collectable.

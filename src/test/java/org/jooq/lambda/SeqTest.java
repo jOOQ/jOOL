@@ -45,6 +45,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.jooq.lambda.exception.TooManyElementsException;
@@ -1540,6 +1541,32 @@ public class SeqTest {
         assertEquals(4L, Seq.of(1, 2, 2, 4).count());
         assertEquals(3L, Seq.of(1, 2, 2, 4).countDistinct());
         assertEquals(2L, Seq.of(1, 2, 2, 4).countDistinctBy(l -> l % 3L));
+    }
+    
+    @Test
+    public void testCountWithPredicate() {
+        Predicate<Integer> pi = i -> i % 2 == 0;
+        Predicate<Long> pl = l -> l % 2 == 0;
+        
+        assertEquals(0L, Seq.<Integer>of().count(pi));
+        assertEquals(0L, Seq.<Integer>of().countDistinct(pi));
+        assertEquals(0L, Seq.<Integer>of().countDistinctBy(l -> l % 3, pi));
+
+        assertEquals(0L, Seq.of(1).count(pi));
+        assertEquals(0L, Seq.of(1).countDistinct(pi));
+        assertEquals(0L, Seq.of(1).countDistinctBy(l -> l % 3L, pl));
+
+        assertEquals(1L, Seq.of(1, 2).count(pi));
+        assertEquals(1L, Seq.of(1, 2).countDistinct(pi));
+        assertEquals(1L, Seq.of(1, 2).countDistinctBy(l -> l % 3L, pl));
+
+        assertEquals(2L, Seq.of(1, 2, 2).count(pi));
+        assertEquals(1L, Seq.of(1, 2, 2).countDistinct(pi));
+        assertEquals(1L, Seq.of(1, 2, 2).countDistinctBy(l -> l % 3L, pl));
+
+        assertEquals(3L, Seq.of(1, 2, 2, 4).count(pi));
+        assertEquals(2L, Seq.of(1, 2, 2, 4).countDistinct(pi));
+        assertEquals(1L, Seq.of(1, 2, 2, 4).countDistinctBy(l -> l % 3L, pl));
     }
     
     @Test

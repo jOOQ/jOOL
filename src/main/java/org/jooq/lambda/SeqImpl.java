@@ -193,13 +193,28 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public long count(Predicate<? super T> predicate) {
+        return filter(predicate).count();
+    }
+
+    @Override
     public long countDistinct() {
         return collect(Agg.countDistinct());
     }
 
     @Override
+    public long countDistinct(Predicate<? super T> predicate) {
+        return filter(predicate).countDistinct();
+    }
+
+    @Override
     public <U> long countDistinctBy(Function<? super T, ? extends U> function) {
         return collect(Agg.countDistinctBy(function));
+    }
+
+    @Override
+    public <U> long countDistinctBy(Function<? super T, ? extends U> function, Predicate<? super U> predicate) {
+        return map(function).filter(predicate).countDistinct();
     }
 
     @Override
