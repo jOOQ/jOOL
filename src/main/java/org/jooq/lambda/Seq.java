@@ -1323,6 +1323,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
     
     /**
+     * Map this stream to a stream containing a sliding window over the previous stream.
+     * <p>
+     * <code><pre>
+     * // ((1, 2, 3), (2, 3, 4), (3, 4, 5))
+     * .of(1, 2, 3, 4, 5).sliding(3);
+     * </pre></code>
+     * <p>
+     * This is equivalent as using the more verbose window function version:
+     * <code><pre>
+     * int n = 3;
+     * Seq.of(1, 2, 3, 4, 5)
+     *    .window(0, n - 1)
+     *    .filter(w -> w.count() == n)
+     *    .map(w -> w.toList());
+     * </pre></code>
+     */
+    default Seq<Seq<T>> sliding(long size) {
+        if (size <= 0)
+            throw new IllegalArgumentException("Size must be >= 1");
+        
+        return window(0, size - 1).filter(w -> w.count() == size).map(w -> w.window());
+    }
+    
+    /**
      * Map this stream to a windowed stream using the default partition and order.
      * <p>
      * <code><pre>

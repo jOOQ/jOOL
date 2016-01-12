@@ -1597,6 +1597,56 @@ public class SeqTest {
     }
     
     @Test
+    public void testSliding() {
+        assertEquals(asList(), Seq.of().sliding(1).toList());
+        assertEquals(asList(), Seq.of().sliding(2).toList());
+        assertEquals(asList(), Seq.of().sliding(3).toList());
+        assertEquals(asList(), Seq.of().sliding(4).toList());
+        
+        List<Seq<Integer>> s;
+        
+        // (1)
+        s = Seq.of(1).sliding(1).toList();
+        assertEquals(1, s.size());
+        assertEquals(asList(1), s.get(0).toList());
+        
+        assertEquals(asList(), Seq.of(1).sliding(2).toList());
+        assertEquals(asList(), Seq.of(1).sliding(3).toList());
+        assertEquals(asList(), Seq.of(1).sliding(4).toList());
+        
+        // (1, 2)
+        s = Seq.of(1, 2).sliding(1).toList();
+        assertEquals(2, s.size());
+        assertEquals(asList(1), s.get(0).toList());
+        assertEquals(asList(2), s.get(1).toList());
+        
+        s = Seq.of(1, 2).sliding(2).toList();
+        assertEquals(1, s.size());
+        assertEquals(asList(1, 2), s.get(0).toList());
+        
+        assertEquals(asList(), Seq.of(1, 2).sliding(3).toList());
+        assertEquals(asList(), Seq.of(1, 2).sliding(4).toList());
+        
+        // (1, 2, 3)
+        s = Seq.of(1, 2, 3).sliding(1).toList();
+        assertEquals(3, s.size());
+        assertEquals(asList(1), s.get(0).toList());
+        assertEquals(asList(2), s.get(1).toList());
+        assertEquals(asList(3), s.get(2).toList());
+        
+        s = Seq.of(1, 2, 3).sliding(2).toList();
+        assertEquals(2, s.size());
+        assertEquals(asList(1, 2), s.get(0).toList());
+        assertEquals(asList(2, 3), s.get(1).toList());
+        
+        s = Seq.of(1, 2, 3).sliding(3).toList();
+        assertEquals(1, s.size());
+        assertEquals(asList(1, 2, 3), s.get(0).toList());
+        
+        assertEquals(asList(), Seq.of(1, 2, 3).sliding(4).toList());
+    }
+    
+    @Test
     public void testWindowSpecifications() {
         assertEquals(
             asList(
