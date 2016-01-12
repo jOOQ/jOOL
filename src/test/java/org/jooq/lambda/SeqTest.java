@@ -1141,6 +1141,23 @@ public class SeqTest {
         assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle().limit(6).toList());
         assertEquals(asList(1, 2, 3, 1, 2, 3), Seq.of(1, 2, 3).cycle().limit(6).toList());
     }
+    
+    @Test
+    public void testCycleTimes() {
+        assertEquals(asList(), Seq.empty().cycle(0).toList());
+        assertEquals(asList(), Seq.empty().cycle(1).toList());
+        assertEquals(asList(), Seq.empty().cycle(2).toList());
+        
+        assertEquals(asList(), Seq.of(1).cycle(0).toList());
+        assertEquals(asList(1), Seq.of(1).cycle(1).toList());
+        assertEquals(asList(1, 1), Seq.of(1).cycle(2).toList());
+        assertEquals(asList(1, 1, 1), Seq.of(1).cycle(3).toList());
+
+        assertEquals(asList(), Seq.of(1, 2).cycle(0).toList());
+        assertEquals(asList(1, 2), Seq.of(1, 2).cycle(1).toList());
+        assertEquals(asList(1, 2, 1, 2), Seq.of(1, 2).cycle(2).toList());
+        assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle(3).toList());
+    }
 
     @Test
     public void testDistinct() {

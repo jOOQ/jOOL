@@ -811,6 +811,26 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default Seq<T> cycle() {
         return cycle(this);
     }
+    
+    /**
+     * Repeat a stream a certain amount of times.
+     * <p>
+     * <code><pre>
+     * // ()
+     * Seq.of(1, 2, 3).cycle(0);
+     * 
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(1);
+     * 
+     * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(3);
+     * </pre></code>
+     *
+     * @see #cycle(Stream, long)
+     */
+    default Seq<T> cycle(long times) {
+        return cycle(this, times);
+    }
 
     /**
      * Get a stream of distinct keys.
@@ -2562,8 +2582,74 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> cycle(Seq<T> stream) {
+        return cycle(stream, -1);
+    }
+
+    /**
+     * Repeat a stream a certain amount of times.
+     * <p>
+     * <code><pre>
+     * // ()
+     * Seq.of(1, 2, 3).cycle(0);
+     * 
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(1);
+     * 
+     * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(3);
+     * </pre></code>
+     *
+     * @see #cycle(Stream)
+     */
+    static <T> Seq<T> cycle(Stream<T> stream, long times) {
+        return cycle(seq(stream), times);
+    }
+
+    /**
+     * Repeat a stream a certain amount of times.
+     * <p>
+     * <code><pre>
+     * // ()
+     * Seq.of(1, 2, 3).cycle(0);
+     * 
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(1);
+     * 
+     * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(3);
+     * </pre></code>
+     *
+     * @see #cycle(Stream)
+     */
+    static <T> Seq<T> cycle(Iterable<T> iterable, long times) {
+        return cycle(seq(iterable), times);
+    }
+
+    /**
+     * Repeat a stream a certain amount of times.
+     * <p>
+     * <code><pre>
+     * // ()
+     * Seq.of(1, 2, 3).cycle(0);
+     * 
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(1);
+     * 
+     * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
+     * Seq.of(1, 2, 3).cycle(3);
+     * </pre></code>
+     *
+     * @see #cycle(Stream)
+     */
+    static <T> Seq<T> cycle(Seq<T> stream, long times) {
+        if (times == 0)
+            return empty();
+        if (times == 1)
+            return stream;
+        
         List<T> list = new ArrayList<>();
         Spliterator<T>[] sp = new Spliterator[1];
+        long[] remaining = new long[] { times };
 
         return transform(stream, (delegate, action) -> {
             if (sp[0] == null) {
@@ -2577,6 +2663,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             }
 
             if (!sp[0].tryAdvance(action)) {
+                if (times != -1 && (remaining[0] = remaining[0] - 1) == 1)
+                    return false;
+                
                 sp[0] = list.spliterator();
 
                 if (!sp[0].tryAdvance(action))
