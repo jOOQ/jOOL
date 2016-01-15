@@ -167,23 +167,6 @@ Arrays.stream(dir.listFiles()).forEach(
 );
 ```
 
-org.jooq.lambda.SQL
--------------------
-JDBC should be as simple as this in Java 8:
-
-```java
-SQL.stream(stmt, Unchecked.function(r ->
-    new SQLGoodies.Schema(
-        r.getString("FIELD_1"),
-        r.getBoolean("FIELD_2")
-    )
-))
-.forEach(System.out::println);
-```
-
-(where SQLGoodies.Schema is just an ordinary POJO).
-
-
 Maven
 -----
 ```
@@ -193,7 +176,3 @@ Maven
 	<version>0.9.9</version>
 </dependency>
 ```
-
-For more details and other options to write SQL in Java 8, visit this website here:
-
-http://www.jooq.org/java-8-and-sql
