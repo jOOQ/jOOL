@@ -1621,6 +1621,11 @@ public class SeqTest {
             tuple(4L, Optional.of(1), Optional.of(-4), Optional.of(4), Optional.of(-1)),
             Seq.of(1, 2, 3, 4).collect(count(), min(), min(i -> -i), max(), max(i -> -i))
         );
+        
+        assertEquals(
+            asList("a", "b", "c"),
+            Seq.of("a", "b", "c").collect(Collectors.toList())
+        );
     }
     
     @Test
