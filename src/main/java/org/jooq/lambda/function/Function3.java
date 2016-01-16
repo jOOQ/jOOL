@@ -33,7 +33,7 @@ public interface Function3<T1, T2, T3, R> {
      *
      * @param args The arguments as a tuple.
      */
-    default R apply(Tuple3<T1, T2, T3> args) {
+    default R apply(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return apply(args.v1, args.v2, args.v3);
     }
 
@@ -66,21 +66,21 @@ public interface Function3<T1, T2, T3, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T2, T3, R> curry(Tuple1<T1> args) {
+    default Function2<T2, T3, R> curry(Tuple1<? extends T1> args) {
         return (v2, v3) -> apply(args.v1, v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T3, R> curry(Tuple2<T1, T2> args) {
+    default Function1<T3, R> curry(Tuple2<? extends T1, ? extends T2> args) {
         return (v3) -> apply(args.v1, args.v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(Tuple3<T1, T2, T3> args) {
+    default Function0<R> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return () -> apply(args.v1, args.v2, args.v3);
     }
 }

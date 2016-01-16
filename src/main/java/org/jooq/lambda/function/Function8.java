@@ -38,7 +38,7 @@ public interface Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> {
      *
      * @param args The arguments as a tuple.
      */
-    default R apply(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> args) {
+    default R apply(Tuple8<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8> args) {
         return apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8);
     }
 
@@ -106,56 +106,56 @@ public interface Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function7<T2, T3, T4, T5, T6, T7, T8, R> curry(Tuple1<T1> args) {
+    default Function7<T2, T3, T4, T5, T6, T7, T8, R> curry(Tuple1<? extends T1> args) {
         return (v2, v3, v4, v5, v6, v7, v8) -> apply(args.v1, v2, v3, v4, v5, v6, v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function6<T3, T4, T5, T6, T7, T8, R> curry(Tuple2<T1, T2> args) {
+    default Function6<T3, T4, T5, T6, T7, T8, R> curry(Tuple2<? extends T1, ? extends T2> args) {
         return (v3, v4, v5, v6, v7, v8) -> apply(args.v1, args.v2, v3, v4, v5, v6, v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function5<T4, T5, T6, T7, T8, R> curry(Tuple3<T1, T2, T3> args) {
+    default Function5<T4, T5, T6, T7, T8, R> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return (v4, v5, v6, v7, v8) -> apply(args.v1, args.v2, args.v3, v4, v5, v6, v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function4<T5, T6, T7, T8, R> curry(Tuple4<T1, T2, T3, T4> args) {
+    default Function4<T5, T6, T7, T8, R> curry(Tuple4<? extends T1, ? extends T2, ? extends T3, ? extends T4> args) {
         return (v5, v6, v7, v8) -> apply(args.v1, args.v2, args.v3, args.v4, v5, v6, v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function3<T6, T7, T8, R> curry(Tuple5<T1, T2, T3, T4, T5> args) {
+    default Function3<T6, T7, T8, R> curry(Tuple5<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5> args) {
         return (v6, v7, v8) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, v6, v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T7, T8, R> curry(Tuple6<T1, T2, T3, T4, T5, T6> args) {
+    default Function2<T7, T8, R> curry(Tuple6<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6> args) {
         return (v7, v8) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T8, R> curry(Tuple7<T1, T2, T3, T4, T5, T6, T7> args) {
+    default Function1<T8, R> curry(Tuple7<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7> args) {
         return (v8) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, v8);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> args) {
+    default Function0<R> curry(Tuple8<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8> args) {
         return () -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8);
     }
 }

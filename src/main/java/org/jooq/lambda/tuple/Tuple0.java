@@ -180,7 +180,7 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function0<R> function) {
+    public final <R> R map(Function0<? extends R> function) {
         return function.apply(this);
     }
 

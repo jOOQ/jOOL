@@ -309,7 +309,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function6<T1, T2, T3, T4, T5, T6, R> function) {
+    public final <R> R map(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> function) {
         return function.apply(this);
     }
 

@@ -267,7 +267,7 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function4<T1, T2, T3, T4, R> function) {
+    public final <R> R map(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> function) {
         return function.apply(this);
     }
 

@@ -203,7 +203,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function1<T1, R> function) {
+    public final <R> R map(Function1<? super T1, ? extends R> function) {
         return function.apply(this);
     }
 

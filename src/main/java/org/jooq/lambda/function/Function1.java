@@ -32,7 +32,7 @@ public interface Function1<T1, R> extends Function<T1, R> {
      *
      * @param args The arguments as a tuple.
      */
-    default R apply(Tuple1<T1> args) {
+    default R apply(Tuple1<? extends T1> args) {
         return apply(args.v1);
     }
 
@@ -52,7 +52,7 @@ public interface Function1<T1, R> extends Function<T1, R> {
     /**
      * Convert to this function from a {@link java.util.function.Function}
      */
-    static <T1, R> Function1<T1, R> from(Function<T1, R> function) {
+    static <T1, R> Function1<T1, R> from(Function<? super T1, ? extends R> function) {
         return function::apply;
     }
 
@@ -66,7 +66,7 @@ public interface Function1<T1, R> extends Function<T1, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(Tuple1<T1> args) {
+    default Function0<R> curry(Tuple1<? extends T1> args) {
         return () -> apply(args.v1);
     }
 }

@@ -33,7 +33,7 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
      *
      * @param args The arguments as a tuple.
      */
-    default R apply(Tuple2<T1, T2> args) {
+    default R apply(Tuple2<? extends T1, ? extends T2> args) {
         return apply(args.v1, args.v2);
     }
 
@@ -53,7 +53,7 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
     /**
      * Convert to this function to a {@link java.util.function.BiFunction}
      */
-    static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<T1, T2, R> function) {
+    static <T1, T2, R> Function2<T1, T2, R> from(BiFunction<? super T1, ? super T2, ? extends R> function) {
         return function::apply;
     }
 
@@ -74,14 +74,14 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T2, R> curry(Tuple1<T1> args) {
+    default Function1<T2, R> curry(Tuple1<? extends T1> args) {
         return (v2) -> apply(args.v1, v2);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(Tuple2<T1, T2> args) {
+    default Function0<R> curry(Tuple2<? extends T1, ? extends T2> args) {
         return () -> apply(args.v1, args.v2);
     }
 }

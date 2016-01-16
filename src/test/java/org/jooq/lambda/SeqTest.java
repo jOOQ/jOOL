@@ -1629,6 +1629,18 @@ public class SeqTest {
     }
     
     @Test
+    public void testMergeTwoSeqs() {
+        // See http://stackoverflow.com/q/16165942/521799
+        Seq<Integer> s1 = Seq.of(1, 4, 9, 16);
+        Seq<Integer> s2 = Seq.of(9, 7, 4, 9, 11);
+        
+        assertEquals(
+            asList(1, 9, 4, 7, 9, 4, 16, 9),
+            Seq.zip(s1, s2).flatMap(t -> Seq.of(t.v1, t.v2)).toList()
+        );
+    }
+    
+    @Test
     public void testSliding() {
         assertEquals(asList(), Seq.of().sliding(1).toList());
         assertEquals(asList(), Seq.of().sliding(2).toList());
