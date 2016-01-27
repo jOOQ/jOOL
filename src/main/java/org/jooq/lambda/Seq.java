@@ -4388,9 +4388,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         long[] index = { -1L };
 
         return transform(stream, (delegate, action) ->
-                        delegate.tryAdvance(t ->
-                                        action.accept(tuple(t, index[0] = index[0] + 1))
-                        )
+            delegate.tryAdvance(t ->
+                action.accept(tuple(t, index[0] = index[0] + 1))
+            )
         );
     }
 
