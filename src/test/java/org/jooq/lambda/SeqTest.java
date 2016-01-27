@@ -2178,4 +2178,27 @@ public class SeqTest {
     private final <T> List<Optional<T>> optional(T... list) {
         return Seq.of(list).map(Optional::ofNullable).toList();
     }
+    
+    @Test
+    public void testSortedWithZipWithIndex() {
+        assertEquals(
+            asList(tuple("a", 0L), tuple("b", 1L), tuple("c", 2L)),
+            Seq.of("c", "a", "b").sorted().zipWithIndex().toList()
+        );
+
+        assertEquals(
+            asList(tuple("c", 0L), tuple("b", 1L), tuple("a", 2L)),
+            Seq.of("c", "a", "b").sorted(reverseOrder()).zipWithIndex().toList()
+        );
+        
+        assertEquals(
+            asList(tuple("a", 1L), tuple("b", 2L), tuple("c", 0L)),
+            Seq.of("c", "a", "b").zipWithIndex().sorted().toList()
+        );
+        
+        assertEquals(
+            asList(tuple("c", 0L), tuple("b", 2L), tuple("a", 1L)),
+            Seq.of("c", "a", "b").zipWithIndex().sorted(reverseOrder()).toList()
+        );
+    }
 }

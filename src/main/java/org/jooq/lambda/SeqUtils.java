@@ -17,6 +17,7 @@ package org.jooq.lambda;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Spliterator;
@@ -72,6 +73,17 @@ class SeqUtils {
             @Override
             public int characteristics() {
                 return delegate.characteristics();
+            }
+            
+            @Override
+            public Comparator<? super U> getComparator() {
+                
+                // This implementation works with the JDK 8, as the information
+                // is really only used in 
+                // java.util.stream.StreamOpFlag.fromCharacteristics(Spliterator<?> spliterator)
+                // Currently, the point of this method is only to be used for
+                // optimisations (e.g. to avoid sorting a stream twice in a row)
+                return (Comparator) delegate.getComparator();
             }
         });
     }
