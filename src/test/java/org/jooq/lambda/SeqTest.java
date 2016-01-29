@@ -28,6 +28,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.jooq.lambda.Agg.count;
 import static org.jooq.lambda.Agg.max;
 import static org.jooq.lambda.Agg.min;
+import static org.jooq.lambda.Seq.seq;
 import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
@@ -44,11 +45,17 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.jooq.lambda.exception.TooManyElementsException;
+import org.jooq.lambda.function.Function4;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
@@ -2200,5 +2207,122 @@ public class SeqTest {
             asList(tuple("c", 0L), tuple("b", 2L), tuple("a", 1L)),
             Seq.of("c", "a", "b").zipWithIndex().sorted(reverseOrder()).toList()
         );
+    }
+    
+    @Test
+    public void testCloseStreamConcat() {
+        AtomicBoolean closed1 = new AtomicBoolean();
+        AtomicBoolean closed2 = new AtomicBoolean();
+            
+        Stream s1 = Stream.of(1, 2).onClose(() -> closed1.set(true));
+        Stream s2 = Stream.of(3).onClose(() -> closed2.set(true));
+        
+        try (Stream s3 = Stream.concat(s1, s2)) {
+            s3.collect(Collectors.toList());
+        }
+        
+        assertTrue(closed1.get());
+        assertTrue(closed2.get());
+    }
+    
+    @Test
+    public void testCloseOperationOnSingleSeq() {
+        Consumer<Function<Seq<Integer>, Seq<?>>> test = f -> {
+            AtomicBoolean closed1 = new AtomicBoolean();
+            
+            Seq<Integer> s1 = seq(Stream.of(1, 2).onClose(() -> closed1.set(true)));
+            
+            try (Seq<?> s2 = f.apply(s1)) {
+                s2.limit(1000).collect(Collectors.toList());
+            }
+
+            assertTrue(closed1.get());
+        };
+        
+        test.accept(s1 -> s1);
+        test.accept(s1 -> s1.onEmpty(1));
+        test.accept(s1 -> s1.remove(1));
+        test.accept(s1 -> s1.removeAll(1, 2));
+        test.accept(s1 -> s1.retainAll(1, 2));
+        test.accept(s1 -> s1.cycle());
+        test.accept(s1 -> s1.cycle(5));
+        test.accept(s1 -> s1.distinct(i -> i));
+        test.accept(s1 -> s1.zipWithIndex());
+        test.accept(s1 -> s1.scanLeft(0, (a, b) -> a + b));
+        test.accept(s1 -> s1.scanRight(0, (a, b) -> a + b));
+        test.accept(s1 -> s1.reverse());
+        test.accept(s1 -> s1.shuffle());
+        test.accept(s1 -> s1.skipWhile(a -> true));
+        test.accept(s1 -> s1.skipWhileClosed(a -> true));
+        test.accept(s1 -> s1.skipUntil(a -> true));
+        test.accept(s1 -> s1.skipUntilClosed(a -> true));
+        test.accept(s1 -> s1.limitWhile(a -> true));
+        test.accept(s1 -> s1.limitWhileClosed(a -> true));
+        test.accept(s1 -> s1.limitUntil(a -> true));
+        test.accept(s1 -> s1.limitUntilClosed(a -> true));
+        test.accept(s1 -> s1.intersperse(0));
+        test.accept(s1 -> s1.grouped(i -> i));
+        test.accept(s1 -> s1.slice(0, 1));
+        test.accept(s1 -> s1.sorted(i -> i));
+        test.accept(s1 -> s1.ofType(Number.class));
+        test.accept(s1 -> s1.cast(Number.class));
+        test.accept(s1 -> s1.sliding(1));
+        test.accept(s1 -> s1.window());
+    }
+    
+    @Test
+    public void testCloseOperationOnTwoSeqs() {
+        Consumer<BiFunction<Seq<Integer>, Seq<Integer>, Seq<?>>> test = f -> {
+            AtomicBoolean closed1 = new AtomicBoolean();
+            AtomicBoolean closed2 = new AtomicBoolean();
+            
+            Seq<Integer> s1 = seq(Stream.of(1, 2).onClose(() -> closed1.set(true)));
+            Seq<Integer> s2 = seq(Stream.of(3).onClose(() -> closed2.set(true)));
+            
+            try (Seq<?> s3 = f.apply(s1, s2)) {
+                s3.limit(1000).collect(Collectors.toList());
+            }
+
+            assertTrue(closed1.get());
+            assertTrue(closed2.get());
+        };
+        
+        test.accept((s1, s2) -> s1.concat(s2));
+        test.accept((s1, s2) -> s1.append(s2));
+        test.accept((s1, s2) -> s1.prepend(s2));
+        test.accept((s1, s2) -> s1.removeAll(s2));
+        test.accept((s1, s2) -> s1.retainAll(s2));
+        test.accept((s1, s2) -> s1.crossJoin(s2));
+        test.accept((s1, s2) -> s1.innerJoin(s2, (a, b) -> true));
+        test.accept((s1, s2) -> s1.leftOuterJoin(s2, (a, b) -> true));
+        test.accept((s1, s2) -> s1.rightOuterJoin(s2, (a, b) -> true));
+        test.accept((s1, s2) -> s1.zip(s2));
+    }
+    
+    @Test
+    public void testCloseOperationOnFourSeqs() {
+        Consumer<Function4<Seq<Integer>, Seq<Integer>, Seq<Integer>, Seq<Integer>, Seq<?>>> test = f -> {
+            AtomicBoolean closed1 = new AtomicBoolean();
+            AtomicBoolean closed2 = new AtomicBoolean();
+            AtomicBoolean closed3 = new AtomicBoolean();
+            AtomicBoolean closed4 = new AtomicBoolean();
+
+            Seq<Integer> s1 = seq(Stream.of(1, 2).onClose(() -> closed1.set(true)));
+            Seq<Integer> s2 = seq(Stream.of(3).onClose(() -> closed2.set(true)));
+            Seq<Integer> s3 = seq(Stream.of(1, 2).onClose(() -> closed3.set(true)));
+            Seq<Integer> s4 = seq(Stream.of(3).onClose(() -> closed4.set(true)));
+
+            try (Seq<?> s5 = f.apply(s1, s2, s3, s4)) {
+                s5.limit(1000).collect(Collectors.toList());
+            }
+            
+            assertTrue(closed1.get());
+            assertTrue(closed2.get());
+            assertTrue(closed3.get());
+            assertTrue(closed4.get());
+        };
+        
+        test.accept((s1, s2, s3, s4) -> Seq.crossJoin(s1, s2, s3, s4));
+        test.accept((s1, s2, s3, s4) -> Seq.zip(s1, s2, s3, s4));
     }
 }

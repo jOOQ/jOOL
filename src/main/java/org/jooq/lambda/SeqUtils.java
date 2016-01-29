@@ -85,7 +85,7 @@ class SeqUtils {
                 // optimisations (e.g. to avoid sorting a stream twice in a row)
                 return (Comparator) delegate.getComparator();
             }
-        });
+        }).onClose(() -> stream.close());
     }
     
     static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
@@ -119,5 +119,26 @@ class SeqUtils {
     @FunctionalInterface
     interface DelegatingSpliterator<T, U> {
         boolean tryAdvance(Spliterator<T> delegate, Consumer<? super U> action);
+    }
+    
+    static Runnable closeAll(AutoCloseable... closeables) {
+        return () -> {
+            Throwable t = null;
+            
+            for (AutoCloseable closeable : closeables) {
+                try {
+                    closeable.close();
+                }
+                catch (Throwable t1) {
+                    if (t == null)
+                        t = t1;
+                    else
+                        t.addSuppressed(t1);
+                }
+            }
+            
+            if (t != null)
+                sneakyThrow(t);
+        };
     }
 }

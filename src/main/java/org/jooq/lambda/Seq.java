@@ -190,8 +190,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         List<U> list = other.toList();
 
         return flatMap(t -> seq(list)
-                .filter(u -> predicate.test(t, u))
-                .map(u -> tuple(t, u)));
+              .filter(u -> predicate.test(t, u))
+              .map(u -> tuple(t, u)))
+              .onClose(other::close);
     }
 
     /**
@@ -232,9 +233,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         List<U> list = other.toList();
 
         return flatMap(t -> seq(list)
-                .filter(u -> predicate.test(t, u))
-                .onEmpty(null)
-                .map(u -> tuple(t, u)));
+              .filter(u -> predicate.test(t, u))
+              .onEmpty(null)
+              .map(u -> tuple(t, u)))
+              .onClose(other::close);
     }
 
     /**
@@ -272,7 +274,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U> Seq<Tuple2<T, U>> rightOuterJoin(Seq<U> other, BiPredicate<? super T, ? super U> predicate) {
         return other
               .leftOuterJoin(this, (u, t) -> predicate.test(t, u))
-              .map(t -> tuple(t.v2, t.v1));
+              .map(t -> tuple(t.v2, t.v1))
+              .onClose(other::close);
     }
 
     /**
@@ -746,7 +749,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default Seq<T> removeAll(Seq<T> other) {
         Set<T> set = other.toSet(HashSet::new);
-        return set.isEmpty() ? this : filter(t -> !set.contains(t));
+        return set.isEmpty() ? this : filter(t -> !set.contains(t)).onClose(other::close);
     }
 
     /**
@@ -795,7 +798,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default Seq<T> retainAll(Seq<T> other) {
         Set<T> set = other.toSet(HashSet::new);
-        return set.isEmpty() ? empty() : filter(t -> set.contains(t));
+        return set.isEmpty() ? empty() : filter(t -> set.contains(t)).onClose(other::close);
     }
 
     /**
@@ -1457,8 +1460,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1476,9 +1480,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1498,10 +1503,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1523,11 +1529,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1551,12 +1558,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1582,13 +1590,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1616,14 +1625,15 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1653,15 +1663,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1693,16 +1704,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1736,17 +1748,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1782,18 +1795,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
-                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   (Window<T>) new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1831,19 +1845,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
-                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
-                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   (Window<T>) new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   (Window<T>) new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1883,20 +1898,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
-                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
-                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
-                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   (Window<T>) new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   (Window<T>) new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   (Window<T>) new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1938,21 +1954,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
-                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
-                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
-                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
-                   new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   (Window<T>) new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   (Window<T>) new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   (Window<T>) new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
+                   (Window<T>) new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -1996,22 +2013,23 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
-                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
-                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
-                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
-                   new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14),
-                   new WindowImpl<>(t, partitions15.get(specification15.partition().apply(t.v1)), specification15)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   (Window<T>) new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   (Window<T>) new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   (Window<T>) new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
+                   (Window<T>) new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14),
+                   (Window<T>) new WindowImpl<>(t, partitions15.get(specification15.partition().apply(t.v1)), specification15)
+              ))
+              .onClose(this::close);
     }
 
     /**
@@ -2057,23 +2075,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return seq(buffer)
               .map(t -> tuple(
-                   new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
-                   new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
-                   new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
-                   new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
-                   new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
-                   new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
-                   new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
-                   new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
-                   new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
-                   new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
-                   new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
-                   new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
-                   new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
-                   new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14),
-                   new WindowImpl<>(t, partitions15.get(specification15.partition().apply(t.v1)), specification15),
-                   new WindowImpl<>(t, partitions16.get(specification16.partition().apply(t.v1)), specification16)
-              ));
+                   (Window<T>) new WindowImpl<>(t, partitions1.get(specification1.partition().apply(t.v1)), specification1),
+                   (Window<T>) new WindowImpl<>(t, partitions2.get(specification2.partition().apply(t.v1)), specification2),
+                   (Window<T>) new WindowImpl<>(t, partitions3.get(specification3.partition().apply(t.v1)), specification3),
+                   (Window<T>) new WindowImpl<>(t, partitions4.get(specification4.partition().apply(t.v1)), specification4),
+                   (Window<T>) new WindowImpl<>(t, partitions5.get(specification5.partition().apply(t.v1)), specification5),
+                   (Window<T>) new WindowImpl<>(t, partitions6.get(specification6.partition().apply(t.v1)), specification6),
+                   (Window<T>) new WindowImpl<>(t, partitions7.get(specification7.partition().apply(t.v1)), specification7),
+                   (Window<T>) new WindowImpl<>(t, partitions8.get(specification8.partition().apply(t.v1)), specification8),
+                   (Window<T>) new WindowImpl<>(t, partitions9.get(specification9.partition().apply(t.v1)), specification9),
+                   (Window<T>) new WindowImpl<>(t, partitions10.get(specification10.partition().apply(t.v1)), specification10),
+                   (Window<T>) new WindowImpl<>(t, partitions11.get(specification11.partition().apply(t.v1)), specification11),
+                   (Window<T>) new WindowImpl<>(t, partitions12.get(specification12.partition().apply(t.v1)), specification12),
+                   (Window<T>) new WindowImpl<>(t, partitions13.get(specification13.partition().apply(t.v1)), specification13),
+                   (Window<T>) new WindowImpl<>(t, partitions14.get(specification14.partition().apply(t.v1)), specification14),
+                   (Window<T>) new WindowImpl<>(t, partitions15.get(specification15.partition().apply(t.v1)), specification15),
+                   (Window<T>) new WindowImpl<>(t, partitions16.get(specification16.partition().apply(t.v1)), specification16)
+              ))
+              .onClose(this::close);
     }
 
 // [jooq-tools] END [windows]
@@ -3250,7 +3269,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Seq<T1> s1, Seq<T2> s2) {
-        return zip(s1, s2, (t1, t2) -> tuple(t1, t2));
+        return zip(s1, s2, (t1, t2) -> tuple(t1, t2))
+              .onClose(SeqUtils.closeAll(s1, s2));
     }
 
     /**
@@ -3263,7 +3283,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3) {
-        return zip(s1, s2, s3, (t1, t2, t3) -> tuple(t1, t2, t3));
+        return zip(s1, s2, s3, (t1, t2, t3) -> tuple(t1, t2, t3))
+              .onClose(SeqUtils.closeAll(s1, s2, s3));
     }
 
     /**
@@ -3276,7 +3297,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4) {
-        return zip(s1, s2, s3, s4, (t1, t2, t3, t4) -> tuple(t1, t2, t3, t4));
+        return zip(s1, s2, s3, s4, (t1, t2, t3, t4) -> tuple(t1, t2, t3, t4))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4));
     }
 
     /**
@@ -3289,7 +3311,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5) {
-        return zip(s1, s2, s3, s4, s5, (t1, t2, t3, t4, t5) -> tuple(t1, t2, t3, t4, t5));
+        return zip(s1, s2, s3, s4, s5, (t1, t2, t3, t4, t5) -> tuple(t1, t2, t3, t4, t5))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5));
     }
 
     /**
@@ -3302,7 +3325,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6) {
-        return zip(s1, s2, s3, s4, s5, s6, (t1, t2, t3, t4, t5, t6) -> tuple(t1, t2, t3, t4, t5, t6));
+        return zip(s1, s2, s3, s4, s5, s6, (t1, t2, t3, t4, t5, t6) -> tuple(t1, t2, t3, t4, t5, t6))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6));
     }
 
     /**
@@ -3315,7 +3339,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, (t1, t2, t3, t4, t5, t6, t7) -> tuple(t1, t2, t3, t4, t5, t6, t7));
+        return zip(s1, s2, s3, s4, s5, s6, s7, (t1, t2, t3, t4, t5, t6, t7) -> tuple(t1, t2, t3, t4, t5, t6, t7))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7));
     }
 
     /**
@@ -3328,7 +3353,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, (t1, t2, t3, t4, t5, t6, t7, t8) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, (t1, t2, t3, t4, t5, t6, t7, t8) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8));
     }
 
     /**
@@ -3341,7 +3367,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9));
     }
 
     /**
@@ -3354,7 +3381,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
     }
 
     /**
@@ -3367,7 +3395,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
     }
 
     /**
@@ -3380,7 +3409,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
     }
 
     /**
@@ -3393,7 +3423,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
     }
 
     /**
@@ -3406,7 +3437,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
     }
 
     /**
@@ -3419,7 +3451,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
     }
 
     /**
@@ -3432,7 +3465,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16) {
-        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16));
+        return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16))
+              .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
     }
 
     /**
@@ -4606,7 +4640,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> reverse(Seq<T> stream) {
         List<T> list = toList(stream);
         Collections.reverse(list);
-        return seq(list);
+        return seq(list).onClose(stream::close);
     }
 
     /**
@@ -4644,7 +4678,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> shuffle(Seq<T> stream) {
         List<T> list = toList(stream);
         Collections.shuffle(list);
-        return seq(list);
+        return seq(list).onClose(stream::close);
     }
 
     /**
@@ -5088,7 +5122,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Seq<T1> s1, Seq<T2> s2) {
         List<T2> list = s2.toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)));
+        return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)))
+                      .onClose(SeqUtils.closeAll(s1, s2));
     }
 
     /**
@@ -5102,7 +5137,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3) {
         List<Tuple2<T2, T3>> list = crossJoin(s2, s3).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)))
+                 .onClose(SeqUtils.closeAll(s2, s3));
     }
 
     /**
@@ -5116,7 +5152,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4) {
         List<Tuple3<T2, T3, T4>> list = crossJoin(s2, s3, s4).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4));
     }
 
     /**
@@ -5130,7 +5167,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5) {
         List<Tuple4<T2, T3, T4, T5>> list = crossJoin(s2, s3, s4, s5).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5));
     }
 
     /**
@@ -5144,7 +5182,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6) {
         List<Tuple5<T2, T3, T4, T5, T6>> list = crossJoin(s2, s3, s4, s5, s6).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6));
     }
 
     /**
@@ -5158,7 +5197,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7) {
         List<Tuple6<T2, T3, T4, T5, T6, T7>> list = crossJoin(s2, s3, s4, s5, s6, s7).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7));
     }
 
     /**
@@ -5172,7 +5212,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
         List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8));
     }
 
     /**
@@ -5186,7 +5227,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9) {
         List<Tuple8<T2, T3, T4, T5, T6, T7, T8, T9>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9));
     }
 
     /**
@@ -5200,7 +5242,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10) {
         List<Tuple9<T2, T3, T4, T5, T6, T7, T8, T9, T10>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10));
     }
 
     /**
@@ -5214,7 +5257,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11) {
         List<Tuple10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
     }
 
     /**
@@ -5228,7 +5272,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12) {
         List<Tuple11<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
     }
 
     /**
@@ -5242,7 +5287,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13) {
         List<Tuple12<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
     }
 
     /**
@@ -5256,7 +5302,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14) {
         List<Tuple13<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
     }
 
     /**
@@ -5270,7 +5317,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15) {
         List<Tuple14<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
     }
 
     /**
@@ -5284,7 +5332,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16) {
         List<Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14, t.v15)));
+        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14, t.v15)))
+                 .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
     }
 
 // [jooq-tools] END [crossjoin-static]
@@ -5740,7 +5789,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             }
         }
 
-        return seq(new ClassifyingIterator());
+        return seq(new ClassifyingIterator()).onClose(seq::close);
     }
 
     /**
