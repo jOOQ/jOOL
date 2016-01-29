@@ -12,7 +12,7 @@
 
     <groupId>org.jooq</groupId>
     <artifactId>jool</artifactId>
-    <version>0.9.10-SNAPSHOT</version>
+    <version>0.9.10</version>
     <packaging>bundle</packaging>
 
     <name>jOOL</name>
