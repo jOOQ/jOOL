@@ -75,6 +75,22 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
+    public void testTransform() throws Exception {
+        Function<Seq<Integer>, Seq<String>> toStringInt = i -> i.map(Objects::toString);
+        Function<Seq<? extends Number>, Seq<String>> toStringNumber = i -> i.map(Objects::toString);
+        Function<Seq<?>, Seq<String>> toStringAny = i -> i.map(Objects::toString);
+        
+        Seq<String> s1 = Seq.of(1, 2, 3).transform(toStringInt);
+        assertEquals(asList("1", "2", "3"), s1.toList());
+        
+        Seq<String> s2 = Seq.of(1, 2, 3).transform(toStringNumber);
+        assertEquals(asList("1", "2", "3"), s2.toList());
+        
+        Seq<String> s3 = Seq.of(1, 2, 3).transform(toStringAny);
+        assertEquals(asList("1", "2", "3"), s3.toList());
+    }
+    
+    @Test
     public void testGroupedIterator() throws Exception {
         Iterator<Tuple2<Integer, Seq<Integer>>> it1 =
         Seq.of(1, 2, 3, 4)

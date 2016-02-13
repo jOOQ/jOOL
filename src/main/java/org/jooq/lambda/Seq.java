@@ -19,7 +19,6 @@ import static java.util.Comparator.comparing;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static org.jooq.lambda.SeqUtils.sneakyThrow;
-import static org.jooq.lambda.SeqUtils.transform;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.io.IOException;
@@ -116,6 +115,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     Stream<T> stream();
 
+    /**
+     * Transform this stream into a new type.
+     * <p>
+     * If certain operations are re-applied frequently to streams, this
+     * transform operation is very useful for such operations to be applied in a
+     * fluent style:
+     * <p>
+     * <code><pre>
+     * Function&ltSeq&lt;Integer>, Seq&lt;String>> toString = s -> s.map(Objects::toString);
+     * Seq&lt;String> strings =
+     * Seq.of(1, 2, 3)
+     *    .transform(toString);
+     * </pre></code>
+     */
+    default <U> U transform(Function<? super Seq<T>, ? extends U> transformer) {
+        return transformer.apply(this);
+    }
+    
     /**
      * Cross join 2 streams into one.
      * <p>
@@ -293,7 +310,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default Seq<T> onEmptyGet(Supplier<T> supplier) {
         boolean[] first = { true };
 
-        return transform(this, (delegate, action) -> {
+        return SeqUtils.transform(this, (delegate, action) -> {
             if (first[0]) {
                 first[0] = false;
 
@@ -314,7 +331,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<X> supplier) {
         boolean[] first = { true };
 
-        return transform(this, (delegate, action) -> {
+        return SeqUtils.transform(this, (delegate, action) -> {
             if (first[0]) {
                 first[0] = false;
 
@@ -2694,7 +2711,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         Spliterator<T>[] sp = new Spliterator[1];
         long[] remaining = new long[] { times };
 
-        return transform(stream, (delegate, action) -> {
+        return SeqUtils.transform(stream, (delegate, action) -> {
             if (sp[0] == null) {
                 if (delegate.tryAdvance(t -> {
                     list.add(t);
@@ -4421,7 +4438,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<Tuple2<T, Long>> zipWithIndex(Seq<T> stream) {
         long[] index = { -1L };
 
-        return transform(stream, (delegate, action) ->
+        return SeqUtils.transform(stream, (delegate, action) ->
             delegate.tryAdvance(t ->
                 action.accept(tuple(t, index[0] = index[0] + 1))
             )
@@ -4541,7 +4558,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T, U> Seq<U> scanLeft(Seq<T> stream, U seed, BiFunction<U, ? super T, U> function) {
         U[] value = (U[]) new Object[] { seed };
 
-        return Seq.of(seed).concat(transform(stream, (delegate, action) ->
+        return Seq.of(seed).concat(SeqUtils.transform(stream, (delegate, action) ->
             delegate.tryAdvance(t ->
                 action.accept(value[0] = function.apply(value[0], t))
             )
@@ -5548,7 +5565,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
-        return transform(stream, (delegate, action) -> !test[0]
+        return SeqUtils.transform(stream, (delegate, action) -> !test[0]
             ?   delegate.tryAdvance(t -> {
                     if (test[0] = predicate.test(t))
                         action.accept(t);
@@ -5570,7 +5587,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> skipUntilClosed(Stream<T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
-        return transform(stream, (delegate, action) -> !test[0]
+        return SeqUtils.transform(stream, (delegate, action) -> !test[0]
             ? delegate.tryAdvance(t -> test[0] = predicate.test(t))
             : delegate.tryAdvance(action)
         );
@@ -5625,7 +5642,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
-        return transform(stream, (delegate, action) ->
+        return SeqUtils.transform(stream, (delegate, action) ->
             delegate.tryAdvance(t -> {
                 if (!(test[0] = predicate.test(t)))
                     action.accept(t);
@@ -5646,7 +5663,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> limitUntilClosed(Stream<T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
-        return transform(stream, (delegate, action) ->
+        return SeqUtils.transform(stream, (delegate, action) ->
             !test[0] && delegate.tryAdvance(t -> {
                 test[0] = predicate.test(t);
                 action.accept(t);
@@ -5953,7 +5970,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T, U> Seq<U> cast(Stream<T> stream, Class<U> type) {
         return seq(stream).map(type::cast);
     }
-
+    
     // Shortcuts to Collectors
     // -----------------------
 
