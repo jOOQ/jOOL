@@ -290,12 +290,22 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
     @Override
     public final Object[] array() {
+        return toArray();
+    }
+
+    @Override
+    public final Object[] toArray() {
         return new Object[] { v1, v2 };
     }
 
     @Override
     public final List<?> list() {
-        return Arrays.asList(array());
+        return toList();
+    }
+
+    @Override
+    public final List<?> toList() {
+        return Arrays.asList(toArray());
     }
 
     /**

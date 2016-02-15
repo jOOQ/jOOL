@@ -413,12 +413,22 @@ public class Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> implements Tuple, Comparable
 
     @Override
     public final Object[] array() {
+        return toArray();
+    }
+
+    @Override
+    public final Object[] toArray() {
         return new Object[] { v1, v2, v3, v4, v5, v6, v7, v8 };
     }
 
     @Override
     public final List<?> list() {
-        return Arrays.asList(array());
+        return toList();
+    }
+
+    @Override
+    public final List<?> toList() {
+        return Arrays.asList(toArray());
     }
 
     /**

@@ -273,12 +273,22 @@ public class Tuple3<T1, T2, T3> implements Tuple, Comparable<Tuple3<T1, T2, T3>>
 
     @Override
     public final Object[] array() {
+        return toArray();
+    }
+
+    @Override
+    public final Object[] toArray() {
         return new Object[] { v1, v2, v3 };
     }
 
     @Override
     public final List<?> list() {
-        return Arrays.asList(array());
+        return toList();
+    }
+
+    @Override
+    public final List<?> toList() {
+        return Arrays.asList(toArray());
     }
 
     /**

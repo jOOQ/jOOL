@@ -77,8 +77,8 @@ public class TupleTest {
 
     @Test
     public void testArrayAndList() {
-        assertEquals(asList(1, "a", null), asList(tuple(1, "a", null).array()));
-        assertEquals(asList(1, "a", null), tuple(1, "a", null).list());
+        assertEquals(asList(1, "a", null), asList(tuple(1, "a", null).toArray()));
+        assertEquals(asList(1, "a", null), tuple(1, "a", null).toList());
     }
 
     @Test

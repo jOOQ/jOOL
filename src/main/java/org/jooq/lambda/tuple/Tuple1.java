@@ -216,12 +216,22 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
 
     @Override
     public final Object[] array() {
+        return toArray();
+    }
+
+    @Override
+    public final Object[] toArray() {
         return new Object[] { v1 };
     }
 
     @Override
     public final List<?> list() {
-        return Arrays.asList(array());
+        return toList();
+    }
+
+    @Override
+    public final List<?> toList() {
+        return Arrays.asList(toArray());
     }
 
     /**

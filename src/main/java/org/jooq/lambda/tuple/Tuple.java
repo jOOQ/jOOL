@@ -1105,13 +1105,29 @@ public interface Tuple extends Iterable<Object> {
 
     /**
      * Get an array representation of this tuple.
+     *
+     * @deprecated - Use {@link #toArray()} instead.
      */
+    @Deprecated
     Object[] array();
+
+    /**
+     * Get an array representation of this tuple.
+     */
+    Object[] toArray();
+
+    /**
+     * Get a list representation of this tuple.
+     *
+     * @deprecated - Use {@link #toList()} instead.
+     */
+    @Deprecated
+    List<?> list();
 
     /**
      * Get a list representation of this tuple.
      */
-    List<?> list();
+    List<?> toList();
 
     /**
      * The degree of this tuple.

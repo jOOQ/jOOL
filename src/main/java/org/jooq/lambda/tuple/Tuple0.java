@@ -186,12 +186,22 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
 
     @Override
     public final Object[] array() {
+        return toArray();
+    }
+
+    @Override
+    public final Object[] toArray() {
         return new Object[] {  };
     }
 
     @Override
     public final List<?> list() {
-        return Arrays.asList(array());
+        return toList();
+    }
+
+    @Override
+    public final List<?> toList() {
+        return Arrays.asList(toArray());
     }
 
     /**
