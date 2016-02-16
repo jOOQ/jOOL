@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function2;
 
@@ -310,6 +311,11 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Seq<?> toSeq() {
+        return Seq.seq(toList());
     }
 
     @Override

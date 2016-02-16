@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function1;
 
 /**
@@ -235,6 +236,11 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Seq<?> toSeq() {
+        return Seq.seq(toList());
     }
 
     @Override

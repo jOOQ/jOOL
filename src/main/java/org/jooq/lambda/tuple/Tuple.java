@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.function.Function;
 
+import org.jooq.lambda.Seq;
+
 /**
  * A tuple.
  *
@@ -1130,6 +1132,11 @@ public interface Tuple extends Iterable<Object> {
      * Get a list representation of this tuple.
      */
     List<?> toList();
+
+    /**
+     * Get a Seq representation of this tuple.
+     */
+    Seq<?> toSeq();
 
     /**
      * Get a map representation of this tuple.

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function0;
 
 /**
@@ -205,6 +206,11 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Seq<?> toSeq() {
+        return Seq.seq(toList());
     }
 
     @Override

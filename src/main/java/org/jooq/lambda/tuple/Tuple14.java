@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function14;
 
@@ -601,6 +602,11 @@ public class Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Seq<?> toSeq() {
+        return Seq.seq(toList());
     }
 
     @Override

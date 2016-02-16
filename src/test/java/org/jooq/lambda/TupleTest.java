@@ -104,6 +104,11 @@ public class TupleTest {
         assertEquals(m3, tuple(1, "a", null).toMap("A", "B", "C"));
         assertEquals(m3, tuple(1, "a", null).toMap(() -> "A", () -> "B", () -> "C"));
     }
+    
+    @Test
+    public void testToSeq() {
+        assertEquals(asList(1, "a", null), tuple(1, "a", null).toSeq().toList());
+    }
 
     @Test
     public void testSwap() {
