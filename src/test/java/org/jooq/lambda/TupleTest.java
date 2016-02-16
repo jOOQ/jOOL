@@ -29,7 +29,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -76,9 +78,31 @@ public class TupleTest {
     }
 
     @Test
-    public void testArrayAndList() {
+    public void testToArrayAndToList() {
         assertEquals(asList(1, "a", null), asList(tuple(1, "a", null).toArray()));
         assertEquals(asList(1, "a", null), tuple(1, "a", null).toList());
+    }
+    
+    @Test
+    public void testToMap() {
+        Map<String, Object> m1 = new LinkedHashMap<>();
+        m1.put("v1", 1);
+        m1.put("v2", "a");
+        m1.put("v3", null);
+        assertEquals(m1, tuple(1, "a", null).toMap());
+
+        Map<Integer, Object> m2 = new LinkedHashMap<>();
+        m2.put(0, 1);
+        m2.put(1, "a");
+        m2.put(2, null);
+        assertEquals(m2, tuple(1, "a", null).toMap(i -> i));
+        
+        Map<String, Object> m3 = new LinkedHashMap<>();
+        m3.put("A", 1);
+        m3.put("B", "a");
+        m3.put("C", null);
+        assertEquals(m3, tuple(1, "a", null).toMap("A", "B", "C"));
+        assertEquals(m3, tuple(1, "a", null).toMap(() -> "A", () -> "B", () -> "C"));
     }
 
     @Test

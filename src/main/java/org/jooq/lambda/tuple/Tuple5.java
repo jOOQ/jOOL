@@ -18,8 +18,12 @@ package org.jooq.lambda.tuple;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function5;
@@ -345,6 +349,58 @@ public class Tuple5<T1, T2, T3, T4, T5> implements Tuple, Comparable<Tuple5<T1, 
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Map<String, ?> toMap() {
+        return toMap(i -> "v" + (i + 1));
+    }
+
+    @Override
+    public final <K> Map<K, ?> toMap(Function<? super Integer, ? extends K> keyMapper) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        Object[] array = toArray();
+
+        for (int i = 0; i < array.length; i++)
+            result.put(keyMapper.apply(i), array[i]);
+
+        return result;
+    }
+
+    public final <K> Map<K, ?> toMap(
+        Supplier<? extends K> keySupplier1, 
+        Supplier<? extends K> keySupplier2, 
+        Supplier<? extends K> keySupplier3, 
+        Supplier<? extends K> keySupplier4, 
+        Supplier<? extends K> keySupplier5
+    ) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        
+        result.put(keySupplier1.get(), v1);
+        result.put(keySupplier2.get(), v2);
+        result.put(keySupplier3.get(), v3);
+        result.put(keySupplier4.get(), v4);
+        result.put(keySupplier5.get(), v5);
+        
+        return result;
+    }
+
+    public final <K> Map<K, ?> toMap(
+        K key1, 
+        K key2, 
+        K key3, 
+        K key4, 
+        K key5
+    ) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        
+        result.put(key1, v1);
+        result.put(key2, v2);
+        result.put(key3, v3);
+        result.put(key4, v4);
+        result.put(key5, v5);
+        
+        return result;
     }
 
     /**

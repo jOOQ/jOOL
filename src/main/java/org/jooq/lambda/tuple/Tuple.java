@@ -16,7 +16,9 @@
 package org.jooq.lambda.tuple;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collector;
+import java.util.function.Function;
 
 /**
  * A tuple.
@@ -1128,6 +1130,16 @@ public interface Tuple extends Iterable<Object> {
      * Get a list representation of this tuple.
      */
     List<?> toList();
+
+    /**
+     * Get a map representation of this tuple.
+     */
+    Map<String, ?> toMap();
+
+    /**
+     * Get a map representation of this tuple.
+     */
+    <K> Map<K, ?> toMap(Function<? super Integer, ? extends K> keyMapper);
 
     /**
      * The degree of this tuple.

@@ -18,8 +18,12 @@ package org.jooq.lambda.tuple;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function14;
@@ -597,6 +601,94 @@ public class Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Map<String, ?> toMap() {
+        return toMap(i -> "v" + (i + 1));
+    }
+
+    @Override
+    public final <K> Map<K, ?> toMap(Function<? super Integer, ? extends K> keyMapper) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        Object[] array = toArray();
+
+        for (int i = 0; i < array.length; i++)
+            result.put(keyMapper.apply(i), array[i]);
+
+        return result;
+    }
+
+    public final <K> Map<K, ?> toMap(
+        Supplier<? extends K> keySupplier1, 
+        Supplier<? extends K> keySupplier2, 
+        Supplier<? extends K> keySupplier3, 
+        Supplier<? extends K> keySupplier4, 
+        Supplier<? extends K> keySupplier5, 
+        Supplier<? extends K> keySupplier6, 
+        Supplier<? extends K> keySupplier7, 
+        Supplier<? extends K> keySupplier8, 
+        Supplier<? extends K> keySupplier9, 
+        Supplier<? extends K> keySupplier10, 
+        Supplier<? extends K> keySupplier11, 
+        Supplier<? extends K> keySupplier12, 
+        Supplier<? extends K> keySupplier13, 
+        Supplier<? extends K> keySupplier14
+    ) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        
+        result.put(keySupplier1.get(), v1);
+        result.put(keySupplier2.get(), v2);
+        result.put(keySupplier3.get(), v3);
+        result.put(keySupplier4.get(), v4);
+        result.put(keySupplier5.get(), v5);
+        result.put(keySupplier6.get(), v6);
+        result.put(keySupplier7.get(), v7);
+        result.put(keySupplier8.get(), v8);
+        result.put(keySupplier9.get(), v9);
+        result.put(keySupplier10.get(), v10);
+        result.put(keySupplier11.get(), v11);
+        result.put(keySupplier12.get(), v12);
+        result.put(keySupplier13.get(), v13);
+        result.put(keySupplier14.get(), v14);
+        
+        return result;
+    }
+
+    public final <K> Map<K, ?> toMap(
+        K key1, 
+        K key2, 
+        K key3, 
+        K key4, 
+        K key5, 
+        K key6, 
+        K key7, 
+        K key8, 
+        K key9, 
+        K key10, 
+        K key11, 
+        K key12, 
+        K key13, 
+        K key14
+    ) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        
+        result.put(key1, v1);
+        result.put(key2, v2);
+        result.put(key3, v3);
+        result.put(key4, v4);
+        result.put(key5, v5);
+        result.put(key6, v6);
+        result.put(key7, v7);
+        result.put(key8, v8);
+        result.put(key9, v9);
+        result.put(key10, v10);
+        result.put(key11, v11);
+        result.put(key12, v12);
+        result.put(key13, v13);
+        result.put(key14, v14);
+        
+        return result;
     }
 
     /**

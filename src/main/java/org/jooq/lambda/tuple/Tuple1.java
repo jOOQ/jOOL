@@ -18,8 +18,11 @@ package org.jooq.lambda.tuple;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 import org.jooq.lambda.function.Function1;
 
@@ -232,6 +235,22 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     @Override
     public final List<?> toList() {
         return Arrays.asList(toArray());
+    }
+
+    @Override
+    public final Map<String, ?> toMap() {
+        return toMap(i -> "v" + (i + 1));
+    }
+
+    @Override
+    public final <K> Map<K, ?> toMap(Function<? super Integer, ? extends K> keyMapper) {
+        Map<K, Object> result = new LinkedHashMap<>();
+        Object[] array = toArray();
+
+        for (int i = 0; i < array.length; i++)
+            result.put(keyMapper.apply(i), array[i]);
+
+        return result;
     }
 
     /**
