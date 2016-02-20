@@ -2341,4 +2341,14 @@ public class SeqTest {
         test.accept((s1, s2, s3, s4) -> Seq.crossJoin(s1, s2, s3, s4));
         test.accept((s1, s2, s3, s4) -> Seq.zip(s1, s2, s3, s4));
     }
+
+    @Test
+    public void testTakeBehavesAsLimit() {
+        assertTrue(Seq.range(1, 10).take(3).toList().equals(Seq.range(1, 10).limit(3).toList()));
+    }
+
+    @Test
+    public void testDropBehavesAsSkip() {
+        assertTrue(Seq.range(1, 10).drop(3).toList().equals(Seq.range(1, 10).skip(3).toList()));
+    }
 }

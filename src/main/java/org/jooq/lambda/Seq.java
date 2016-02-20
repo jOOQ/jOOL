@@ -5606,6 +5606,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Alias for limit
+     *
+     * @see Seq#limit(long)
+     */
+    default Seq<T> take(long maxSize) {
+        return limit(maxSize);
+    }
+
+    /**
+     * Alias for skip
+     *
+     * @see Seq#skip(long)
+     */
+    default Seq<T> drop(long n) {
+        return skip(n);
+    }
+
+    /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
      * <p>
      * <code><pre>
