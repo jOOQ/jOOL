@@ -2351,4 +2351,57 @@ public class SeqTest {
     public void testDropBehavesAsSkip() {
         assertTrue(Seq.range(1, 10).drop(3).toList().equals(Seq.range(1, 10).skip(3).toList()));
     }
+
+    @Test
+    public void testZipAllWithSecondStreamLongerThanTheFirstOne() {
+
+        final Seq<Integer> s1 = Seq.of(1,2,3);
+        final Seq<Integer> s2 = Seq.of(1);
+
+        final Seq expected = Seq.of(tuple(1,1),tuple(2,42),tuple(3,42));
+
+        final Seq actual = Seq.zipAll(s1, s2, 0, 42);
+
+        assertTrue(actual.toList().equals(expected.toList()));
+    }
+
+    @Test
+    public void testZipAllWithFirstStreamLongerThanTheSecondOne() {
+
+        final Seq<Integer> s1 = Seq.of(1);
+        final Seq<Integer> s2 = Seq.of(1, 2, 3);
+
+        final Seq expected = Seq.of(tuple(1,1),tuple(0,2),tuple(0,3));
+
+        final Seq actual = Seq.zipAll(s1, s2, 0, 42);
+
+        assertTrue(actual.toList().equals(expected.toList()));
+    }
+
+    @Test
+    public void testZipAllWithSecondStreamLongerThanTheFirstOneAndCustomZipper() {
+
+        final Seq<Integer> s1 = Seq.of(1,2,3);
+        final Seq<Integer> s2 = Seq.of(1);
+
+        final Seq expected = Seq.of(2, 44, 45);
+
+        final Seq actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
+
+        assertTrue(actual.toList().equals(expected.toList()));
+    }
+
+    @Test
+    public void testZipAllWithFirstStreamLongerThanTheSecondOneAndCustomZipper() {
+
+        final Seq<Integer> s1 = Seq.of(1);
+        final Seq<Integer> s2 = Seq.of(1, 2, 3);
+
+        final Seq expected = Seq.of(2, 2, 3);
+
+        final Seq actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
+
+        assertTrue(actual.toList().equals(expected.toList()));
+    }
+
 }
