@@ -72,7 +72,7 @@ class SeqUtils {
 
             @Override
             public int characteristics() {
-                return 0;
+                return delegate.characteristics() & Spliterator.ORDERED;
             }
             
             @Override

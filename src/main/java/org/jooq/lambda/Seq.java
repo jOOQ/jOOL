@@ -4559,7 +4559,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> scanLeft(Seq<? extends T> stream, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
-    @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked")
         U[] value = (U[]) new Object[] { seed };
 
         return Seq.of(seed).concat(SeqUtils.transform(stream, (delegate, action) ->
