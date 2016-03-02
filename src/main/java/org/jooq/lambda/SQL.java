@@ -20,12 +20,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Simplifications for the JDBC APIs when used with Java 8.
@@ -33,6 +31,7 @@ import java.util.stream.StreamSupport;
  * @author Lukas Eder
  * @deprecated - See https://github.com/jOOQ/jOOL/issues/169
  */
+@Deprecated
 public final class SQL {
 
     /**
