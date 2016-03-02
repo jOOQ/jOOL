@@ -173,6 +173,6 @@ Maven
 <dependency>
 	<groupId>org.jooq</groupId>
 	<artifactId>jool</artifactId>
-	<version>0.9.9</version>
+	<version>0.9.10</version>
 </dependency>
 ```
