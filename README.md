@@ -6,12 +6,12 @@ jOOλ is part of the jOOQ series (along with jOOQ, jOOX, jOOR, jOOU) providing s
 org.jooq.lambda.function
 ------------------------
 
-Why only `Function` and `BiFunction`? We have also included support for `Function1` through `Function8`.
+Why only `Function` and `BiFunction`? We have also included support for `Function1` through `Function16`.
 
 org.jooq.lambda.tuple
 ---------------------
 
-Tuple support is essential in functional programming. A variety of things can be modelled as tuples, e.g. function argument lists. This is why we support type safe `Tuple1` through `Tuple8` types.
+Tuple support is essential in functional programming. A variety of things can be modelled as tuples, e.g. function argument lists. This is why we support type safe `Tuple1` through `Tuple16` types.
 
 org.jooq.lambda.Seq
 -------------------
