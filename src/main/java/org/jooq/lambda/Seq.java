@@ -4697,18 +4697,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Seq<? extends T> stream) {
-        Spliterator[] shuffled = { null };
-        
-        return SeqUtils.transform(stream, (delegate, action) -> {
-            if (shuffled[0] == null) {
-                List<T> list = seq(delegate).toList();
-                Collections.shuffle(list);
-                shuffled[0] = list.spliterator();
-            }
-
-            return shuffled[0].tryAdvance(action);
-
-        }).onClose(stream::close);
+        return shuffle(stream, null);
     }
 
     /**
@@ -4744,9 +4733,23 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Seq<? extends T> stream, Random random) {
-        List<T> list = toList(stream);
-        Collections.shuffle(list, random);
-        return seq(list);
+        Spliterator[] shuffled = { null };
+        
+        return SeqUtils.transform(stream, (delegate, action) -> {
+            if (shuffled[0] == null) {
+                List<T> list = seq(delegate).toList();
+                
+                if (random == null)
+                    Collections.shuffle(list);
+                else
+                    Collections.shuffle(list, random);
+                
+                shuffled[0] = list.spliterator();
+            }
+
+            return shuffled[0].tryAdvance(action);
+
+        }).onClose(stream::close);
     }
 
     // [jooq-tools] START [crossjoin-static]
