@@ -4613,11 +4613,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.unfold(1, i -> i &lt;= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
      * </pre></code>
      */
-    static <T, U> Seq<T> unfold(U seed, Function<? super U, Optional<Tuple2<T, U>>> unfolder) {
-        Tuple2<T, U>[] unfolded = new Tuple2[] { tuple((T) null, seed) };
+    static <T, U> Seq<T> unfold(U seed, Function<? super U, ? extends Optional<? extends Tuple2<? extends T, ? extends U>>> unfolder) {
+        Tuple2<? extends T, ? extends U>[] unfolded = new Tuple2[] { tuple((T) null, seed) };
 
         return seq((FunctionalSpliterator<T>) action -> {
-            Optional<Tuple2<T, U>> result = unfolder.apply(unfolded[0].v2);
+            Optional<? extends Tuple2<? extends T, ? extends U>> result = unfolder.apply(unfolded[0].v2);
 
             if (result.isPresent())
                 action.accept((unfolded[0] = result.get()).v1);
