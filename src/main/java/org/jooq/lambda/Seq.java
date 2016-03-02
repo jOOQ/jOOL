@@ -65,6 +65,8 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import java.util.NoSuchElementException;
+
 import javax.annotation.Generated;
 import org.jooq.lambda.exception.TooManyElementsException;
 
@@ -948,6 +950,64 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U, R> Seq<R> zip(Seq<? extends U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
         return zip(this, other, zipper);
     }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     *
+     */
+    static <T1, T2> Seq<Tuple2<T1, T2>> zipAll(Seq<T1> s1, Seq<T2> s2, T1 default1, T2 default2) {
+        return zipAll(s1, s2, default1, default2, (l, r) -> tuple(l, r));
+    }
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     *
+     */
+    static <T1, T2, R> Seq<R> zipAll(Seq<T1> s1, Seq<T2> s2,  T1 default1, T2 default2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+        final Iterator<T1> it1 = s1.iterator();
+        final Iterator<T2> it2 = s2.iterator();
+
+        class ZipAll implements Iterator<R> {
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext();
+            }
+
+            @Override
+            public R next() {
+
+                if (it1.hasNext()) {
+                    if (it2.hasNext()) {
+                        return zipper.apply(it1.next(), it2.next());
+                    } else {
+                        return zipper.apply(it1.next(), default2);
+                    }
+                } else {
+                    if (it2.hasNext()) {
+                        return zipper.apply(default1, it2.next());
+                    } else {
+                        throw new NoSuchElementException("next on empty iterator");
+                    }
+                }
+            }
+        }
+
+        return seq(new ZipAll());
+    }
+
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
