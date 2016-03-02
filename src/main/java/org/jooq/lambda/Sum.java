@@ -39,6 +39,7 @@ abstract class Sum<N> {
     abstract N sum();
     abstract N avg();
     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     static <N> Sum<N> create(N value) {
         Sum<N> result;
         

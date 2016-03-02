@@ -270,6 +270,7 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> min() {
         return min((Comparator) naturalOrder());
     }
@@ -300,6 +301,7 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> max() {
         return max((Comparator) naturalOrder());
     }
@@ -330,6 +332,7 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> median() {
         return median((Comparator) naturalOrder());
     }
@@ -350,6 +353,7 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> percentile(double percentile) {
         return percentile(percentile, (Comparator) naturalOrder());
     }

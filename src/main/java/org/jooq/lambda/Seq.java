@@ -2489,6 +2489,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Wrap a <code>Stream</code> into a <code>Seq</code>.
      */
+    @SuppressWarnings("unchecked")
     static <T> Seq<T> seq(Stream<? extends T> stream) {
         if (stream instanceof Seq)
             return (Seq<T>) stream;
@@ -2499,6 +2500,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Wrap a <code>Stream</code> into a <code>Seq</code>.
      */
+    @SuppressWarnings("unchecked")
     static <T> Seq<T> seq(Seq<? extends T> stream) {
         return (Seq<T>) stream;
     }
@@ -2701,6 +2703,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #cycle(Stream)
      */
+    @SuppressWarnings("unchecked")
     static <T> Seq<T> cycle(Seq<? extends T> stream, long times) {
         if (times == 0)
             return empty();
@@ -4556,6 +4559,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T, U> Seq<U> scanLeft(Seq<? extends T> stream, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
+    @SuppressWarnings("unchecked")
         U[] value = (U[]) new Object[] { seed };
 
         return Seq.of(seed).concat(SeqUtils.transform(stream, (delegate, action) ->
@@ -5416,7 +5420,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T> it = stream.iterator();
         final LinkedList<T> gap = new LinkedList<>();
 
-        @SuppressWarnings({"unchecked"})
+        @SuppressWarnings("unchecked")
         final Iterator<T>[] ahead = new Iterator[] { null };
 
         class Duplicate implements Iterator<T> {

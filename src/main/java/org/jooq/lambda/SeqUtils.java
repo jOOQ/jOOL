@@ -76,6 +76,7 @@ class SeqUtils {
             }
             
             @Override
+            @SuppressWarnings("unchecked")
             public Comparator<? super U> getComparator() {
                 
                 // This implementation works with the JDK 8, as the information
@@ -112,6 +113,7 @@ class SeqUtils {
     /**
      * Sneaky throw any type of Throwable.
      */
+    @SuppressWarnings("unchecked")
     static <E extends Throwable> void sneakyThrow0(Throwable throwable) throws E {
         throw (E) throwable;
     }
