@@ -52,19 +52,21 @@ import org.jooq.lambda.tuple.Tuple;
  */
 class SeqImpl<T> implements Seq<T> {
 
-    static final Object     NULL = new Object();
+    static final Object               NULL = new Object();
 
-    private final Stream<T> stream;
-    private Object[]        buffered;
+    private final Stream<? extends T> stream;
+    private Object[]                  buffered;
 
-    SeqImpl(Stream<T> stream) {
+    SeqImpl(Stream<? extends T> stream) {
         this.stream = stream.sequential();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Stream<T> stream() {
-        return buffered == null ? stream : (Stream<T>) Stream.of(buffered);
+        // This cast is safe as <T> in Stream<T> is effectively declaration-site
+        // covariant.
+        return (Stream<T>) (buffered == null ? stream : Stream.of(buffered));
     }
 
     @Override

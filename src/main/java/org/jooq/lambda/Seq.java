@@ -141,7 +141,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> crossJoin(Stream<U> other) {
+    default <U> Seq<Tuple2<T, U>> crossJoin(Stream<? extends U> other) {
         return Seq.crossJoin(this, other);
     }
 
@@ -153,7 +153,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> crossJoin(Iterable<U> other) {
+    default <U> Seq<Tuple2<T, U>> crossJoin(Iterable<? extends U> other) {
         return Seq.crossJoin(this, other);
     }
 
@@ -165,7 +165,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> crossJoin(Seq<U> other) {
+    default <U> Seq<Tuple2<T, U>> crossJoin(Seq<? extends U> other) {
         return Seq.crossJoin(this, other);
     }
 
@@ -177,7 +177,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> innerJoin(Stream<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> innerJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return innerJoin(seq(other), predicate);
     }
 
@@ -189,7 +189,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> innerJoin(Iterable<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> innerJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return innerJoin(seq(other), predicate);
     }
 
@@ -201,10 +201,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> innerJoin(Seq<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> innerJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
 
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<U> list = other.toList();
+        List<? extends U> list = other.toList();
 
         return flatMap(t -> seq(list)
               .filter(u -> predicate.test(t, u))
@@ -220,7 +220,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return leftOuterJoin(seq(other), predicate);
     }
 
@@ -232,7 +232,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Iterable<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return leftOuterJoin(seq(other), predicate);
     }
 
@@ -244,10 +244,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Seq<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> leftOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
 
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<U> list = other.toList();
+        List<? extends U> list = other.toList();
 
         return flatMap(t -> seq(list)
               .filter(u -> predicate.test(t, u))
@@ -264,7 +264,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Stream<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return rightOuterJoin(seq(other), predicate);
     }
 
@@ -276,7 +276,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Iterable<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return rightOuterJoin(seq(other), predicate);
     }
 
@@ -288,7 +288,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
      * </pre></code>
      */
-    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Seq<U> other, BiPredicate<? super T, ? super U> predicate) {
+    default <U> Seq<Tuple2<T, U>> rightOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return other
               .leftOuterJoin(this, (u, t) -> predicate.test(t, u))
               .map(t -> tuple(t.v2, t.v1))
@@ -307,7 +307,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Produce this stream, or an alternative stream from the
      * <code>supplier</code>, in case this stream is empty.
      */
-    default Seq<T> onEmptyGet(Supplier<T> supplier) {
+    default Seq<T> onEmptyGet(Supplier<? extends T> supplier) {
         boolean[] first = { true };
 
         return SeqUtils.transform(this, (delegate, action) -> {
@@ -328,7 +328,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Produce this stream, or an alternative stream from the
      * <code>supplier</code>, in case this stream is empty.
      */
-    default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<X> supplier) {
+    default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<? extends X> supplier) {
         boolean[] first = { true };
 
         return SeqUtils.transform(this, (delegate, action) -> {
@@ -355,7 +355,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #concat(Stream[])
      */
-    default Seq<T> concat(Stream<T> other) {
+    default Seq<T> concat(Stream<? extends T> other) {
         return concat(seq(other));
     }
 
@@ -369,7 +369,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #concat(Stream[])
      */
-    default Seq<T> concat(Iterable<T> other) {
+    default Seq<T> concat(Iterable<? extends T> other) {
         return concat(seq(other));
     }
 
@@ -384,7 +384,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #concat(Stream[])
      */
     @SuppressWarnings({ "unchecked" })
-    default Seq<T> concat(Seq<T> other) {
+    default Seq<T> concat(Seq<? extends T> other) {
         return Seq.concat(new Seq[]{this, other});
     }
 
@@ -427,7 +427,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #concat(Stream[])
      */
-    default Seq<T> append(Stream<T> other) {
+    default Seq<T> append(Stream<? extends T> other) {
         return concat(other);
     }
 
@@ -441,7 +441,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #concat(Stream[])
      */
-    default Seq<T> append(Iterable<T> other) {
+    default Seq<T> append(Iterable<? extends T> other) {
         return concat(other);
     }
 
@@ -456,7 +456,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #concat(Stream[])
      */
     @SuppressWarnings({ "unchecked" })
-    default Seq<T> append(Seq<T> other) {
+    default Seq<T> append(Seq<? extends T> other) {
         return concat(other);
     }
 
@@ -499,7 +499,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #concat(Stream[])
      */
-    default Seq<T> prepend(Stream<T> other) {
+    default Seq<T> prepend(Stream<? extends T> other) {
         return seq(other).concat(this);
     }
 
@@ -513,7 +513,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #concat(Stream[])
      */
-    default Seq<T> prepend(Iterable<T> other) {
+    default Seq<T> prepend(Iterable<? extends T> other) {
         return seq(other).concat(this);
     }
 
@@ -528,8 +528,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #concat(Stream[])
      */
     @SuppressWarnings({ "unchecked" })
-    default Seq<T> prepend(Seq<T> other) {
-        return other.concat(this);
+    default Seq<T> prepend(Seq<? extends T> other) {
+        return concat(other, this);
     }
 
     /**
@@ -593,7 +593,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).containsAll(2, 3)
      * </pre><code>
      */
-    default boolean containsAll(Stream<T> other) {
+    default boolean containsAll(Stream<? extends T> other) {
         return containsAll(seq(other));
     }
 
@@ -605,7 +605,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).containsAll(2, 3)
      * </pre><code>
      */
-    default boolean containsAll(Iterable<T> other) {
+    default boolean containsAll(Iterable<? extends T> other) {
         return containsAll(seq(other));
     }
 
@@ -617,8 +617,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).containsAll(2, 3)
      * </pre><code>
      */
-    default boolean containsAll(Seq<T> other) {
-        Set<T> set = other.toSet(HashSet::new);
+    default boolean containsAll(Seq<? extends T> other) {
+        Set<? extends T> set = other.toSet(HashSet::new);
         return set.isEmpty() ? true : filter(t -> set.remove(t)).anyMatch(t -> set.isEmpty());
     }
 
@@ -642,7 +642,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).containsAny(2, 4)
      * </pre><code>
      */
-    default boolean containsAny(Stream<T> other) {
+    default boolean containsAny(Stream<? extends T> other) {
         return containsAny(seq(other));
     }
 
@@ -654,7 +654,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).containsAny(2, 4)
      * </pre><code>
      */
-    default boolean containsAny(Iterable<T> other) {
+    default boolean containsAny(Iterable<? extends T> other) {
         return containsAny(seq(other));
     }
 
@@ -666,8 +666,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).containsAny(2, 4)
      * </pre><code>
      */
-    default boolean containsAny(Seq<T> other) {
-        Set<T> set = other.toSet(HashSet::new);
+    default boolean containsAny(Seq<? extends T> other) {
+        Set<? extends T> set = other.toSet(HashSet::new);
         return set.isEmpty() ? false : anyMatch(set::contains);
     }
 
@@ -740,7 +740,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
      * </pre><code>
      */
-    default Seq<T> removeAll(Stream<T> other) {
+    default Seq<T> removeAll(Stream<? extends T> other) {
         return removeAll(seq(other));
     }
 
@@ -752,7 +752,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
      * </pre><code>
      */
-    default Seq<T> removeAll(Iterable<T> other) {
+    default Seq<T> removeAll(Iterable<? extends T> other) {
         return removeAll(seq(other));
     }
 
@@ -764,8 +764,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 2, 4).removeAll(2, 3)
      * </pre><code>
      */
-    default Seq<T> removeAll(Seq<T> other) {
-        Set<T> set = other.toSet(HashSet::new);
+    default Seq<T> removeAll(Seq<? extends T> other) {
+        Set<? extends T> set = other.toSet(HashSet::new);
         return set.isEmpty() ? this : filter(t -> !set.contains(t)).onClose(other::close);
     }
 
@@ -789,7 +789,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 2, 4).retainAll(2, 3)
      * </pre><code>
      */
-    default Seq<T> retainAll(Stream<T> other) {
+    default Seq<T> retainAll(Stream<? extends T> other) {
         return retainAll(seq(other));
     }
 
@@ -801,7 +801,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 2, 4).retainAll(2, 3)
      * </pre><code>
      */
-    default Seq<T> retainAll(Iterable<T> other) {
+    default Seq<T> retainAll(Iterable<? extends T> other) {
         return retainAll(seq(other));
     }
 
@@ -813,8 +813,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 2, 4).retainAll(2, 3)
      * </pre><code>
      */
-    default Seq<T> retainAll(Seq<T> other) {
-        Set<T> set = other.toSet(HashSet::new);
+    default Seq<T> retainAll(Seq<? extends T> other) {
+        Set<? extends T> set = other.toSet(HashSet::new);
         return set.isEmpty() ? empty() : filter(t -> set.contains(t)).onClose(other::close);
     }
 
@@ -875,7 +875,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #zip(Stream, Stream)
      */
-    default <U> Seq<Tuple2<T, U>> zip(Stream<U> other) {
+    default <U> Seq<Tuple2<T, U>> zip(Stream<? extends U> other) {
         return zip(seq(other));
     }
 
@@ -889,7 +889,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #zip(Stream, Stream)
      */
-    default <U> Seq<Tuple2<T, U>> zip(Iterable<U> other) {
+    default <U> Seq<Tuple2<T, U>> zip(Iterable<? extends U> other) {
         return zip(seq(other));
     }
 
@@ -903,7 +903,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #zip(Stream, Stream)
      */
-    default <U> Seq<Tuple2<T, U>> zip(Seq<U> other) {
+    default <U> Seq<Tuple2<T, U>> zip(Seq<? extends U> other) {
         return zip(this, other);
     }
 
@@ -917,7 +917,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #zip(Seq, BiFunction)
      */
-    default <U, R> Seq<R> zip(Stream<U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
+    default <U, R> Seq<R> zip(Stream<? extends U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
         return zip(seq(other), zipper);
     }
 
@@ -931,7 +931,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #zip(Seq, BiFunction)
      */
-    default <U, R> Seq<R> zip(Iterable<U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
+    default <U, R> Seq<R> zip(Iterable<? extends U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
         return zip(seq(other), zipper);
     }
 
@@ -945,7 +945,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #zip(Seq, BiFunction)
      */
-    default <U, R> Seq<R> zip(Seq<U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
+    default <U, R> Seq<R> zip(Seq<? extends U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
         return zip(this, other, zipper);
     }
 
@@ -971,7 +971,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    default <U> U foldLeft(U seed, BiFunction<U, ? super T, U> function) {
+    default <U> U foldLeft(U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         return foldLeft(this, seed, function);
     }
 
@@ -983,7 +983,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    default <U> U foldRight(U seed, BiFunction<? super T, U, U> function) {
+    default <U> U foldRight(U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return foldRight(this, seed, function);
     }
 
@@ -995,7 +995,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    default <U> Seq<U> scanLeft(U seed, BiFunction<U, ? super T, U> function) {
+    default <U> Seq<U> scanLeft(U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         return scanLeft(this, seed, function);
     }
 
@@ -1007,7 +1007,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    default <U> Seq<U> scanRight(U seed, BiFunction<? super T, U, U> function) {
+    default <U> Seq<U> scanRight(U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return scanRight(this, seed, function);
     }
 
@@ -1324,7 +1324,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #ofType(Stream, Class)
      */
-    default <U> Seq<U> ofType(Class<U> type) {
+    default <U> Seq<U> ofType(Class<? extends U> type) {
         return ofType(this, type);
     }
 
@@ -1338,7 +1338,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #cast(Stream, Class)
      */
-    default <U> Seq<U> cast(Class<U> type) {
+    default <U> Seq<U> cast(Class<? extends U> type) {
         return cast(this, type);
     }
     
@@ -2482,14 +2482,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * @see Stream#generate(Supplier)
      */
-    static <T> Seq<T> generate(Supplier<T> s) {
+    static <T> Seq<T> generate(Supplier<? extends T> s) {
         return seq(Stream.generate(s));
     }
 
     /**
      * Wrap a <code>Stream</code> into a <code>Seq</code>.
      */
-    static <T> Seq<T> seq(Stream<T> stream) {
+    static <T> Seq<T> seq(Stream<? extends T> stream) {
         if (stream instanceof Seq)
             return (Seq<T>) stream;
 
@@ -2499,8 +2499,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Wrap a <code>Stream</code> into a <code>Seq</code>.
      */
-    static <T> Seq<T> seq(Seq<T> stream) {
-        return stream;
+    static <T> Seq<T> seq(Seq<? extends T> stream) {
+        return (Seq<T>) stream;
     }
 
     /**
@@ -2527,35 +2527,35 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Wrap an <code>Iterable</code> into a <code>Seq</code>.
      */
-    static <T> Seq<T> seq(Iterable<T> iterable) {
+    static <T> Seq<T> seq(Iterable<? extends T> iterable) {
         return seq(iterable.iterator());
     }
 
     /**
      * Wrap an <code>Iterator</code> into a <code>Seq</code>.
      */
-    static <T> Seq<T> seq(Iterator<T> iterator) {
+    static <T> Seq<T> seq(Iterator<? extends T> iterator) {
         return seq(spliteratorUnknownSize(iterator, ORDERED));
     }
 
     /**
      * Wrap a <code>Spliterator</code> into a <code>Seq</code>.
      */
-    static <T> Seq<T> seq(Spliterator<T> spliterator) {
+    static <T> Seq<T> seq(Spliterator<? extends T> spliterator) {
         return seq(StreamSupport.stream(spliterator, false));
     }
 
     /**
      * Wrap a <code>Map</code> into a <code>Seq</code>.
      */
-    static <K, V> Seq<Tuple2<K, V>> seq(Map<K, V> map) {
+    static <K, V> Seq<Tuple2<K, V>> seq(Map<? extends K, ? extends V> map) {
         return seq(map.entrySet()).map(e -> tuple(e.getKey(), e.getValue()));
     }
 
     /**
      * Wrap an <code>Optional</code> into a <code>Seq</code>.
      */
-    static <T> Seq<T> seq(Optional<T> optional) {
+    static <T> Seq<T> seq(Optional<? extends T> optional) {
         return optional.map(Seq::of).orElseGet(Seq::empty);
     }
 
@@ -2617,7 +2617,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).cycle();
      * </pre></code>
      */
-    static <T> Seq<T> cycle(Stream<T> stream) {
+    static <T> Seq<T> cycle(Stream<? extends T> stream) {
         return cycle(seq(stream));
     }
 
@@ -2629,7 +2629,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).cycle();
      * </pre></code>
      */
-    static <T> Seq<T> cycle(Iterable<T> iterable) {
+    static <T> Seq<T> cycle(Iterable<? extends T> iterable) {
         return cycle(seq(iterable));
     }
 
@@ -2641,7 +2641,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).cycle();
      * </pre></code>
      */
-    static <T> Seq<T> cycle(Seq<T> stream) {
+    static <T> Seq<T> cycle(Seq<? extends T> stream) {
         return cycle(stream, -1);
     }
 
@@ -2661,7 +2661,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #cycle(Stream)
      */
-    static <T> Seq<T> cycle(Stream<T> stream, long times) {
+    static <T> Seq<T> cycle(Stream<? extends T> stream, long times) {
         return cycle(seq(stream), times);
     }
 
@@ -2681,7 +2681,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #cycle(Stream)
      */
-    static <T> Seq<T> cycle(Iterable<T> iterable, long times) {
+    static <T> Seq<T> cycle(Iterable<? extends T> iterable, long times) {
         return cycle(seq(iterable), times);
     }
 
@@ -2701,11 +2701,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #cycle(Stream)
      */
-    static <T> Seq<T> cycle(Seq<T> stream, long times) {
+    static <T> Seq<T> cycle(Seq<? extends T> stream, long times) {
         if (times == 0)
             return empty();
         if (times == 1)
-            return stream;
+            return (Seq<T>) stream;
         
         List<T> list = new ArrayList<>();
         Spliterator<T>[] sp = new Spliterator[1];
@@ -2895,7 +2895,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<T1> s1, Stream<T2> s2) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2) {
         return zip(seq(s1), seq(s2));
     }
 
@@ -2908,7 +2908,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3) {
         return zip(seq(s1), seq(s2), seq(s3));
     }
 
@@ -2921,7 +2921,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4));
     }
 
@@ -2934,7 +2934,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5));
     }
 
@@ -2947,7 +2947,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6));
     }
 
@@ -2960,7 +2960,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7));
     }
 
@@ -2973,7 +2973,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8));
     }
 
@@ -2986,7 +2986,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9));
     }
 
@@ -2999,7 +2999,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10));
     }
 
@@ -3012,7 +3012,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11));
     }
 
@@ -3025,7 +3025,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12));
     }
 
@@ -3038,7 +3038,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13));
     }
 
@@ -3051,7 +3051,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14));
     }
 
@@ -3064,7 +3064,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15));
     }
 
@@ -3077,7 +3077,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Stream<T16> s16) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16));
     }
 
@@ -3090,7 +3090,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Iterable<T1> i1, Iterable<T2> i2) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2) {
         return zip(seq(i1), seq(i2));
     }
 
@@ -3103,7 +3103,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3) {
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3) {
         return zip(seq(i1), seq(i2), seq(i3));
     }
 
@@ -3116,7 +3116,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4) {
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4));
     }
 
@@ -3129,7 +3129,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5) {
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5));
     }
 
@@ -3142,7 +3142,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6) {
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6));
     }
 
@@ -3155,7 +3155,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7) {
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7));
     }
 
@@ -3168,7 +3168,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
     }
 
@@ -3181,7 +3181,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9));
     }
 
@@ -3194,7 +3194,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10));
     }
 
@@ -3207,7 +3207,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11));
     }
 
@@ -3220,7 +3220,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12));
     }
 
@@ -3233,7 +3233,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13));
     }
 
@@ -3246,7 +3246,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14));
     }
 
@@ -3259,7 +3259,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15));
     }
 
@@ -3272,7 +3272,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Iterable<T16> i16) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Iterable<? extends T16> i16) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16));
     }
 
@@ -3285,7 +3285,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Seq<T1> s1, Seq<T2> s2) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2) {
         return zip(s1, s2, (t1, t2) -> tuple(t1, t2))
               .onClose(SeqUtils.closeAll(s1, s2));
     }
@@ -3299,7 +3299,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3) {
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3) {
         return zip(s1, s2, s3, (t1, t2, t3) -> tuple(t1, t2, t3))
               .onClose(SeqUtils.closeAll(s1, s2, s3));
     }
@@ -3313,7 +3313,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4) {
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4) {
         return zip(s1, s2, s3, s4, (t1, t2, t3, t4) -> tuple(t1, t2, t3, t4))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4));
     }
@@ -3327,7 +3327,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5) {
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5) {
         return zip(s1, s2, s3, s4, s5, (t1, t2, t3, t4, t5) -> tuple(t1, t2, t3, t4, t5))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5));
     }
@@ -3341,7 +3341,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6) {
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6) {
         return zip(s1, s2, s3, s4, s5, s6, (t1, t2, t3, t4, t5, t6) -> tuple(t1, t2, t3, t4, t5, t6))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6));
     }
@@ -3355,7 +3355,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7) {
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7) {
         return zip(s1, s2, s3, s4, s5, s6, s7, (t1, t2, t3, t4, t5, t6, t7) -> tuple(t1, t2, t3, t4, t5, t6, t7))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7));
     }
@@ -3369,7 +3369,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, (t1, t2, t3, t4, t5, t6, t7, t8) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8));
     }
@@ -3383,7 +3383,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9));
     }
@@ -3397,7 +3397,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
     }
@@ -3411,7 +3411,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
     }
@@ -3425,7 +3425,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
     }
@@ -3439,7 +3439,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
     }
@@ -3453,7 +3453,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
     }
@@ -3467,7 +3467,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
     }
@@ -3481,7 +3481,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
     }
@@ -3495,7 +3495,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+    static <T1, T2, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), zipper);
     }
 
@@ -3508,7 +3508,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
+    static <T1, T2, T3, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), zipper);
     }
 
@@ -3521,7 +3521,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
+    static <T1, T2, T3, T4, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), zipper);
     }
 
@@ -3534,7 +3534,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), zipper);
     }
 
@@ -3547,7 +3547,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), zipper);
     }
 
@@ -3560,7 +3560,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), zipper);
     }
 
@@ -3573,7 +3573,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), zipper);
     }
 
@@ -3586,7 +3586,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), zipper);
     }
 
@@ -3599,7 +3599,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), zipper);
     }
 
@@ -3612,7 +3612,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), zipper);
     }
 
@@ -3625,7 +3625,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), zipper);
     }
 
@@ -3638,7 +3638,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), zipper);
     }
 
@@ -3651,7 +3651,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), zipper);
     }
 
@@ -3664,7 +3664,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), zipper);
     }
 
@@ -3677,7 +3677,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Stream<T16> s16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16), zipper);
     }
 
@@ -3690,7 +3690,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+    static <T1, T2, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), zipper);
     }
 
@@ -3703,7 +3703,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
+    static <T1, T2, T3, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), zipper);
     }
 
@@ -3716,7 +3716,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
+    static <T1, T2, T3, T4, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), zipper);
     }
 
@@ -3729,7 +3729,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), zipper);
     }
 
@@ -3742,7 +3742,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), zipper);
     }
 
@@ -3755,7 +3755,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), zipper);
     }
 
@@ -3768,7 +3768,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), zipper);
     }
 
@@ -3781,7 +3781,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), zipper);
     }
 
@@ -3794,7 +3794,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), zipper);
     }
 
@@ -3807,7 +3807,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), zipper);
     }
 
@@ -3820,7 +3820,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), zipper);
     }
 
@@ -3833,7 +3833,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), zipper);
     }
 
@@ -3846,7 +3846,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), zipper);
     }
 
@@ -3859,7 +3859,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), zipper);
     }
 
@@ -3872,7 +3872,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Iterable<T16> i16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Iterable<? extends T16> i16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16), zipper);
     }
 
@@ -3885,9 +3885,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
+    static <T1, T2, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -3913,10 +3913,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
+    static <T1, T2, T3, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -3942,11 +3942,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
+    static <T1, T2, T3, T4, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -3972,12 +3972,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
+    static <T1, T2, T3, T4, T5, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4003,13 +4003,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4035,14 +4035,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4068,15 +4068,15 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4102,16 +4102,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4137,17 +4137,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4173,18 +4173,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
-        final Iterator<T11> it11 = s11.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4210,19 +4210,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
-        final Iterator<T11> it11 = s11.iterator();
-        final Iterator<T12> it12 = s12.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4248,20 +4248,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
-        final Iterator<T11> it11 = s11.iterator();
-        final Iterator<T12> it12 = s12.iterator();
-        final Iterator<T13> it13 = s13.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4287,21 +4287,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
-        final Iterator<T11> it11 = s11.iterator();
-        final Iterator<T12> it12 = s12.iterator();
-        final Iterator<T13> it13 = s13.iterator();
-        final Iterator<T14> it14 = s14.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+        final Iterator<? extends T14> it14 = s14.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4327,22 +4327,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
-        final Iterator<T11> it11 = s11.iterator();
-        final Iterator<T12> it12 = s12.iterator();
-        final Iterator<T13> it13 = s13.iterator();
-        final Iterator<T14> it14 = s14.iterator();
-        final Iterator<T15> it15 = s15.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+        final Iterator<? extends T14> it14 = s14.iterator();
+        final Iterator<? extends T15> it15 = s15.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4368,23 +4368,23 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
-        final Iterator<T3> it3 = s3.iterator();
-        final Iterator<T4> it4 = s4.iterator();
-        final Iterator<T5> it5 = s5.iterator();
-        final Iterator<T6> it6 = s6.iterator();
-        final Iterator<T7> it7 = s7.iterator();
-        final Iterator<T8> it8 = s8.iterator();
-        final Iterator<T9> it9 = s9.iterator();
-        final Iterator<T10> it10 = s10.iterator();
-        final Iterator<T11> it11 = s11.iterator();
-        final Iterator<T12> it12 = s12.iterator();
-        final Iterator<T13> it13 = s13.iterator();
-        final Iterator<T14> it14 = s14.iterator();
-        final Iterator<T15> it15 = s15.iterator();
-        final Iterator<T16> it16 = s16.iterator();
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+        final Iterator<? extends T14> it14 = s14.iterator();
+        final Iterator<? extends T15> it15 = s15.iterator();
+        final Iterator<? extends T16> it16 = s16.iterator();
 
         class Zip implements Iterator<R> {
             @Override
@@ -4411,7 +4411,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").zipWithIndex()
      * </pre></code>
      */
-    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<T> stream) {
+    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Stream<? extends T> stream) {
         return zipWithIndex(seq(stream));
     }
 
@@ -4423,7 +4423,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").zipWithIndex()
      * </pre></code>
      */
-    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Iterable<T> iterable) {
+    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Iterable<? extends T> iterable) {
         return zipWithIndex(seq(iterable));
     }
 
@@ -4435,7 +4435,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").zipWithIndex()
      * </pre></code>
      */
-    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Seq<T> stream) {
+    static <T> Seq<Tuple2<T, Long>> zipWithIndex(Seq<? extends T> stream) {
         long[] index = { -1L };
 
         return SeqUtils.transform(stream, (delegate, action) ->
@@ -4453,7 +4453,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    static <T, U> U foldLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
+    static <T, U> U foldLeft(Stream<? extends T> stream, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         return foldLeft(seq(stream), seed, function);
     }
 
@@ -4465,7 +4465,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    static <T, U> U foldLeft(Iterable<T> iterable, U seed, BiFunction<U, ? super T, U> function) {
+    static <T, U> U foldLeft(Iterable<? extends T> iterable, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         return foldLeft(seq(iterable), seed, function);
     }
 
@@ -4477,8 +4477,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    static <T, U> U foldLeft(Seq<T> stream, U seed, BiFunction<U, ? super T, U> function) {
-        final Iterator<T> it = stream.iterator();
+    static <T, U> U foldLeft(Seq<? extends T> stream, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
+        final Iterator<? extends T> it = stream.iterator();
         U result = seed;
 
         while (it.hasNext())
@@ -4495,7 +4495,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    static <T, U> U foldRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
+    static <T, U> U foldRight(Stream<? extends T> stream, U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return foldRight(seq(stream), seed, function);
     }
 
@@ -4507,7 +4507,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    static <T, U> U foldRight(Iterable<T> iterable, U seed, BiFunction<? super T, U, U> function) {
+    static <T, U> U foldRight(Iterable<? extends T> iterable, U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return foldRight(seq(iterable), seed, function);
     }
 
@@ -4519,7 +4519,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    static <T, U> U foldRight(Seq<T> stream, U seed, BiFunction<? super T, U, U> function) {
+    static <T, U> U foldRight(Seq<? extends T> stream, U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return stream.reverse().foldLeft(seed, (u, t) -> function.apply(t, u));
     }
 
@@ -4531,7 +4531,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    static <T, U> Seq<U> scanLeft(Stream<T> stream, U seed, BiFunction<U, ? super T, U> function) {
+    static <T, U> Seq<U> scanLeft(Stream<? extends T> stream, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         return scanLeft(seq(stream), seed, function);
     }
 
@@ -4543,7 +4543,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    static <T, U> Seq<U> scanLeft(Iterable<T> iterable, U seed, BiFunction<U, ? super T, U> function) {
+    static <T, U> Seq<U> scanLeft(Iterable<? extends T> iterable, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         return scanLeft(seq(iterable), seed, function);
     }
 
@@ -4555,7 +4555,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanLeft("", (u, t) -> u + t)
      * </pre></code>
      */
-    static <T, U> Seq<U> scanLeft(Seq<T> stream, U seed, BiFunction<U, ? super T, U> function) {
+    static <T, U> Seq<U> scanLeft(Seq<? extends T> stream, U seed, BiFunction<? super U, ? super T, ? extends U> function) {
         U[] value = (U[]) new Object[] { seed };
 
         return Seq.of(seed).concat(SeqUtils.transform(stream, (delegate, action) ->
@@ -4573,7 +4573,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    static <T, U> Seq<U> scanRight(Stream<T> stream, U seed, BiFunction<? super T, U, U> function) {
+    static <T, U> Seq<U> scanRight(Stream<? extends T> stream, U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return scanRight(seq(stream), seed, function);
     }
 
@@ -4585,7 +4585,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    static <T, U> Seq<U> scanRight(Iterable<T> iterable, U seed, BiFunction<? super T, U, U> function) {
+    static <T, U> Seq<U> scanRight(Iterable<? extends T> iterable, U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return scanRight(seq(iterable), seed, function);
     }
 
@@ -4597,7 +4597,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of("a", "b", "c").scanRight("", (t, u) -> u + t)
      * </pre></code>
      */
-    static <T, U> Seq<U> scanRight(Seq<T> stream, U seed, BiFunction<? super T, U, U> function) {
+    static <T, U> Seq<U> scanRight(Seq<? extends T> stream, U seed, BiFunction<? super T, ? super U, ? extends U> function) {
         return stream.reverse().scanLeft(seed, (u, t) -> function.apply(t, u));
     }
 
@@ -4609,7 +4609,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.unfold(1, i -> i &lt;= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
      * </pre></code>
      */
-    static <T, U> Seq<T> unfold(U seed, Function<U, Optional<Tuple2<T, U>>> unfolder) {
+    static <T, U> Seq<T> unfold(U seed, Function<? super U, Optional<Tuple2<T, U>>> unfolder) {
         Tuple2<T, U>[] unfolded = new Tuple2[] { tuple((T) null, seed) };
 
         return seq((FunctionalSpliterator<T>) action -> {
@@ -4630,7 +4630,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).reverse()
      * </pre></code>
      */
-    static <T> Seq<T> reverse(Stream<T> stream) {
+    static <T> Seq<T> reverse(Stream<? extends T> stream) {
         return reverse(seq(stream));
     }
 
@@ -4642,7 +4642,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).reverse()
      * </pre></code>
      */
-    static <T> Seq<T> reverse(Iterable<T> iterable) {
+    static <T> Seq<T> reverse(Iterable<? extends T> iterable) {
         return reverse(seq(iterable));
     }
 
@@ -4654,7 +4654,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).reverse()
      * </pre></code>
      */
-    static <T> Seq<T> reverse(Seq<T> stream) {
+    static <T> Seq<T> reverse(Seq<? extends T> stream) {
         List<T> list = toList(stream);
         Collections.reverse(list);
         return seq(list).onClose(stream::close);
@@ -4668,7 +4668,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).shuffle()
      * </pre></code>
      */
-    static <T> Seq<T> shuffle(Stream<T> stream) {
+    static <T> Seq<T> shuffle(Stream<? extends T> stream) {
         return shuffle(seq(stream));
     }
 
@@ -4680,7 +4680,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).shuffle()
      * </pre></code>
      */
-    static <T> Seq<T> shuffle(Iterable<T> iterable) {
+    static <T> Seq<T> shuffle(Iterable<? extends T> iterable) {
         return shuffle(seq(iterable));
     }
 
@@ -4692,7 +4692,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).shuffle()
      * </pre></code>
      */
-    static <T> Seq<T> shuffle(Seq<T> stream) {
+    static <T> Seq<T> shuffle(Seq<? extends T> stream) {
         List<T> list = toList(stream);
         Collections.shuffle(list);
         return seq(list).onClose(stream::close);
@@ -4706,7 +4706,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).shuffle(new Random())
      * </pre></code>
      */
-    static <T> Seq<T> shuffle(Stream<T> stream, Random random) {
+    static <T> Seq<T> shuffle(Stream<? extends T> stream, Random random) {
         return shuffle(seq(stream), random);
     }
 
@@ -4718,7 +4718,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).shuffle(new Random())
      * </pre></code>
      */
-    static <T> Seq<T> shuffle(Iterable<T> iterable, Random random) {
+    static <T> Seq<T> shuffle(Iterable<? extends T> iterable, Random random) {
         return shuffle(seq(iterable), random);
     }
 
@@ -4730,7 +4730,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).shuffle(new Random())
      * </pre></code>
      */
-    static <T> Seq<T> shuffle(Seq<T> stream, Random random) {
+    static <T> Seq<T> shuffle(Seq<? extends T> stream, Random random) {
         List<T> list = toList(stream);
         Collections.shuffle(list, random);
         return seq(list);
@@ -4747,7 +4747,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Stream<T1> s1, Stream<T2> s2) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2) {
         return crossJoin(seq(s1), seq(s2));
     }
 
@@ -4760,7 +4760,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3) {
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3) {
         return crossJoin(seq(s1), seq(s2), seq(s3));
     }
 
@@ -4773,7 +4773,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4) {
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4));
     }
 
@@ -4786,7 +4786,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5) {
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5));
     }
 
@@ -4799,7 +4799,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6) {
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6));
     }
 
@@ -4812,7 +4812,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7) {
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7));
     }
 
@@ -4825,7 +4825,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8));
     }
 
@@ -4838,7 +4838,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9));
     }
 
@@ -4851,7 +4851,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10));
     }
 
@@ -4864,7 +4864,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11));
     }
 
@@ -4877,7 +4877,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12));
     }
 
@@ -4890,7 +4890,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13));
     }
 
@@ -4903,7 +4903,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14));
     }
 
@@ -4916,7 +4916,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15));
     }
 
@@ -4929,7 +4929,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Stream<T1> s1, Stream<T2> s2, Stream<T3> s3, Stream<T4> s4, Stream<T5> s5, Stream<T6> s6, Stream<T7> s7, Stream<T8> s8, Stream<T9> s9, Stream<T10> s10, Stream<T11> s11, Stream<T12> s12, Stream<T13> s13, Stream<T14> s14, Stream<T15> s15, Stream<T16> s16) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16));
     }
 
@@ -4942,7 +4942,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Iterable<T1> i1, Iterable<T2> i2) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2) {
         return crossJoin(seq(i1), seq(i2));
     }
 
@@ -4955,7 +4955,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3) {
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3) {
         return crossJoin(seq(i1), seq(i2), seq(i3));
     }
 
@@ -4968,7 +4968,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4) {
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4));
     }
 
@@ -4981,7 +4981,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5) {
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5));
     }
 
@@ -4994,7 +4994,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6) {
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6));
     }
 
@@ -5007,7 +5007,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7) {
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7));
     }
 
@@ -5020,7 +5020,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
     }
 
@@ -5033,7 +5033,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9));
     }
 
@@ -5046,7 +5046,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10));
     }
 
@@ -5059,7 +5059,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11));
     }
 
@@ -5072,7 +5072,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12));
     }
 
@@ -5085,7 +5085,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13));
     }
 
@@ -5098,7 +5098,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14));
     }
 
@@ -5111,7 +5111,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15));
     }
 
@@ -5124,7 +5124,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Iterable<T1> i1, Iterable<T2> i2, Iterable<T3> i3, Iterable<T4> i4, Iterable<T5> i5, Iterable<T6> i6, Iterable<T7> i7, Iterable<T8> i8, Iterable<T9> i9, Iterable<T10> i10, Iterable<T11> i11, Iterable<T12> i12, Iterable<T13> i13, Iterable<T14> i14, Iterable<T15> i15, Iterable<T16> i16) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Iterable<? extends T16> i16) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16));
     }
 
@@ -5137,8 +5137,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Seq<T1> s1, Seq<T2> s2) {
-        List<T2> list = s2.toList();
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2) {
+        List<? extends T2> list = s2.toList();
         return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)))
                       .onClose(SeqUtils.closeAll(s1, s2));
     }
@@ -5152,7 +5152,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3) {
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3) {
         List<Tuple2<T2, T3>> list = crossJoin(s2, s3).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)))
                  .onClose(SeqUtils.closeAll(s2, s3));
@@ -5167,7 +5167,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4) {
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4) {
         List<Tuple3<T2, T3, T4>> list = crossJoin(s2, s3, s4).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4));
@@ -5182,7 +5182,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5) {
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5) {
         List<Tuple4<T2, T3, T4, T5>> list = crossJoin(s2, s3, s4, s5).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5));
@@ -5197,7 +5197,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6) {
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6) {
         List<Tuple5<T2, T3, T4, T5, T6>> list = crossJoin(s2, s3, s4, s5, s6).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6));
@@ -5212,7 +5212,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7) {
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7) {
         List<Tuple6<T2, T3, T4, T5, T6, T7>> list = crossJoin(s2, s3, s4, s5, s6, s7).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7));
@@ -5227,7 +5227,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8) {
         List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8));
@@ -5242,7 +5242,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9) {
         List<Tuple8<T2, T3, T4, T5, T6, T7, T8, T9>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9));
@@ -5257,7 +5257,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10) {
         List<Tuple9<T2, T3, T4, T5, T6, T7, T8, T9, T10>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10));
@@ -5272,7 +5272,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11) {
         List<Tuple10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
@@ -5287,7 +5287,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12) {
         List<Tuple11<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
@@ -5302,7 +5302,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13) {
         List<Tuple12<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
@@ -5317,7 +5317,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14) {
         List<Tuple13<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
@@ -5332,7 +5332,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15) {
         List<Tuple14<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
@@ -5347,7 +5347,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @Generated("This method was generated using jOOQ-tools")
-    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Seq<T1> s1, Seq<T2> s2, Seq<T3> s3, Seq<T4> s4, Seq<T5> s5, Seq<T6> s6, Seq<T7> s7, Seq<T8> s8, Seq<T9> s9, Seq<T10> s10, Seq<T11> s11, Seq<T12> s12, Seq<T13> s13, Seq<T14> s14, Seq<T15> s15, Seq<T16> s16) {
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16) {
         List<Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> list = crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16).toList();
         return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14, t.v15)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
@@ -5364,7 +5364,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SafeVarargs
-    static <T> Seq<T> concat(Stream<T>... streams) {
+    static <T> Seq<T> concat(Stream<? extends T>... streams) {
         return concat(SeqUtils.seqs(streams));
     }
 
@@ -5377,7 +5377,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SafeVarargs
-    static <T> Seq<T> concat(Iterable<T>... iterables) {
+    static <T> Seq<T> concat(Iterable<? extends T>... iterables) {
         return concat(SeqUtils.seqs(iterables));
     }
 
@@ -5390,14 +5390,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SafeVarargs
-    static <T> Seq<T> concat(Seq<T>... streams) {
+    static <T> Seq<T> concat(Seq<? extends T>... streams) {
         if (streams == null || streams.length == 0)
             return Seq.empty();
 
         if (streams.length == 1)
             return seq(streams[0]);
 
-        Stream<T> result = streams[0];
+        Stream<? extends T> result = streams[0];
         for (int i = 1; i < streams.length; i++)
             result = Stream.concat(result, streams[i]);
 
@@ -5412,9 +5412,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).duplicate()
      * </pre></code>
      */
-    static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<T> stream) {
+    static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<? extends T> stream) {
+        final Iterator<? extends T> it = stream.iterator();
         final LinkedList<T> gap = new LinkedList<>();
-        final Iterator<T> it = stream.iterator();
 
         @SuppressWarnings({"unchecked"})
         final Iterator<T>[] ahead = new Iterator[] { null };
@@ -5469,21 +5469,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Collect a Stream into a List.
      */
-    static <T, C extends Collection<T>> C toCollection(Stream<T> stream, Supplier<C> collectionFactory) {
+    static <T, C extends Collection<T>> C toCollection(Stream<? extends T> stream, Supplier<? extends C> collectionFactory) {
         return stream.collect(Collectors.toCollection(collectionFactory));
     }
 
     /**
      * Collect a Stream into a List.
      */
-    static <T> List<T> toList(Stream<T> stream) {
+    static <T> List<T> toList(Stream<? extends T> stream) {
         return stream.collect(Collectors.toList());
     }
 
     /**
      * Collect a Stream into a Set.
      */
-    static <T> Set<T> toSet(Stream<T> stream) {
+    static <T> Set<T> toSet(Stream<? extends T> stream) {
         return stream.collect(Collectors.toSet());
     }
 
@@ -5497,7 +5497,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Collect a Stream into a Map.
      */
-    static <T, K, V> Map<K, V> toMap(Stream<T> stream, Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
+    static <T, K, V> Map<K, V> toMap(Stream<? extends T> stream, Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
         return stream.collect(Collectors.toMap(keyMapper, valueMapper));
     }
 
@@ -5509,7 +5509,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5, 6).slice(3, 5)
      * </pre></code>
      */
-    static <T> Seq<T> slice(Stream<T> stream, long from, long to) {
+    static <T> Seq<T> slice(Stream<? extends T> stream, long from, long to) {
         long f = Math.max(from, 0);
         long t = Math.max(to - f, 0);
 
@@ -5524,7 +5524,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5, 6).skip(3)
      * </pre></code>
      */
-    static <T> Seq<T> skip(Stream<T> stream, long elements) {
+    static <T> Seq<T> skip(Stream<? extends T> stream, long elements) {
         return seq(stream.skip(elements));
     }
 
@@ -5536,7 +5536,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5).skipWhile(i -> i &lt; 3)
      * </pre></code>
      */
-    static <T> Seq<T> skipWhile(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> skipWhile(Stream<? extends T> stream, Predicate<? super T> predicate) {
         return skipUntil(stream, predicate.negate());
     }
 
@@ -5549,7 +5549,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5).skipWhileClosed(i -> i &lt; 3)
      * </pre></code>
      */
-    static <T> Seq<T> skipWhileClosed(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> skipWhileClosed(Stream<? extends T> stream, Predicate<? super T> predicate) {
         return skipUntilClosed(stream, predicate.negate());
     }
 
@@ -5562,7 +5562,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SuppressWarnings("unchecked")
-    static <T> Seq<T> skipUntil(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> skipUntil(Stream<? extends T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
         return SeqUtils.transform(stream, (delegate, action) -> !test[0]
@@ -5584,7 +5584,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SuppressWarnings("unchecked")
-    static <T> Seq<T> skipUntilClosed(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> skipUntilClosed(Stream<? extends T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
         return SeqUtils.transform(stream, (delegate, action) -> !test[0]
@@ -5601,7 +5601,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5, 6).limit(3)
      * </pre></code>
      */
-    static <T> Seq<T> limit(Stream<T> stream, long elements) {
+    static <T> Seq<T> limit(Stream<? extends T> stream, long elements) {
         return seq(stream.limit(elements));
     }
 
@@ -5631,7 +5631,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i &lt; 3)
      * </pre></code>
      */
-    static <T> Seq<T> limitWhile(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> limitWhile(Stream<? extends T> stream, Predicate<? super T> predicate) {
         return limitUntil(stream, predicate.negate());
     }
 
@@ -5644,7 +5644,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5).limitWhileClosed(i -> i &lt; 3)
      * </pre></code>
      */
-    static <T> Seq<T> limitWhileClosed(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> limitWhileClosed(Stream<? extends T> stream, Predicate<? super T> predicate) {
         return limitUntilClosed(stream, predicate.negate());
     }
 
@@ -5657,7 +5657,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SuppressWarnings("unchecked")
-    static <T> Seq<T> limitUntil(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> limitUntil(Stream<? extends T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
         return SeqUtils.transform(stream, (delegate, action) ->
@@ -5678,7 +5678,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SuppressWarnings("unchecked")
-    static <T> Seq<T> limitUntilClosed(Stream<T> stream, Predicate<? super T> predicate) {
+    static <T> Seq<T> limitUntilClosed(Stream<? extends T> stream, Predicate<? super T> predicate) {
         boolean[] test = { false };
 
         return SeqUtils.transform(stream, (delegate, action) ->
@@ -5697,7 +5697,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4).intersperse(0)
      * </pre></code>
      */
-    static <T> Seq<T> intersperse(Stream<T> stream, T value) {
+    static <T> Seq<T> intersperse(Stream<? extends T> stream, T value) {
         return seq(stream.flatMap(t -> Stream.of(value, t)).skip(1));
     }
 
@@ -5715,7 +5715,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #groupBy(Function)
      * @see #partition(Predicate)
      */
-    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Stream<T> stream, Function<? super T, ? extends K> classifier) {
+    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier) {
         return grouped(seq(stream), classifier);
     }
 
@@ -5733,7 +5733,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #groupBy(Function)
      * @see #partition(Predicate)
      */
-    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Iterable<T> iterable, Function<? super T, ? extends K> classifier) {
+    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier) {
         return grouped(seq(iterable), classifier);
     }
 
@@ -5751,8 +5751,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #groupBy(Function)
      * @see #partition(Predicate)
      */
-    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Seq<T> seq, Function<? super T, ? extends K> classifier) {
-        final Iterator<T> it = seq.iterator();
+    public static <K, T> Seq<Tuple2<K, Seq<T>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier) {
+        final Iterator<? extends T> it = seq.iterator();
 
         class ClassifyingIterator implements Iterator<Tuple2<K, Seq<T>>> {
             final Map<K, Queue<T>> buffers = new LinkedHashMap<>();
@@ -5841,7 +5841,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #groupBy(Function, Collector)
      */
-    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Stream<T> stream, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
         return grouped(seq(stream), classifier, downstream);
     }
 
@@ -5859,7 +5859,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #groupBy(Function, Collector)
      */
-    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Iterable<T> iterable, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
         return grouped(seq(iterable), classifier, downstream);
     }
 
@@ -5877,7 +5877,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      *
      * @see #groupBy(Function, Collector)
      */
-    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Seq<T> seq, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+    public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
         return grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream)));
     }
 
@@ -5889,8 +5889,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5, 6).partition(i -> i % 2 != 0)
      * </pre></code>
      */
-    static <T> Tuple2<Seq<T>, Seq<T>> partition(Stream<T> stream, Predicate<? super T> predicate) {
-        final Iterator<T> it = stream.iterator();
+    static <T> Tuple2<Seq<T>, Seq<T>> partition(Stream<? extends T> stream, Predicate<? super T> predicate) {
+        final Iterator<? extends T> it = stream.iterator();
         final LinkedList<T> buffer1 = new LinkedList<>();
         final LinkedList<T> buffer2 = new LinkedList<>();
 
@@ -5936,7 +5936,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5, 6).splitAt(3)
      * </pre></code>
      */
-    static <T> Tuple2<Seq<T>, Seq<T>> splitAt(Stream<T> stream, long position) {
+    static <T> Tuple2<Seq<T>, Seq<T>> splitAt(Stream<? extends T> stream, long position) {
         return seq(stream)
             .zipWithIndex()
             .partition(t -> t.v2 < position)
@@ -5973,7 +5973,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SuppressWarnings("unchecked")
-    static <T, U> Seq<U> ofType(Stream<T> stream, Class<U> type) {
+    static <T, U> Seq<U> ofType(Stream<? extends T> stream, Class<? extends U> type) {
         return seq(stream).filter(type::isInstance).map(t -> (U) t);
     }
 
@@ -5985,7 +5985,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, "a", 2, "b", 3).cast(Integer.class)
      * </pre></code>
      */
-    static <T, U> Seq<U> cast(Stream<T> stream, Class<U> type) {
+    static <T, U> Seq<U> cast(Stream<? extends T> stream, Class<? extends U> type) {
         return seq(stream).map(type::cast);
     }
     
@@ -5996,7 +5996,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function)} collector.
      */
-    static <T, K> Map<K, List<T>> groupBy(Stream<T> stream, Function<? super T, ? extends K> classifier) {
+    static <T, K> Map<K, List<T>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier) {
         return seq(stream).groupBy(classifier);
     }
 
@@ -6004,7 +6004,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function, Collector)} collector.
      */
-    static <T, K, A, D> Map<K, D> groupBy(Stream<T> stream, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
+    static <T, K, A, D> Map<K, D> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
         return seq(stream).groupBy(classifier, downstream);
     }
 
@@ -6012,7 +6012,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function, Supplier, Collector)} collector.
      */
-    static <T, K, D, A, M extends Map<K, D>> M groupBy(Stream<T> stream, Function<? super T, ? extends K> classifier, Supplier<M> mapFactory, Collector<? super T, A, D> downstream) {
+    static <T, K, D, A, M extends Map<K, D>> M groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier, Supplier<M> mapFactory, Collector<? super T, A, D> downstream) {
         return seq(stream).groupBy(classifier, mapFactory, downstream);
     }
 

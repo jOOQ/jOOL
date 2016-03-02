@@ -36,7 +36,7 @@ import static org.jooq.lambda.Seq.seq;
 class SeqUtils {
 
     @SuppressWarnings("unchecked")
-    static <T> Seq<T>[] seqs(Stream<T>... streams) {
+    static <T> Seq<T>[] seqs(Stream<? extends T>... streams) {
         if (streams == null)
             return null;
 
@@ -44,15 +44,15 @@ class SeqUtils {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> Seq<T>[] seqs(Iterable<T>... iterables) {
+    static <T> Seq<T>[] seqs(Iterable<? extends T>... iterables) {
         if (iterables == null)
             return null;
 
         return Seq.of(iterables).map(Seq::seq).toArray(Seq[]::new);
     }
 
-    static <T, U> Seq<U> transform(Stream<T> stream, DelegatingSpliterator<T, U> delegating) {
-        Spliterator<T> delegate = stream.spliterator();
+    static <T, U> Seq<U> transform(Stream<? extends T> stream, DelegatingSpliterator<T, U> delegating) {
+        Spliterator<? extends T> delegate = stream.spliterator();
 
         return Seq.seq(new Spliterator<U>() {
             @Override
@@ -118,7 +118,7 @@ class SeqUtils {
 
     @FunctionalInterface
     interface DelegatingSpliterator<T, U> {
-        boolean tryAdvance(Spliterator<T> delegate, Consumer<? super U> action);
+        boolean tryAdvance(Spliterator<? extends T> delegate, Consumer<? super U> action);
     }
     
     static Runnable closeAll(AutoCloseable... closeables) {
