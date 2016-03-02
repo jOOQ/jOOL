@@ -4697,9 +4697,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Seq<? extends T> stream) {
-        List<T> list = toList(stream);
-        Collections.shuffle(list);
-        return seq(list).onClose(stream::close);
+        Spliterator[] shuffled = { null };
+        
+        return SeqUtils.transform(stream, (delegate, action) -> {
+            if (shuffled[0] == null) {
+                List<T> list = seq(delegate).toList();
+                Collections.shuffle(list);
+                shuffled[0] = list.spliterator();
+            }
+
+            return shuffled[0].tryAdvance(action);
+
+        }).onClose(stream::close);
     }
 
     /**
