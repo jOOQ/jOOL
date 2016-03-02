@@ -198,15 +198,15 @@ public final class Blocking {
         return l -> supplier(() -> longUnaryOperator.applyAsLong(l)).get();
     }
     
-    public static ObjDoubleConsumer objDoubleConsumer(ObjDoubleConsumer objDoubleConsumer) {
+    public static <T> ObjDoubleConsumer<T> objDoubleConsumer(ObjDoubleConsumer<T> objDoubleConsumer) {
         return (o, d) -> runnable(() -> objDoubleConsumer.accept(o, d)).run();
     }
     
-    public static ObjIntConsumer objIntConsumer(ObjIntConsumer objIntConsumer) {
+    public static <T> ObjIntConsumer<T> objIntConsumer(ObjIntConsumer<T> objIntConsumer) {
         return (o, i) -> runnable(() -> objIntConsumer.accept(o, i)).run();
     }
    
-    public static ObjLongConsumer objLongConsumer(ObjLongConsumer objLongConsumer) {
+    public static <T> ObjLongConsumer<T> objLongConsumer(ObjLongConsumer<T> objLongConsumer) {
         return (o, l) -> runnable(() -> objLongConsumer.accept(o, l)).run();
     }
     
