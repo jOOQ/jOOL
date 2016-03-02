@@ -290,6 +290,7 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> min() {
         return partition.cacheIf(completePartition(), "min", () -> window().min((Comparator) naturalOrder()));
     }
@@ -320,6 +321,7 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> max() {
         return partition.cacheIf(completePartition(), "max", () -> window().max((Comparator) naturalOrder()));
     }
@@ -350,6 +352,7 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> median() {
         return partition.cacheIf(completePartition(), "median", () -> window().median((Comparator) naturalOrder()));
     }
@@ -370,6 +373,7 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> percentile(double percentile) {
         return partition.cacheIf(completePartition(), () -> tuple("percentile", percentile), () -> window().percentile(percentile, (Comparator) naturalOrder()));
     }
