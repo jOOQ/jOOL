@@ -1142,6 +1142,8 @@ public class SeqTest {
         assertEquals(
             asList('a', 'b', 'c', 'd', 'e'),
             Seq.unfold(0, (Integer i) -> i < 5 ? Optional.of(tuple((char) ('a' + i), i + 1)) : Optional.empty()).toList());
+        
+        Seq<Object> result = Seq.unfold(0, i -> Optional.of(tuple("a", i + 1)));
     }
 
     @Test
