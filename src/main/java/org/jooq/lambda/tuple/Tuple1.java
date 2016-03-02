@@ -219,6 +219,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     }
 
     @Override
+    @Deprecated
     public final Object[] array() {
         return toArray();
     }
@@ -229,6 +230,7 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     }
 
     @Override
+    @Deprecated
     public final List<?> list() {
         return toList();
     }

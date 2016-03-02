@@ -361,6 +361,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     }
 
     @Override
+    @Deprecated
     public final Object[] array() {
         return toArray();
     }
@@ -371,6 +372,7 @@ public class Tuple6<T1, T2, T3, T4, T5, T6> implements Tuple, Comparable<Tuple6<
     }
 
     @Override
+    @Deprecated
     public final List<?> list() {
         return toList();
     }

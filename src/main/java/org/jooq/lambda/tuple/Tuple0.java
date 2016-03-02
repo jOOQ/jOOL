@@ -189,6 +189,7 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
     }
 
     @Override
+    @Deprecated
     public final Object[] array() {
         return toArray();
     }
@@ -199,6 +200,7 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
     }
 
     @Override
+    @Deprecated
     public final List<?> list() {
         return toList();
     }
