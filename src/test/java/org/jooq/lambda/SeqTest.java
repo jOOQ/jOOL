@@ -1349,6 +1349,27 @@ public class SeqTest {
         assertEquals(tuple(1, "one"), s3.get(0));
         assertEquals(tuple(2, "two"), s3.get(1));
     }
+    
+    @Test
+    public void testSortedComplexPipeline() {
+        List<Integer> expected1 = asList(1, 1, 1, 2, 2, 2, 3, 3, 3);
+        List<Integer> expected2 = asList(1, 2, 3, 1, 2, 3, 1, 2, 3);
+        
+        assertEquals(expected2, Seq.of(3, 2, 1).sorted().cycle(3).toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).cycle(3).sorted().toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).cycle(3).sorted().sorted().toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).sorted().cycle(3).sorted().toList());
+        
+        assertEquals(expected2, Seq.of(3, 2, 1).filter(x -> true).sorted().cycle(3).toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).filter(x -> true).cycle(3).sorted().toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).filter(x -> true).cycle(3).sorted().sorted().toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).filter(x -> true).sorted().cycle(3).sorted().toList());
+        
+        assertEquals(expected2, Seq.of(3, 2, 1).filter(x -> true).sorted(Comparator.naturalOrder()).cycle(3).toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).filter(x -> true).cycle(3).sorted(Comparator.naturalOrder()).toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).filter(x -> true).cycle(3).sorted(Comparator.naturalOrder()).sorted().toList());
+        assertEquals(expected1, Seq.of(1, 2, 3).filter(x -> true).sorted(Comparator.naturalOrder()).cycle(3).sorted().toList());
+    }
 
     @Test
     public void testContains() {

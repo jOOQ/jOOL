@@ -2713,7 +2713,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         List<T> list = new ArrayList<>();
         Spliterator<T>[] sp = new Spliterator[1];
         long[] remaining = new long[] { times };
-
+        
         return SeqUtils.transform(stream, (delegate, action) -> {
             if (sp[0] == null) {
                 if (delegate.tryAdvance(t -> {

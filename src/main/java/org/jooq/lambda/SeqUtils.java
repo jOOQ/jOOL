@@ -67,12 +67,12 @@ class SeqUtils {
 
             @Override
             public long estimateSize() {
-                return delegate.estimateSize();
+                return Long.MAX_VALUE;
             }
 
             @Override
             public int characteristics() {
-                return delegate.characteristics();
+                return 0;
             }
             
             @Override
