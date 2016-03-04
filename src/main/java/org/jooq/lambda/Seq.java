@@ -997,7 +997,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     // [jooq-tools] START [zip-all-static]
-    // [jooq-tools] END [zip-all-static]
 
     /**
      * Zip two streams into one - by storing the corresponding elements from them in a tuple,
@@ -1007,9 +1006,1046 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <code><pre>
      * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
      * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2> Seq<Tuple2<T1, T2>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, T1 default1, T2 default2) {
+        return zipAll(s1, s2, default1, default2, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, T1 default1, T2 default2, T3 default3) {
+        return zipAll(s1, s2, s3, default1, default2, default3, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, T1 default1, T2 default2, T3 default3, T4 default4) {
+        return zipAll(s1, s2, s3, s4, default1, default2, default3, default4, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5) {
+        return zipAll(s1, s2, s3, s4, s5, default1, default2, default3, default4, default5, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6) {
+        return zipAll(s1, s2, s3, s4, s5, s6, default1, default2, default3, default4, default5, default6, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, default1, default2, default3, default4, default5, default6, default7, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, default1, default2, default3, default4, default5, default6, default7, default8, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, default1, default2, default3, default4, default5, default6, default7, default8, default9, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, T16 default16) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, default16, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2> Seq<Tuple2<T1, T2>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, T1 default1, T2 default2) {
+        return zipAll(s1, s2, default1, default2, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, T1 default1, T2 default2, T3 default3) {
+        return zipAll(s1, s2, s3, default1, default2, default3, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, T1 default1, T2 default2, T3 default3, T4 default4) {
+        return zipAll(s1, s2, s3, s4, default1, default2, default3, default4, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5) {
+        return zipAll(s1, s2, s3, s4, s5, default1, default2, default3, default4, default5, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6) {
+        return zipAll(s1, s2, s3, s4, s5, s6, default1, default2, default3, default4, default5, default6, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, default1, default2, default3, default4, default5, default6, default7, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, default1, default2, default3, default4, default5, default6, default7, default8, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, default1, default2, default3, default4, default5, default6, default7, default8, default9, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, Iterable<? extends T14> s14, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, Iterable<? extends T14> s14, Iterable<? extends T15> s15, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, Iterable<? extends T14> s14, Iterable<? extends T15> s15, Iterable<? extends T16> s16, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, T16 default16) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, default16, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
      */
     static <T1, T2> Seq<Tuple2<T1, T2>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, T1 default1, T2 default2) {
-        return zipAll(s1, s2, default1, default2, (l, r) -> tuple(l, r));
+        return zipAll(s1, s2, default1, default2, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, T1 default1, T2 default2, T3 default3) {
+        return zipAll(s1, s2, s3, default1, default2, default3, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, T1 default1, T2 default2, T3 default3, T4 default4) {
+        return zipAll(s1, s2, s3, s4, default1, default2, default3, default4, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5) {
+        return zipAll(s1, s2, s3, s4, s5, default1, default2, default3, default4, default5, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6) {
+        return zipAll(s1, s2, s3, s4, s5, s6, default1, default2, default3, default4, default5, default6, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, default1, default2, default3, default4, default5, default6, default7, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, default1, default2, default3, default4, default5, default6, default7, default8, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, default1, default2, default3, default4, default5, default6, default7, default8, default9, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, T16 default16) {
+        return zipAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, default16, Tuple::tuple);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, T1 default1, T2 default2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), default1, default2, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, T1 default1, T2 default2, T3 default3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), default1, default2, default3, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, T1 default1, T2 default2, T3 default3, T4 default4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), default1, default2, default3, default4, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), default1, default2, default3, default4, default5, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), default1, default2, default3, default4, default5, default6, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), default1, default2, default3, default4, default5, default6, default7, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), default1, default2, default3, default4, default5, default6, default7, default8, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), default1, default2, default3, default4, default5, default6, default7, default8, default9, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zipAll(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, T16 default16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, default16, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, T1 default1, T2 default2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), default1, default2, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, T1 default1, T2 default2, T3 default3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), default1, default2, default3, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, T1 default1, T2 default2, T3 default3, T4 default4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), default1, default2, default3, default4, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), default1, default2, default3, default4, default5, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), default1, default2, default3, default4, default5, default6, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), default1, default2, default3, default4, default5, default6, default7, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), default1, default2, default3, default4, default5, default6, default7, default8, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), default1, default2, default3, default4, default5, default6, default7, default8, default9, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, Iterable<? extends T14> s14, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, Iterable<? extends T14> s14, Iterable<? extends T15> s15, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, zipper);
+    }
+
+    /**
+     * Zip two streams into one - by storing the corresponding elements from them in a tuple,
+     * when one of streams will end - a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zipAll(Iterable<? extends T1> s1, Iterable<? extends T2> s2, Iterable<? extends T3> s3, Iterable<? extends T4> s4, Iterable<? extends T5> s5, Iterable<? extends T6> s6, Iterable<? extends T7> s7, Iterable<? extends T8> s8, Iterable<? extends T9> s9, Iterable<? extends T10> s10, Iterable<? extends T11> s11, Iterable<? extends T12> s12, Iterable<? extends T13> s13, Iterable<? extends T14> s14, Iterable<? extends T15> s15, Iterable<? extends T16> s16, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, T16 default16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
+        return zipAll(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16), default1, default2, default3, default4, default5, default6, default7, default8, default9, default10, default11, default12, default13, default14, default15, default16, zipper);
     }
 
     /**
@@ -1048,8 +2084,871 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             }
         }
 
-        return seq(new ZipAll());
-    }
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, T1 default1, T2 default2, T3 default3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                
+                if (!b1 && !b2 && !b3)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, T1 default1, T2 default2, T3 default3, T4 default4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                boolean b11 = it11.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10,
+                    b11 ? it11.next() : default11
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                boolean b11 = it11.hasNext();
+                boolean b12 = it12.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10,
+                    b11 ? it11.next() : default11,
+                    b12 ? it12.next() : default12
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                boolean b11 = it11.hasNext();
+                boolean b12 = it12.hasNext();
+                boolean b13 = it13.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10,
+                    b11 ? it11.next() : default11,
+                    b12 ? it12.next() : default12,
+                    b13 ? it13.next() : default13
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+        final Iterator<? extends T14> it14 = s14.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext() || it14.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                boolean b11 = it11.hasNext();
+                boolean b12 = it12.hasNext();
+                boolean b13 = it13.hasNext();
+                boolean b14 = it14.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13 && !b14)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10,
+                    b11 ? it11.next() : default11,
+                    b12 ? it12.next() : default12,
+                    b13 ? it13.next() : default13,
+                    b14 ? it14.next() : default14
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+        final Iterator<? extends T14> it14 = s14.iterator();
+        final Iterator<? extends T15> it15 = s15.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext() || it14.hasNext() || it15.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                boolean b11 = it11.hasNext();
+                boolean b12 = it12.hasNext();
+                boolean b13 = it13.hasNext();
+                boolean b14 = it14.hasNext();
+                boolean b15 = it15.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13 && !b14 && !b15)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10,
+                    b11 ? it11.next() : default11,
+                    b12 ? it12.next() : default12,
+                    b13 ? it13.next() : default13,
+                    b14 ? it14.next() : default14,
+                    b15 ? it15.next() : default15
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
+    }            
+
+    /**
+     * Zip two streams into one using a {@link BiFunction} to produce resulting values,
+     * when one of streams will end, a default value for that stream will be provided instead -
+     * so the resulting stream will be as long as the longest of the two streams.
+     * <p>
+     * <code><pre>
+     * // ("1:a", "2:x", "3:x")
+     * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
+     * </pre></code>
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16, T1 default1, T2 default2, T3 default3, T4 default4, T5 default5, T6 default6, T7 default7, T8 default8, T9 default9, T10 default10, T11 default11, T12 default12, T13 default13, T14 default14, T15 default15, T16 default16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
+        final Iterator<? extends T3> it3 = s3.iterator();
+        final Iterator<? extends T4> it4 = s4.iterator();
+        final Iterator<? extends T5> it5 = s5.iterator();
+        final Iterator<? extends T6> it6 = s6.iterator();
+        final Iterator<? extends T7> it7 = s7.iterator();
+        final Iterator<? extends T8> it8 = s8.iterator();
+        final Iterator<? extends T9> it9 = s9.iterator();
+        final Iterator<? extends T10> it10 = s10.iterator();
+        final Iterator<? extends T11> it11 = s11.iterator();
+        final Iterator<? extends T12> it12 = s12.iterator();
+        final Iterator<? extends T13> it13 = s13.iterator();
+        final Iterator<? extends T14> it14 = s14.iterator();
+        final Iterator<? extends T15> it15 = s15.iterator();
+        final Iterator<? extends T16> it16 = s16.iterator();
+
+        class ZipAll implements Iterator<R> {
+            
+            @Override
+            public boolean hasNext() {
+                return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext() || it14.hasNext() || it15.hasNext() || it16.hasNext();
+            }
+
+            @Override
+            public R next() {
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                boolean b3 = it3.hasNext();
+                boolean b4 = it4.hasNext();
+                boolean b5 = it5.hasNext();
+                boolean b6 = it6.hasNext();
+                boolean b7 = it7.hasNext();
+                boolean b8 = it8.hasNext();
+                boolean b9 = it9.hasNext();
+                boolean b10 = it10.hasNext();
+                boolean b11 = it11.hasNext();
+                boolean b12 = it12.hasNext();
+                boolean b13 = it13.hasNext();
+                boolean b14 = it14.hasNext();
+                boolean b15 = it15.hasNext();
+                boolean b16 = it16.hasNext();
+                
+                if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13 && !b14 && !b15 && !b16)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2,
+                    b3 ? it3.next() : default3,
+                    b4 ? it4.next() : default4,
+                    b5 ? it5.next() : default5,
+                    b6 ? it6.next() : default6,
+                    b7 ? it7.next() : default7,
+                    b8 ? it8.next() : default8,
+                    b9 ? it9.next() : default9,
+                    b10 ? it10.next() : default10,
+                    b11 ? it11.next() : default11,
+                    b12 ? it12.next() : default12,
+                    b13 ? it13.next() : default13,
+                    b14 ? it14.next() : default14,
+                    b15 ? it15.next() : default15,
+                    b16 ? it16.next() : default16
+                );
+            }
+        }
+
+        return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
+    }            
+
+// [jooq-tools] END [zip-all-static]
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
