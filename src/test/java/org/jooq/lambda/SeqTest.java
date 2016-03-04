@@ -2344,6 +2344,8 @@ public class SeqTest {
         test.accept((s1, s2) -> s1.leftOuterJoin(s2, (a, b) -> true));
         test.accept((s1, s2) -> s1.rightOuterJoin(s2, (a, b) -> true));
         test.accept((s1, s2) -> s1.zip(s2));
+        test.accept((s1, s2) -> Seq.zipAll(s1, s2, 1, 2));
+        test.accept((s1, s2) -> Seq.zipAll(s1, s2, 1, 2, (a, b) -> a + b));
     }
     
     @Test
@@ -2371,6 +2373,8 @@ public class SeqTest {
         
         test.accept((s1, s2, s3, s4) -> Seq.crossJoin(s1, s2, s3, s4));
         test.accept((s1, s2, s3, s4) -> Seq.zip(s1, s2, s3, s4));
+        test.accept((s1, s2, s3, s4) -> Seq.zipAll(s1, s2, s3, s4, 1, 2, 3, 4));
+        test.accept((s1, s2, s3, s4) -> Seq.zipAll(s1, s2, s3, s4, 1, 2, 3, 4, (a, b, c, d) -> a + b + c + d));
     }
 
     @Test
