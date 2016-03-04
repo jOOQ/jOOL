@@ -2391,7 +2391,7 @@ public class SeqTest {
         final Seq<Tuple2<Integer, Integer>> expected = Seq.of(tuple(1,1),tuple(2,42),tuple(3,42));
         final Seq<Tuple2<Integer, Integer>> actual = Seq.zipAll(s1, s2, 0, 42);
 
-        assertEquals(expected, actual.toList());
+        assertEquals(expected.toList(), actual.toList());
     }
 
     @Test
@@ -2402,7 +2402,7 @@ public class SeqTest {
         final Seq<Tuple2<Integer, Integer>> expected = Seq.of(tuple(1,1),tuple(0,2),tuple(0,3));
         final Seq<Tuple2<Integer, Integer>> actual = Seq.zipAll(s1, s2, 0, 42);
 
-        assertEquals(expected, actual.toList());
+        assertEquals(expected.toList(), actual.toList());
     }
 
     @Test
@@ -2413,7 +2413,7 @@ public class SeqTest {
         final Seq<Integer> expected = Seq.of(2, 44, 45);
         final Seq<Integer> actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
 
-        assertEquals(expected, actual.toList());
+        assertEquals(expected.toList(), actual.toList());
     }
 
     @Test
@@ -2424,7 +2424,7 @@ public class SeqTest {
         final Seq<Integer> expected = Seq.of(2, 2, 3);
         final Seq<Integer> actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
 
-        assertEquals(expected, actual.toList());
+        assertEquals(expected.toList(), actual.toList());
     }
 
 }
