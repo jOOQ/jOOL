@@ -418,6 +418,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default Seq<T> concat(T... other) {
         return concat(Seq.of(other));
     }
+    
+    /**
+     * Concatenate an optional value.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4)
+     * Seq.of(1, 2, 3).concat(Optional.of(4))
+     *
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).concat(Optional.empty())
+     * </pre></code>
+     */
+    default Seq<T> concat(Optional<? extends T> other) {
+        return concat(Seq.seq(other));
+    }
 
     /**
      * Concatenate two streams.
@@ -492,6 +507,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Concatenate an optional value.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3, 4)
+     * Seq.of(1, 2, 3).append(Optional.of(4))
+     *
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).append(Optional.empty())
+     * </pre></code>
+     */
+    default Seq<T> append(Optional<? extends T> other) {
+        return concat(other);
+    }
+
+    /**
      * Concatenate two streams.
      * <p>
      * <code><pre>
@@ -561,6 +591,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @SuppressWarnings({ "unchecked" })
     default Seq<T> prepend(T... other) {
         return Seq.of(other).concat(this);
+    }
+
+    /**
+     * Concatenate an optional value.
+     * <p>
+     * <code><pre>
+     * // (0, 1, 2, 3)
+     * Seq.of(1, 2, 3).prepend(Optional.of(0))
+     *
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3).prepend(Optional.empty())
+     * </pre></code>
+     */
+    default Seq<T> prepend(Optional<? extends T> other) {
+        return Seq.seq(other).concat(this);
     }
 
     /**
@@ -951,6 +996,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return zip(this, other, zipper);
     }
 
+    // [jooq-tools] START [zip-all-static]
+    // [jooq-tools] END [zip-all-static]
+
     /**
      * Zip two streams into one - by storing the corresponding elements from them in a tuple,
      * when one of streams will end - a default value for that stream will be provided instead -
@@ -959,9 +1007,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <code><pre>
      * // (tuple(1, "a"), tuple(2, "x"), tuple(3, "x"))
      * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x")
-     *
      */
-    static <T1, T2> Seq<Tuple2<T1, T2>> zipAll(Seq<T1> s1, Seq<T2> s2, T1 default1, T2 default2) {
+    static <T1, T2> Seq<Tuple2<T1, T2>> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, T1 default1, T2 default2) {
         return zipAll(s1, s2, default1, default2, (l, r) -> tuple(l, r));
     }
 
@@ -974,13 +1021,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // ("1:a", "2:x", "3:x")
      * Seq.zipAll(Seq.of(1, 2, 3), Seq.of("a"), 0, "x", (i, s) -> i + ":" + s)
      * </pre></code>
-     *
      */
-    static <T1, T2, R> Seq<R> zipAll(Seq<T1> s1, Seq<T2> s2,  T1 default1, T2 default2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
-        final Iterator<T1> it1 = s1.iterator();
-        final Iterator<T2> it2 = s2.iterator();
+    static <T1, T2, R> Seq<R> zipAll(Seq<? extends T1> s1, Seq<? extends T2> s2, T1 default1, T2 default2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
+        final Iterator<? extends T1> it1 = s1.iterator();
+        final Iterator<? extends T2> it2 = s2.iterator();
 
         class ZipAll implements Iterator<R> {
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext();
@@ -988,26 +1035,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
             @Override
             public R next() {
-
-                if (it1.hasNext()) {
-                    if (it2.hasNext()) {
-                        return zipper.apply(it1.next(), it2.next());
-                    } else {
-                        return zipper.apply(it1.next(), default2);
-                    }
-                } else {
-                    if (it2.hasNext()) {
-                        return zipper.apply(default1, it2.next());
-                    } else {
-                        throw new NoSuchElementException("next on empty iterator");
-                    }
-                }
+                boolean b1 = it1.hasNext();
+                boolean b2 = it2.hasNext();
+                
+                if (!b1 && !b2)
+                    throw new NoSuchElementException("next on empty iterator");
+                
+                return zipper.apply(
+                    b1 ? it1.next() : default1,
+                    b2 ? it2.next() : default2
+                );
             }
         }
 
         return seq(new ZipAll());
     }
-
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
@@ -4793,9 +4835,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Seq<? extends T> stream, Random random) {
-        Spliterator[] shuffled = { null };
+        Spliterator<? extends T>[] shuffled = new Spliterator[1];
         
-        return SeqUtils.transform(stream, (delegate, action) -> {
+        return SeqUtils.<T, T>transform(stream, (delegate, action) -> {
             if (shuffled[0] == null) {
                 List<T> list = seq(delegate).toList();
                 
@@ -4808,7 +4850,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             }
 
             return shuffled[0].tryAdvance(action);
-
         }).onClose(stream::close);
     }
 
@@ -5478,6 +5519,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             result = Stream.concat(result, streams[i]);
 
         return seq(result);
+    }
+
+    /**
+     * Concatenate a number of optionals.
+     * <p>
+     * <code><pre>
+     * // (1, 2)
+     * Seq.concat(Optional.of(1), Optional.empty(), Optional.of(2))
+     * </pre></code>
+     */
+    @SafeVarargs
+    static <T> Seq<T> concat(Optional<? extends T>... optionals) {
+        if (optionals == null)
+            return null;
+
+        return Seq.of(optionals).filter(Optional::isPresent).map(Optional::get);
     }
 
     /**

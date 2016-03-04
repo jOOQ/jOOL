@@ -770,6 +770,14 @@ public class SeqTest {
         assertEquals(asList(1, 2, 3, 4), Seq.of(1, 2).concat(Seq.of(3, 4)).toList());
         assertEquals(asList(1, 2, 3, 4), Seq.of(1).concat(2, 3, 4).toList());
         assertEquals(asList(1, 2, 3, 4), Seq.of(1, 2).concat(3, 4).toList());
+        
+        assertEquals(asList(1, 2, 3), Seq.of(1, 2, 3).concat(Optional.empty()).toList());
+        assertEquals(asList(1, 2, 3, 4), Seq.of(1, 2, 3).concat(Optional.of(4)).toList());
+        
+        assertEquals(asList(1, 2, 3), Seq.of(1, 2, 3).prepend(Optional.empty()).toList());
+        assertEquals(asList(0, 1, 2, 3), Seq.of(1, 2, 3).prepend(Optional.of(0)).toList());
+        
+        assertEquals(asList(1, 2), Seq.concat(Optional.of(1), Optional.empty(), Optional.of(2), Optional.empty()).toList());
     }
 
     @Test
@@ -2377,54 +2385,46 @@ public class SeqTest {
 
     @Test
     public void testZipAllWithSecondStreamLongerThanTheFirstOne() {
-
         final Seq<Integer> s1 = Seq.of(1,2,3);
         final Seq<Integer> s2 = Seq.of(1);
 
-        final Seq expected = Seq.of(tuple(1,1),tuple(2,42),tuple(3,42));
+        final Seq<Tuple2<Integer, Integer>> expected = Seq.of(tuple(1,1),tuple(2,42),tuple(3,42));
+        final Seq<Tuple2<Integer, Integer>> actual = Seq.zipAll(s1, s2, 0, 42);
 
-        final Seq actual = Seq.zipAll(s1, s2, 0, 42);
-
-        assertTrue(actual.toList().equals(expected.toList()));
+        assertEquals(expected, actual.toList());
     }
 
     @Test
     public void testZipAllWithFirstStreamLongerThanTheSecondOne() {
-
         final Seq<Integer> s1 = Seq.of(1);
         final Seq<Integer> s2 = Seq.of(1, 2, 3);
 
-        final Seq expected = Seq.of(tuple(1,1),tuple(0,2),tuple(0,3));
+        final Seq<Tuple2<Integer, Integer>> expected = Seq.of(tuple(1,1),tuple(0,2),tuple(0,3));
+        final Seq<Tuple2<Integer, Integer>> actual = Seq.zipAll(s1, s2, 0, 42);
 
-        final Seq actual = Seq.zipAll(s1, s2, 0, 42);
-
-        assertTrue(actual.toList().equals(expected.toList()));
+        assertEquals(expected, actual.toList());
     }
 
     @Test
     public void testZipAllWithSecondStreamLongerThanTheFirstOneAndCustomZipper() {
-
         final Seq<Integer> s1 = Seq.of(1,2,3);
         final Seq<Integer> s2 = Seq.of(1);
 
-        final Seq expected = Seq.of(2, 44, 45);
+        final Seq<Integer> expected = Seq.of(2, 44, 45);
+        final Seq<Integer> actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
 
-        final Seq actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
-
-        assertTrue(actual.toList().equals(expected.toList()));
+        assertEquals(expected, actual.toList());
     }
 
     @Test
     public void testZipAllWithFirstStreamLongerThanTheSecondOneAndCustomZipper() {
-
         final Seq<Integer> s1 = Seq.of(1);
         final Seq<Integer> s2 = Seq.of(1, 2, 3);
 
-        final Seq expected = Seq.of(2, 2, 3);
+        final Seq<Integer> expected = Seq.of(2, 2, 3);
+        final Seq<Integer> actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
 
-        final Seq actual = Seq.zipAll(s1, s2, 0, 42, (l, r) -> l + r);
-
-        assertTrue(actual.toList().equals(expected.toList()));
+        assertEquals(expected, actual.toList());
     }
 
 }
