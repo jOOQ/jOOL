@@ -1208,6 +1208,15 @@ public class SeqTest {
     }
 
     @Test
+    public void testEnumeration() {
+        List<Integer> list = asList(1, 2, 3);
+        Vector<Integer> vector = new Vector<>();
+        vector.addAll(list);
+
+        assertEquals(list, Seq.seq(vector.elements()).toList());
+    }
+
+    @Test
     public void testIterate() {
         assertEquals(
             asList(2, 4, 16, 256, 65536),

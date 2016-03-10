@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -4539,6 +4540,23 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     static <T> Seq<T> seq(Iterator<? extends T> iterator) {
         return seq(spliteratorUnknownSize(iterator, ORDERED));
+    }
+
+    /**
+     * Wrap an <code>Enumeration</code> into a <code>Seq</code>.
+     */
+    static <T> Seq<T> seq(Enumeration<T> enumeration) {
+        return Seq.seq(new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                return enumeration.hasMoreElements();
+            }
+
+            @Override
+            public T next() {
+                return enumeration.nextElement();
+            }
+        });
     }
 
     /**
