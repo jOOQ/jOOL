@@ -449,6 +449,11 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public <K> Map<K, T> toMap(Function<? super T, ? extends K> keyMapper) {
+        return toMap(keyMapper, Function.identity());
+    }
+
+    @Override
     public String toString() {
         return partition.cacheIf(completePartition(), "toString", () -> window().toString());
     }

@@ -44,6 +44,7 @@ import java.io.StringReader;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
@@ -863,6 +864,19 @@ public class SeqTest {
 
         assertEquals(expected, Seq.of(tuple("a", 1), tuple("b", 2), tuple("c", 3)).toMap(Tuple2::v1, Tuple2::v2));
         assertEquals(expected, Seq.toMap(Seq.of(tuple("a", 1), tuple("b", 2), tuple("c", 3))));
+    }
+
+    @Test
+    public void testToIdentityMap() {
+        LocalDate v1_0 = LocalDate.of(1996, 1, 23);
+        LocalDate v1_1 = LocalDate.of(1997, 2, 19);
+        LocalDate v1_2 = LocalDate.of(1998, 12, 8);
+        Map<Integer, LocalDate> expected = new HashMap<>();
+        expected.put(v1_0.getYear(), v1_0);
+        expected.put(v1_1.getYear(), v1_1);
+        expected.put(v1_2.getYear(), v1_2);
+
+        assertEquals(expected, Seq.of(v1_0, v1_1, v1_2).toMap(LocalDate::getYear));
     }
 
     @Test
