@@ -4187,18 +4187,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * A synonym for {@link #seq(T)}
+     *
      * @see Stream#of(Object)
      */
     static <T> Seq<T> of(T value) {
-        return seq(Stream.of(value));
+        return seq(value);
     }
 
     /**
+     * A synonym for {@link #seq(T...)}.
+     *
      * @see Stream#of(Object[])
      */
     @SafeVarargs
     static <T> Seq<T> of(T... values) {
-        return seq(Stream.of(values));
+        return seq(values);
     }
 
     /**
@@ -4486,6 +4490,25 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     static <T> Seq<T> generate(Supplier<? extends T> s) {
         return seq(Stream.generate(s));
+    }
+
+    /**
+     * Wrap a value into a <code>Seq</code>.
+     *
+     * @see Stream#of(Object)
+     */
+    static <T> Seq<T> seq(T value) {
+        return seq(Stream.of(value));
+    }
+
+    /**
+     * Wrap an array into a <code>Seq</code>.
+     *
+     * @see Stream#of(Object[])
+     */
+    @SafeVarargs
+    static <T> Seq<T> seq(T... values) {
+        return seq(Stream.of(values));
     }
 
     /**
