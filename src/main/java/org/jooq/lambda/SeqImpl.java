@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
@@ -391,6 +394,46 @@ class SeqImpl<T> implements Seq<T> {
     @Override
     public boolean noneMatch(Predicate<? super T> predicate) {
         return stream().noneMatch(predicate);
+    }
+
+    @Override
+    public Optional<T> bitAnd() {
+        return collect(Agg.bitAnd());
+    }
+
+    @Override
+    public <U> Optional<U> bitAnd(Function<? super T, ? extends U> function) {
+        return collect(Agg.bitAnd(function));
+    }
+
+    @Override
+    public int bitAndInt(ToIntFunction<? super T> function) {
+        return collect(Agg.bitAndInt(function));
+    }
+
+    @Override
+    public long bitAndLong(ToLongFunction<? super T> function) {
+        return collect(Agg.bitAndLong(function));
+    }
+
+    @Override
+    public Optional<T> bitOr() {
+        return collect(Agg.bitOr());
+    }
+
+    @Override
+    public <U> Optional<U> bitOr(Function<? super T, ? extends U> function) {
+        return collect(Agg.bitOr(function));
+    }
+
+    @Override
+    public int bitOrInt(ToIntFunction<? super T> function) {
+        return collect(Agg.bitOrInt(function));
+    }
+
+    @Override
+    public long bitOrLong(ToLongFunction<? super T> function) {
+        return collect(Agg.bitOrLong(function));
     }
 
     @Override

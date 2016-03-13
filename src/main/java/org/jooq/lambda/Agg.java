@@ -24,8 +24,11 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import org.jooq.lambda.tuple.Tuple2;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
  * A set of additional {@link Collector} implementations.
@@ -81,8 +84,7 @@ public class Agg {
      * type of {@link Number}.
      */
     public static <T, U> Collector<T, ?, Optional<U>> sum(Function<? super T, ? extends U> function) {
-        return Collector.of(
-            () -> (Sum<U>[]) new Sum[1],
+        return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> { 
                 if (s[0] == null)
                     s[0] = Sum.create(function.apply(v));
@@ -93,7 +95,7 @@ public class Agg {
                 s1[0].add(s2[0]);
                 return s1;
             },
-            s -> s[0] == null ? Optional.empty() : Optional.of(s[0].sum())
+            s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
         );
     }
     
@@ -272,6 +274,130 @@ public class Agg {
      */
     public static <T> Collector<T, ?, Boolean> noneMatch(Predicate<? super T> predicate) {
         return allMatch(predicate.negate());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates <code>BIT_AND()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T> Collector<T, ?, Optional<T>> bitAnd() {
+        return bitAnd(t -> t);
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> bitAnd(Function<? super T, ? extends U> function) {
+        return Collector.of(() -> (Sum<U>[]) new Sum[1],
+            (s, v) -> { 
+                if (s[0] == null)
+                    s[0] = Sum.create(function.apply(v));
+                else 
+                    s[0].and(function.apply(v));
+            },
+            (s1, s2) -> {
+                s1[0].and(s2[0]);
+                return s1;
+            },
+            s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
+        return Collector.of(() -> new int[] { Integer.MAX_VALUE },
+            (s, v) -> { 
+                s[0] = s[0] & function.applyAsInt(v);
+            },
+            (s1, s2) -> {
+                s1[0] = s1[0] & s2[0];
+                return s1;
+            },
+            s -> s[0]
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
+        return Collector.of(() -> new long[] { Long.MAX_VALUE },
+            (s, v) -> { 
+                s[0] = s[0] & function.applyAsLong(v);
+            },
+            (s1, s2) -> {
+                s1[0] = s1[0] & s2[0];
+                return s1;
+            },
+            s -> s[0]
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates <code>BIT_OR()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T> Collector<T, ?, Optional<T>> bitOr() {
+        return bitOr(t -> t);
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Optional<U>> bitOr(Function<? super T, ? extends U> function) {
+        return Collector.of(() -> (Sum<U>[]) new Sum[1],
+            (s, v) -> { 
+                if (s[0] == null)
+                    s[0] = Sum.create(function.apply(v));
+                else 
+                    s[0].or(function.apply(v));
+            },
+            (s1, s2) -> {
+                s1[0].or(s2[0]);
+                return s1;
+            },
+            s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
+        return Collector.of(() -> new int[1],
+            (s, v) -> { 
+                s[0] = s[0] | function.applyAsInt(v);
+            },
+            (s1, s2) -> {
+                s1[0] = s1[0] | s2[0];
+                return s1;
+            },
+            s -> s[0]
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
+     * type of {@link Number}.
+     */
+    public static <T, U> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
+        return Collector.of(() -> new long[1],
+            (s, v) -> { 
+                s[0] = s[0] | function.applyAsLong(v);
+            },
+            (s1, s2) -> {
+                s1[0] = s1[0] | s2[0];
+                return s1;
+            },
+            s -> s[0]
+        );
     }
 
     /**

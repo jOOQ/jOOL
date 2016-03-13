@@ -15,13 +15,16 @@
  */
 package org.jooq.lambda;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -31,6 +34,7 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Generated;
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple10;
@@ -554,6 +558,46 @@ public interface Collectable<T> {
      */
     boolean noneMatch(Predicate<? super T> predicate);
 
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise and.
+     */    
+    Optional<T> bitAnd();
+    
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise and.
+     */    
+    <U> Optional<U> bitAnd(Function<? super T, ? extends U> function);
+    
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise and.
+     */    
+    int bitAndInt(ToIntFunction<? super T> function);
+    
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise and.
+     */    
+    long bitAndLong(ToLongFunction<? super T> function);
+
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise or.
+     */    
+    Optional<T> bitOr();
+    
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise or.
+     */    
+    <U> Optional<U> bitOr(Function<? super T, ? extends U> function);
+    
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise or.
+     */    
+    int bitOrInt(ToIntFunction<? super T> function);
+    
+    /**
+     * Collect all bits in this stream into a single value by applying bitwise or.
+     */    
+    long bitOrLong(ToLongFunction<? super T> function);
+    
     /**
      * Collect the collectable into an {@link ArrayList}.
      */

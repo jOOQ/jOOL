@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -411,6 +414,46 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public boolean noneMatch(Predicate<? super T> predicate) {
         return partition.cacheIf(completePartition(), () -> tuple("noneMatch", predicate), () -> window().noneMatch(predicate));
+    }
+
+    @Override
+    public Optional<T> bitAnd() {
+        return partition.cacheIf(completePartition(), () -> tuple("bitAnd"), () -> window().bitAnd());
+    }
+
+    @Override
+    public <U> Optional<U> bitAnd(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("bitAnd", function), () -> window().bitAnd(function));
+    }
+
+    @Override
+    public int bitAndInt(ToIntFunction<? super T> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("bitAndInt", function), () -> window().bitAndInt(function));
+    }
+
+    @Override
+    public long bitAndLong(ToLongFunction<? super T> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("bitAndLong", function), () -> window().bitAndLong(function));
+    }
+
+    @Override
+    public Optional<T> bitOr() {
+        return partition.cacheIf(completePartition(), () -> tuple("bitOr"), () -> window().bitOr());
+    }
+
+    @Override
+    public <U> Optional<U> bitOr(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("bitOr", function), () -> window().bitOr(function));
+    }
+
+    @Override
+    public int bitOrInt(ToIntFunction<? super T> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("bitOrInt", function), () -> window().bitOrInt(function));
+    }
+
+    @Override
+    public long bitOrLong(ToLongFunction<? super T> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("bitOrLong", function), () -> window().bitOrLong(function));
     }
 
     @Override

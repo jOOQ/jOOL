@@ -1677,6 +1677,26 @@ public class SeqTest {
         assertEquals(Optional.of(1.5), Seq.of(1.0, 2.0).avg());
         assertEquals(Optional.of(2.0), Seq.of(1.0, 2.0, 3.0).avg());
     }
+    
+    @Test
+    public void testBitAnd() {
+        int value = 31 & 15 & 7 & 3;
+        
+        assertEquals(Optional.of(value), Seq.of(31, 15, 7, 3).bitAnd());
+        assertEquals(Optional.of((long) value), Seq.of(31, 15, 7, 3).bitAnd(t -> (long) t));
+        assertEquals(value, Seq.of(31, 15, 7, 3).bitAndInt(t -> t));
+        assertEquals((long) value, Seq.of(31, 15, 7, 3).bitAndLong(t -> t));
+    }
+    
+    @Test
+    public void testBitOr() {
+        int value = 1 | 2 | 4 | 8;
+        
+        assertEquals(Optional.of(value), Seq.of(1, 2, 4, 8).bitOr());
+        assertEquals(Optional.of((long) value), Seq.of(1, 2, 4, 8).bitOr(t -> (long) t));
+        assertEquals(value, Seq.of(1, 2, 4, 8).bitOrInt(t -> t));
+        assertEquals((long) value, Seq.of(1, 2, 4, 8).bitOrLong(t -> t));
+    }
 
     @Test
     public void testCollect() {

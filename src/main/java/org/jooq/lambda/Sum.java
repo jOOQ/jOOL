@@ -26,7 +26,7 @@ abstract class Sum<N> {
     long count;
     
     void add(Sum<N> sum) {
-        add0(sum.sum());
+        add0(sum.result());
         count += sum.count;
     }
     
@@ -34,9 +34,27 @@ abstract class Sum<N> {
         add0(value);
         count += 1;
     }
+
+    void and(Sum<N> sum) {
+        and0(sum.result());
+    }
+    
+    void and(N value) {
+        and0(value);
+    }
+
+    void or(Sum<N> sum) {
+        or0(sum.result());
+    }
+    
+    void or(N value) {
+        or0(value);
+    }
     
     abstract void add0(N value);
-    abstract N sum();
+    abstract void and0(N value);
+    abstract void or0(N value);
+    abstract N result();
     abstract N avg();
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -67,21 +85,31 @@ abstract class Sum<N> {
     }
     
     static class OfByte extends Sum<Byte> {
-        byte sum;
+        byte result;
 
         @Override
         void add0(Byte value) {
-            sum += value;
+            result += value;
         }
 
         @Override
-        Byte sum() {
-            return sum;
+        Byte result() {
+            return result;
+        }
+
+        @Override
+        void and0(Byte value) {
+            result &= value;
+        }
+
+        @Override
+        void or0(Byte value) {
+            result |= value;
         }
 
         @Override
         Byte avg() {
-            return (byte) (sum / count);
+            return (byte) (result / count);
         }
     }
     static class OfShort extends Sum<Short> {
@@ -93,7 +121,17 @@ abstract class Sum<N> {
         }
 
         @Override
-        Short sum() {
+        void and0(Short value) {
+            sum &= value;
+        }
+
+        @Override
+        void or0(Short value) {
+            sum |= value;
+        }
+
+        @Override
+        Short result() {
             return sum;
         }
 
@@ -111,10 +149,20 @@ abstract class Sum<N> {
         }
 
         @Override
-        Integer sum() {
-            return sum;
+        void and0(Integer value) {
+            sum &= value;
         }
 
+        @Override
+        void or0(Integer value) {
+            sum |= value;
+        }
+
+        @Override
+        Integer result() {
+            return sum;
+        }
+         
         @Override
         Integer avg() {
             return (int) (sum / count);
@@ -129,7 +177,17 @@ abstract class Sum<N> {
         }
 
         @Override
-        Long sum() {
+        void and0(Long value) {
+            sum &= value;
+        }
+
+        @Override
+        void or0(Long value) {
+            sum |= value;
+        }
+
+        @Override
+        Long result() {
             return sum;
         }
 
@@ -147,7 +205,17 @@ abstract class Sum<N> {
         }
 
         @Override
-        Float sum() {
+        void and0(Float value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        void or0(Float value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        Float result() {
             return sum;
         }
 
@@ -165,7 +233,17 @@ abstract class Sum<N> {
         }
 
         @Override
-        Double sum() {
+        void and0(Double value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        void or0(Double value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        Double result() {
             return sum;
         }
 
@@ -183,7 +261,17 @@ abstract class Sum<N> {
         }
 
         @Override
-        BigInteger sum() {
+        void and0(BigInteger value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        void or0(BigInteger value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        BigInteger result() {
             return sum;
         }
 
@@ -201,7 +289,17 @@ abstract class Sum<N> {
         }
 
         @Override
-        BigDecimal sum() {
+        void and0(BigDecimal value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        void or0(BigDecimal value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        BigDecimal result() {
             return sum;
         }
 
