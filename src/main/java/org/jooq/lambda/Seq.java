@@ -31,6 +31,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -4509,6 +4510,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @SafeVarargs
     static <T> Seq<T> seq(T... values) {
         return seq(Stream.of(values));
+    }
+    
+    /**
+     * Wrap an array slice into a <code>Seq</code>.
+     * 
+     * @throws IndexOutOfBoundsException if
+     *         (<code>startIndex &lt; 0 || endIndex &gt; size ||
+     *         startIndex &gt; endIndex</code>)
+     */
+    static <T> Seq<T> seq(T[] values, int startIndex, int endIndex) {
+        return seq(Arrays.asList(values).subList(startIndex, endIndex));
     }
 
     /**

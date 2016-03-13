@@ -76,6 +76,12 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
+    public void testSeqArraySlice() throws Exception {
+        Seq<Integer> seq = seq(new Integer[] { 1, 2, 3, 4, 5 }, 2, 4);
+        assertEquals(asList(3, 4), seq.toList());
+    }
+    
+    @Test
     public void testTransform() throws Exception {
         Function<Seq<Integer>, Seq<String>> toStringInt = i -> i.map(Objects::toString);
         Function<Seq<? extends Number>, Seq<String>> toStringNumber = i -> i.map(Objects::toString);
