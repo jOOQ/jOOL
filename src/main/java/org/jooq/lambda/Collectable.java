@@ -581,11 +581,14 @@ public interface Collectable<T> {
 
     /**
      * Collect the collectable into a {@link Map}.
-     *
-     * @see #toMap(Stream, Function, Function)
      */
     <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper);
-    
+
+    /**
+     * Collect the collectable into a {@link Map} with the given keys and the self element as value.
+     */
+    <K> Map<K, T> toMap(Function<? super T, ? extends K> keyMapper);
+
     /**
      * Consume a stream and concatenate all elements using a separator.
      */

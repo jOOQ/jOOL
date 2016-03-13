@@ -466,6 +466,11 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public <K> Map<K, T> toMap(Function<? super T, ? extends K> keyMapper) {
+        return toMap(keyMapper, Function.identity());
+    }
+
+    @Override
     public String toString() {
         buffered = toArray();
         return Seq.toString(stream());
