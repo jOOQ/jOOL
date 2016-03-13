@@ -65,4 +65,22 @@ public class CheckedRunnableTest {
         assertEquals(Exception.class, e.getCause().getClass());
         assertEquals(message, e.getCause().getMessage());
     }
+    
+    @Test
+    public void testCheckedRunnableRethrowAll() {
+        Runnable test = Unchecked.runnable(
+            () -> {
+                throw new Throwable("runnable");
+            },
+            Unchecked.RETHROW_ALL
+        );
+
+        try {
+            test.run();
+            fail();
+        }
+        catch (Throwable e) {
+            assertEquals("runnable", e.getMessage());
+        }
+    }
 }

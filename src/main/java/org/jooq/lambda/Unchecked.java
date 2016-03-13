@@ -20,8 +20,6 @@ import org.jooq.lambda.fi.util.function.*;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.jooq.lambda.fi.util.CheckedComparator;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.Comparator;
 import java.util.function.*;
 
@@ -50,6 +48,13 @@ public final class Unchecked {
             throw (RuntimeException) t;
 
         throw new UncheckedException(t);
+    };
+    
+    /**
+     * A {@link Consumer} that rethrows all exceptions, including checked exceptions.
+     */
+    public static final Consumer<Throwable> RETHROW_ALL = t -> {
+        SeqUtils.sneakyThrow(t);
     };
 
     // -----------------------------------------------------------------------------------------------------------------
