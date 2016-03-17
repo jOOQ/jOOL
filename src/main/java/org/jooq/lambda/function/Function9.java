@@ -27,7 +27,7 @@ import org.jooq.lambda.tuple.Tuple8;
 import org.jooq.lambda.tuple.Tuple9;
 
 /**
- * A function with 9 arguments
+ * A function with 9 arguments.
  *
  * @author Lukas Eder
  */

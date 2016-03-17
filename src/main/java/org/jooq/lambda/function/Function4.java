@@ -22,7 +22,7 @@ import org.jooq.lambda.tuple.Tuple3;
 import org.jooq.lambda.tuple.Tuple4;
 
 /**
- * A function with 4 arguments
+ * A function with 4 arguments.
  *
  * @author Lukas Eder
  */

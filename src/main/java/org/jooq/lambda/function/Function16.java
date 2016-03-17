@@ -34,7 +34,7 @@ import org.jooq.lambda.tuple.Tuple15;
 import org.jooq.lambda.tuple.Tuple16;
 
 /**
- * A function with 16 arguments
+ * A function with 16 arguments.
  *
  * @author Lukas Eder
  */

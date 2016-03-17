@@ -33,7 +33,7 @@ import org.jooq.lambda.tuple.Tuple14;
 import org.jooq.lambda.tuple.Tuple15;
 
 /**
- * A function with 15 arguments
+ * A function with 15 arguments.
  *
  * @author Lukas Eder
  */

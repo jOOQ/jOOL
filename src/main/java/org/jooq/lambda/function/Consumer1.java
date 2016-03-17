@@ -15,58 +15,58 @@
  */
 package org.jooq.lambda.function;
 
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 import org.jooq.lambda.tuple.Tuple1;
 
 /**
- * A function with 1 arguments.
+ * A consumer with 1 arguments.
  *
  * @author Lukas Eder
  */
 @FunctionalInterface
-public interface Function1<T1, R> extends Function<T1, R> {
+public interface Consumer1<T1> extends Consumer<T1> {
 
     /**
-     * Apply this function to the arguments.
+     * Performs this operation on the given argument.
      *
      * @param args The arguments as a tuple.
      */
-    default R apply(Tuple1<? extends T1> args) {
-        return apply(args.v1);
+    default void accept(Tuple1<? extends T1> args) {
+        accept(args.v1);
     }
 
     /**
-     * Apply this function to the arguments.
+     * Performs this operation on the given argument.
      */
     @Override
-    R apply(T1 v1);
+    void accept(T1 v1);
 
     /**
-     * Convert this function to a {@link java.util.function.Function}.
+     * Convert this consumer to a {@link java.util.function.Consumer}.
      */
-    default Function<T1, R> toFunction() {
-        return this::apply;
+    default Consumer<T1> toConsumer() {
+        return this::accept;
     }
 
     /**
-     * Convert to this function from a {@link java.util.function.Function}.
+     * Convert to this consumer from a {@link java.util.function.Consumer}.
      */
-    static <T1, R> Function1<T1, R> from(Function<? super T1, ? extends R> function) {
-        return function::apply;
+    static <T1> Consumer<T1> from(Consumer<? super T1> consumer) {
+        return consumer::accept;
     }
 
     /**
-     * Partially apply this function to the arguments.
+     * Let this consumer partially accept the arguments.
      */
-    default Function0<R> curry(T1 v1) {
-        return () -> apply(v1);
+    default Consumer0 curry(T1 v1) {
+        return () -> accept(v1);
     }
 
     /**
-     * Partially apply this function to the arguments.
+     * Let this consumer partially accept the arguments.
      */
-    default Function0<R> curry(Tuple1<? extends T1> args) {
-        return () -> apply(args.v1);
+    default Consumer0 curry(Tuple1<? extends T1> args) {
+        return () -> accept(args.v1);
     }
 }

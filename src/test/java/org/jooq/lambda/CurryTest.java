@@ -15,6 +15,8 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.lambda.function.Consumer5;
+
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
@@ -53,4 +55,40 @@ public class CurryTest {
     private int fiveArgMethod(int a, int b, int c, int d, int e) {
         return a + b * c / d - e;
     }
+
+    int result;
+    
+    private <A, B, C, D, E> Consumer5<A, B, C, D, E> lift(Consumer5<A, B, C, D, E> func) {
+        return func;
+    }
+
+    private void fiveArgConsumer(int a, int b, int c, int d, int e) {
+        result = a + b * c / d - e;
+    }
+    
+    @Test
+    public void testConsumer5to3() {
+        Tuple2<Integer, Integer> t1 = tuple(4, 4);
+        Tuple3<Integer, Integer, Integer> t2 = tuple(5, 3, 2);
+
+        // Concat the two and three tuples and apply them together.
+        lift(this::fiveArgConsumer).accept(t1.concat(t2));
+        int normal1 = result;
+
+        // Curry with the first two values, then apply with the remaining three
+        lift(this::fiveArgConsumer).curry(t1.v1, t1.v2).accept(t2.v1, t2.v2, t2.v3);
+        int curriedExplicitExplicit = result;
+        lift(this::fiveArgConsumer).curry(t1.v1, t1.v2).accept(t2);
+        int curriedExplicitTuple = result;
+        lift(this::fiveArgConsumer).curry(t1).accept(t2.v1, t2.v2, t2.v3);
+        int curriedTupleExplicit = result;
+        lift(this::fiveArgConsumer).curry(t1).accept(t2);
+        int curriedTupleTuple = result;
+
+        assertEquals(normal1, curriedExplicitExplicit);
+        assertEquals(normal1, curriedExplicitTuple);
+        assertEquals(normal1, curriedTupleExplicit);
+        assertEquals(normal1, curriedTupleTuple);
+    }
+
 }

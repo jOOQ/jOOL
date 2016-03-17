@@ -21,7 +21,7 @@ import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple3;
 
 /**
- * A function with 3 arguments
+ * A function with 3 arguments.
  *
  * @author Lukas Eder
  */

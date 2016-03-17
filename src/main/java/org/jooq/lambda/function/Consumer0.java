@@ -15,52 +15,29 @@
  */
 package org.jooq.lambda.function;
 
-import java.util.function.Supplier;
 
 import org.jooq.lambda.tuple.Tuple0;
 
 /**
- * A function with 0 arguments.
+ * A consumer with 0 arguments.
  *
  * @author Lukas Eder
  */
 @FunctionalInterface
-public interface Function0<R> extends Supplier<R> {
+public interface Consumer0 {
 
     /**
-     * Apply this function to the arguments.
-     */
-    default R apply() {
-        return get();
-    }
-
-    /**
-     * Apply this function to the arguments.
+     * Performs this operation on the given argument.
      *
      * @param args The arguments as a tuple.
      */
-    default R apply(Tuple0 args) {
-        return get();
+    default void accept(Tuple0 args) {
+        accept();
     }
 
     /**
-     * Apply this function to the arguments.
+     * Performs this operation on the given argument.
      */
-    @Override
-    R get();
-
-    /**
-     * Convert this function to a {@link java.util.function.Supplier}
-     */
-    default Supplier<R> toSupplier() {
-        return this::apply;
-    }
-
-    /**
-     * Convert to this function from a {@link java.util.function.Supplier}
-     */
-    static <R> Function0<R> from(Supplier<R> supplier) {
-        return supplier::get;
-    }
+    void accept();
 
 }

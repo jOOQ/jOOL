@@ -25,7 +25,7 @@ import org.jooq.lambda.tuple.Tuple6;
 import org.jooq.lambda.tuple.Tuple7;
 
 /**
- * A function with 7 arguments
+ * A function with 7 arguments.
  *
  * @author Lukas Eder
  */

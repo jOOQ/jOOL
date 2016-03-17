@@ -28,7 +28,7 @@ import org.jooq.lambda.tuple.Tuple9;
 import org.jooq.lambda.tuple.Tuple10;
 
 /**
- * A function with 10 arguments
+ * A function with 10 arguments.
  *
  * @author Lukas Eder
  */

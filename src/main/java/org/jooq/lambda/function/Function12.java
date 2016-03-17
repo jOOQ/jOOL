@@ -30,7 +30,7 @@ import org.jooq.lambda.tuple.Tuple11;
 import org.jooq.lambda.tuple.Tuple12;
 
 /**
- * A function with 12 arguments
+ * A function with 12 arguments.
  *
  * @author Lukas Eder
  */
