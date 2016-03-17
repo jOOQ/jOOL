@@ -53,153 +53,373 @@ public interface Function11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1) {
+    default Function10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> applyPartially(T1 v1) {
         return (v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function9<T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2) {
+    default Function9<T3, T4, T5, T6, T7, T8, T9, T10, T11, R> applyPartially(T1 v1, T2 v2) {
         return (v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function8<T4, T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3) {
+    default Function8<T4, T5, T6, T7, T8, T9, T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3) {
         return (v4, v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function7<T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4) {
+    default Function7<T5, T6, T7, T8, T9, T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4) {
         return (v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function6<T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5) {
+    default Function6<T6, T7, T8, T9, T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5) {
         return (v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function5<T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6) {
+    default Function5<T7, T8, T9, T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6) {
         return (v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function4<T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7) {
+    default Function4<T8, T9, T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7) {
         return (v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function3<T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8) {
+    default Function3<T9, T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8) {
         return (v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9) {
+    default Function2<T10, T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9) {
         return (v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9, T10 v10) {
+    default Function1<T11, R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9, T10 v10) {
         return (v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9, T10 v10, T11 v11) {
+    default Function0<R> applyPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9, T10 v10, T11 v11) {
         return () -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple1<? extends T1> args) {
+    default Function10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> applyPartially(Tuple1<? extends T1> args) {
         return (v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function9<T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple2<? extends T1, ? extends T2> args) {
+    default Function9<T3, T4, T5, T6, T7, T8, T9, T10, T11, R> applyPartially(Tuple2<? extends T1, ? extends T2> args) {
         return (v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function8<T4, T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
+    default Function8<T4, T5, T6, T7, T8, T9, T10, T11, R> applyPartially(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return (v4, v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function7<T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple4<? extends T1, ? extends T2, ? extends T3, ? extends T4> args) {
+    default Function7<T5, T6, T7, T8, T9, T10, T11, R> applyPartially(Tuple4<? extends T1, ? extends T2, ? extends T3, ? extends T4> args) {
         return (v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function6<T6, T7, T8, T9, T10, T11, R> curry(Tuple5<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5> args) {
+    default Function6<T6, T7, T8, T9, T10, T11, R> applyPartially(Tuple5<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5> args) {
         return (v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function5<T7, T8, T9, T10, T11, R> curry(Tuple6<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6> args) {
+    default Function5<T7, T8, T9, T10, T11, R> applyPartially(Tuple6<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6> args) {
         return (v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function4<T8, T9, T10, T11, R> curry(Tuple7<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7> args) {
+    default Function4<T8, T9, T10, T11, R> applyPartially(Tuple7<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7> args) {
         return (v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function3<T9, T10, T11, R> curry(Tuple8<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8> args) {
+    default Function3<T9, T10, T11, R> applyPartially(Tuple8<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8> args) {
         return (v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T10, T11, R> curry(Tuple9<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9> args) {
+    default Function2<T10, T11, R> applyPartially(Tuple9<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9> args) {
         return (v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T11, R> curry(Tuple10<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9, ? extends T10> args) {
+    default Function1<T11, R> applyPartially(Tuple10<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9, ? extends T10> args) {
         return (v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, args.v10, v11);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
+    default Function0<R> applyPartially(Tuple11<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9, ? extends T10, ? extends T11> args) {
+        return () -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, args.v10, args.v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     */
+    @Deprecated
+    default Function10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1) {
+        return (v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2)} instead.
+     */
+    @Deprecated
+    default Function9<T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2) {
+        return (v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3)} instead.
+     */
+    @Deprecated
+    default Function8<T4, T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3) {
+        return (v4, v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4)} instead.
+     */
+    @Deprecated
+    default Function7<T5, T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4) {
+        return (v5, v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5)} instead.
+     */
+    @Deprecated
+    default Function6<T6, T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5) {
+        return (v6, v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5, T6)} instead.
+     */
+    @Deprecated
+    default Function5<T7, T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6) {
+        return (v7, v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5, T6, T7)} instead.
+     */
+    @Deprecated
+    default Function4<T8, T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7) {
+        return (v8, v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5, T6, T7, T8)} instead.
+     */
+    @Deprecated
+    default Function3<T9, T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8) {
+        return (v9, v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5, T6, T7, T8, T9)} instead.
+     */
+    @Deprecated
+    default Function2<T10, T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9) {
+        return (v10, v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)} instead.
+     */
+    @Deprecated
+    default Function1<T11, R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9, T10 v10) {
+        return (v11) -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)} instead.
+     */
+    @Deprecated
+    default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5, T6 v6, T7 v7, T8 v8, T9 v9, T10 v10, T11 v11) {
+        return () -> apply(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple1)} instead.
+     */
+    @Deprecated
+    default Function10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple1<? extends T1> args) {
+        return (v2, v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple2)} instead.
+     */
+    @Deprecated
+    default Function9<T3, T4, T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple2<? extends T1, ? extends T2> args) {
+        return (v3, v4, v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple3)} instead.
+     */
+    @Deprecated
+    default Function8<T4, T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
+        return (v4, v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple4)} instead.
+     */
+    @Deprecated
+    default Function7<T5, T6, T7, T8, T9, T10, T11, R> curry(Tuple4<? extends T1, ? extends T2, ? extends T3, ? extends T4> args) {
+        return (v5, v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple5)} instead.
+     */
+    @Deprecated
+    default Function6<T6, T7, T8, T9, T10, T11, R> curry(Tuple5<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5> args) {
+        return (v6, v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple6)} instead.
+     */
+    @Deprecated
+    default Function5<T7, T8, T9, T10, T11, R> curry(Tuple6<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6> args) {
+        return (v7, v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple7)} instead.
+     */
+    @Deprecated
+    default Function4<T8, T9, T10, T11, R> curry(Tuple7<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7> args) {
+        return (v8, v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple8)} instead.
+     */
+    @Deprecated
+    default Function3<T9, T10, T11, R> curry(Tuple8<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8> args) {
+        return (v9, v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple9)} instead.
+     */
+    @Deprecated
+    default Function2<T10, T11, R> curry(Tuple9<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9> args) {
+        return (v10, v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple10)} instead.
+     */
+    @Deprecated
+    default Function1<T11, R> curry(Tuple10<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9, ? extends T10> args) {
+        return (v11) -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, args.v10, v11);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple11)} instead.
+     */
+    @Deprecated
     default Function0<R> curry(Tuple11<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9, ? extends T10, ? extends T11> args) {
         return () -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, args.v10, args.v11);
     }

@@ -59,13 +59,33 @@ public interface Function1<T1, R> extends Function<T1, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(T1 v1) {
+    default Function0<R> applyPartially(T1 v1) {
         return () -> apply(v1);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
+    default Function0<R> applyPartially(Tuple1<? extends T1> args) {
+        return () -> apply(args.v1);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     */
+    @Deprecated
+    default Function0<R> curry(T1 v1) {
+        return () -> apply(v1);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple1)} instead.
+     */
+    @Deprecated
     default Function0<R> curry(Tuple1<? extends T1> args) {
         return () -> apply(args.v1);
     }

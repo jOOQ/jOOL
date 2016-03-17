@@ -60,28 +60,28 @@ public interface Consumer2<T1, T2> extends BiConsumer<T1, T2> {
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer1<T2> curry(T1 v1) {
+    default Consumer1<T2> acceptPartially(T1 v1) {
         return (v2) -> accept(v1, v2);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer0 curry(T1 v1, T2 v2) {
+    default Consumer0 acceptPartially(T1 v1, T2 v2) {
         return () -> accept(v1, v2);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer1<T2> curry(Tuple1<? extends T1> args) {
+    default Consumer1<T2> acceptPartially(Tuple1<? extends T1> args) {
         return (v2) -> accept(args.v1, v2);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer0 curry(Tuple2<? extends T1, ? extends T2> args) {
+    default Consumer0 acceptPartially(Tuple2<? extends T1, ? extends T2> args) {
         return () -> accept(args.v1, args.v2);
     }
 }

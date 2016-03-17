@@ -26,7 +26,7 @@ import org.jooq.lambda.tuple.Tuple3;
 
 import org.junit.Test;
 
-public class CurryTest {
+public class PartialApplicationTest {
 
     @Test
     public void testFunction5to3() {
@@ -36,16 +36,16 @@ public class CurryTest {
         // Concat the two and three tuples and apply them together.
         int normal1 = lift(this::fiveArgMethod).apply(t1.concat(t2));
 
-        // Curry with the first two values, then apply with the remaining three
-        int curriedExplicitExplicit = lift(this::fiveArgMethod).curry(t1.v1, t1.v2).apply(t2.v1, t2.v2, t2.v3);
-        int curriedExplicitTuple = lift(this::fiveArgMethod).curry(t1.v1, t1.v2).apply(t2);
-        int curriedTupleExplicit = lift(this::fiveArgMethod).curry(t1).apply(t2.v1, t2.v2, t2.v3);
-        int curriedTupleTuple = lift(this::fiveArgMethod).curry(t1).apply(t2);
+        // Apply partially the first two values, then apply the remaining three
+        int partiallyAppliedExplicitExplicit = lift(this::fiveArgMethod).applyPartially(t1.v1, t1.v2).apply(t2.v1, t2.v2, t2.v3);
+        int partiallyAppliedExplicitTuple = lift(this::fiveArgMethod).applyPartially(t1.v1, t1.v2).apply(t2);
+        int partiallyAppliedTupleExplicit = lift(this::fiveArgMethod).applyPartially(t1).apply(t2.v1, t2.v2, t2.v3);
+        int partiallyAppliedTupleTuple = lift(this::fiveArgMethod).applyPartially(t1).apply(t2);
 
-        assertEquals(normal1, curriedExplicitExplicit);
-        assertEquals(normal1, curriedExplicitTuple);
-        assertEquals(normal1, curriedTupleExplicit);
-        assertEquals(normal1, curriedTupleTuple);
+        assertEquals(normal1, partiallyAppliedExplicitExplicit);
+        assertEquals(normal1, partiallyAppliedExplicitTuple);
+        assertEquals(normal1, partiallyAppliedTupleExplicit);
+        assertEquals(normal1, partiallyAppliedTupleTuple);
     }
 
     private <A, B, C, D, E, F> Function5<A, B, C, D, E, F> lift(Function5<A, B, C, D, E, F> func) {
@@ -75,20 +75,20 @@ public class CurryTest {
         lift(this::fiveArgConsumer).accept(t1.concat(t2));
         int normal1 = result;
 
-        // Curry with the first two values, then apply with the remaining three
-        lift(this::fiveArgConsumer).curry(t1.v1, t1.v2).accept(t2.v1, t2.v2, t2.v3);
-        int curriedExplicitExplicit = result;
-        lift(this::fiveArgConsumer).curry(t1.v1, t1.v2).accept(t2);
-        int curriedExplicitTuple = result;
-        lift(this::fiveArgConsumer).curry(t1).accept(t2.v1, t2.v2, t2.v3);
-        int curriedTupleExplicit = result;
-        lift(this::fiveArgConsumer).curry(t1).accept(t2);
-        int curriedTupleTuple = result;
+        // Accept partially the first two values, then accept the remaining three
+        lift(this::fiveArgConsumer).acceptPartially(t1.v1, t1.v2).accept(t2.v1, t2.v2, t2.v3);
+        int partiallyAppliedExplicitExplicit = result;
+        lift(this::fiveArgConsumer).acceptPartially(t1.v1, t1.v2).accept(t2);
+        int partiallyAppliedExplicitTuple = result;
+        lift(this::fiveArgConsumer).acceptPartially(t1).accept(t2.v1, t2.v2, t2.v3);
+        int partiallyAppliedTupleExplicit = result;
+        lift(this::fiveArgConsumer).acceptPartially(t1).accept(t2);
+        int partiallyAppliedTupleTuple = result;
 
-        assertEquals(normal1, curriedExplicitExplicit);
-        assertEquals(normal1, curriedExplicitTuple);
-        assertEquals(normal1, curriedTupleExplicit);
-        assertEquals(normal1, curriedTupleTuple);
+        assertEquals(normal1, partiallyAppliedExplicitExplicit);
+        assertEquals(normal1, partiallyAppliedExplicitTuple);
+        assertEquals(normal1, partiallyAppliedTupleExplicit);
+        assertEquals(normal1, partiallyAppliedTupleTuple);
     }
 
 }

@@ -45,41 +45,101 @@ public interface Function3<T1, T2, T3, R> {
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T2, T3, R> curry(T1 v1) {
+    default Function2<T2, T3, R> applyPartially(T1 v1) {
         return (v2, v3) -> apply(v1, v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T3, R> curry(T1 v1, T2 v2) {
+    default Function1<T3, R> applyPartially(T1 v1, T2 v2) {
         return (v3) -> apply(v1, v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function0<R> curry(T1 v1, T2 v2, T3 v3) {
+    default Function0<R> applyPartially(T1 v1, T2 v2, T3 v3) {
         return () -> apply(v1, v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function2<T2, T3, R> curry(Tuple1<? extends T1> args) {
+    default Function2<T2, T3, R> applyPartially(Tuple1<? extends T1> args) {
         return (v2, v3) -> apply(args.v1, v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
-    default Function1<T3, R> curry(Tuple2<? extends T1, ? extends T2> args) {
+    default Function1<T3, R> applyPartially(Tuple2<? extends T1, ? extends T2> args) {
         return (v3) -> apply(args.v1, args.v2, v3);
     }
 
     /**
      * Partially apply this function to the arguments.
      */
+    default Function0<R> applyPartially(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
+        return () -> apply(args.v1, args.v2, args.v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     */
+    @Deprecated
+    default Function2<T2, T3, R> curry(T1 v1) {
+        return (v2, v3) -> apply(v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2)} instead.
+     */
+    @Deprecated
+    default Function1<T3, R> curry(T1 v1, T2 v2) {
+        return (v3) -> apply(v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(T1, T2, T3)} instead.
+     */
+    @Deprecated
+    default Function0<R> curry(T1 v1, T2 v2, T3 v3) {
+        return () -> apply(v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple1)} instead.
+     */
+    @Deprecated
+    default Function2<T2, T3, R> curry(Tuple1<? extends T1> args) {
+        return (v2, v3) -> apply(args.v1, v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple2)} instead.
+     */
+    @Deprecated
+    default Function1<T3, R> curry(Tuple2<? extends T1, ? extends T2> args) {
+        return (v3) -> apply(args.v1, args.v2, v3);
+    }
+
+    /**
+     * Partially apply this function to the arguments.
+     *
+     * @deprecated - Use {@link #applyPartially(Tuple3)} instead.
+     */
+    @Deprecated
     default Function0<R> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return () -> apply(args.v1, args.v2, args.v3);
     }

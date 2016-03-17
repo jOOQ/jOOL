@@ -59,14 +59,14 @@ public interface Consumer1<T1> extends Consumer<T1> {
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer0 curry(T1 v1) {
+    default Consumer0 acceptPartially(T1 v1) {
         return () -> accept(v1);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer0 curry(Tuple1<? extends T1> args) {
+    default Consumer0 acceptPartially(Tuple1<? extends T1> args) {
         return () -> accept(args.v1);
     }
 }

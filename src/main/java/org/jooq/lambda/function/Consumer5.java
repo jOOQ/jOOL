@@ -47,70 +47,70 @@ public interface Consumer5<T1, T2, T3, T4, T5> {
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer4<T2, T3, T4, T5> curry(T1 v1) {
+    default Consumer4<T2, T3, T4, T5> acceptPartially(T1 v1) {
         return (v2, v3, v4, v5) -> accept(v1, v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer3<T3, T4, T5> curry(T1 v1, T2 v2) {
+    default Consumer3<T3, T4, T5> acceptPartially(T1 v1, T2 v2) {
         return (v3, v4, v5) -> accept(v1, v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer2<T4, T5> curry(T1 v1, T2 v2, T3 v3) {
+    default Consumer2<T4, T5> acceptPartially(T1 v1, T2 v2, T3 v3) {
         return (v4, v5) -> accept(v1, v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer1<T5> curry(T1 v1, T2 v2, T3 v3, T4 v4) {
+    default Consumer1<T5> acceptPartially(T1 v1, T2 v2, T3 v3, T4 v4) {
         return (v5) -> accept(v1, v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer0 curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5) {
+    default Consumer0 acceptPartially(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5) {
         return () -> accept(v1, v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer4<T2, T3, T4, T5> curry(Tuple1<? extends T1> args) {
+    default Consumer4<T2, T3, T4, T5> acceptPartially(Tuple1<? extends T1> args) {
         return (v2, v3, v4, v5) -> accept(args.v1, v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer3<T3, T4, T5> curry(Tuple2<? extends T1, ? extends T2> args) {
+    default Consumer3<T3, T4, T5> acceptPartially(Tuple2<? extends T1, ? extends T2> args) {
         return (v3, v4, v5) -> accept(args.v1, args.v2, v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer2<T4, T5> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
+    default Consumer2<T4, T5> acceptPartially(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return (v4, v5) -> accept(args.v1, args.v2, args.v3, v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer1<T5> curry(Tuple4<? extends T1, ? extends T2, ? extends T3, ? extends T4> args) {
+    default Consumer1<T5> acceptPartially(Tuple4<? extends T1, ? extends T2, ? extends T3, ? extends T4> args) {
         return (v5) -> accept(args.v1, args.v2, args.v3, args.v4, v5);
     }
 
     /**
      * Let this consumer partially accept the arguments.
      */
-    default Consumer0 curry(Tuple5<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5> args) {
+    default Consumer0 acceptPartially(Tuple5<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5> args) {
         return () -> accept(args.v1, args.v2, args.v3, args.v4, args.v5);
     }
 }
