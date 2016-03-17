@@ -22,6 +22,7 @@ import org.jooq.lambda.function.Consumer0;
 import org.jooq.lambda.function.Consumer1;
 import org.jooq.lambda.function.Consumer2;
 import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple1;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -98,5 +99,32 @@ public class ConsumerTest {
         result = 0;
         c2b.accept(1, 2);
         assertEquals(3, result);
+    }
+    
+    @Test
+    public void testTupleConsumers() {
+        int[] number = new int[1];
+        String[] string = new String[1];
+        
+        number[0] = 0;
+        Seq.of(Tuple.tuple(), Tuple.tuple(), Tuple.tuple())
+           .forEach(Tuple.consumer(() -> number[0] = number[0] + 1));
+        assertEquals(3, number[0]);
+        
+        number[0] = 0;
+        Seq.of(Tuple.tuple(1), Tuple.tuple(2), Tuple.tuple(3))
+           .forEach(Tuple.consumer(t -> number[0] = number[0] + t));
+        assertEquals(6, number[0]);
+        
+        number[0] = 0;
+        string[0] = "";
+        Seq.of(Tuple.tuple(1, "A"), Tuple.tuple(2, "B"), Tuple.tuple(3, "C"))
+           .forEach(Tuple.consumer((i, s) -> {
+               number[0] = number[0] + i;
+               string[0] = string[0] + s;
+           }));
+        
+        assertEquals(6, number[0]);
+        assertEquals("ABC", string[0]);
     }
 }
