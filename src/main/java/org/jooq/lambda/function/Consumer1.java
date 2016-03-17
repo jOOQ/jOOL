@@ -52,7 +52,7 @@ public interface Consumer1<T1> extends Consumer<T1> {
     /**
      * Convert to this consumer from a {@link java.util.function.Consumer}.
      */
-    static <T1> Consumer<T1> from(Consumer<? super T1> consumer) {
+    static <T1> Consumer1<T1> from(Consumer<? super T1> consumer) {
         return consumer::accept;
     }
 

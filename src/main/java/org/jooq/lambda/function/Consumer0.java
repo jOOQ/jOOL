@@ -24,7 +24,7 @@ import org.jooq.lambda.tuple.Tuple0;
  * @author Lukas Eder
  */
 @FunctionalInterface
-public interface Consumer0 {
+public interface Consumer0 extends Runnable {
 
     /**
      * Performs this operation on the given argument.
@@ -40,4 +40,22 @@ public interface Consumer0 {
      */
     void accept();
 
+    @Override
+    default void run() {
+        accept();
+    }
+
+    /**
+     * Convert this consumer to a {@link java.lang.Runnable}.
+     */
+    default Runnable toRunnable() {
+        return this::accept;
+    }
+
+    /**
+     * Convert to this consumer from a {@link java.lang.Runnable}.
+     */
+    static Consumer0 from(Runnable runnable) {
+        return runnable::run;
+    }
 }
