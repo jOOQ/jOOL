@@ -679,9 +679,9 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the common prefix of a set of strings.
      */
-    public static Collector<String, ?, String> commonPrefix() {
+    public static Collector<CharSequence, ?, String> commonPrefix() {
         return Collectors.collectingAndThen(
-            Collectors.reducing((String s1, String s2) -> {
+            Collectors.reducing((CharSequence s1, CharSequence s2) -> {
                 if (s1 == null || s2 == null)
                     return "";
 
@@ -689,18 +689,18 @@ public class Agg {
                 int i;
                 for (i = 0; i < l && s1.charAt(i) == s2.charAt(i); i++);
 
-                return s1.substring(0, i);
+                return s1.subSequence(0, i);
             }),
-            s -> s.orElse("")
+            s -> s.map(Objects::toString).orElse("")
         );
     }
     
     /**
      * Get a {@link Collector} that calculates the common suffix of a set of strings.
      */
-    public static Collector<String, ?, String> commonSuffix() {
+    public static Collector<CharSequence, ?, String> commonSuffix() {
         return Collectors.collectingAndThen(
-            Collectors.reducing((String s1, String s2) -> {
+            Collectors.reducing((CharSequence s1, CharSequence s2) -> {
                 if (s1 == null || s2 == null)
                     return "";
 
@@ -710,9 +710,9 @@ public class Agg {
                 int i;
                 for (i = 0; i < l && s1.charAt(l1 - i - 1) == s2.charAt(l2 - i - 1); i++);
 
-                return s1.substring(l1 - i);
+                return s1.subSequence(l1 - i, l1);
             }),
-            s -> s.orElse("")
+            s -> s.map(Objects::toString).orElse("")
         );
     }
     
