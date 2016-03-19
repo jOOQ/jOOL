@@ -66,6 +66,7 @@ import org.jooq.lambda.tuple.Tuple5;
 import org.jooq.lambda.tuple.Tuple6;
 import org.jooq.lambda.tuple.Tuple7;
 import org.jooq.lambda.tuple.Tuple8;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -2479,5 +2480,34 @@ public class SeqTest {
 
         assertEquals(expected.toList(), actual.toList());
     }
-
+    
+    @Test
+    public void testCommonPrefix() {
+        assertEquals("", Seq.of().commonPrefix());
+        assertEquals("", Seq.of("").commonPrefix());
+        assertEquals("", Seq.of("", "A").commonPrefix());
+        assertEquals("", Seq.of("", "AA", "AAB").commonPrefix());
+        assertEquals("A", Seq.of("A").commonPrefix());
+        assertEquals("A", Seq.of("A", "AA", "AAB").commonPrefix());
+        assertEquals("AB", Seq.of("AB", "ABC", "ABCD", "ABD").commonPrefix());
+        assertEquals("AB", Seq.of("ABC", "ABCD", "ABD").commonPrefix());
+        assertEquals("AABB", Seq.of("AABBCC", "AABBDD", "AABBE").commonPrefix());
+    }
+    
+    @Test
+    public void testCommonSuffix() {
+        assertEquals("", Seq.of().commonSuffix());
+        assertEquals("", Seq.of("").commonSuffix());
+        assertEquals("", Seq.of("", "A").commonSuffix());
+        assertEquals("", Seq.of("", "AA", "AAB").commonSuffix());
+        assertEquals("A", Seq.of("A").commonSuffix());
+        assertEquals("", Seq.of("A", "AA", "AAB").commonSuffix());
+        assertEquals("", Seq.of("AB", "ABC", "ABCD", "ABD").commonSuffix());
+        assertEquals("", Seq.of("ABC", "ABCD", "ABD").commonSuffix());
+        assertEquals("", Seq.of("AABBCC", "AABBDD", "AABBE").commonSuffix());
+        assertEquals("A", Seq.of("A", "AA", "BAA").commonSuffix());
+        assertEquals("BA", Seq.of("BA", "CBA", "DCBA", "DBA").commonSuffix());
+        assertEquals("BA", Seq.of("CBA", "DCBA", "DBA").commonSuffix());
+        assertEquals("BBAA", Seq.of("CCBBAA", "DDBBAA", "EBBAA").commonSuffix());
+    }
 }

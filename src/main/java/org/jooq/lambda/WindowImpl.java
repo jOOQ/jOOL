@@ -510,4 +510,14 @@ class WindowImpl<T> implements Window<T> {
     public String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
         return partition.cacheIf(completePartition(), () -> tuple("toString", delimiter, prefix, suffix), () -> window().map(Objects::toString).collect(Collectors.joining(delimiter, prefix, suffix)));
     }
+
+    @Override
+    public String commonPrefix() {
+        return partition.cacheIf(completePartition(), () -> "commonPrefix", () -> window().commonPrefix());
+    }
+
+    @Override
+    public String commonSuffix() {
+        return partition.cacheIf(completePartition(), () -> "commonSuffix", () -> window().commonSuffix());
+    }
 }

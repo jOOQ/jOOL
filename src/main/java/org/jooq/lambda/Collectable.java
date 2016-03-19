@@ -644,4 +644,14 @@ public interface Collectable<T> {
      * collector.
      */
     String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix);
+    
+    /**
+     * Get the common prefix of all strings (or to-stringed values) in this stream.
+     */
+    String commonPrefix();
+    
+    /**
+     * Get the common prefix of all strings (or to-stringed values) in this stream.
+     */
+    String commonSuffix();
 }

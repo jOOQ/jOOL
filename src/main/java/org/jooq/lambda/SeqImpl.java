@@ -530,6 +530,16 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public String commonPrefix() {
+        return map(Objects::toString).collect(Agg.commonPrefix());
+    }
+
+    @Override
+    public String commonSuffix() {
+        return map(Objects::toString).collect(Agg.commonSuffix());
+    }
+
+    @Override
     public String format() {
         final List<String[]> strings = new ArrayList<>();
         Class<?>[] types0 = null;

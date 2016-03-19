@@ -675,4 +675,46 @@ public class Agg {
             }
         );
     }
+    
+    /**
+     * Get a {@link Collector} that calculates the common prefix of a set of strings.
+     */
+    public static Collector<String, ?, String> commonPrefix() {
+        return Collectors.collectingAndThen(
+            Collectors.reducing((String s1, String s2) -> {
+                if (s1 == null || s2 == null)
+                    return "";
+
+                int l = Math.min(s1.length(), s2.length());
+                int i;
+                for (i = 0; i < l && s1.charAt(i) == s2.charAt(i); i++);
+
+                return s1.substring(0, i);
+            }),
+            s -> s.orElse("")
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the common suffix of a set of strings.
+     */
+    public static Collector<String, ?, String> commonSuffix() {
+        return Collectors.collectingAndThen(
+            Collectors.reducing((String s1, String s2) -> {
+                if (s1 == null || s2 == null)
+                    return "";
+
+                int l1 = s1.length();
+                int l2 = s2.length();
+                int l = Math.min(l1, l2);
+                int i;
+                for (i = 0; i < l && s1.charAt(l1 - i - 1) == s2.charAt(l2 - i - 1); i++);
+
+                return s1.substring(l1 - i);
+            }),
+            s -> s.orElse("")
+        );
+    }
+    
+    
 }

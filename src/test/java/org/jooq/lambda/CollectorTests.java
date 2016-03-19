@@ -893,4 +893,34 @@ public class CollectorTests {
         assertEquals(false, Seq.of(1, 2, 3, 4).noneMatch(i -> i % 3 == 0));
         assertEquals(false, Seq.of(1, 2, 3, 4, 5).noneMatch(i -> i % 3 == 0));
     }
+    
+    @Test
+    public void testCommonPrefix() {
+        assertEquals("", Seq.<String>of().collect(Agg.commonPrefix()));
+        assertEquals("", Seq.of("").collect(Agg.commonPrefix()));
+        assertEquals("", Seq.of("", "A").collect(Agg.commonPrefix()));
+        assertEquals("", Seq.of("", "AA", "AAB").collect(Agg.commonPrefix()));
+        assertEquals("A", Seq.of("A").collect(Agg.commonPrefix()));
+        assertEquals("A", Seq.of("A", "AA", "AAB").collect(Agg.commonPrefix()));
+        assertEquals("AB", Seq.of("AB", "ABC", "ABCD", "ABD").collect(Agg.commonPrefix()));
+        assertEquals("AB", Seq.of("ABC", "ABCD", "ABD").collect(Agg.commonPrefix()));
+        assertEquals("AABB", Seq.of("AABBCC", "AABBDD", "AABBE").collect(Agg.commonPrefix()));
+    }
+    
+    @Test
+    public void testCommonSuffix() {
+        assertEquals("", Seq.<String>of().collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("").collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("", "A").collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("", "AA", "AAB").collect(Agg.commonSuffix()));
+        assertEquals("A", Seq.of("A").collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("A", "AA", "AAB").collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("AB", "ABC", "ABCD", "ABD").collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("ABC", "ABCD", "ABD").collect(Agg.commonSuffix()));
+        assertEquals("", Seq.of("AABBCC", "AABBDD", "AABBE").collect(Agg.commonSuffix()));
+        assertEquals("A", Seq.of("A", "AA", "BAA").collect(Agg.commonSuffix()));
+        assertEquals("BA", Seq.of("BA", "CBA", "DCBA", "DBA").collect(Agg.commonSuffix()));
+        assertEquals("BA", Seq.of("CBA", "DCBA", "DBA").collect(Agg.commonSuffix()));
+        assertEquals("BBAA", Seq.of("CCBBAA", "DDBBAA", "EBBAA").collect(Agg.commonSuffix()));
+    }
 }
