@@ -251,15 +251,30 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MIN()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        class Accumulator {
+            T t;
+            U u;    
+        }
+        
         return Collector.of(
-            () -> (Tuple2<T, U>[]) new Tuple2[] { tuple(null, null) },
+            () -> new Accumulator(),
             (a, t) -> {
                 U u = function.apply(t);
-                if (a[0].v2 == null || comparator.compare(a[0].v2, u) < 0)
-                    a[0] = tuple(t, u);
+                
+                if (a.u == null || comparator.compare(a.u, u) < 0) {
+                    a.t = t;
+                    a.u = u;
+                }
             },
-            (a1, a2) -> comparator.compare(a1[0].v2, a2[0].v2) < 0 ? a2 : a1,
-            a -> Optional.ofNullable(a[0].v1)
+            (a1, a2) -> 
+                  a1.u == null
+                ? a2
+                : a2.u == null
+                ? a1
+                : comparator.compare(a1.u, a2.u) < 0 
+                ? a2 
+                : a1,
+            a -> Optional.ofNullable(a.t)
         );
     }
     
@@ -887,6 +902,4 @@ public class Agg {
             s -> s.map(Objects::toString).orElse("")
         );
     }
-    
-    
 }
