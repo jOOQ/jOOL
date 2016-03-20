@@ -444,6 +444,11 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public Seq<T> modeAll() {
+        return collect(Agg.modeAll());
+    }
+
+    @Override
     public boolean anyMatch(Predicate<? super T> predicate) {
         return stream().anyMatch(predicate);
     }

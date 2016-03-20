@@ -1088,6 +1088,15 @@ public class SeqTest {
     }
 
     @Test
+    public void testModeAll() {
+        assertEquals(asList(1)   , Seq.of(1, 1, 1, 2, 3).modeAll().toList());
+        assertEquals(asList(2, 3), Seq.of(1, 2, 2, 2, 3, 3, 3, 4).modeAll().toList());
+        assertEquals(asList(3, 2), Seq.of(1, 2, 2, 2, 3, 3, 3, 4).reverse().modeAll().toList());
+        assertEquals(asList("B") , Seq.of("A", "B", "B", "B", "C").modeAll().toList());
+        assertEquals(asList()    , Seq.of().modeAll().toList());
+    }
+
+    @Test
     public void testUnzip() {
         Supplier<Seq<Tuple2<Integer, String>>> s = () -> Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
 

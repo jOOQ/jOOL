@@ -382,6 +382,11 @@ public interface Collectable<T> {
     Optional<T> mode();
 
     /**
+     * Get the mode, i.e. the values that appear most often in the collectable.
+     */
+    Seq<T> modeAll();
+
+    /**
      * Get the sum of the elements in this collectable.
      */
     Optional<T> sum();

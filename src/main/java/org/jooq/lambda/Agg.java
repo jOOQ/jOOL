@@ -531,6 +531,17 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MODE()</code> function.
      */
     public static <T> Collector<T, ?, Optional<T>> mode() {
+        return mode0(seq -> seq.maxBy(t -> t.v2).map(t -> t.v1));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MODE()</code> function.
+     */
+    public static <T> Collector<T, ?, Seq<T>> modeAll() {
+        return mode0(seq -> seq.maxAllBy(t -> t.v2).map(t -> t.v1));
+    }
+    
+    private static <T, X> Collector<T, ?, X> mode0(Function<? super Seq<Tuple2<T, Long>>, ? extends X> transformer) {
         return Collector.of(
             () -> new LinkedHashMap<T, Long>(),
             (m, v) -> m.compute(v, (k1, v1) -> v1 == null ? 1L : v1 + 1L),
@@ -538,7 +549,7 @@ public class Agg {
                 m1.putAll(m2);
                 return m1;
             },
-            m -> Seq.seq(m).maxBy(t -> t.v2).map(t -> t.v1)
+            m -> Seq.seq(m).transform(transformer)
         );
     }
 

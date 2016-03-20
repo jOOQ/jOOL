@@ -464,6 +464,11 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public Seq<T> modeAll() {
+        return partition.cacheIf(completePartition(), "modeAll", () -> window().modeAll());
+    }
+
+    @Override
     public boolean allMatch(Predicate<? super T> predicate) {
         return partition.cacheIf(completePartition(), () -> tuple("allMatch", predicate), () -> window().allMatch(predicate));
     }
