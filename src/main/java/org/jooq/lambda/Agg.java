@@ -17,9 +17,9 @@ package org.jooq.lambda;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.collectingAndThen;
-import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -550,6 +550,40 @@ public class Agg {
                 return m1;
             },
             m -> Seq.seq(m).transform(transformer)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MODE()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<T>> modeBy(Function<? super T, ? extends U> function) {
+        return Collectors.collectingAndThen(modeAllBy(function), s -> s.findFirst());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MODE()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> modeAllBy(Function<? super T, ? extends U> function) {
+        return Collector.of(
+            () -> new LinkedHashMap<U, List<T>>(),
+            (m, t) -> m.compute(function.apply(t), (k, l) -> {
+                List<T> result = l != null ? l : new ArrayList<>();
+                result.add(t);
+                return result;
+            }),
+            (m1, m2) -> {
+                for (Entry<U, List<T>> e : m2.entrySet()) {
+                    List<T> l = m1.get(e.getKey());
+                    
+                    if (l == null)
+                        m1.put(e.getKey(), e.getValue());
+                    else
+                        l.addAll(e.getValue());
+                }
+
+                return m1;
+            },
+            m -> Seq.seq(m).maxAllBy(t -> t.v2.size()).flatMap(t -> Seq.seq(t.v2))
         );
     }
 

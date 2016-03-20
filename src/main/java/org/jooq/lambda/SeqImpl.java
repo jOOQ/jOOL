@@ -444,8 +444,18 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public <U> Optional<T> modeBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.modeBy(function));
+    }
+
+    @Override
     public Seq<T> modeAll() {
         return collect(Agg.modeAll());
+    }
+
+    @Override
+    public <U> Seq<T> modeAllBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.modeAllBy(function));
     }
 
     @Override

@@ -1097,6 +1097,22 @@ public class SeqTest {
     }
 
     @Test
+    public void testModeBy() {
+        assertEquals(1, (int) Seq.of(1, 2, 2, 3, 5).modeBy(i -> i % 2).get());
+        assertEquals(5, (int) Seq.of(1, 2, 2, 3, 5).reverse().modeBy(i -> i % 2).get());
+        assertEquals("abc", Seq.of("abc", "a", "", "xyz", "asdfasdf").modeBy(String::length).get());
+        assertEquals(Optional.empty(), Seq.of().modeBy(i -> i));
+    }
+
+    @Test
+    public void testModeAllBy() {
+        assertEquals(asList(1, 3, 5), Seq.of(1, 2, 2, 3, 5).modeAllBy(i -> i % 2).toList());
+        assertEquals(asList(5, 3, 1), Seq.of(1, 2, 2, 3, 5).reverse().modeAllBy(i -> i % 2).toList());
+        assertEquals(asList("abc", "xyz"), Seq.of("abc", "a", "", "xyz", "asdfasdf").modeAllBy(String::length).toList());
+        assertEquals(asList(), Seq.of().modeAllBy(i -> i).toList());
+    }
+
+    @Test
     public void testUnzip() {
         Supplier<Seq<Tuple2<Integer, String>>> s = () -> Seq.of(tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
 

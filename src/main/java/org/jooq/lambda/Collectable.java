@@ -382,9 +382,19 @@ public interface Collectable<T> {
     Optional<T> mode();
 
     /**
+     * Get the mode, i.e. the value that appears most often in the collectable.
+     */
+    <U> Optional<T> modeBy(Function<? super T, ? extends U> function);
+
+    /**
      * Get the mode, i.e. the values that appear most often in the collectable.
      */
     Seq<T> modeAll();
+
+    /**
+     * Get the mode, i.e. the values that appear most often in the collectable.
+     */
+    <U> Seq<T> modeAllBy(Function<? super T, ? extends U> function);
 
     /**
      * Get the sum of the elements in this collectable.

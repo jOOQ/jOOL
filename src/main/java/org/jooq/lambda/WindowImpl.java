@@ -464,8 +464,18 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public <U> Optional<T> modeBy(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), tuple("modeBy", function), () -> window().modeBy(function));
+    }
+
+    @Override
     public Seq<T> modeAll() {
         return partition.cacheIf(completePartition(), "modeAll", () -> window().modeAll());
+    }
+
+    @Override
+    public <U> Seq<T> modeAllBy(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), tuple("modeAllBy", function), () -> window().modeAllBy(function));
     }
 
     @Override
