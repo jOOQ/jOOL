@@ -465,6 +465,39 @@ public interface Collectable<T> {
     <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
   
     /**
+     * Get the minimum values.
+     * <p>
+     * This makes the unsafe assumption that
+     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     */
+    Seq<T> minAll();
+    
+    /**
+     * Get the minimum values by a function.
+     */
+    Seq<T> minAll(Comparator<? super T> comparator);
+   
+    /**
+     * Get the minimum values by a function.
+     */
+    <U extends Comparable<? super U>> Seq<U> minAll(Function<? super T, ? extends U> function);
+   
+    /**
+     * Get the minimum values by a function.
+     */
+    <U> Seq<U> minAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
+ 
+    /**
+     * Get the minimum values by a function.
+     */
+    <U extends Comparable<? super U>> Seq<T> minAllBy(Function<? super T, ? extends U> function);
+
+    /**
+     * Get the minimum values by a function.
+     */
+    <U> Seq<T> minAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
+
+    /**
      * Get the maximum value.
      * <p>
      * This makes the unsafe assumption that
@@ -496,6 +529,39 @@ public interface Collectable<T> {
      * Get the maximum value by a function.
      */
     <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
+
+    /**
+     * Get the maximum values.
+     * <p>
+     * This makes the unsafe assumption that
+     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     */
+    Seq<T> maxAll();
+
+    /**
+     * Get the maximum values by a function.
+     */
+    Seq<T> maxAll(Comparator<? super T> comparator);
+   
+    /**
+     * Get the maximum values by a function.
+     */
+    <U extends Comparable<? super U>> Seq<U> maxAll(Function<? super T, ? extends U> function);
+   
+    /**
+     * Get the maximum values by a function.
+     */
+    <U> Seq<U> maxAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
+
+    /**
+     * Get the maximum values by a function.
+     */
+    <U extends Comparable<? super U>> Seq<T> maxAllBy(Function<? super T, ? extends U> function);
+
+    /**
+     * Get the maximum values by a function.
+     */
+    <U> Seq<T> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
   
     /**
      * Get the median value.

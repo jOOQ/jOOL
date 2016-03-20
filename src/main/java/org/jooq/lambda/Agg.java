@@ -169,6 +169,48 @@ public class Agg {
     public static <T, U> Collector<T, ?, Optional<T>> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return maxBy(function, comparator.reversed());
     }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> minAll() {
+        return minAllBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> minAll(Comparator<? super T> comparator) {
+        return minAllBy(t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<U>> minAll(Function<? super T, ? extends U> function) {
+        return minAll(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<U>> minAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collectingAndThen(minAllBy(function, comparator), t -> t.map(function));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> minAllBy(Function<? super T, ? extends U> function) {
+        return minAllBy(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> minAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return maxAllBy(function, comparator.reversed());
+    }
 
     /**
      * Get a {@link Collector} that calculates the <code>MAX()</code> function.
@@ -218,6 +260,91 @@ public class Agg {
             },
             (a1, a2) -> comparator.compare(a1[0].v2, a2[0].v2) < 0 ? a2 : a1,
             a -> Optional.ofNullable(a[0].v1)
+        );
+    }
+    
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> maxAll() {
+        return maxAllBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> maxAll(Comparator<? super T> comparator) {
+        return maxAllBy(t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<U>> maxAll(Function<? super T, ? extends U> function) {
+        return maxAll(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<U>> maxAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collectingAndThen(maxAllBy(function, comparator), t -> t.map(function));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> maxAllBy(Function<? super T, ? extends U> function) {
+        return maxAllBy(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        class Accumulator {
+            List<T> t = new ArrayList<>();
+            U u;
+            void set(T t, U u) {
+                this.t.clear();
+                this.t.add(t);
+                this.u = u;
+            }
+        }
+        
+        return Collector.of(
+            () -> new Accumulator(),
+            (a, t) -> {
+                U u = function.apply(t);
+                if (a.u == null) {
+                    a.set(t, u);
+                }
+                else {
+                    int compare = comparator.compare(a.u, u);
+                    
+                    if (compare < 0) 
+                        a.set(t, u);
+                    else if (compare == 0)
+                        a.t.add(t);
+                }
+            },
+            (a1, a2) -> {
+                if (a1.u == null)
+                    return a2;
+                if (a2.u == null)
+                    return a1;
+                
+                int compare = comparator.compare(a1.u, a2.u);
+                
+                if (compare < 0)
+                    return a1;
+                else if (compare > 0)
+                    return a2;
+                
+                a1.t.addAll(a2.t);
+                return a1;
+            },
+            a -> Seq.seq(a.t)
         );
     }
 

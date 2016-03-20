@@ -305,6 +305,37 @@ class SeqImpl<T> implements Seq<T> {
 
     @Override
     @SuppressWarnings("unchecked")
+    public Seq<T> minAll() {
+        return minAll((Comparator) naturalOrder());
+    }
+
+    @Override
+    public Seq<T> minAll(Comparator<? super T> comparator) {
+        return collect(Agg.minAll(comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<U> minAll(Function<? super T, ? extends U> function) {
+        return collect(Agg.minAll(function));
+    }
+
+    @Override
+    public <U> Seq<U> minAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.minAll(function, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<T> minAllBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.minAllBy(function));
+    }
+
+    @Override
+    public <U> Seq<T> minAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.minAllBy(function, comparator));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> max() {
         return max((Comparator) naturalOrder());
     }
@@ -332,6 +363,37 @@ class SeqImpl<T> implements Seq<T> {
     @Override
     public <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return collect(Agg.maxBy(function, comparator));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Seq<T> maxAll() {
+        return maxAll((Comparator) naturalOrder());
+    }
+
+    @Override
+    public Seq<T> maxAll(Comparator<? super T> comparator) {
+        return collect(Agg.maxAll(comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<U> maxAll(Function<? super T, ? extends U> function) {
+        return collect(Agg.maxAll(function));
+    }
+
+    @Override
+    public <U> Seq<U> maxAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.maxAll(function, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<T> maxAllBy(Function<? super T, ? extends U> function) {
+        return collect(Agg.maxAllBy(function));
+    }
+
+    @Override
+    public <U> Seq<T> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return collect(Agg.maxAllBy(function, comparator));
     }
 
     @Override

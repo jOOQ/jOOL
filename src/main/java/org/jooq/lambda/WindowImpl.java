@@ -325,6 +325,37 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     @SuppressWarnings("unchecked")
+    public Seq<T> minAll() {
+        return partition.cacheIf(completePartition(), "minAll", () -> window().minAll((Comparator) naturalOrder()));
+    }
+
+    @Override
+    public Seq<T> minAll(Comparator<? super T> comparator) {
+        return partition.cacheIf(completePartition(), () -> tuple("minAll", comparator), () -> window().minAll(comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<U> minAll(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("minAll", function), () -> window().minAll(function));
+    }
+
+    @Override
+    public <U> Seq<U> minAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return partition.cacheIf(completePartition(), () -> tuple("minAll", function, comparator), () -> window().minAll(function, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<T> minAllBy(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("minAllBy", function), () -> window().minAllBy(function));
+    }
+
+    @Override
+    public <U> Seq<T> minAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return partition.cacheIf(completePartition(), () -> tuple("minAllBy", function, comparator), () -> window().minAllBy(function, comparator));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public Optional<T> max() {
         return partition.cacheIf(completePartition(), "max", () -> window().max((Comparator) naturalOrder()));
     }
@@ -352,6 +383,37 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public <U> Optional<T> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return partition.cacheIf(completePartition(), () -> tuple("maxBy", function, comparator), () -> window().maxBy(function, comparator));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Seq<T> maxAll() {
+        return partition.cacheIf(completePartition(), "maxAll", () -> window().maxAll((Comparator) naturalOrder()));
+    }
+
+    @Override
+    public Seq<T> maxAll(Comparator<? super T> comparator) {
+        return partition.cacheIf(completePartition(), () -> tuple("maxAll", comparator), () -> window().maxAll(comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<U> maxAll(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("maxAll", function), () -> window().maxAll(function));
+    }
+
+    @Override
+    public <U> Seq<U> maxAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return partition.cacheIf(completePartition(), () -> tuple("maxAll", function, comparator), () -> window().maxAll(function, comparator));
+    }
+
+    @Override
+    public <U extends Comparable<? super U>> Seq<T> maxAllBy(Function<? super T, ? extends U> function) {
+        return partition.cacheIf(completePartition(), () -> tuple("maxAllBy", function), () -> window().maxAllBy(function));
+    }
+
+    @Override
+    public <U> Seq<T> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return partition.cacheIf(completePartition(), () -> tuple("maxAllBy", function, comparator), () -> window().maxAllBy(function, comparator));
     }
 
     @Override

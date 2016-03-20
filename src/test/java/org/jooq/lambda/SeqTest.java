@@ -1059,6 +1059,26 @@ public class SeqTest {
     }
 
     @Test
+    public void testMinAllMaxAll() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 1, 2, 3, 4, 5, 5, 6);
+
+        assertEquals(asList(6)   , s.get().maxAll().toList());
+        assertEquals(asList(3, 3), s.get().maxAll(t -> Math.abs(t - 4)).toList());
+        assertEquals(asList(4, 4), s.get().maxAll(t -> Math.abs(t - 5)).toList());
+        assertEquals(asList(1, 1), s.get().minAll().toList());
+        assertEquals(asList(0)   , s.get().minAll(t -> Math.abs(t - 4)).toList());
+        assertEquals(asList(0, 0), s.get().minAll(t -> Math.abs(t - 5)).toList());
+    }
+
+    @Test
+    public void testMinAllByMaxAllBy() {
+        Supplier<Seq<String>> s = () -> Seq.of("abc", "ab", "xy", "xyz");
+
+        assertEquals(asList("abc", "xyz"), s.get().maxAllBy(String::length).toList());
+        assertEquals(asList("ab" , "xy" ), s.get().minAllBy(String::length).toList());
+    }
+
+    @Test
     public void testMode() {
         assertEquals(1, (int) Seq.of(1, 1, 1, 2, 3).mode().get());
         assertEquals(2, (int) Seq.of(1, 2, 2, 2, 3, 3, 3, 4).mode().get());
