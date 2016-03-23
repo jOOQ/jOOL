@@ -2982,8 +2982,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Fold a Stream to the right.
      * <p>
      * <code><pre>
-     * // "cba"
-     * Seq.of("a", "b", "c").foldRight("", (t, u) -> u + t)
+     * // "abc"
+     * Seq.of("a", "b", "c").foldRight("", (t, u) -> t + u)
      * </pre></code>
      */
     default <U> U foldRight(U seed, BiFunction<? super T, ? super U, ? extends U> function) {
