@@ -47,11 +47,11 @@ Seq.of(1, 2, 3).cycle();
 // tuple((1, 2, 3), (1, 2, 3))
 Seq.of(1, 2, 3).duplicate();
 
-// "abc"
-Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t);
+// "!abc"
+Seq.of("a", "b", "c").foldLeft("!", (u, t) -> u + t);
 
-// "abc"
-Seq.of("a", "b", "c").foldRight("", (t, u) -> t + u);
+// "abc!"
+Seq.of("a", "b", "c").foldRight("!", (t, u) -> t + u);
 
 // { 1 = (1, 3), 0 = (2, 4) }
 Seq.of(1, 2, 3, 4).groupBy(i -> i % 2);
