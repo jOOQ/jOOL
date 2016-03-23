@@ -48,9 +48,9 @@ Seq.of(1, 2, 3).cycle();
 Seq.of(1, 2, 3).duplicate();
 
 // "abc"
-Seq.of("a", "b", "c").foldLeft("", (u, t) -> t + u);
+Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t);
 
-// "cba"
+// "abc"
 Seq.of("a", "b", "c").foldRight("", (t, u) -> t + u);
 
 // { 1 = (1, 3), 0 = (2, 4) }
