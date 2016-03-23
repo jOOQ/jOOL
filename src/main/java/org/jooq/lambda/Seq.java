@@ -2970,8 +2970,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Fold a Stream to the left.
      * <p>
      * <code><pre>
-     * // "abc"
-     * Seq.of("a", "b", "c").foldLeft("", (u, t) -> u + t)
+     * // "!abc"
+     * Seq.of("a", "b", "c").foldLeft("!", (u, t) -> u + t)
      * </pre></code>
      */
     default <U> U foldLeft(U seed, BiFunction<? super U, ? super T, ? extends U> function) {
@@ -2982,8 +2982,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Fold a Stream to the right.
      * <p>
      * <code><pre>
-     * // "abc"
-     * Seq.of("a", "b", "c").foldRight("", (t, u) -> t + u)
+     * // "abc!"
+     * Seq.of("a", "b", "c").foldRight("!", (t, u) -> t + u)
      * </pre></code>
      */
     default <U> U foldRight(U seed, BiFunction<? super T, ? super U, ? extends U> function) {

@@ -1164,13 +1164,13 @@ public class SeqTest {
     public void testFold() {
         Supplier<Seq<String>> s = () -> Seq.of("a", "b", "c");
 
-        assertEquals("abc", s.get().foldLeft("", String::concat));
-        assertEquals("abc", s.get().foldLeft("", (u, t) -> u + t));
+        assertEquals("!abc", s.get().foldLeft("!", String::concat));
+        assertEquals("!abc", s.get().foldLeft("!", (u, t) -> u + t));
         assertEquals("-a-b-c", s.get().foldLeft(new StringBuilder(), (u, t) -> u.append("-").append(t)).toString());
         assertEquals(3, (int) s.get().foldLeft(0, (u, t) -> u + t.length()));
 
-        assertEquals("abc", s.get().foldRight("", String::concat));
-        assertEquals("abc", s.get().foldRight("", (t, u) -> t + u));
+        assertEquals("abc!", s.get().foldRight("!", String::concat));
+        assertEquals("abc!", s.get().foldRight("!", (t, u) -> t + u));
         assertEquals("-c-b-a", s.get().foldRight(new StringBuilder(), (t, u) -> u.append("-").append(t)).toString());
         assertEquals(3, (int) s.get().foldRight(0, (t, u) -> u + t.length()));
     }
