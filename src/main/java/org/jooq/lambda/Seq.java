@@ -7410,6 +7410,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SafeVarargs
+    @SuppressWarnings({ "unchecked" })
     static <T> Seq<T> concat(Stream<? extends T>... streams) {
         return concat(SeqUtils.seqs(streams));
     }
@@ -7423,6 +7424,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     @SafeVarargs
+    @SuppressWarnings({ "unchecked" })
     static <T> Seq<T> concat(Iterable<? extends T>... iterables) {
         return concat(SeqUtils.seqs(iterables));
     }

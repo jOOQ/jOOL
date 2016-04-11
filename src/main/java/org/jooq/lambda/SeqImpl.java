@@ -614,7 +614,7 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public String format() {
         final List<String[]> strings = new ArrayList<>();
         Class<?>[] types0 = null;
