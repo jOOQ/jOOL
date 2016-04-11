@@ -247,7 +247,8 @@ public final class Blocking {
     }
     
     static class BlockingSupplier<T> implements Supplier<T> {
-        volatile T result;
+        private static final Object NULL = new Object();
+        volatile T result = (T) NULL;
         final Supplier<? extends T> supplier;
         
         BlockingSupplier(Supplier<? extends T> supplier) {
@@ -266,7 +267,7 @@ public final class Blocking {
 
                     @Override
                     public boolean isReleasable() {
-                        return result != null;
+                        return result != NULL;
                     }
                 });
             }
