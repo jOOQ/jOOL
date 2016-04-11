@@ -124,6 +124,7 @@ public final class SQL {
      * @param <T>                 The custom type.
      * @return A <code>Stream</code> wrapping the <code>ResultSet</code>
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T> Seq<T> seq(Supplier<? extends ResultSet> supplier, Function<ResultSet, T> rowFunction, Consumer<? super SQLException> exceptionTranslator) {
         ResultSetIterator it = new ResultSetIterator<>(supplier, rowFunction, exceptionTranslator);
         return Seq.seq(it).onClose(() -> it.close());

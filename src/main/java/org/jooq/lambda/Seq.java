@@ -6644,6 +6644,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.unfold(1, i -> i &lt;= 6 ? Optional.of(tuple(i, i + 1)) : Optional.empty())
      * </pre></code>
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     static <T, U> Seq<T> unfold(U seed, Function<? super U, Optional<Tuple2<T, U>>> unfolder) {
         Tuple2<? extends T, ? extends U>[] unfolded = new Tuple2[] { tuple((T) null, seed) };
 

@@ -22,6 +22,11 @@ package org.jooq.lambda.exception;
  * @author Lukas
  */
 public class TooManyElementsException extends RuntimeException {
+    
+    /**
+     * Generated UID
+     */
+    private static final long serialVersionUID = 491834858363345767L;
 
     public TooManyElementsException() {
     }
