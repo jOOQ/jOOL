@@ -88,7 +88,7 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     * @deprecated - Use {@link #applyPartially(Object)} instead.
      */
     @Deprecated
     default Function1<T2, R> curry(T1 v1) {
@@ -98,7 +98,7 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object)} instead.
      */
     @Deprecated
     default Function0<R> curry(T1 v1, T2 v2) {

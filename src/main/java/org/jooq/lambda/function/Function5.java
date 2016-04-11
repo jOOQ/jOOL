@@ -117,7 +117,7 @@ public interface Function5<T1, T2, T3, T4, T5, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     * @deprecated - Use {@link #applyPartially(Object)} instead.
      */
     @Deprecated
     default Function4<T2, T3, T4, T5, R> curry(T1 v1) {
@@ -127,7 +127,7 @@ public interface Function5<T1, T2, T3, T4, T5, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object)} instead.
      */
     @Deprecated
     default Function3<T3, T4, T5, R> curry(T1 v1, T2 v2) {
@@ -137,7 +137,7 @@ public interface Function5<T1, T2, T3, T4, T5, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2, T3)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object, Object)} instead.
      */
     @Deprecated
     default Function2<T4, T5, R> curry(T1 v1, T2 v2, T3 v3) {
@@ -147,7 +147,7 @@ public interface Function5<T1, T2, T3, T4, T5, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object, Object, Object)} instead.
      */
     @Deprecated
     default Function1<T5, R> curry(T1 v1, T2 v2, T3 v3, T4 v4) {
@@ -157,7 +157,7 @@ public interface Function5<T1, T2, T3, T4, T5, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2, T3, T4, T5)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object, Object, Object, Object)} instead.
      */
     @Deprecated
     default Function0<R> curry(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5) {

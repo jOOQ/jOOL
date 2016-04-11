@@ -73,7 +73,7 @@ public interface Function1<T1, R> extends Function<T1, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     * @deprecated - Use {@link #applyPartially(Object)} instead.
      */
     @Deprecated
     default Function0<R> curry(T1 v1) {

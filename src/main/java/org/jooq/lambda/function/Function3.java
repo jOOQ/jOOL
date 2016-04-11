@@ -87,7 +87,7 @@ public interface Function3<T1, T2, T3, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1)} instead.
+     * @deprecated - Use {@link #applyPartially(Object)} instead.
      */
     @Deprecated
     default Function2<T2, T3, R> curry(T1 v1) {
@@ -97,7 +97,7 @@ public interface Function3<T1, T2, T3, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object)} instead.
      */
     @Deprecated
     default Function1<T3, R> curry(T1 v1, T2 v2) {
@@ -107,7 +107,7 @@ public interface Function3<T1, T2, T3, R> {
     /**
      * Partially apply this function to the arguments.
      *
-     * @deprecated - Use {@link #applyPartially(T1, T2, T3)} instead.
+     * @deprecated - Use {@link #applyPartially(Object, Object, Object)} instead.
      */
     @Deprecated
     default Function0<R> curry(T1 v1, T2 v2, T3 v3) {
