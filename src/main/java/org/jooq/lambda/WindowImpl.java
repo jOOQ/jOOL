@@ -55,6 +55,7 @@ class WindowImpl<T> implements Window<T> {
     final long                  lower;
     final long                  upper;
 
+    @SuppressWarnings({ "unchecked" })
     WindowImpl(
         Tuple2<T, Long> value,
         Partition<T> partition, 
