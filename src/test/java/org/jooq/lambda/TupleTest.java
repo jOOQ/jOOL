@@ -155,7 +155,7 @@ public class TupleTest {
 
     @Test
     public void testIterable() {
-        LinkedList<Object> list = new LinkedList<>(tuple(1, "b", null).list());
+        LinkedList<Object> list = new LinkedList<>(tuple(1, "b", null).toList());
         for (Object o : tuple(1, "b", null)) {
             assertEquals(list.poll(), o);
         }

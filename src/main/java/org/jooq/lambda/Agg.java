@@ -83,6 +83,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>SUM()</code> for any
      * type of {@link Number}.
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> sum(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> { 
@@ -111,6 +112,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>AVG()</code> for any
      * type of {@link Number}.
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> avg(Function<? super T, ? extends U> function) {
         return Collector.of(
             () -> (Sum<U>[]) new Sum[1],
@@ -430,6 +432,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitAnd(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> { 
@@ -492,6 +495,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitOr(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> { 

@@ -614,13 +614,14 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    @SuppressWarnings({ "rawtypes" })
     public String format() {
         final List<String[]> strings = new ArrayList<>();
         Class<?>[] types0 = null;
         
         for (T t : this) {
             Object[] array = t instanceof Tuple
-                           ? ((Tuple) t).array()
+                           ? ((Tuple) t).toArray()
                            : new Object[] { t };
             
             if (types0 == null) 
