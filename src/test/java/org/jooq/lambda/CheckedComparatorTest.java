@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,14 @@
  */
 package org.jooq.lambda;
 
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import java.util.Comparator;
-
-import static org.junit.Assert.*;
+import java.util.function.Consumer;
+import org.jooq.lambda.fi.util.CheckedComparator;
+import org.jooq.lambda.unchecked.UncheckedComparator;
+import org.junit.Test;
 
 /**
  * @author Lukas Eder
@@ -28,27 +31,33 @@ public class CheckedComparatorTest {
 
     @Test
     public void testCheckedComparator() {
-        Comparator<Object> test = Unchecked.comparator(
-            (t1, t2) -> {
-                throw new Exception(t1 + ":" + t2);
-            }
-        );
+
+        final CheckedComparator<Object> comparator = (t1, t2) -> {
+            throw new Exception(t1 + ":" + t2);
+        };
+
+        Comparator<Object> test = Unchecked.comparator(comparator);
+        Comparator<Object> alias = UncheckedComparator.unchecked(comparator);
 
         assertComparator(test, UncheckedException.class);
+        assertComparator(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedComparatorWithCustomHandler() {
-        Comparator<Object> test = Unchecked.comparator(
-            (t1, t2) -> {
-                throw new Exception(t1 + ":" + t2);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedComparator<Object> comparator = (t1, t2) -> {
+            throw new Exception(t1 + ":" + t2);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        Comparator<Object> test = Unchecked.comparator(comparator, handler);
+        Comparator<Object> alias = UncheckedComparator.unchecked(comparator, handler);
 
         assertComparator(test, IllegalStateException.class);
+        assertComparator(alias, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertComparator(Comparator<Object> test, Class<E> type) {
@@ -56,8 +65,7 @@ public class CheckedComparatorTest {
         try {
             test.compare(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
     }

@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,16 +15,25 @@
  */
 package org.jooq.lambda;
 
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.ObjDoubleConsumer;
 import java.util.function.ObjIntConsumer;
 import java.util.function.ObjLongConsumer;
-
-import static org.junit.Assert.*;
+import org.jooq.lambda.fi.util.function.CheckedBiConsumer;
+import org.jooq.lambda.fi.util.function.CheckedObjDoubleConsumer;
+import org.jooq.lambda.fi.util.function.CheckedObjIntConsumer;
+import org.jooq.lambda.fi.util.function.CheckedObjLongConsumer;
+import org.jooq.lambda.unchecked.UncheckedBiConsumer;
+import org.jooq.lambda.unchecked.UncheckedObjectDoubleConsumer;
+import org.jooq.lambda.unchecked.UncheckedObjectIntConsumer;
+import org.jooq.lambda.unchecked.UncheckedObjectLongConsumer;
+import org.junit.Test;
 
 /**
  * @author Lukas Eder
@@ -33,102 +42,127 @@ public class CheckedBiConsumerTest {
 
     @Test
     public void testCheckedBiConsumer() {
-        BiConsumer<Object, Object> test = Unchecked.biConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            }
-        );
+
+        final CheckedBiConsumer<Object, Object> biConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+
+        BiConsumer<Object, Object> test = Unchecked.biConsumer(biConsumer);
+        BiConsumer<Object, Object> alias = UncheckedBiConsumer.unchecked(biConsumer);
 
         assertBiConsumer(test, UncheckedException.class);
+        assertBiConsumer(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedBiConsumerWithCustomHandler() {
-        BiConsumer<Object, Object> test = Unchecked.biConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedBiConsumer<Object, Object> biConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        BiConsumer<Object, Object> test = Unchecked.biConsumer(biConsumer, handler);
+        BiConsumer<Object, Object> alias = UncheckedBiConsumer.unchecked(biConsumer, handler);
 
         assertBiConsumer(test, IllegalStateException.class);
+        assertBiConsumer(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedObjIntConsumer() {
-        ObjIntConsumer<Object> test = Unchecked.objIntConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            }
-        );
+
+        final CheckedObjIntConsumer<Object> objIntConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+
+        ObjIntConsumer<Object> test = Unchecked.objIntConsumer(objIntConsumer);
+        ObjIntConsumer<Object> alias = UncheckedObjectIntConsumer.unchecked(objIntConsumer);
 
         assertObjIntConsumer(test, UncheckedException.class);
+        assertObjIntConsumer(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedObjIntConsumerWithCustomHandler() {
-        ObjIntConsumer<Object> test = Unchecked.objIntConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedObjIntConsumer<Object> objIntConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        ObjIntConsumer<Object> test = Unchecked.objIntConsumer(objIntConsumer, handler);
+        ObjIntConsumer<Object> alias = UncheckedObjectIntConsumer.unchecked(objIntConsumer, handler);
 
         assertObjIntConsumer(test, IllegalStateException.class);
+        assertObjIntConsumer(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedObjLongConsumer() {
-        ObjLongConsumer<Object> test = Unchecked.objLongConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            }
-        );
+
+        final CheckedObjLongConsumer<Object> objLongConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+
+        ObjLongConsumer<Object> test = Unchecked.objLongConsumer(objLongConsumer);
+        ObjLongConsumer<Object> alias = UncheckedObjectLongConsumer.unchecked(objLongConsumer);
 
         assertObjLongConsumer(test, UncheckedException.class);
+        assertObjLongConsumer(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedObjLongConsumerWithCustomHandler() {
-        ObjLongConsumer<Object> test = Unchecked.objLongConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedObjLongConsumer<Object> objLongConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        ObjLongConsumer<Object> test = Unchecked.objLongConsumer(objLongConsumer, handler);
+        ObjLongConsumer<Object> alias = UncheckedObjectLongConsumer.unchecked(objLongConsumer, handler);
 
         assertObjLongConsumer(test, IllegalStateException.class);
+        assertObjLongConsumer(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedObjDoubleConsumer() {
-        ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            }
-        );
+
+        final CheckedObjDoubleConsumer<Object> objDoubleConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+
+        ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(objDoubleConsumer);
+        ObjDoubleConsumer<Object> alias = UncheckedObjectDoubleConsumer.unchecked(objDoubleConsumer);
 
         assertObjDoubleConsumer(test, UncheckedException.class);
+        assertObjDoubleConsumer(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedObjDoubleConsumerWithCustomHandler() {
-        ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(
-            (o1, o2) -> {
-                throw new Exception(o1 + ":" + o2);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedObjDoubleConsumer<Object> objDoubleConsumer = (o1, o2) -> {
+            throw new Exception(o1 + ":" + o2);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(objDoubleConsumer, handler);
+        ObjDoubleConsumer<Object> alias = UncheckedObjectDoubleConsumer.unchecked(objDoubleConsumer, handler);
 
         assertObjDoubleConsumer(test, IllegalStateException.class);
+        assertObjDoubleConsumer(alias, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertBiConsumer(BiConsumer<Object, Object> test, Class<E> type) {
@@ -136,8 +170,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
 
@@ -147,8 +180,7 @@ public class CheckedBiConsumerTest {
             map.put("b", 2);
             map.put("c", 3);
             map.forEach(test);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "a:1");
         }
     }
@@ -158,8 +190,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, 0);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:0");
         }
     }
@@ -169,8 +200,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, 0L);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:0");
         }
     }
@@ -180,8 +210,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, 0.0);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:0.0");
         }
     }
