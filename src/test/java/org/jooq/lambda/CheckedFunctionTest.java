@@ -51,19 +51,6 @@ import org.jooq.lambda.fi.util.function.CheckedLongToIntFunction;
 import org.jooq.lambda.fi.util.function.CheckedToDoubleFunction;
 import org.jooq.lambda.fi.util.function.CheckedToIntFunction;
 import org.jooq.lambda.fi.util.function.CheckedToLongFunction;
-import org.jooq.lambda.unchecked.UncheckedDoubleFunction;
-import org.jooq.lambda.unchecked.UncheckedDoubleToIntFunction;
-import org.jooq.lambda.unchecked.UncheckedDoubleToLongFunction;
-import org.jooq.lambda.unchecked.UncheckedFunction;
-import org.jooq.lambda.unchecked.UncheckedIntFunction;
-import org.jooq.lambda.unchecked.UncheckedIntToDoubleFunction;
-import org.jooq.lambda.unchecked.UncheckedIntToLongFunction;
-import org.jooq.lambda.unchecked.UncheckedLongFunction;
-import org.jooq.lambda.unchecked.UncheckedLongToDoubleFunction;
-import org.jooq.lambda.unchecked.UncheckedLongToIntFunction;
-import org.jooq.lambda.unchecked.UncheckedToDoubleFunction;
-import org.jooq.lambda.unchecked.UncheckedToIntFunction;
-import org.jooq.lambda.unchecked.UncheckedToLongFunction;
 import org.junit.Test;
 
 /**
@@ -79,7 +66,7 @@ public class CheckedFunctionTest {
         };
 
         Function<Object, Object> test = Unchecked.function(function);
-        Function<Object, Object> alias = UncheckedFunction.unchecked(function);
+        Function<Object, Object> alias = CheckedFunction.unchecked(function);
 
         assertFunction(test, UncheckedException.class);
         assertFunction(alias, UncheckedException.class);
@@ -96,7 +83,7 @@ public class CheckedFunctionTest {
         };
 
         Function<Object, Object> test = Unchecked.function(function, handler);
-        Function<Object, Object> alias = UncheckedFunction.unchecked(function, handler);
+        Function<Object, Object> alias = CheckedFunction.unchecked(function, handler);
 
         assertFunction(test, IllegalStateException.class);
         assertFunction(alias, IllegalStateException.class);
@@ -110,7 +97,7 @@ public class CheckedFunctionTest {
         };
 
         ToIntFunction<Object> test = Unchecked.toIntFunction(toIntFunction);
-        ToIntFunction<Object> alias = UncheckedToIntFunction.unchecked(toIntFunction);
+        ToIntFunction<Object> alias = CheckedToIntFunction.unchecked(toIntFunction);
 
         assertToIntFunction(test, UncheckedException.class);
         assertToIntFunction(alias, UncheckedException.class);
@@ -127,7 +114,7 @@ public class CheckedFunctionTest {
         };
 
         ToIntFunction<Object> test = Unchecked.toIntFunction(toIntFunction, handler);
-        ToIntFunction<Object> alias = UncheckedToIntFunction.unchecked(toIntFunction, handler);
+        ToIntFunction<Object> alias = CheckedToIntFunction.unchecked(toIntFunction, handler);
 
         assertToIntFunction(test, IllegalStateException.class);
         assertToIntFunction(alias, IllegalStateException.class);
@@ -141,7 +128,7 @@ public class CheckedFunctionTest {
         };
 
         ToLongFunction<Object> test = Unchecked.toLongFunction(toLongFunction);
-        ToLongFunction<Object> alias = UncheckedToLongFunction.unchecked(toLongFunction);
+        ToLongFunction<Object> alias = CheckedToLongFunction.unchecked(toLongFunction);
 
         assertToLongFunction(test, UncheckedException.class);
         assertToLongFunction(alias, UncheckedException.class);
@@ -158,7 +145,7 @@ public class CheckedFunctionTest {
         };
 
         ToLongFunction<Object> test = Unchecked.toLongFunction(toLongFunction, handler);
-        ToLongFunction<Object> alias = UncheckedToLongFunction.unchecked(toLongFunction, handler);
+        ToLongFunction<Object> alias = CheckedToLongFunction.unchecked(toLongFunction, handler);
 
         assertToLongFunction(test, IllegalStateException.class);
         assertToLongFunction(alias, IllegalStateException.class);
@@ -172,7 +159,7 @@ public class CheckedFunctionTest {
         };
 
         ToDoubleFunction<Object> test = Unchecked.toDoubleFunction(toDoubleFunction);
-        ToDoubleFunction<Object> alias = UncheckedToDoubleFunction.unchecked(toDoubleFunction);
+        ToDoubleFunction<Object> alias = CheckedToDoubleFunction.unchecked(toDoubleFunction);
 
         assertToDoubleFunction(test, UncheckedException.class);
         assertToDoubleFunction(alias, UncheckedException.class);
@@ -189,7 +176,7 @@ public class CheckedFunctionTest {
         };
 
         ToDoubleFunction<Object> test = Unchecked.toDoubleFunction(toDoubleFunction, handler);
-        ToDoubleFunction<Object> alias = UncheckedToDoubleFunction.unchecked(toDoubleFunction, handler);
+        ToDoubleFunction<Object> alias = CheckedToDoubleFunction.unchecked(toDoubleFunction, handler);
 
         assertToDoubleFunction(test, IllegalStateException.class);
         assertToDoubleFunction(alias, IllegalStateException.class);
@@ -203,7 +190,7 @@ public class CheckedFunctionTest {
         };
 
         IntFunction<Object> test = Unchecked.intFunction(intFunction);
-        IntFunction<Object> alias = UncheckedIntFunction.unchecked(intFunction);
+        IntFunction<Object> alias = CheckedIntFunction.unchecked(intFunction);
 
         assertIntFunction(test, UncheckedException.class);
         assertIntFunction(alias, UncheckedException.class);
@@ -220,7 +207,7 @@ public class CheckedFunctionTest {
         };
 
         IntFunction<Object> test = Unchecked.intFunction(intFunction, handler);
-        IntFunction<Object> alias = UncheckedIntFunction.unchecked(intFunction, handler);
+        IntFunction<Object> alias = CheckedIntFunction.unchecked(intFunction, handler);
 
         assertIntFunction(test, IllegalStateException.class);
         assertIntFunction(alias, IllegalStateException.class);
@@ -234,7 +221,7 @@ public class CheckedFunctionTest {
         };
 
         IntToLongFunction test = Unchecked.intToLongFunction(intToLongFunction);
-        IntToLongFunction alias = UncheckedIntToLongFunction.unchecked(intToLongFunction);
+        IntToLongFunction alias = CheckedIntToLongFunction.unchecked(intToLongFunction);
 
         assertIntToLongFunction(test, UncheckedException.class);
         assertIntToLongFunction(alias, UncheckedException.class);
@@ -251,7 +238,7 @@ public class CheckedFunctionTest {
         };
 
         IntToLongFunction test = Unchecked.intToLongFunction(intToLongFunction, handler);
-        IntToLongFunction alias = UncheckedIntToLongFunction.unchecked(intToLongFunction, handler);
+        IntToLongFunction alias = CheckedIntToLongFunction.unchecked(intToLongFunction, handler);
 
         assertIntToLongFunction(test, IllegalStateException.class);
         assertIntToLongFunction(alias, IllegalStateException.class);
@@ -265,7 +252,7 @@ public class CheckedFunctionTest {
         };
 
         IntToDoubleFunction test = Unchecked.intToDoubleFunction(intToDoubleFunction);
-        IntToDoubleFunction alias = UncheckedIntToDoubleFunction.unchecked(intToDoubleFunction);
+        IntToDoubleFunction alias = CheckedIntToDoubleFunction.unchecked(intToDoubleFunction);
 
         assertIntToDoubleFunction(test, UncheckedException.class);
         assertIntToDoubleFunction(alias, UncheckedException.class);
@@ -282,7 +269,7 @@ public class CheckedFunctionTest {
         };
 
         IntToDoubleFunction test = Unchecked.intToDoubleFunction(intToDoubleFunction, handler);
-        IntToDoubleFunction alias = UncheckedIntToDoubleFunction.unchecked(intToDoubleFunction, handler);
+        IntToDoubleFunction alias = CheckedIntToDoubleFunction.unchecked(intToDoubleFunction, handler);
 
         assertIntToDoubleFunction(test, IllegalStateException.class);
         assertIntToDoubleFunction(alias, IllegalStateException.class);
@@ -296,7 +283,7 @@ public class CheckedFunctionTest {
         };
 
         LongFunction<Object> test = Unchecked.longFunction(longFunction);
-        LongFunction<Object> alias = UncheckedLongFunction.unchecked(longFunction);
+        LongFunction<Object> alias = CheckedLongFunction.unchecked(longFunction);
 
         assertLongFunction(test, UncheckedException.class);
         assertLongFunction(alias, UncheckedException.class);
@@ -313,7 +300,7 @@ public class CheckedFunctionTest {
         };
 
         LongFunction<Object> test = Unchecked.longFunction(longFunction, handler);
-        LongFunction<Object> alias = UncheckedLongFunction.unchecked(longFunction, handler);
+        LongFunction<Object> alias = CheckedLongFunction.unchecked(longFunction, handler);
 
         assertLongFunction(test, IllegalStateException.class);
         assertLongFunction(alias, IllegalStateException.class);
@@ -327,7 +314,7 @@ public class CheckedFunctionTest {
         };
 
         LongToIntFunction test = Unchecked.longToIntFunction(longToIntFunction);
-        LongToIntFunction alias = UncheckedLongToIntFunction.unchecked(longToIntFunction);
+        LongToIntFunction alias = CheckedLongToIntFunction.unchecked(longToIntFunction);
 
         assertLongToIntFunction(test, UncheckedException.class);
         assertLongToIntFunction(alias, UncheckedException.class);
@@ -344,7 +331,7 @@ public class CheckedFunctionTest {
         };
 
         LongToIntFunction test = Unchecked.longToIntFunction(longToIntFunction, handler);
-        LongToIntFunction alias = UncheckedLongToIntFunction.unchecked(longToIntFunction, handler);
+        LongToIntFunction alias = CheckedLongToIntFunction.unchecked(longToIntFunction, handler);
 
         assertLongToIntFunction(test, IllegalStateException.class);
         assertLongToIntFunction(alias, IllegalStateException.class);
@@ -358,7 +345,7 @@ public class CheckedFunctionTest {
         };
 
         LongToDoubleFunction test = Unchecked.longToDoubleFunction(longToDoubleFunction);
-        LongToDoubleFunction alias = UncheckedLongToDoubleFunction.unchecked(longToDoubleFunction);
+        LongToDoubleFunction alias = CheckedLongToDoubleFunction.unchecked(longToDoubleFunction);
 
         assertLongToDoubleFunction(test, UncheckedException.class);
         assertLongToDoubleFunction(alias, UncheckedException.class);
@@ -375,7 +362,7 @@ public class CheckedFunctionTest {
         };
 
         LongToDoubleFunction test = Unchecked.longToDoubleFunction(longToDoubleFunction, handler);
-        LongToDoubleFunction alias = UncheckedLongToDoubleFunction.unchecked(longToDoubleFunction, handler);
+        LongToDoubleFunction alias = CheckedLongToDoubleFunction.unchecked(longToDoubleFunction, handler);
 
         assertLongToDoubleFunction(test, IllegalStateException.class);
         assertLongToDoubleFunction(alias, IllegalStateException.class);
@@ -389,7 +376,7 @@ public class CheckedFunctionTest {
         };
 
         DoubleFunction<Object> test = Unchecked.doubleFunction(doubleFunction);
-        DoubleFunction<Object> alias = UncheckedDoubleFunction.unchecked(doubleFunction);
+        DoubleFunction<Object> alias = CheckedDoubleFunction.unchecked(doubleFunction);
 
         assertDoubleFunction(test, UncheckedException.class);
         assertDoubleFunction(alias, UncheckedException.class);
@@ -406,7 +393,7 @@ public class CheckedFunctionTest {
         };
 
         DoubleFunction<Object> test = Unchecked.doubleFunction(doubleFunction, handler);
-        DoubleFunction<Object> alias = UncheckedDoubleFunction.unchecked(doubleFunction, handler);
+        DoubleFunction<Object> alias = CheckedDoubleFunction.unchecked(doubleFunction, handler);
 
         assertDoubleFunction(test, IllegalStateException.class);
         assertDoubleFunction(alias, IllegalStateException.class);
@@ -420,7 +407,7 @@ public class CheckedFunctionTest {
         };
 
         DoubleToIntFunction test = Unchecked.doubleToIntFunction(doubleToIntFunction);
-        DoubleToIntFunction alias = UncheckedDoubleToIntFunction.unchecked(doubleToIntFunction);
+        DoubleToIntFunction alias = CheckedDoubleToIntFunction.unchecked(doubleToIntFunction);
 
         assertDoubleToIntFunction(test, UncheckedException.class);
         assertDoubleToIntFunction(alias, UncheckedException.class);
@@ -437,7 +424,7 @@ public class CheckedFunctionTest {
         };
 
         DoubleToIntFunction test = Unchecked.doubleToIntFunction(doubleToIntFunction, handler);
-        DoubleToIntFunction alias = UncheckedDoubleToIntFunction.unchecked(doubleToIntFunction, handler);
+        DoubleToIntFunction alias = CheckedDoubleToIntFunction.unchecked(doubleToIntFunction, handler);
 
         assertDoubleToIntFunction(test, IllegalStateException.class);
         assertDoubleToIntFunction(alias, IllegalStateException.class);
@@ -451,7 +438,7 @@ public class CheckedFunctionTest {
         };
 
         DoubleToLongFunction test = Unchecked.doubleToLongFunction(doubleToLongFunction);
-        DoubleToLongFunction alias = UncheckedDoubleToLongFunction.unchecked(doubleToLongFunction);
+        DoubleToLongFunction alias = CheckedDoubleToLongFunction.unchecked(doubleToLongFunction);
 
         assertDoubleToLongFunction(test, UncheckedException.class);
         assertDoubleToLongFunction(alias, UncheckedException.class);
@@ -468,7 +455,7 @@ public class CheckedFunctionTest {
         };
 
         DoubleToLongFunction test = Unchecked.doubleToLongFunction(doubleToLongFunction, handler);
-        DoubleToLongFunction alias = UncheckedDoubleToLongFunction.unchecked(doubleToLongFunction, handler);
+        DoubleToLongFunction alias = CheckedDoubleToLongFunction.unchecked(doubleToLongFunction, handler);
 
         assertDoubleToLongFunction(test, IllegalStateException.class);
         assertDoubleToLongFunction(alias, IllegalStateException.class);

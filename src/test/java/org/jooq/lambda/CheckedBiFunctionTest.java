@@ -29,10 +29,6 @@ import org.jooq.lambda.fi.util.function.CheckedBiFunction;
 import org.jooq.lambda.fi.util.function.CheckedToDoubleBiFunction;
 import org.jooq.lambda.fi.util.function.CheckedToIntBiFunction;
 import org.jooq.lambda.fi.util.function.CheckedToLongBiFunction;
-import org.jooq.lambda.unchecked.UncheckedBiFunction;
-import org.jooq.lambda.unchecked.UncheckedToDoubleBiFunction;
-import org.jooq.lambda.unchecked.UncheckedToIntBiFunction;
-import org.jooq.lambda.unchecked.UncheckedToLongBiFunction;
 import org.junit.Test;
 
 /**
@@ -48,7 +44,7 @@ public class CheckedBiFunctionTest {
         };
 
         BiFunction<Object, Object, Object> test = Unchecked.biFunction(biFunction);
-        BiFunction<Object, Object, Object> alias = UncheckedBiFunction.unchecked(biFunction);
+        BiFunction<Object, Object, Object> alias = CheckedBiFunction.unchecked(biFunction);
 
         assertBiFunction(test, UncheckedException.class);
         assertBiFunction(alias, UncheckedException.class);
@@ -65,7 +61,7 @@ public class CheckedBiFunctionTest {
         };
 
         BiFunction<Object, Object, Object> test = Unchecked.biFunction(biFunction, handler);
-        BiFunction<Object, Object, Object> alias = UncheckedBiFunction.unchecked(biFunction, handler);
+        BiFunction<Object, Object, Object> alias = CheckedBiFunction.unchecked(biFunction, handler);
 
         assertBiFunction(test, IllegalStateException.class);
         assertBiFunction(alias, IllegalStateException.class);
@@ -79,7 +75,7 @@ public class CheckedBiFunctionTest {
         };
 
         ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(toIntBiFunction);
-        ToIntBiFunction<Object, Object> alias = UncheckedToIntBiFunction.unchecked(toIntBiFunction);
+        ToIntBiFunction<Object, Object> alias = CheckedToIntBiFunction.unchecked(toIntBiFunction);
 
         assertToIntBiFunction(test, UncheckedException.class);
         assertToIntBiFunction(alias, UncheckedException.class);
@@ -96,7 +92,7 @@ public class CheckedBiFunctionTest {
         };
 
         ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(toIntBiFunction, handler);
-        ToIntBiFunction<Object, Object> alias = UncheckedToIntBiFunction.unchecked(toIntBiFunction, handler);
+        ToIntBiFunction<Object, Object> alias = CheckedToIntBiFunction.unchecked(toIntBiFunction, handler);
 
         assertToIntBiFunction(test, IllegalStateException.class);
         assertToIntBiFunction(alias, IllegalStateException.class);
@@ -110,7 +106,7 @@ public class CheckedBiFunctionTest {
         };
 
         ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(toLongBiFunction);
-        ToLongBiFunction<Object, Object> alias = UncheckedToLongBiFunction.unchecked(toLongBiFunction);
+        ToLongBiFunction<Object, Object> alias = CheckedToLongBiFunction.unchecked(toLongBiFunction);
 
         assertToLongBiFunction(test, UncheckedException.class);
         assertToLongBiFunction(alias, UncheckedException.class);
@@ -127,7 +123,7 @@ public class CheckedBiFunctionTest {
         };
 
         ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(toLongBiFunction, handler);
-        ToLongBiFunction<Object, Object> alias = UncheckedToLongBiFunction.unchecked(toLongBiFunction, handler);
+        ToLongBiFunction<Object, Object> alias = CheckedToLongBiFunction.unchecked(toLongBiFunction, handler);
 
         assertToLongBiFunction(test, IllegalStateException.class);
         assertToLongBiFunction(alias, IllegalStateException.class);
@@ -141,7 +137,7 @@ public class CheckedBiFunctionTest {
         };
 
         ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(toDoubleBiFunction);
-        ToDoubleBiFunction<Object, Object> alias = UncheckedToDoubleBiFunction.unchecked(toDoubleBiFunction);
+        ToDoubleBiFunction<Object, Object> alias = CheckedToDoubleBiFunction.unchecked(toDoubleBiFunction);
 
         assertToDoubleBiFunction(test, UncheckedException.class);
         assertToDoubleBiFunction(alias, UncheckedException.class);
@@ -158,7 +154,7 @@ public class CheckedBiFunctionTest {
         };
 
         ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(toDoubleBiFunction, handler);
-        ToDoubleBiFunction<Object, Object> alias = UncheckedToDoubleBiFunction.unchecked(toDoubleBiFunction, handler);
+        ToDoubleBiFunction<Object, Object> alias = CheckedToDoubleBiFunction.unchecked(toDoubleBiFunction, handler);
 
         assertToDoubleBiFunction(test, IllegalStateException.class);
         assertToDoubleBiFunction(alias, IllegalStateException.class);

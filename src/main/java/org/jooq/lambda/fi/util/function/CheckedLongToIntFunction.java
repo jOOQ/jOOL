@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.LongToIntFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link LongToIntFunction} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedLongToIntFunction {
      * @return the function result
      */
     int applyAsInt(long value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#longToIntFunction(CheckedLongToIntFunction)} for static import.
+     */
+    static LongToIntFunction unchecked(CheckedLongToIntFunction function) {
+        return Unchecked.longToIntFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#longToIntFunction(CheckedLongToIntFunction, Consumer)} for static import.
+     */
+    static LongToIntFunction unchecked(CheckedLongToIntFunction function, Consumer<Throwable> handler) {
+        return Unchecked.longToIntFunction(function, handler);
+    }
 }

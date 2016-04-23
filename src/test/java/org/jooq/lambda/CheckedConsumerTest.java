@@ -27,10 +27,6 @@ import org.jooq.lambda.fi.util.function.CheckedConsumer;
 import org.jooq.lambda.fi.util.function.CheckedDoubleConsumer;
 import org.jooq.lambda.fi.util.function.CheckedIntConsumer;
 import org.jooq.lambda.fi.util.function.CheckedLongConsumer;
-import org.jooq.lambda.unchecked.UncheckedConsumer;
-import org.jooq.lambda.unchecked.UncheckedDoubleConsumer;
-import org.jooq.lambda.unchecked.UncheckedIntConsumer;
-import org.jooq.lambda.unchecked.UncheckedLongConsumer;
 import org.junit.Test;
 
 /**
@@ -46,7 +42,7 @@ public class CheckedConsumerTest {
         };
 
         Consumer<Object> test = Unchecked.consumer(consumer);
-        Consumer<Object> alias = UncheckedConsumer.unchecked(consumer);
+        Consumer<Object> alias = CheckedConsumer.unchecked(consumer);
 
         assertConsumer(test, UncheckedException.class);
         assertConsumer(alias, UncheckedException.class);
@@ -63,7 +59,7 @@ public class CheckedConsumerTest {
         };
 
         Consumer<Object> test = Unchecked.consumer(consumer, handler);
-        Consumer<Object> alias = UncheckedConsumer.unchecked(consumer, handler);
+        Consumer<Object> alias = CheckedConsumer.unchecked(consumer, handler);
 
         assertConsumer(test, IllegalStateException.class);
         assertConsumer(alias, IllegalStateException.class);
@@ -77,7 +73,7 @@ public class CheckedConsumerTest {
         };
 
         IntConsumer test = Unchecked.intConsumer(intConsumer);
-        IntConsumer alias = UncheckedIntConsumer.unchecked(intConsumer);
+        IntConsumer alias = CheckedIntConsumer.unchecked(intConsumer);
 
         assertIntConsumer(test, UncheckedException.class);
         assertIntConsumer(alias, UncheckedException.class);
@@ -94,7 +90,7 @@ public class CheckedConsumerTest {
         };
 
         IntConsumer test = Unchecked.intConsumer(intConsumer, handler);
-        IntConsumer alias = UncheckedIntConsumer.unchecked(intConsumer, handler);
+        IntConsumer alias = CheckedIntConsumer.unchecked(intConsumer, handler);
 
         assertIntConsumer(test, IllegalStateException.class);
         assertIntConsumer(alias, IllegalStateException.class);
@@ -108,7 +104,7 @@ public class CheckedConsumerTest {
         };
 
         LongConsumer test = Unchecked.longConsumer(longConsumer);
-        LongConsumer alias = UncheckedLongConsumer.unchecked(longConsumer);
+        LongConsumer alias = CheckedLongConsumer.unchecked(longConsumer);
 
         assertLongConsumer(test, UncheckedException.class);
         assertLongConsumer(alias, UncheckedException.class);
@@ -125,7 +121,7 @@ public class CheckedConsumerTest {
         };
 
         LongConsumer test = Unchecked.longConsumer(longConsumer, handler);
-        LongConsumer alias = UncheckedLongConsumer.unchecked(longConsumer, handler);
+        LongConsumer alias = CheckedLongConsumer.unchecked(longConsumer, handler);
 
         assertLongConsumer(test, IllegalStateException.class);
         assertLongConsumer(alias, IllegalStateException.class);
@@ -139,7 +135,7 @@ public class CheckedConsumerTest {
         };
 
         DoubleConsumer test = Unchecked.doubleConsumer(doubleConsumer);
-        DoubleConsumer alias = UncheckedDoubleConsumer.unchecked(doubleConsumer);
+        DoubleConsumer alias = CheckedDoubleConsumer.unchecked(doubleConsumer);
 
         assertDoubleConsumer(test, UncheckedException.class);
         assertDoubleConsumer(alias, UncheckedException.class);
@@ -156,7 +152,7 @@ public class CheckedConsumerTest {
         };
 
         DoubleConsumer test = Unchecked.doubleConsumer(doubleConsumer, handler);
-        DoubleConsumer alias = UncheckedDoubleConsumer.unchecked(doubleConsumer, handler);
+        DoubleConsumer alias = CheckedDoubleConsumer.unchecked(doubleConsumer, handler);
 
         assertDoubleConsumer(test, IllegalStateException.class);
         assertDoubleConsumer(alias, IllegalStateException.class);

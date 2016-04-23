@@ -29,10 +29,6 @@ import org.jooq.lambda.fi.util.function.CheckedBiConsumer;
 import org.jooq.lambda.fi.util.function.CheckedObjDoubleConsumer;
 import org.jooq.lambda.fi.util.function.CheckedObjIntConsumer;
 import org.jooq.lambda.fi.util.function.CheckedObjLongConsumer;
-import org.jooq.lambda.unchecked.UncheckedBiConsumer;
-import org.jooq.lambda.unchecked.UncheckedObjectDoubleConsumer;
-import org.jooq.lambda.unchecked.UncheckedObjectIntConsumer;
-import org.jooq.lambda.unchecked.UncheckedObjectLongConsumer;
 import org.junit.Test;
 
 /**
@@ -48,7 +44,7 @@ public class CheckedBiConsumerTest {
         };
 
         BiConsumer<Object, Object> test = Unchecked.biConsumer(biConsumer);
-        BiConsumer<Object, Object> alias = UncheckedBiConsumer.unchecked(biConsumer);
+        BiConsumer<Object, Object> alias = CheckedBiConsumer.unchecked(biConsumer);
 
         assertBiConsumer(test, UncheckedException.class);
         assertBiConsumer(alias, UncheckedException.class);
@@ -66,7 +62,7 @@ public class CheckedBiConsumerTest {
         };
 
         BiConsumer<Object, Object> test = Unchecked.biConsumer(biConsumer, handler);
-        BiConsumer<Object, Object> alias = UncheckedBiConsumer.unchecked(biConsumer, handler);
+        BiConsumer<Object, Object> alias = CheckedBiConsumer.unchecked(biConsumer, handler);
 
         assertBiConsumer(test, IllegalStateException.class);
         assertBiConsumer(alias, IllegalStateException.class);
@@ -80,7 +76,7 @@ public class CheckedBiConsumerTest {
         };
 
         ObjIntConsumer<Object> test = Unchecked.objIntConsumer(objIntConsumer);
-        ObjIntConsumer<Object> alias = UncheckedObjectIntConsumer.unchecked(objIntConsumer);
+        ObjIntConsumer<Object> alias = CheckedObjIntConsumer.unchecked(objIntConsumer);
 
         assertObjIntConsumer(test, UncheckedException.class);
         assertObjIntConsumer(alias, UncheckedException.class);
@@ -97,7 +93,7 @@ public class CheckedBiConsumerTest {
         };
 
         ObjIntConsumer<Object> test = Unchecked.objIntConsumer(objIntConsumer, handler);
-        ObjIntConsumer<Object> alias = UncheckedObjectIntConsumer.unchecked(objIntConsumer, handler);
+        ObjIntConsumer<Object> alias = CheckedObjIntConsumer.unchecked(objIntConsumer, handler);
 
         assertObjIntConsumer(test, IllegalStateException.class);
         assertObjIntConsumer(alias, IllegalStateException.class);
@@ -111,7 +107,7 @@ public class CheckedBiConsumerTest {
         };
 
         ObjLongConsumer<Object> test = Unchecked.objLongConsumer(objLongConsumer);
-        ObjLongConsumer<Object> alias = UncheckedObjectLongConsumer.unchecked(objLongConsumer);
+        ObjLongConsumer<Object> alias = CheckedObjLongConsumer.unchecked(objLongConsumer);
 
         assertObjLongConsumer(test, UncheckedException.class);
         assertObjLongConsumer(alias, UncheckedException.class);
@@ -128,7 +124,7 @@ public class CheckedBiConsumerTest {
         };
 
         ObjLongConsumer<Object> test = Unchecked.objLongConsumer(objLongConsumer, handler);
-        ObjLongConsumer<Object> alias = UncheckedObjectLongConsumer.unchecked(objLongConsumer, handler);
+        ObjLongConsumer<Object> alias = CheckedObjLongConsumer.unchecked(objLongConsumer, handler);
 
         assertObjLongConsumer(test, IllegalStateException.class);
         assertObjLongConsumer(alias, IllegalStateException.class);
@@ -142,7 +138,7 @@ public class CheckedBiConsumerTest {
         };
 
         ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(objDoubleConsumer);
-        ObjDoubleConsumer<Object> alias = UncheckedObjectDoubleConsumer.unchecked(objDoubleConsumer);
+        ObjDoubleConsumer<Object> alias = CheckedObjDoubleConsumer.unchecked(objDoubleConsumer);
 
         assertObjDoubleConsumer(test, UncheckedException.class);
         assertObjDoubleConsumer(alias, UncheckedException.class);
@@ -159,7 +155,7 @@ public class CheckedBiConsumerTest {
         };
 
         ObjDoubleConsumer<Object> test = Unchecked.objDoubleConsumer(objDoubleConsumer, handler);
-        ObjDoubleConsumer<Object> alias = UncheckedObjectDoubleConsumer.unchecked(objDoubleConsumer, handler);
+        ObjDoubleConsumer<Object> alias = CheckedObjDoubleConsumer.unchecked(objDoubleConsumer, handler);
 
         assertObjDoubleConsumer(test, IllegalStateException.class);
         assertObjDoubleConsumer(alias, IllegalStateException.class);

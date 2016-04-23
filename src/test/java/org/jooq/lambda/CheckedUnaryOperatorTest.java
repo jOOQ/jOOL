@@ -31,10 +31,6 @@ import org.jooq.lambda.fi.util.function.CheckedDoubleUnaryOperator;
 import org.jooq.lambda.fi.util.function.CheckedIntUnaryOperator;
 import org.jooq.lambda.fi.util.function.CheckedLongUnaryOperator;
 import org.jooq.lambda.fi.util.function.CheckedUnaryOperator;
-import org.jooq.lambda.unchecked.UncheckedDoubleUnaryOperator;
-import org.jooq.lambda.unchecked.UncheckedIntUnaryOperator;
-import org.jooq.lambda.unchecked.UncheckedLongUnaryOperator;
-import org.jooq.lambda.unchecked.UncheckedUnaryOperator;
 import org.junit.Test;
 
 /**
@@ -50,7 +46,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         UnaryOperator<Object> test = Unchecked.unaryOperator(unaryOperator);
-        UnaryOperator<Object> alias = UncheckedUnaryOperator.unchecked(unaryOperator);
+        UnaryOperator<Object> alias = CheckedUnaryOperator.unchecked(unaryOperator);
 
         assertUnaryOperator(test, UncheckedException.class);
         assertUnaryOperator(alias, UncheckedException.class);
@@ -67,7 +63,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         UnaryOperator<Object> test = Unchecked.unaryOperator(unaryOperator, handler);
-        UnaryOperator<Object> alias = UncheckedUnaryOperator.unchecked(unaryOperator, handler);
+        UnaryOperator<Object> alias = CheckedUnaryOperator.unchecked(unaryOperator, handler);
 
         assertUnaryOperator(test, IllegalStateException.class);
         assertUnaryOperator(alias, IllegalStateException.class);
@@ -81,7 +77,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         IntUnaryOperator test = Unchecked.intUnaryOperator(intUnaryOperator);
-        IntUnaryOperator alias = UncheckedIntUnaryOperator.unchecked(intUnaryOperator);
+        IntUnaryOperator alias = CheckedIntUnaryOperator.unchecked(intUnaryOperator);
 
         assertIntUnaryOperator(test, UncheckedException.class);
         assertIntUnaryOperator(alias, UncheckedException.class);
@@ -98,7 +94,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         IntUnaryOperator test = Unchecked.intUnaryOperator(intUnaryOperator, handler);
-        IntUnaryOperator alias = UncheckedIntUnaryOperator.unchecked(intUnaryOperator, handler);
+        IntUnaryOperator alias = CheckedIntUnaryOperator.unchecked(intUnaryOperator, handler);
 
         assertIntUnaryOperator(test, IllegalStateException.class);
         assertIntUnaryOperator(alias, IllegalStateException.class);
@@ -112,7 +108,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         LongUnaryOperator test = Unchecked.longUnaryOperator(longUnaryOperator);
-        LongUnaryOperator alias = UncheckedLongUnaryOperator.unchecked(longUnaryOperator);
+        LongUnaryOperator alias = CheckedLongUnaryOperator.unchecked(longUnaryOperator);
 
         assertLongUnaryOperator(test, UncheckedException.class);
         assertLongUnaryOperator(alias, UncheckedException.class);
@@ -129,7 +125,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         LongUnaryOperator test = Unchecked.longUnaryOperator(longUnaryOperator, handler);
-        LongUnaryOperator alias = UncheckedLongUnaryOperator.unchecked(longUnaryOperator, handler);
+        LongUnaryOperator alias = CheckedLongUnaryOperator.unchecked(longUnaryOperator, handler);
 
         assertLongUnaryOperator(test, IllegalStateException.class);
         assertLongUnaryOperator(alias, IllegalStateException.class);
@@ -143,7 +139,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         DoubleUnaryOperator test = Unchecked.doubleUnaryOperator(doubleUnaryOperator);
-        DoubleUnaryOperator alias = UncheckedDoubleUnaryOperator.unchecked(doubleUnaryOperator);
+        DoubleUnaryOperator alias = CheckedDoubleUnaryOperator.unchecked(doubleUnaryOperator);
 
         assertDoubleUnaryOperator(test, UncheckedException.class);
         assertDoubleUnaryOperator(alias, UncheckedException.class);
@@ -160,7 +156,7 @@ public class CheckedUnaryOperatorTest {
         };
 
         DoubleUnaryOperator test = Unchecked.doubleUnaryOperator(doubleUnaryOperator, handler);
-        DoubleUnaryOperator alias = UncheckedDoubleUnaryOperator.unchecked(doubleUnaryOperator, handler);
+        DoubleUnaryOperator alias = CheckedDoubleUnaryOperator.unchecked(doubleUnaryOperator, handler);
 
         assertDoubleUnaryOperator(test, IllegalStateException.class);
         assertDoubleUnaryOperator(alias, IllegalStateException.class);

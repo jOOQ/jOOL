@@ -16,6 +16,8 @@
 package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link BiPredicate} that allows for checked exceptions.
@@ -34,4 +36,18 @@ public interface CheckedBiPredicate<T, U> {
      * otherwise {@code false}
      */
     boolean test(T t, U u) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#biPredicate(CheckedBiPredicate)} for static import.
+     */
+    static <T, U> BiPredicate<T, U> unchecked(CheckedBiPredicate<T, U> predicate) {
+        return Unchecked.biPredicate(predicate);
+    }
+
+    /**
+     * Alias of {@link Unchecked#biPredicate(CheckedBiPredicate, Consumer)} for static import.
+     */
+    static <T, U> BiPredicate<T, U> unchecked(CheckedBiPredicate<T, U> predicate, Consumer<Throwable> handler) {
+        return Unchecked.biPredicate(predicate, handler);
+    }
 }

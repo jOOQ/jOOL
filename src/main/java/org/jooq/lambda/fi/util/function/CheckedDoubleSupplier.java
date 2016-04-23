@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link DoubleSupplier} that allows for checked exceptions.
@@ -31,4 +33,18 @@ public interface CheckedDoubleSupplier {
      * @return a result
      */
     double getAsDouble() throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#doubleSupplier(CheckedDoubleSupplier)} for static import.
+     */
+    static DoubleSupplier unchecked(CheckedDoubleSupplier supplier) {
+        return Unchecked.doubleSupplier(supplier);
+    }
+
+    /**
+     * Alias of {@link Unchecked#doubleSupplier(CheckedDoubleSupplier, Consumer)} for static import.
+     */
+    static DoubleSupplier unchecked(CheckedDoubleSupplier supplier, Consumer<Throwable> handler) {
+        return Unchecked.doubleSupplier(supplier, handler);
+    }
 }

@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.ToIntFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link ToIntFunction} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedToIntFunction<T> {
      * @return the function result
      */
     int applyAsInt(T value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#toIntFunction(CheckedToIntFunction)} for static import.
+     */
+    static <T> ToIntFunction<T> unchecked(CheckedToIntFunction<T> function) {
+        return Unchecked.toIntFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#toIntFunction(CheckedToIntFunction, Consumer)} for static import.
+     */
+    static <T> ToIntFunction<T> unchecked(CheckedToIntFunction<T> function, Consumer<Throwable> handler) {
+        return Unchecked.toIntFunction(function, handler);
+    }
 }

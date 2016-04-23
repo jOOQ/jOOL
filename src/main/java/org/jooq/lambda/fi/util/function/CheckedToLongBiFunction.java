@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.ToLongBiFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link ToLongBiFunction} that allows for checked exceptions.
@@ -33,4 +35,18 @@ public interface CheckedToLongBiFunction<T, U> {
      * @return the function result
      */
     long applyAsLong(T t, U u) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction)} for static import.
+     */
+    static <T, U> ToLongBiFunction<T, U> unchecked(CheckedToLongBiFunction<T, U> function) {
+        return Unchecked.toLongBiFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction, Consumer)} for static import.
+     */
+    static <T, U> ToLongBiFunction<T, U> unchecked(CheckedToLongBiFunction<T, U> function, Consumer<Throwable> handler) {
+        return Unchecked.toLongBiFunction(function, handler);
+    }
 }

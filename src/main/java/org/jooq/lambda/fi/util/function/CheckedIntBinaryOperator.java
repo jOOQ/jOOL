@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.IntBinaryOperator;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link IntBinaryOperator} that allows for checked exceptions.
@@ -33,4 +35,18 @@ public interface CheckedIntBinaryOperator {
      * @return the operator result
      */
     int applyAsInt(int left, int right) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator)} for static import.
+     */
+    static IntBinaryOperator unchecked(CheckedIntBinaryOperator operator) {
+        return Unchecked.intBinaryOperator(operator);
+    }
+
+    /**
+     * Alias of {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator, Consumer)} for static import.
+     */
+    static IntBinaryOperator unchecked(CheckedIntBinaryOperator operator, Consumer<Throwable> handler) {
+        return Unchecked.intBinaryOperator(operator, handler);
+    }
 }

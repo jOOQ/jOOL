@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.DoubleToLongFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link DoubleToLongFunction} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedDoubleToLongFunction {
      * @return the function result
      */
     long applyAsLong(double value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#doubleToLongFunction(CheckedDoubleToLongFunction)} for static import.
+     */
+    static DoubleToLongFunction unchecked(CheckedDoubleToLongFunction function) {
+        return Unchecked.doubleToLongFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#doubleToLongFunction(CheckedDoubleToLongFunction, Consumer)} for static import.
+     */
+    static DoubleToLongFunction unchecked(CheckedDoubleToLongFunction function, Consumer<Throwable> handler) {
+        return Unchecked.doubleToLongFunction(function, handler);
+    }
 }

@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import java.util.function.Consumer;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
-import org.jooq.lambda.unchecked.UncheckedRunnable;
 import org.junit.Test;
 
 /**
@@ -36,7 +35,7 @@ public class CheckedRunnableTest {
         };
 
         Runnable test = Unchecked.runnable(runnable);
-        Runnable alias = UncheckedRunnable.unchecked(runnable);
+        Runnable alias = CheckedRunnable.unchecked(runnable);
 
         assertRunnable(test, UncheckedException.class);
         assertRunnable(alias, UncheckedException.class);
@@ -53,7 +52,7 @@ public class CheckedRunnableTest {
         };
 
         Runnable test = Unchecked.runnable(runnable, handler);
-        Runnable alias = UncheckedRunnable.unchecked(runnable, handler);
+        Runnable alias = CheckedRunnable.unchecked(runnable, handler);
 
         assertRunnable(test, IllegalStateException.class);
         assertRunnable(alias, IllegalStateException.class);

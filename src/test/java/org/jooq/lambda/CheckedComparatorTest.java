@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 import java.util.Comparator;
 import java.util.function.Consumer;
 import org.jooq.lambda.fi.util.CheckedComparator;
-import org.jooq.lambda.unchecked.UncheckedComparator;
 import org.junit.Test;
 
 /**
@@ -37,7 +36,7 @@ public class CheckedComparatorTest {
         };
 
         Comparator<Object> test = Unchecked.comparator(comparator);
-        Comparator<Object> alias = UncheckedComparator.unchecked(comparator);
+        Comparator<Object> alias = CheckedComparator.unchecked(comparator);
 
         assertComparator(test, UncheckedException.class);
         assertComparator(alias, UncheckedException.class);
@@ -54,7 +53,7 @@ public class CheckedComparatorTest {
         };
 
         Comparator<Object> test = Unchecked.comparator(comparator, handler);
-        Comparator<Object> alias = UncheckedComparator.unchecked(comparator, handler);
+        Comparator<Object> alias = CheckedComparator.unchecked(comparator, handler);
 
         assertComparator(test, IllegalStateException.class);
         assertComparator(alias, IllegalStateException.class);

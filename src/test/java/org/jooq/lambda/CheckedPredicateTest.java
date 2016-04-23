@@ -31,10 +31,6 @@ import org.jooq.lambda.fi.util.function.CheckedDoublePredicate;
 import org.jooq.lambda.fi.util.function.CheckedIntPredicate;
 import org.jooq.lambda.fi.util.function.CheckedLongPredicate;
 import org.jooq.lambda.fi.util.function.CheckedPredicate;
-import org.jooq.lambda.unchecked.UncheckedDoublePredicate;
-import org.jooq.lambda.unchecked.UncheckedIntPredicate;
-import org.jooq.lambda.unchecked.UncheckedLongPredicate;
-import org.jooq.lambda.unchecked.UncheckedPredicate;
 import org.junit.Test;
 
 /**
@@ -50,7 +46,7 @@ public class CheckedPredicateTest {
         };
 
         Predicate<Object> test = Unchecked.predicate(predicate);
-        Predicate<Object> alias = UncheckedPredicate.unchecked(predicate);
+        Predicate<Object> alias = CheckedPredicate.unchecked(predicate);
 
         assertPredicate(test, UncheckedException.class);
         assertPredicate(alias, UncheckedException.class);
@@ -67,7 +63,7 @@ public class CheckedPredicateTest {
         };
 
         Predicate<Object> test = Unchecked.predicate(predicate, handler);
-        Predicate<Object> alias = UncheckedPredicate.unchecked(predicate, handler);
+        Predicate<Object> alias = CheckedPredicate.unchecked(predicate, handler);
 
         assertPredicate(test, IllegalStateException.class);
         assertPredicate(alias, IllegalStateException.class);
@@ -81,7 +77,7 @@ public class CheckedPredicateTest {
         };
 
         IntPredicate test = Unchecked.intPredicate(intPredicate);
-        IntPredicate alias = UncheckedIntPredicate.unchecked(intPredicate);
+        IntPredicate alias = CheckedIntPredicate.unchecked(intPredicate);
 
         assertIntPredicate(test, UncheckedException.class);
         assertIntPredicate(alias, UncheckedException.class);
@@ -98,7 +94,7 @@ public class CheckedPredicateTest {
         };
 
         IntPredicate test = Unchecked.intPredicate(intPredicate, handler);
-        IntPredicate alias = UncheckedIntPredicate.unchecked(intPredicate, handler);
+        IntPredicate alias = CheckedIntPredicate.unchecked(intPredicate, handler);
 
         assertIntPredicate(test, IllegalStateException.class);
         assertIntPredicate(alias, IllegalStateException.class);
@@ -112,7 +108,7 @@ public class CheckedPredicateTest {
         };
 
         LongPredicate test = Unchecked.longPredicate(longPredicate);
-        LongPredicate alias = UncheckedLongPredicate.unchecked(longPredicate);
+        LongPredicate alias = CheckedLongPredicate.unchecked(longPredicate);
 
         assertLongPredicate(test, UncheckedException.class);
         assertLongPredicate(alias, UncheckedException.class);
@@ -129,7 +125,7 @@ public class CheckedPredicateTest {
         };
 
         LongPredicate test = Unchecked.longPredicate(longPredicate, handler);
-        LongPredicate alias = UncheckedLongPredicate.unchecked(longPredicate, handler);
+        LongPredicate alias = CheckedLongPredicate.unchecked(longPredicate, handler);
 
         assertLongPredicate(test, IllegalStateException.class);
         assertLongPredicate(alias, IllegalStateException.class);
@@ -143,7 +139,7 @@ public class CheckedPredicateTest {
         };
 
         DoublePredicate test = Unchecked.doublePredicate(doublePredicate);
-        DoublePredicate alias = UncheckedDoublePredicate.unchecked(doublePredicate);
+        DoublePredicate alias = CheckedDoublePredicate.unchecked(doublePredicate);
 
         assertDoublePredicate(test, UncheckedException.class);
         assertDoublePredicate(alias, UncheckedException.class);
@@ -160,7 +156,7 @@ public class CheckedPredicateTest {
         };
 
         DoublePredicate test = Unchecked.doublePredicate(doublePredicate, handler);
-        DoublePredicate alias = UncheckedDoublePredicate.unchecked(doublePredicate, handler);
+        DoublePredicate alias = CheckedDoublePredicate.unchecked(doublePredicate, handler);
 
         assertDoublePredicate(test, IllegalStateException.class);
         assertDoublePredicate(alias, IllegalStateException.class);

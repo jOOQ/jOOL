@@ -16,6 +16,8 @@
 package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link BiConsumer} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedBiConsumer<T, U> {
      * @param u the second input argument
      */
     void accept(T t, U u) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#biConsumer(CheckedBiConsumer)} for static import.
+     */
+    static <T, U> BiConsumer<T, U> unchecked(CheckedBiConsumer<T, U> consumer) {
+        return Unchecked.biConsumer(consumer);
+    }
+
+    /**
+     * Alias for {@link Unchecked#biConsumer(CheckedBiConsumer, Consumer)} for static import.
+     */
+    static <T, U> BiConsumer<T, U> unchecked(CheckedBiConsumer<T, U> consumer, Consumer<Throwable> handler) {
+        return Unchecked.biConsumer(consumer, handler);
+    }
 }

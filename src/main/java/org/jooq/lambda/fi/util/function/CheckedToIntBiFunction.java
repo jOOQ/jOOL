@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.ToIntBiFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link ToIntBiFunction} that allows for checked exceptions.
@@ -34,4 +36,18 @@ public interface CheckedToIntBiFunction<T, U> {
      */
     int applyAsInt(T t, U u) throws Throwable;
 
+
+    /**
+     * Alias of {@link Unchecked#toIntBiFunction(CheckedToIntBiFunction)} for static import.
+     */
+    static <T, U> ToIntBiFunction<T, U> unchecked(CheckedToIntBiFunction<T, U> function) {
+        return Unchecked.toIntBiFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#toIntBiFunction(CheckedToIntBiFunction, Consumer)} for static import.
+     */
+    static <T, U> ToIntBiFunction<T, U> unchecked(CheckedToIntBiFunction<T, U> function, Consumer<Throwable> handler) {
+        return Unchecked.toIntBiFunction(function, handler);
+    }
 }

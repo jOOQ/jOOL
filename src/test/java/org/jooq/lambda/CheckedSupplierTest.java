@@ -33,11 +33,6 @@ import org.jooq.lambda.fi.util.function.CheckedDoubleSupplier;
 import org.jooq.lambda.fi.util.function.CheckedIntSupplier;
 import org.jooq.lambda.fi.util.function.CheckedLongSupplier;
 import org.jooq.lambda.fi.util.function.CheckedSupplier;
-import org.jooq.lambda.unchecked.UncheckedBooleanSupplier;
-import org.jooq.lambda.unchecked.UncheckedDoubleSupplier;
-import org.jooq.lambda.unchecked.UncheckedIntSupplier;
-import org.jooq.lambda.unchecked.UncheckedLongSupplier;
-import org.jooq.lambda.unchecked.UncheckedSupplier;
 import org.junit.Test;
 
 /**
@@ -53,7 +48,7 @@ public class CheckedSupplierTest {
         };
 
         Supplier<Object> test = Unchecked.supplier(supplier);
-        Supplier<Object> alias = UncheckedSupplier.unchecked(supplier);
+        Supplier<Object> alias = CheckedSupplier.unchecked(supplier);
 
         assertSupplier(test, UncheckedException.class);
         assertSupplier(alias, UncheckedException.class);
@@ -70,7 +65,7 @@ public class CheckedSupplierTest {
         };
 
         Supplier<Object> test = Unchecked.supplier(supplier, handler);
-        Supplier<Object> alias = UncheckedSupplier.unchecked(supplier, handler);
+        Supplier<Object> alias = CheckedSupplier.unchecked(supplier, handler);
 
         assertSupplier(test, IllegalStateException.class);
         assertSupplier(alias, IllegalStateException.class);
@@ -84,7 +79,7 @@ public class CheckedSupplierTest {
         };
 
         IntSupplier test = Unchecked.intSupplier(intSupplier);
-        IntSupplier alias = UncheckedIntSupplier.unchecked(intSupplier);
+        IntSupplier alias = CheckedIntSupplier.unchecked(intSupplier);
 
         assertIntSupplier(test, UncheckedException.class);
         assertIntSupplier(alias, UncheckedException.class);
@@ -101,7 +96,7 @@ public class CheckedSupplierTest {
         };
 
         IntSupplier test = Unchecked.intSupplier(intSupplier, handler);
-        IntSupplier alias = UncheckedIntSupplier.unchecked(intSupplier, handler);
+        IntSupplier alias = CheckedIntSupplier.unchecked(intSupplier, handler);
 
         assertIntSupplier(test, IllegalStateException.class);
         assertIntSupplier(alias, IllegalStateException.class);
@@ -115,7 +110,7 @@ public class CheckedSupplierTest {
         };
 
         LongSupplier test = Unchecked.longSupplier(longSupplier);
-        LongSupplier alias = UncheckedLongSupplier.unchecked(longSupplier);
+        LongSupplier alias = CheckedLongSupplier.unchecked(longSupplier);
 
         assertLongSupplier(test, UncheckedException.class);
         assertLongSupplier(alias, UncheckedException.class);
@@ -132,7 +127,7 @@ public class CheckedSupplierTest {
         };
 
         LongSupplier test = Unchecked.longSupplier(longSupplier, handler);
-        LongSupplier alias = UncheckedLongSupplier.unchecked(longSupplier, handler);
+        LongSupplier alias = CheckedLongSupplier.unchecked(longSupplier, handler);
 
         assertLongSupplier(test, IllegalStateException.class);
         assertLongSupplier(alias, IllegalStateException.class);
@@ -146,7 +141,7 @@ public class CheckedSupplierTest {
         };
 
         DoubleSupplier test = Unchecked.doubleSupplier(doubleSupplier);
-        DoubleSupplier alias = UncheckedDoubleSupplier.unchecked(doubleSupplier);
+        DoubleSupplier alias = CheckedDoubleSupplier.unchecked(doubleSupplier);
 
         assertDoubleSupplier(test, UncheckedException.class);
         assertDoubleSupplier(alias, UncheckedException.class);
@@ -163,7 +158,7 @@ public class CheckedSupplierTest {
         };
 
         DoubleSupplier test = Unchecked.doubleSupplier(doubleSupplier, handler);
-        DoubleSupplier alias = UncheckedDoubleSupplier.unchecked(doubleSupplier, handler);
+        DoubleSupplier alias = CheckedDoubleSupplier.unchecked(doubleSupplier, handler);
 
         assertDoubleSupplier(test, IllegalStateException.class);
         assertDoubleSupplier(alias, IllegalStateException.class);
@@ -177,7 +172,7 @@ public class CheckedSupplierTest {
         };
 
         BooleanSupplier test = Unchecked.booleanSupplier(booleanSupplier);
-        BooleanSupplier alias = UncheckedBooleanSupplier.unchecked(booleanSupplier);
+        BooleanSupplier alias = CheckedBooleanSupplier.unchecked(booleanSupplier);
 
         assertBooleanSupplier(test, UncheckedException.class);
         assertBooleanSupplier(alias, UncheckedException.class);
@@ -194,7 +189,7 @@ public class CheckedSupplierTest {
         };
 
         BooleanSupplier test = Unchecked.booleanSupplier(booleanSupplier, handler);
-        BooleanSupplier alias = UncheckedBooleanSupplier.unchecked(booleanSupplier, handler);
+        BooleanSupplier alias = CheckedBooleanSupplier.unchecked(booleanSupplier, handler);
 
         assertBooleanSupplier(test, IllegalStateException.class);
         assertBooleanSupplier(alias, IllegalStateException.class);

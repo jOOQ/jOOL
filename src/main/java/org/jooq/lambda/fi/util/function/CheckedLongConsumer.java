@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.LongConsumer;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link LongConsumer} that allows for checked exceptions.
@@ -31,4 +33,18 @@ public interface CheckedLongConsumer {
      * @param value the input argument
      */
     void accept(long value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#longConsumer(CheckedLongConsumer)} for static import.
+     */
+    static LongConsumer unchecked(CheckedLongConsumer consumer) {
+        return Unchecked.longConsumer(consumer);
+    }
+
+    /**
+     * Alias of {@link Unchecked#longConsumer(CheckedLongConsumer, Consumer)} for static import.
+     */
+    static LongConsumer unchecked(CheckedLongConsumer consumer, Consumer<Throwable> handler) {
+        return Unchecked.longConsumer(consumer, handler);
+    }
 }

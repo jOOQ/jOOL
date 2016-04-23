@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import org.jooq.lambda.fi.util.function.CheckedBiPredicate;
-import org.jooq.lambda.unchecked.UncheckedBiPredicate;
 import org.junit.Test;
 
 /**
@@ -37,7 +36,7 @@ public class CheckedBiPredicateTest {
         };
 
         BiPredicate<Object, Object> test = Unchecked.biPredicate(biPredicate);
-        BiPredicate<Object, Object> alias = UncheckedBiPredicate.unchecked(biPredicate);
+        BiPredicate<Object, Object> alias = CheckedBiPredicate.unchecked(biPredicate);
 
         assertBiPredicate(test, UncheckedException.class);
         assertBiPredicate(alias, UncheckedException.class);
@@ -54,7 +53,7 @@ public class CheckedBiPredicateTest {
         };
 
         BiPredicate<Object, Object> test = Unchecked.biPredicate(biPredicate, handler);
-        BiPredicate<Object, Object> alias = UncheckedBiPredicate.unchecked(biPredicate, handler);
+        BiPredicate<Object, Object> alias = CheckedBiPredicate.unchecked(biPredicate, handler);
 
         assertBiPredicate(test, IllegalStateException.class);
         assertBiPredicate(alias, IllegalStateException.class);

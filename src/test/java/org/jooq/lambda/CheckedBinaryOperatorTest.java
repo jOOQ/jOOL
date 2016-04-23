@@ -31,10 +31,6 @@ import org.jooq.lambda.fi.util.function.CheckedBinaryOperator;
 import org.jooq.lambda.fi.util.function.CheckedDoubleBinaryOperator;
 import org.jooq.lambda.fi.util.function.CheckedIntBinaryOperator;
 import org.jooq.lambda.fi.util.function.CheckedLongBinaryOperator;
-import org.jooq.lambda.unchecked.UncheckedBinaryOperator;
-import org.jooq.lambda.unchecked.UncheckedDoubleBinaryOperator;
-import org.jooq.lambda.unchecked.UncheckedIntBinaryOperator;
-import org.jooq.lambda.unchecked.UncheckedLongBinaryOperator;
 import org.junit.Test;
 
 /**
@@ -50,7 +46,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         BinaryOperator<Object> test = Unchecked.binaryOperator(binaryOperator);
-        BinaryOperator<Object> alias = UncheckedBinaryOperator.unchecked(binaryOperator);
+        BinaryOperator<Object> alias = CheckedBinaryOperator.unchecked(binaryOperator);
 
         assertBinaryOperator(test, UncheckedException.class);
         assertBinaryOperator(alias, UncheckedException.class);
@@ -67,7 +63,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         BinaryOperator<Object> test = Unchecked.binaryOperator(binaryOperator, handler);
-        BinaryOperator<Object> alias = UncheckedBinaryOperator.unchecked(binaryOperator, handler);
+        BinaryOperator<Object> alias = CheckedBinaryOperator.unchecked(binaryOperator, handler);
 
         assertBinaryOperator(test, IllegalStateException.class);
         assertBinaryOperator(alias, IllegalStateException.class);
@@ -81,7 +77,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         IntBinaryOperator test = Unchecked.intBinaryOperator(intBinaryOperator);
-        IntBinaryOperator alias = UncheckedIntBinaryOperator.unchecked(intBinaryOperator);
+        IntBinaryOperator alias = CheckedIntBinaryOperator.unchecked(intBinaryOperator);
 
         assertIntBinaryOperator(test, UncheckedException.class);
         assertIntBinaryOperator(alias, UncheckedException.class);
@@ -98,7 +94,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         IntBinaryOperator test = Unchecked.intBinaryOperator(intBinaryOperator, handler);
-        IntBinaryOperator alias = UncheckedIntBinaryOperator.unchecked(intBinaryOperator, handler);
+        IntBinaryOperator alias = CheckedIntBinaryOperator.unchecked(intBinaryOperator, handler);
 
         assertIntBinaryOperator(test, IllegalStateException.class);
         assertIntBinaryOperator(alias, IllegalStateException.class);
@@ -112,7 +108,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         LongBinaryOperator test = Unchecked.longBinaryOperator(longBinaryOperator);
-        LongBinaryOperator alias = UncheckedLongBinaryOperator.unchecked(longBinaryOperator);
+        LongBinaryOperator alias = CheckedLongBinaryOperator.unchecked(longBinaryOperator);
 
         assertLongBinaryOperator(test, UncheckedException.class);
         assertLongBinaryOperator(alias, UncheckedException.class);
@@ -129,7 +125,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         LongBinaryOperator test = Unchecked.longBinaryOperator(longBinaryOperator, handler);
-        LongBinaryOperator alias = UncheckedLongBinaryOperator.unchecked(longBinaryOperator, handler);
+        LongBinaryOperator alias = CheckedLongBinaryOperator.unchecked(longBinaryOperator, handler);
 
         assertLongBinaryOperator(test, IllegalStateException.class);
         assertLongBinaryOperator(alias, IllegalStateException.class);
@@ -143,7 +139,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         DoubleBinaryOperator test = Unchecked.doubleBinaryOperator(doubleBinaryOperator);
-        DoubleBinaryOperator alias = UncheckedDoubleBinaryOperator.unchecked(doubleBinaryOperator);
+        DoubleBinaryOperator alias = CheckedDoubleBinaryOperator.unchecked(doubleBinaryOperator);
 
         assertDoubleBinaryOperator(test, UncheckedException.class);
         assertDoubleBinaryOperator(alias, UncheckedException.class);
@@ -160,7 +156,7 @@ public class CheckedBinaryOperatorTest {
         };
 
         DoubleBinaryOperator test = Unchecked.doubleBinaryOperator(doubleBinaryOperator, handler);
-        DoubleBinaryOperator alias = UncheckedDoubleBinaryOperator.unchecked(doubleBinaryOperator, handler);
+        DoubleBinaryOperator alias = CheckedDoubleBinaryOperator.unchecked(doubleBinaryOperator, handler);
 
         assertDoubleBinaryOperator(test, IllegalStateException.class);
         assertDoubleBinaryOperator(alias, IllegalStateException.class);
