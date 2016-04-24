@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link Supplier} that allows for checked exceptions.
@@ -31,4 +33,18 @@ public interface CheckedSupplier<T> {
      * @return a result
      */
     T get() throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#supplier(CheckedSupplier)} for static import.
+     */
+    static <T> Supplier<T> unchecked(CheckedSupplier<T> supplier) {
+        return Unchecked.supplier(supplier);
+    }
+
+    /**
+     * Alias of {@link Unchecked#supplier(CheckedSupplier, Consumer)} for static import.
+     */
+    static <T> Supplier<T> unchecked(CheckedSupplier<T> supplier, Consumer<Throwable> handler) {
+        return Unchecked.supplier(supplier, handler);
+    }
 }

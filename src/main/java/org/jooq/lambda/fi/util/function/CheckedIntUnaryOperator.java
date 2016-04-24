@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.IntUnaryOperator;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link IntUnaryOperator} that allows for checked exceptions.
@@ -33,4 +35,17 @@ public interface CheckedIntUnaryOperator {
      */
     int applyAsInt(int operand) throws Throwable;
 
+    /**
+     * Alias of {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator)} for static import.
+     */
+    static IntUnaryOperator unchecked(CheckedIntUnaryOperator operator) {
+        return Unchecked.intUnaryOperator(operator);
+    }
+
+    /**
+     * Alias of {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator, Consumer)} for static import.
+     */
+    static IntUnaryOperator unchecked(CheckedIntUnaryOperator operator, Consumer<Throwable> handler) {
+        return Unchecked.intUnaryOperator(operator, handler);
+    }
 }

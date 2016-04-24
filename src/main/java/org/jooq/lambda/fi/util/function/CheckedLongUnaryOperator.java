@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.LongUnaryOperator;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link LongUnaryOperator} that allows for checked exceptions.
@@ -33,4 +35,17 @@ public interface CheckedLongUnaryOperator {
      */
     long applyAsLong(long operand) throws Throwable;
 
+    /**
+     * Alias of {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator)} for static import.
+     */
+    static LongUnaryOperator unchecked(CheckedLongUnaryOperator operator) {
+        return Unchecked.longUnaryOperator(operator);
+    }
+
+    /**
+     * Alias of {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator, Consumer)} for static import.
+     */
+    static LongUnaryOperator unchecked(CheckedLongUnaryOperator operator, Consumer<Throwable> handler) {
+        return Unchecked.longUnaryOperator(operator, handler);
+    }
 }

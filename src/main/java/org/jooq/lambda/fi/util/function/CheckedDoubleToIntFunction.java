@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.DoubleToIntFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link DoubleToIntFunction} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedDoubleToIntFunction {
      * @return the function result
      */
     int applyAsInt(double value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#doubleToIntFunction(CheckedDoubleToIntFunction)} for static import.
+     */
+    static DoubleToIntFunction unchecked(CheckedDoubleToIntFunction function) {
+        return Unchecked.doubleToIntFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#doubleToIntFunction(CheckedDoubleToIntFunction, Consumer)} for static import.
+     */
+    static DoubleToIntFunction unchecked(CheckedDoubleToIntFunction function, Consumer<Throwable> handler) {
+        return Unchecked.doubleToIntFunction(function, handler);
+    }
 }

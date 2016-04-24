@@ -16,6 +16,8 @@
 package org.jooq.lambda.fi.util;
 
 import java.util.Comparator;
+import java.util.function.Consumer;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link Comparator} that allows for checked exceptions.
@@ -29,4 +31,18 @@ public interface CheckedComparator<T> {
      * Compares its two arguments for order.
      */
     int compare(T o1, T o2) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#comparator(CheckedComparator)} for static import.
+     */
+    static <T> Comparator<T> unchecked(CheckedComparator<T> comparator) {
+        return Unchecked.comparator(comparator);
+    }
+
+    /**
+     * Alias of {@link Unchecked#comparator(CheckedComparator, Consumer)} for static import.
+     */
+    static <T> Comparator<T> unchecked(CheckedComparator<T> comparator, Consumer<Throwable> handler) {
+        return Unchecked.comparator(comparator, handler);
+    }
 }

@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link DoublePredicate} that allows for checked exceptions.
@@ -33,4 +35,18 @@ public interface CheckedDoublePredicate {
      * otherwise {@code false}
      */
     boolean test(double value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#doublePredicate(CheckedDoublePredicate)} for static import.
+     */
+    static DoublePredicate unchecked(CheckedDoublePredicate predicate) {
+        return Unchecked.doublePredicate(predicate);
+    }
+
+    /**
+     * Alias of {@link Unchecked#doublePredicate(CheckedDoublePredicate, Consumer)} for static import.
+     */
+    static DoublePredicate unchecked(CheckedDoublePredicate function, Consumer<Throwable> handler) {
+        return Unchecked.doublePredicate(function, handler);
+    }
 }

@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link ObjIntConsumer} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedObjIntConsumer<T> {
      * @param value the second input argument
      */
     void accept(T t, int value) throws Throwable;
+
+    /**
+     * Alias for {@link Unchecked#objIntConsumer(CheckedObjIntConsumer)} for static import.
+     */
+    static <T> ObjIntConsumer<T> unchecked(CheckedObjIntConsumer<T> consumer) {
+        return Unchecked.objIntConsumer(consumer);
+    }
+
+    /**
+     * Alias for {@link Unchecked#objIntConsumer(CheckedObjIntConsumer, Consumer)} for static import.
+     */
+    static <T> ObjIntConsumer<T> unchecked(CheckedObjIntConsumer<T> consumer, Consumer<Throwable> handler) {
+        return Unchecked.objIntConsumer(consumer, handler);
+    }
 }

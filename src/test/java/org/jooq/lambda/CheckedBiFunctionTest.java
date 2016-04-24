@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,16 +15,21 @@
  */
 package org.jooq.lambda;
 
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.ToDoubleBiFunction;
 import java.util.function.ToIntBiFunction;
 import java.util.function.ToLongBiFunction;
-
-import static org.junit.Assert.*;
+import org.jooq.lambda.fi.util.function.CheckedBiFunction;
+import org.jooq.lambda.fi.util.function.CheckedToDoubleBiFunction;
+import org.jooq.lambda.fi.util.function.CheckedToIntBiFunction;
+import org.jooq.lambda.fi.util.function.CheckedToLongBiFunction;
+import org.junit.Test;
 
 /**
  * @author Lukas Eder
@@ -33,102 +38,126 @@ public class CheckedBiFunctionTest {
 
     @Test
     public void testCheckedBiFunction() {
-        BiFunction<Object, Object, Object> test = Unchecked.biFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            }
-        );
+
+        final CheckedBiFunction<Object, Object, Object> biFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+
+        BiFunction<Object, Object, Object> test = Unchecked.biFunction(biFunction);
+        BiFunction<Object, Object, Object> alias = CheckedBiFunction.unchecked(biFunction);
 
         assertBiFunction(test, UncheckedException.class);
+        assertBiFunction(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedBiFunctionWithCustomHandler() {
-        BiFunction<Object, Object, Object> test = Unchecked.biFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedBiFunction<Object, Object, Object> biFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        BiFunction<Object, Object, Object> test = Unchecked.biFunction(biFunction, handler);
+        BiFunction<Object, Object, Object> alias = CheckedBiFunction.unchecked(biFunction, handler);
 
         assertBiFunction(test, IllegalStateException.class);
+        assertBiFunction(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedToIntBiFunction() {
-        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            }
-        );
+
+        final CheckedToIntBiFunction<Object, Object> toIntBiFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+
+        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(toIntBiFunction);
+        ToIntBiFunction<Object, Object> alias = CheckedToIntBiFunction.unchecked(toIntBiFunction);
 
         assertToIntBiFunction(test, UncheckedException.class);
+        assertToIntBiFunction(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedToIntBiFunctionWithCustomHandler() {
-        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedToIntBiFunction<Object, Object> toIntBiFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(toIntBiFunction, handler);
+        ToIntBiFunction<Object, Object> alias = CheckedToIntBiFunction.unchecked(toIntBiFunction, handler);
 
         assertToIntBiFunction(test, IllegalStateException.class);
+        assertToIntBiFunction(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedToLongBiFunction() {
-        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            }
-        );
+
+        final CheckedToLongBiFunction<Object, Object> toLongBiFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+
+        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(toLongBiFunction);
+        ToLongBiFunction<Object, Object> alias = CheckedToLongBiFunction.unchecked(toLongBiFunction);
 
         assertToLongBiFunction(test, UncheckedException.class);
+        assertToLongBiFunction(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedToLongBiFunctionWithCustomHandler() {
-        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedToLongBiFunction<Object, Object> toLongBiFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(toLongBiFunction, handler);
+        ToLongBiFunction<Object, Object> alias = CheckedToLongBiFunction.unchecked(toLongBiFunction, handler);
 
         assertToLongBiFunction(test, IllegalStateException.class);
+        assertToLongBiFunction(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedToDoubleBiFunction() {
-        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            }
-        );
+
+        final CheckedToDoubleBiFunction<Object, Object> toDoubleBiFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+
+        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(toDoubleBiFunction);
+        ToDoubleBiFunction<Object, Object> alias = CheckedToDoubleBiFunction.unchecked(toDoubleBiFunction);
 
         assertToDoubleBiFunction(test, UncheckedException.class);
+        assertToDoubleBiFunction(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedToDoubleBiFunctionWithCustomHandler() {
-        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedToDoubleBiFunction<Object, Object> toDoubleBiFunction = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(toDoubleBiFunction, handler);
+        ToDoubleBiFunction<Object, Object> alias = CheckedToDoubleBiFunction.unchecked(toDoubleBiFunction, handler);
 
         assertToDoubleBiFunction(test, IllegalStateException.class);
+        assertToDoubleBiFunction(alias, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertBiFunction(BiFunction<Object, Object, Object> test, Class<E> type) {
@@ -136,8 +165,7 @@ public class CheckedBiFunctionTest {
         try {
             test.apply(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
 
@@ -145,8 +173,7 @@ public class CheckedBiFunctionTest {
             Map<Object, Object> map = new LinkedHashMap<>();
             map.put("a", "b");
             map.computeIfPresent("a", test);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "a:b");
         }
     }
@@ -156,8 +183,7 @@ public class CheckedBiFunctionTest {
         try {
             test.applyAsInt(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
     }
@@ -167,8 +193,7 @@ public class CheckedBiFunctionTest {
         try {
             test.applyAsLong(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
     }
@@ -178,8 +203,7 @@ public class CheckedBiFunctionTest {
         try {
             test.applyAsDouble(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
     }

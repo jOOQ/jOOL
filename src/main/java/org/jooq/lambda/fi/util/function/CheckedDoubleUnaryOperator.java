@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.DoubleUnaryOperator;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link DoubleUnaryOperator} that allows for checked exceptions.
@@ -33,4 +35,17 @@ public interface CheckedDoubleUnaryOperator {
      */
     double applyAsDouble(double operand) throws Throwable;
 
+    /**
+     * Alias of {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator)} for static import.
+     */
+    static DoubleUnaryOperator unchecked(CheckedDoubleUnaryOperator operator) {
+        return Unchecked.doubleUnaryOperator(operator);
+    }
+
+    /**
+     * Alias of {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator, Consumer)} for static import.
+     */
+    static DoubleUnaryOperator unchecked(CheckedDoubleUnaryOperator operator, Consumer<Throwable> handler) {
+        return Unchecked.doubleUnaryOperator(operator, handler);
+    }
 }

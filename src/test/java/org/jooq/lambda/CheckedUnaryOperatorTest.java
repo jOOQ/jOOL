@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,10 @@
  */
 package org.jooq.lambda;
 
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import java.util.function.Consumer;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.IntUnaryOperator;
 import java.util.function.LongUnaryOperator;
@@ -25,8 +27,11 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import static org.junit.Assert.*;
+import org.jooq.lambda.fi.util.function.CheckedDoubleUnaryOperator;
+import org.jooq.lambda.fi.util.function.CheckedIntUnaryOperator;
+import org.jooq.lambda.fi.util.function.CheckedLongUnaryOperator;
+import org.jooq.lambda.fi.util.function.CheckedUnaryOperator;
+import org.junit.Test;
 
 /**
  * @author Lukas Eder
@@ -35,102 +40,126 @@ public class CheckedUnaryOperatorTest {
 
     @Test
     public void testCheckedUnaryOperator() {
-        UnaryOperator<Object> test = Unchecked.unaryOperator(
-            t -> {
-                throw new Exception("" + t);
-            }
-        );
+
+        final CheckedUnaryOperator<Object> unaryOperator = t -> {
+            throw new Exception("" + t);
+        };
+
+        UnaryOperator<Object> test = Unchecked.unaryOperator(unaryOperator);
+        UnaryOperator<Object> alias = CheckedUnaryOperator.unchecked(unaryOperator);
 
         assertUnaryOperator(test, UncheckedException.class);
+        assertUnaryOperator(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedUnaryOperatorWithCustomHandler() {
-        UnaryOperator<Object> test = Unchecked.unaryOperator(
-            t -> {
-                throw new Exception("" + t);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedUnaryOperator<Object> unaryOperator = t -> {
+            throw new Exception("" + t);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        UnaryOperator<Object> test = Unchecked.unaryOperator(unaryOperator, handler);
+        UnaryOperator<Object> alias = CheckedUnaryOperator.unchecked(unaryOperator, handler);
 
         assertUnaryOperator(test, IllegalStateException.class);
+        assertUnaryOperator(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedIntUnaryOperator() {
-        IntUnaryOperator test = Unchecked.intUnaryOperator(
-            i -> {
-                throw new Exception("" + i);
-            }
-        );
+
+        final CheckedIntUnaryOperator intUnaryOperator = i -> {
+            throw new Exception("" + i);
+        };
+
+        IntUnaryOperator test = Unchecked.intUnaryOperator(intUnaryOperator);
+        IntUnaryOperator alias = CheckedIntUnaryOperator.unchecked(intUnaryOperator);
 
         assertIntUnaryOperator(test, UncheckedException.class);
+        assertIntUnaryOperator(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedIntUnaryOperatorWithCustomHandler() {
-        IntUnaryOperator test = Unchecked.intUnaryOperator(
-            i -> {
-                throw new Exception("" + i);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedIntUnaryOperator intUnaryOperator = i -> {
+            throw new Exception("" + i);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        IntUnaryOperator test = Unchecked.intUnaryOperator(intUnaryOperator, handler);
+        IntUnaryOperator alias = CheckedIntUnaryOperator.unchecked(intUnaryOperator, handler);
 
         assertIntUnaryOperator(test, IllegalStateException.class);
+        assertIntUnaryOperator(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedLongUnaryOperator() {
-        LongUnaryOperator test = Unchecked.longUnaryOperator(
-            l -> {
-                throw new Exception("" + l);
-            }
-        );
+
+        final CheckedLongUnaryOperator longUnaryOperator = l -> {
+            throw new Exception("" + l);
+        };
+
+        LongUnaryOperator test = Unchecked.longUnaryOperator(longUnaryOperator);
+        LongUnaryOperator alias = CheckedLongUnaryOperator.unchecked(longUnaryOperator);
 
         assertLongUnaryOperator(test, UncheckedException.class);
+        assertLongUnaryOperator(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedLongUnaryOperatorWithCustomHandler() {
-        LongUnaryOperator test = Unchecked.longUnaryOperator(
-            l -> {
-                throw new Exception("" + l);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedLongUnaryOperator longUnaryOperator = l -> {
+            throw new Exception("" + l);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        LongUnaryOperator test = Unchecked.longUnaryOperator(longUnaryOperator, handler);
+        LongUnaryOperator alias = CheckedLongUnaryOperator.unchecked(longUnaryOperator, handler);
 
         assertLongUnaryOperator(test, IllegalStateException.class);
+        assertLongUnaryOperator(alias, IllegalStateException.class);
     }
 
     @Test
     public void testCheckedDoubleUnaryOperator() {
-        DoubleUnaryOperator test = Unchecked.doubleUnaryOperator(
-            d -> {
-                throw new Exception("" + d);
-            }
-        );
+
+        final CheckedDoubleUnaryOperator doubleUnaryOperator = d -> {
+            throw new Exception("" + d);
+        };
+
+        DoubleUnaryOperator test = Unchecked.doubleUnaryOperator(doubleUnaryOperator);
+        DoubleUnaryOperator alias = CheckedDoubleUnaryOperator.unchecked(doubleUnaryOperator);
 
         assertDoubleUnaryOperator(test, UncheckedException.class);
+        assertDoubleUnaryOperator(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedDoubleUnaryOperatorWithCustomHandler() {
-        DoubleUnaryOperator test = Unchecked.doubleUnaryOperator(
-            d -> {
-                throw new Exception("" + d);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedDoubleUnaryOperator doubleUnaryOperator = d -> {
+            throw new Exception("" + d);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        DoubleUnaryOperator test = Unchecked.doubleUnaryOperator(doubleUnaryOperator, handler);
+        DoubleUnaryOperator alias = CheckedDoubleUnaryOperator.unchecked(doubleUnaryOperator, handler);
 
         assertDoubleUnaryOperator(test, IllegalStateException.class);
+        assertDoubleUnaryOperator(alias, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertUnaryOperator(UnaryOperator<Object> test, Class<E> type) {
@@ -138,15 +167,13 @@ public class CheckedUnaryOperatorTest {
         try {
             test.apply(null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("a", "b", "c").map(test);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "a");
         }
     }
@@ -156,15 +183,13 @@ public class CheckedUnaryOperatorTest {
         try {
             test.applyAsInt(0);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).map(test);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "1");
         }
     }
@@ -174,15 +199,13 @@ public class CheckedUnaryOperatorTest {
         try {
             test.applyAsLong(0L);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).map(test);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "1");
         }
     }
@@ -192,15 +215,13 @@ public class CheckedUnaryOperatorTest {
         try {
             test.applyAsDouble(0.0);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).map(test);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "1.0");
         }
     }

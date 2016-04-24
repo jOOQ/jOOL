@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,9 +15,12 @@
  */
 package org.jooq.lambda;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import java.util.function.Consumer;
+import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Lukas Eder
@@ -26,27 +29,33 @@ public class CheckedRunnableTest {
 
     @Test
     public void testCheckedRunnable() {
-        Runnable test = Unchecked.runnable(
-            () -> {
-                throw new Exception("runnable");
-            }
-        );
+
+        final CheckedRunnable runnable = () -> {
+            throw new Exception("runnable");
+        };
+
+        Runnable test = Unchecked.runnable(runnable);
+        Runnable alias = CheckedRunnable.unchecked(runnable);
 
         assertRunnable(test, UncheckedException.class);
+        assertRunnable(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedRunnableWithCustomHandler() {
-        Runnable test = Unchecked.runnable(
-            () -> {
-                throw new Exception("runnable");
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedRunnable runnable = () -> {
+            throw new Exception("runnable");
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        Runnable test = Unchecked.runnable(runnable, handler);
+        Runnable alias = CheckedRunnable.unchecked(runnable, handler);
 
         assertRunnable(test, IllegalStateException.class);
+        assertRunnable(alias, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertRunnable(Runnable test, Class<E> type) {
@@ -54,8 +63,7 @@ public class CheckedRunnableTest {
         try {
             test.run();
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "runnable");
         }
     }
@@ -65,21 +73,20 @@ public class CheckedRunnableTest {
         assertEquals(Exception.class, e.getCause().getClass());
         assertEquals(message, e.getCause().getMessage());
     }
-    
+
     @Test
     public void testCheckedRunnableRethrowAll() {
         Runnable test = Unchecked.runnable(
-            () -> {
-                throw new Throwable("runnable");
-            },
-            Unchecked.RETHROW_ALL
+                () -> {
+                    throw new Throwable("runnable");
+                },
+                Unchecked.RETHROW_ALL
         );
 
         try {
             test.run();
             fail();
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             assertEquals("runnable", e.getMessage());
         }
     }

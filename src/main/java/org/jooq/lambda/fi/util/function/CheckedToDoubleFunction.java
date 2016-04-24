@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.ToDoubleFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link ToDoubleFunction} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedToDoubleFunction<T> {
      * @return the function result
      */
     double applyAsDouble(T value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction)} for static import.
+     */
+    static <T> ToDoubleFunction<T> unchecked(CheckedToDoubleFunction<T> function) {
+        return Unchecked.toDoubleFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction, Consumer)} for static import.
+     */
+    static <T> ToDoubleFunction<T> unchecked(CheckedToDoubleFunction<T> function, Consumer<Throwable> handler) {
+        return Unchecked.toDoubleFunction(function, handler);
+    }
 }

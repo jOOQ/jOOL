@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link Predicate} that allows for checked exceptions.
@@ -33,4 +35,18 @@ public interface CheckedPredicate<T> {
      * otherwise {@code false}
      */
     boolean test(T t) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#predicate(CheckedPredicate)} for static import.
+     */
+    static <T> Predicate<T> unchecked(CheckedPredicate<T> predicate) {
+        return Unchecked.predicate(predicate);
+    }
+
+    /**
+     * Alias of {@link Unchecked#predicate(CheckedPredicate, Consumer)} for static import.
+     */
+    static <T> Predicate<T> unchecked(CheckedPredicate<T> function, Consumer<Throwable> handler) {
+        return Unchecked.predicate(function, handler);
+    }
 }

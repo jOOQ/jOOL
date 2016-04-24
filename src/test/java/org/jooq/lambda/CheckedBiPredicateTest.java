@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,13 @@
  */
 package org.jooq.lambda;
 
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import java.util.function.BiPredicate;
-
-import static org.junit.Assert.*;
+import java.util.function.Consumer;
+import org.jooq.lambda.fi.util.function.CheckedBiPredicate;
+import org.junit.Test;
 
 /**
  * @author Lukas Eder
@@ -28,27 +30,33 @@ public class CheckedBiPredicateTest {
 
     @Test
     public void testCheckedBiPredicate() {
-        BiPredicate<Object, Object> test = Unchecked.biPredicate(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            }
-        );
+
+        final CheckedBiPredicate<Object, Object> biPredicate = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+
+        BiPredicate<Object, Object> test = Unchecked.biPredicate(biPredicate);
+        BiPredicate<Object, Object> alias = CheckedBiPredicate.unchecked(biPredicate);
 
         assertBiPredicate(test, UncheckedException.class);
+        assertBiPredicate(alias, UncheckedException.class);
     }
 
     @Test
     public void testCheckedBiPredicateWithCustomHandler() {
-        BiPredicate<Object, Object> test = Unchecked.biPredicate(
-            (t, u) -> {
-                throw new Exception(t + ":" + u);
-            },
-            e -> {
-                throw new IllegalStateException(e);
-            }
-        );
+
+        final CheckedBiPredicate<Object, Object> biPredicate = (t, u) -> {
+            throw new Exception(t + ":" + u);
+        };
+        final Consumer<Throwable> handler = e -> {
+            throw new IllegalStateException(e);
+        };
+
+        BiPredicate<Object, Object> test = Unchecked.biPredicate(biPredicate, handler);
+        BiPredicate<Object, Object> alias = CheckedBiPredicate.unchecked(biPredicate, handler);
 
         assertBiPredicate(test, IllegalStateException.class);
+        assertBiPredicate(alias, IllegalStateException.class);
     }
 
     private <E extends RuntimeException> void assertBiPredicate(BiPredicate<Object, Object> test, Class<E> type) {
@@ -56,8 +64,7 @@ public class CheckedBiPredicateTest {
         try {
             test.test(null, null);
             fail();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             assertException(type, e, "null:null");
         }
     }

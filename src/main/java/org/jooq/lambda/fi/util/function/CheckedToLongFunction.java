@@ -15,7 +15,9 @@
  */
 package org.jooq.lambda.fi.util.function;
 
+import java.util.function.Consumer;
 import java.util.function.ToLongFunction;
+import org.jooq.lambda.Unchecked;
 
 /**
  * A {@link ToLongFunction} that allows for checked exceptions.
@@ -32,4 +34,18 @@ public interface CheckedToLongFunction<T> {
      * @return the function result
      */
     long applyAsLong(T value) throws Throwable;
+
+    /**
+     * Alias of {@link Unchecked#toLongFunction(CheckedToLongFunction)} for static import.
+     */
+    static <T> ToLongFunction<T> unchecked(CheckedToLongFunction<T> function) {
+        return Unchecked.toLongFunction(function);
+    }
+
+    /**
+     * Alias of {@link Unchecked#toLongFunction(CheckedToLongFunction, Consumer)} for static import.
+     */
+    static <T> ToLongFunction<T> unchecked(CheckedToLongFunction<T> function, Consumer<Throwable> handler) {
+        return Unchecked.toLongFunction(function, handler);
+    }
 }
