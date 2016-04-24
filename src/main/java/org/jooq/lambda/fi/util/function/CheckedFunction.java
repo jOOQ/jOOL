@@ -36,14 +36,14 @@ public interface CheckedFunction<T, R> {
     R apply(T t) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#function(CheckedFunction)} for static import.
+     * @See {@link Unchecked#function(CheckedFunction)}
      */
     static <T, R> Function<T, R> unchecked(CheckedFunction<T, R> function) {
         return Unchecked.function(function);
     }
 
     /**
-     * Alias for {@link Unchecked#function(CheckedFunction, Consumer)} for static import.
+     * @See {@link Unchecked#function(CheckedFunction, Consumer)}
      */
     static <T, R> Function<T, R> unchecked(CheckedFunction<T, R> function, Consumer<Throwable> handler) {
         return Unchecked.function(function, handler);

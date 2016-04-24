@@ -35,14 +35,14 @@ public interface CheckedDoubleConsumer {
     void accept(double value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#doubleConsumer(CheckedDoubleConsumer)} for static import.
+     * @See {@link Unchecked#doubleConsumer(CheckedDoubleConsumer)}
      */
     static DoubleConsumer unchecked(CheckedDoubleConsumer consumer) {
         return Unchecked.doubleConsumer(consumer);
     }
 
     /**
-     * Alias of {@link Unchecked#doubleConsumer(CheckedDoubleConsumer, Consumer)} for static import.
+     * @See {@link Unchecked#doubleConsumer(CheckedDoubleConsumer, Consumer)}
      */
     static DoubleConsumer unchecked(CheckedDoubleConsumer consumer, Consumer<Throwable> handler) {
         return Unchecked.doubleConsumer(consumer, handler);

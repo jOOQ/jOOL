@@ -36,14 +36,14 @@ public interface CheckedIntFunction<R> {
     R apply(int value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#intFunction(CheckedIntFunction)} for static import.
+     * @See {@link Unchecked#intFunction(CheckedIntFunction)}
      */
     static <R> IntFunction<R> unchecked(CheckedIntFunction<R> function) {
         return Unchecked.intFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#intFunction(CheckedIntFunction, Consumer)} for static import.
+     * @See {@link Unchecked#intFunction(CheckedIntFunction, Consumer)}
      */
     static <R> IntFunction<R> unchecked(CheckedIntFunction<R> function, Consumer<Throwable> handler) {
         return Unchecked.intFunction(function, handler);

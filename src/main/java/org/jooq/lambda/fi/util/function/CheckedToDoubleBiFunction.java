@@ -37,14 +37,14 @@ public interface CheckedToDoubleBiFunction<T, U> {
     double applyAsDouble(T t, U u) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction)} for static import.
+     * @See {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction)}
      */
     static <T, U> ToDoubleBiFunction<T, U> unchecked(CheckedToDoubleBiFunction<T, U> function) {
         return Unchecked.toDoubleBiFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction, Consumer)} for static import.
+     * @See {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction, Consumer)}
      */
     static <T, U> ToDoubleBiFunction<T, U> unchecked(CheckedToDoubleBiFunction<T, U> function, Consumer<Throwable> handler) {
         return Unchecked.toDoubleBiFunction(function, handler);

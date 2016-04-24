@@ -28,14 +28,14 @@ import org.jooq.lambda.Unchecked;
 public interface CheckedBinaryOperator<T> extends CheckedBiFunction<T, T, T> {
 
     /**
-     * Alias of {@link Unchecked#binaryOperator(CheckedBinaryOperator)} for static import.
+     * @See {@link Unchecked#binaryOperator(CheckedBinaryOperator)}
      */
     static <T> BinaryOperator<T> unchecked(CheckedBinaryOperator<T> operator) {
         return Unchecked.binaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#binaryOperator(CheckedBinaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#binaryOperator(CheckedBinaryOperator, Consumer)}
      */
     static <T> BinaryOperator<T> unchecked(CheckedBinaryOperator<T> operator, Consumer<Throwable> handler) {
         return Unchecked.binaryOperator(operator, handler);

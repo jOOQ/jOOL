@@ -36,14 +36,14 @@ public interface CheckedIntUnaryOperator {
     int applyAsInt(int operand) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator)} for static import.
+     * @See {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator)}
      */
     static IntUnaryOperator unchecked(CheckedIntUnaryOperator operator) {
         return Unchecked.intUnaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator, Consumer)}
      */
     static IntUnaryOperator unchecked(CheckedIntUnaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.intUnaryOperator(operator, handler);

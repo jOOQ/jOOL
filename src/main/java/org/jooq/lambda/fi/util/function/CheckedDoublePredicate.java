@@ -37,14 +37,14 @@ public interface CheckedDoublePredicate {
     boolean test(double value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#doublePredicate(CheckedDoublePredicate)} for static import.
+     * @See {@link Unchecked#doublePredicate(CheckedDoublePredicate)}
      */
     static DoublePredicate unchecked(CheckedDoublePredicate predicate) {
         return Unchecked.doublePredicate(predicate);
     }
 
     /**
-     * Alias of {@link Unchecked#doublePredicate(CheckedDoublePredicate, Consumer)} for static import.
+     * @See {@link Unchecked#doublePredicate(CheckedDoublePredicate, Consumer)}
      */
     static DoublePredicate unchecked(CheckedDoublePredicate function, Consumer<Throwable> handler) {
         return Unchecked.doublePredicate(function, handler);

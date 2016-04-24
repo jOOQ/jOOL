@@ -37,14 +37,14 @@ public interface CheckedPredicate<T> {
     boolean test(T t) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#predicate(CheckedPredicate)} for static import.
+     * @See {@link Unchecked#predicate(CheckedPredicate)}
      */
     static <T> Predicate<T> unchecked(CheckedPredicate<T> predicate) {
         return Unchecked.predicate(predicate);
     }
 
     /**
-     * Alias of {@link Unchecked#predicate(CheckedPredicate, Consumer)} for static import.
+     * @See {@link Unchecked#predicate(CheckedPredicate, Consumer)}
      */
     static <T> Predicate<T> unchecked(CheckedPredicate<T> function, Consumer<Throwable> handler) {
         return Unchecked.predicate(function, handler);

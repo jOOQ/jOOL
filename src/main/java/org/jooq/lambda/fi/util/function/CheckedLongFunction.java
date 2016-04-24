@@ -36,14 +36,14 @@ public interface CheckedLongFunction<R> {
     R apply(long value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#longFunction(CheckedLongFunction)} for static import.
+     * @See {@link Unchecked#longFunction(CheckedLongFunction)}
      */
     static <R> LongFunction<R> unchecked(CheckedLongFunction<R> function) {
         return Unchecked.longFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#longFunction(CheckedLongFunction, Consumer)} for static import.
+     * @See {@link Unchecked#longFunction(CheckedLongFunction, Consumer)}
      */
     static <R> LongFunction<R> unchecked(CheckedLongFunction<R> function, Consumer<Throwable> handler) {
         return Unchecked.longFunction(function, handler);

@@ -36,14 +36,14 @@ public interface CheckedToIntFunction<T> {
     int applyAsInt(T value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#toIntFunction(CheckedToIntFunction)} for static import.
+     * @See {@link Unchecked#toIntFunction(CheckedToIntFunction)}
      */
     static <T> ToIntFunction<T> unchecked(CheckedToIntFunction<T> function) {
         return Unchecked.toIntFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#toIntFunction(CheckedToIntFunction, Consumer)} for static import.
+     * @See {@link Unchecked#toIntFunction(CheckedToIntFunction, Consumer)}
      */
     static <T> ToIntFunction<T> unchecked(CheckedToIntFunction<T> function, Consumer<Throwable> handler) {
         return Unchecked.toIntFunction(function, handler);

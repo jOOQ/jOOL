@@ -36,14 +36,14 @@ public interface CheckedLongUnaryOperator {
     long applyAsLong(long operand) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator)} for static import.
+     * @See {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator)}
      */
     static LongUnaryOperator unchecked(CheckedLongUnaryOperator operator) {
         return Unchecked.longUnaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator, Consumer)}
      */
     static LongUnaryOperator unchecked(CheckedLongUnaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.longUnaryOperator(operator, handler);

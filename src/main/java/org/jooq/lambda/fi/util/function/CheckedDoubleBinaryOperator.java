@@ -37,14 +37,14 @@ public interface CheckedDoubleBinaryOperator {
     double applyAsDouble(double left, double right) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator)} for static import.
+     * @See {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator)}
      */
     static DoubleBinaryOperator unchecked(CheckedDoubleBinaryOperator operator) {
         return Unchecked.doubleBinaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator, Consumer)}
      */
     static DoubleBinaryOperator unchecked(CheckedDoubleBinaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.doubleBinaryOperator(operator, handler);

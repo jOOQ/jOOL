@@ -35,14 +35,14 @@ public interface CheckedLongSupplier {
     long getAsLong() throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#longSupplier(CheckedLongSupplier)} for static import.
+     * @See {@link Unchecked#longSupplier(CheckedLongSupplier)}
      */
     static LongSupplier unchecked(CheckedLongSupplier supplier) {
         return Unchecked.longSupplier(supplier);
     }
 
     /**
-     * Alias of {@link Unchecked#longSupplier(CheckedLongSupplier, Consumer)} for static import.
+     * @See {@link Unchecked#longSupplier(CheckedLongSupplier, Consumer)}
      */
     static LongSupplier unchecked(CheckedLongSupplier supplier, Consumer<Throwable> handler) {
         return Unchecked.longSupplier(supplier, handler);

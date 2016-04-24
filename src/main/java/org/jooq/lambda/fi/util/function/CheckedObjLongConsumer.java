@@ -36,14 +36,14 @@ public interface CheckedObjLongConsumer<T> {
     void accept(T t, long value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#objLongConsumer(CheckedObjLongConsumer)} for static import.
+     * @See {@link Unchecked#objLongConsumer(CheckedObjLongConsumer)}
      */
     static <T> ObjLongConsumer<T> unchecked(CheckedObjLongConsumer<T> consumer) {
         return Unchecked.objLongConsumer(consumer);
     }
 
     /**
-     * Alias of {@link Unchecked#objLongConsumer(CheckedObjLongConsumer, Consumer)} for static import.
+     * @See {@link Unchecked#objLongConsumer(CheckedObjLongConsumer, Consumer)}
      */
     static <T> ObjLongConsumer<T> unchecked(CheckedObjLongConsumer<T> consumer, Consumer<Throwable> handler) {
         return Unchecked.objLongConsumer(consumer, handler);

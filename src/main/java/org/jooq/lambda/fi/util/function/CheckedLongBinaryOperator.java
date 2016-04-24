@@ -37,14 +37,14 @@ public interface CheckedLongBinaryOperator {
     long applyAsLong(long left, long right) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#longBinaryOperator(CheckedLongBinaryOperator)} for static import.
+     * @See {@link Unchecked#longBinaryOperator(CheckedLongBinaryOperator)}
      */
     static LongBinaryOperator unchecked(CheckedLongBinaryOperator operator) {
         return Unchecked.longBinaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#longBinaryOperator(CheckedLongBinaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#longBinaryOperator(CheckedLongBinaryOperator, Consumer)}
      */
     static LongBinaryOperator unchecked(CheckedLongBinaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.longBinaryOperator(operator, handler);

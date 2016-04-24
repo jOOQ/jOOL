@@ -36,14 +36,14 @@ public interface CheckedToLongFunction<T> {
     long applyAsLong(T value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#toLongFunction(CheckedToLongFunction)} for static import.
+     * @See {@link Unchecked#toLongFunction(CheckedToLongFunction)}
      */
     static <T> ToLongFunction<T> unchecked(CheckedToLongFunction<T> function) {
         return Unchecked.toLongFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#toLongFunction(CheckedToLongFunction, Consumer)} for static import.
+     * @See {@link Unchecked#toLongFunction(CheckedToLongFunction, Consumer)}
      */
     static <T> ToLongFunction<T> unchecked(CheckedToLongFunction<T> function, Consumer<Throwable> handler) {
         return Unchecked.toLongFunction(function, handler);

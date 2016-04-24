@@ -28,14 +28,14 @@ import org.jooq.lambda.Unchecked;
 public interface CheckedUnaryOperator<T> extends CheckedFunction<T, T> {
 
     /**
-     * Alias of {@link Unchecked#unaryOperator(CheckedUnaryOperator)} for static import.
+     * @See {@link Unchecked#unaryOperator(CheckedUnaryOperator)}
      */
     static <T> UnaryOperator<T> unchecked(CheckedUnaryOperator<T> operator) {
         return Unchecked.unaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#unaryOperator(CheckedUnaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#unaryOperator(CheckedUnaryOperator, Consumer)}
      */
     static <T> UnaryOperator<T> unchecked(CheckedUnaryOperator<T> operator, Consumer<Throwable> handler) {
         return Unchecked.unaryOperator(operator, handler);

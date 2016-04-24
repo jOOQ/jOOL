@@ -36,14 +36,14 @@ public interface CheckedIntToDoubleFunction {
     double applyAsDouble(int value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#intToDoubleFunction(CheckedIntToDoubleFunction)} for static import.
+     * @See {@link Unchecked#intToDoubleFunction(CheckedIntToDoubleFunction)}
      */
     static IntToDoubleFunction unchecked(CheckedIntToDoubleFunction function) {
         return Unchecked.intToDoubleFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#intToDoubleFunction(CheckedIntToDoubleFunction, Consumer)} for static import.
+     * @See {@link Unchecked#intToDoubleFunction(CheckedIntToDoubleFunction, Consumer)}
      */
     static IntToDoubleFunction unchecked(CheckedIntToDoubleFunction function, Consumer<Throwable> handler) {
         return Unchecked.intToDoubleFunction(function, handler);

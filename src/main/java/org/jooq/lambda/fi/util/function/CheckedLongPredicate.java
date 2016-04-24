@@ -37,14 +37,14 @@ public interface CheckedLongPredicate {
     boolean test(long value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#longPredicate(CheckedLongPredicate)} for static import.
+     * @See {@link Unchecked#longPredicate(CheckedLongPredicate)}
      */
     static LongPredicate unchecked(CheckedLongPredicate predicate) {
         return Unchecked.longPredicate(predicate);
     }
 
     /**
-     * Alias of {@link Unchecked#longPredicate(CheckedLongPredicate, Consumer)} for static import.
+     * @See {@link Unchecked#longPredicate(CheckedLongPredicate, Consumer)}
      */
     static LongPredicate unchecked(CheckedLongPredicate function, Consumer<Throwable> handler) {
         return Unchecked.longPredicate(function, handler);

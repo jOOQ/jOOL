@@ -36,14 +36,14 @@ public interface CheckedLongToDoubleFunction {
     double applyAsDouble(long value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#longToDoubleFunction(CheckedLongToDoubleFunction)} for static import.
+     * @See {@link Unchecked#longToDoubleFunction(CheckedLongToDoubleFunction)}
      */
     static LongToDoubleFunction unchecked(CheckedLongToDoubleFunction function) {
         return Unchecked.longToDoubleFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#longToDoubleFunction(CheckedLongToDoubleFunction, Consumer)} for static import.
+     * @See {@link Unchecked#longToDoubleFunction(CheckedLongToDoubleFunction, Consumer)}
      */
     static LongToDoubleFunction unchecked(CheckedLongToDoubleFunction function, Consumer<Throwable> handler) {
         return Unchecked.longToDoubleFunction(function, handler);

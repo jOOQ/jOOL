@@ -35,14 +35,14 @@ public interface CheckedIntConsumer {
     void accept(int value) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#intConsumer(CheckedIntConsumer)} for static import.
+     * @See {@link Unchecked#intConsumer(CheckedIntConsumer)}
      */
     static IntConsumer unchecked(CheckedIntConsumer consumer) {
         return Unchecked.intConsumer(consumer);
     }
 
     /**
-     * Alias of {@link Unchecked#intConsumer(CheckedIntConsumer, Consumer)} for static import.
+     * @See {@link Unchecked#intConsumer(CheckedIntConsumer, Consumer)}
      */
     static IntConsumer unchecked(CheckedIntConsumer consumer, Consumer<Throwable> handler) {
         return Unchecked.intConsumer(consumer, handler);

@@ -36,14 +36,14 @@ public interface CheckedDoubleUnaryOperator {
     double applyAsDouble(double operand) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator)} for static import.
+     * @See {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator)}
      */
     static DoubleUnaryOperator unchecked(CheckedDoubleUnaryOperator operator) {
         return Unchecked.doubleUnaryOperator(operator);
     }
 
     /**
-     * Alias of {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator, Consumer)} for static import.
+     * @See {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator, Consumer)}
      */
     static DoubleUnaryOperator unchecked(CheckedDoubleUnaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.doubleUnaryOperator(operator, handler);

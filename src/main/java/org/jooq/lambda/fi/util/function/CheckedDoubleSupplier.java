@@ -35,14 +35,14 @@ public interface CheckedDoubleSupplier {
     double getAsDouble() throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#doubleSupplier(CheckedDoubleSupplier)} for static import.
+     * @See {@link Unchecked#doubleSupplier(CheckedDoubleSupplier)}
      */
     static DoubleSupplier unchecked(CheckedDoubleSupplier supplier) {
         return Unchecked.doubleSupplier(supplier);
     }
 
     /**
-     * Alias of {@link Unchecked#doubleSupplier(CheckedDoubleSupplier, Consumer)} for static import.
+     * @See {@link Unchecked#doubleSupplier(CheckedDoubleSupplier, Consumer)}
      */
     static DoubleSupplier unchecked(CheckedDoubleSupplier supplier, Consumer<Throwable> handler) {
         return Unchecked.doubleSupplier(supplier, handler);

@@ -37,14 +37,14 @@ public interface CheckedToLongBiFunction<T, U> {
     long applyAsLong(T t, U u) throws Throwable;
 
     /**
-     * Alias of {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction)} for static import.
+     * @See {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction)}
      */
     static <T, U> ToLongBiFunction<T, U> unchecked(CheckedToLongBiFunction<T, U> function) {
         return Unchecked.toLongBiFunction(function);
     }
 
     /**
-     * Alias of {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction, Consumer)} for static import.
+     * @See {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction, Consumer)}
      */
     static <T, U> ToLongBiFunction<T, U> unchecked(CheckedToLongBiFunction<T, U> function, Consumer<Throwable> handler) {
         return Unchecked.toLongBiFunction(function, handler);
