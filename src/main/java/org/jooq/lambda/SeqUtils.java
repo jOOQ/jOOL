@@ -16,11 +16,9 @@
 package org.jooq.lambda;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Spliterator;
 import java.util.TreeSet;
 import java.util.function.Consumer;
@@ -36,6 +34,7 @@ import static org.jooq.lambda.Seq.seq;
  */
 class SeqUtils {
 
+    @SafeVarargs
     @SuppressWarnings("unchecked")
     static <T> Seq<T>[] seqs(Stream<? extends T>... streams) {
         if (streams == null)
@@ -44,6 +43,7 @@ class SeqUtils {
         return Seq.of(streams).map(Seq::seq).toArray(Seq[]::new);
     }
 
+    @SafeVarargs
     @SuppressWarnings("unchecked")
     static <T> Seq<T>[] seqs(Iterable<? extends T>... iterables) {
         if (iterables == null)
