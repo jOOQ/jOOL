@@ -46,7 +46,11 @@ public final class Unchecked {
 
         if (t instanceof RuntimeException)
             throw (RuntimeException) t;
-
+        
+        // [#230] Clients will not expect needing to handle this.
+        if (t instanceof InterruptedException)
+            Thread.currentThread().interrupt();
+        
         throw new UncheckedException(t);
     };
     
