@@ -4629,7 +4629,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap a <code>Reader</code> into a <code>Seq</code>.
      * <p>
      * Client code must close the <code>Reader</code>. All
-     * {@link IOException}'s thrown be the <code>InputStream</code> are wrapped
+     * {@link IOException}'s thrown be the <code>Reader</code> are wrapped
      * by {@link UncheckedIOException}'s.
      */
     static Seq<Character> seq(Reader reader) {
