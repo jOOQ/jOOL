@@ -20,6 +20,8 @@ import org.jooq.lambda.fi.util.function.*;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.jooq.lambda.fi.util.CheckedComparator;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Comparator;
 import java.util.function.*;
 
@@ -46,6 +48,9 @@ public final class Unchecked {
 
         if (t instanceof RuntimeException)
             throw (RuntimeException) t;
+
+        if (t instanceof IOException)
+            throw new UncheckedIOException((IOException) t);
         
         // [#230] Clients will not expect needing to handle this.
         if (t instanceof InterruptedException)
