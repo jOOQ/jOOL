@@ -920,6 +920,16 @@ public class SeqTest {
     }
 
     @Test
+    public void testSkipUntilWithSplitAtHead() {
+        // See https://github.com/jOOQ/jOOL/issues/236
+        Tuple2<Optional<Integer>, Seq<Integer>> split = 
+            Seq.of(1, 2, 3, 4, 5, 6).skipUntil(i -> i == 3).splitAtHead();
+        
+        assertEquals(Optional.of(3), split.v1);
+        assertEquals(Arrays.asList(4, 5, 6), split.v2.toList());
+    }
+
+    @Test
     public void testSkipUntilClosed() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
 
@@ -928,6 +938,16 @@ public class SeqTest {
         assertEquals(asList(4, 5), s.get().skipUntilClosed(i -> i == 3).toList());
         assertEquals(asList(5), s.get().skipUntilClosed(i -> i == 4).toList());
         assertEquals(asList(2, 3, 4, 5), s.get().skipUntilClosed(i -> true).toList());
+    }
+
+    @Test
+    public void testSkipUntilClosedWithSplitAtHead() {
+        // See https://github.com/jOOQ/jOOL/issues/236
+        Tuple2<Optional<Integer>, Seq<Integer>> split =
+            Seq.of(1, 2, 3, 4, 5, 6).skipUntilClosed(i -> i == 3).splitAtHead();
+        
+        assertEquals(Optional.of(4), split.v1);
+        assertEquals(Arrays.asList(5, 6), split.v2.toList());
     }
 
     @Test

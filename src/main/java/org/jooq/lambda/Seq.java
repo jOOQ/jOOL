@@ -7636,15 +7636,25 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Seq<T> skipUntil(Stream<? extends T> stream, Predicate<? super T> predicate) {
-        boolean[] test = { false };
+        // [0]: true = we've skipped values until the predicate yielded true
+        // [1]: true = there is at least one value that was considered for skipping
+        boolean[] test = { false, false };
 
-        return SeqUtils.transform(stream, (delegate, action) -> !test[0]
-            ?   delegate.tryAdvance(t -> {
-                    if (test[0] = predicate.test(t))
-                        action.accept(t);
-                })
-            :   delegate.tryAdvance(action)
-        );
+        return SeqUtils.transform(stream, (delegate, action) -> {
+            if (test[0]) {
+                return delegate.tryAdvance(action);
+            }
+            else {
+                do {
+                    test[1] = delegate.tryAdvance(t -> {
+                        if (test[0] = predicate.test(t))
+                            action.accept(t);
+                    });
+                }
+                while (test[1] && !test[0]);
+                return test[0];
+            }
+        });
     }
 
     /**
@@ -7658,12 +7668,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Seq<T> skipUntilClosed(Stream<? extends T> stream, Predicate<? super T> predicate) {
-        boolean[] test = { false };
+        // [0]: true = we've skipped values until the predicate yielded true
+        // [1]: true = there is at least one value that was considered for skipping
+        boolean[] test = { false, false };
 
-        return SeqUtils.transform(stream, (delegate, action) -> !test[0]
-            ? delegate.tryAdvance(t -> test[0] = predicate.test(t))
-            : delegate.tryAdvance(action)
-        );
+        return SeqUtils.transform(stream, (delegate, action) -> {
+            if (!test[0]) {
+                do {
+                    test[1] = delegate.tryAdvance(t -> test[0] = predicate.test(t));
+                }
+                while (test[1] && !test[0]);
+            }
+            
+            return test[0] && delegate.tryAdvance(action);
+        });
     }
 
     /**
@@ -8031,7 +8049,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     static <T> Tuple2<Optional<T>, Seq<T>> splitAtHead(Stream<T> stream) {
         Iterator<T> it = stream.iterator();
-        return tuple(it.hasNext() ? Optional.of(it.next()) : Optional.empty(), seq(it));
+        return tuple(it.hasNext() ? 
+                Optional.of(it.next()) : 
+                Optional.empty(), seq(it));
     }
 
     // Methods taken from LINQ
