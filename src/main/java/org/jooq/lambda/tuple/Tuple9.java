@@ -378,69 +378,69 @@ public class Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> implements Tuple, Compar
      * Apply this tuple as arguments to a function.
      */
     public final <R> R map(Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> function) {
-        return function.apply(this);
+        return function.apply(v1, v2, v3, v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U1> Tuple9<U1, T2, T3, T4, T5, T6, T7, T8, T9> map1(Function1<? super T1, ? extends U1> function) {
+    public final <U1> Tuple9<U1, T2, T3, T4, T5, T6, T7, T8, T9> map1(Function<? super T1, ? extends U1> function) {
         return Tuple.tuple(function.apply(v1), v2, v3, v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U2> Tuple9<T1, U2, T3, T4, T5, T6, T7, T8, T9> map2(Function1<? super T2, ? extends U2> function) {
+    public final <U2> Tuple9<T1, U2, T3, T4, T5, T6, T7, T8, T9> map2(Function<? super T2, ? extends U2> function) {
         return Tuple.tuple(v1, function.apply(v2), v3, v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 3 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U3> Tuple9<T1, T2, U3, T4, T5, T6, T7, T8, T9> map3(Function1<? super T3, ? extends U3> function) {
+    public final <U3> Tuple9<T1, T2, U3, T4, T5, T6, T7, T8, T9> map3(Function<? super T3, ? extends U3> function) {
         return Tuple.tuple(v1, v2, function.apply(v3), v4, v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 4 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U4> Tuple9<T1, T2, T3, U4, T5, T6, T7, T8, T9> map4(Function1<? super T4, ? extends U4> function) {
+    public final <U4> Tuple9<T1, T2, T3, U4, T5, T6, T7, T8, T9> map4(Function<? super T4, ? extends U4> function) {
         return Tuple.tuple(v1, v2, v3, function.apply(v4), v5, v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 5 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U5> Tuple9<T1, T2, T3, T4, U5, T6, T7, T8, T9> map5(Function1<? super T5, ? extends U5> function) {
+    public final <U5> Tuple9<T1, T2, T3, T4, U5, T6, T7, T8, T9> map5(Function<? super T5, ? extends U5> function) {
         return Tuple.tuple(v1, v2, v3, v4, function.apply(v5), v6, v7, v8, v9);
     }
 
     /**
      * Apply attribute 6 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U6> Tuple9<T1, T2, T3, T4, T5, U6, T7, T8, T9> map6(Function1<? super T6, ? extends U6> function) {
+    public final <U6> Tuple9<T1, T2, T3, T4, T5, U6, T7, T8, T9> map6(Function<? super T6, ? extends U6> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, function.apply(v6), v7, v8, v9);
     }
 
     /**
      * Apply attribute 7 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U7> Tuple9<T1, T2, T3, T4, T5, T6, U7, T8, T9> map7(Function1<? super T7, ? extends U7> function) {
+    public final <U7> Tuple9<T1, T2, T3, T4, T5, T6, U7, T8, T9> map7(Function<? super T7, ? extends U7> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, v6, function.apply(v7), v8, v9);
     }
 
     /**
      * Apply attribute 8 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U8> Tuple9<T1, T2, T3, T4, T5, T6, T7, U8, T9> map8(Function1<? super T8, ? extends U8> function) {
+    public final <U8> Tuple9<T1, T2, T3, T4, T5, T6, T7, U8, T9> map8(Function<? super T8, ? extends U8> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, v6, v7, function.apply(v8), v9);
     }
 
     /**
      * Apply attribute 9 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, U9> map9(Function1<? super T9, ? extends U9> function) {
+    public final <U9> Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, U9> map9(Function<? super T9, ? extends U9> function) {
         return Tuple.tuple(v1, v2, v3, v4, v5, v6, v7, v8, function.apply(v9));
     }
 

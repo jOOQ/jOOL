@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -275,21 +276,21 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function2<? super T1, ? super T2, ? extends R> function) {
-        return function.apply(this);
+    public final <R> R map(BiFunction<? super T1, ? super T2, ? extends R> function) {
+        return function.apply(v1, v2);
     }
 
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U1> Tuple2<U1, T2> map1(Function1<? super T1, ? extends U1> function) {
+    public final <U1> Tuple2<U1, T2> map1(Function<? super T1, ? extends U1> function) {
         return Tuple.tuple(function.apply(v1), v2);
     }
 
     /**
      * Apply attribute 2 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U2> Tuple2<T1, U2> map2(Function1<? super T2, ? extends U2> function) {
+    public final <U2> Tuple2<T1, U2> map2(Function<? super T2, ? extends U2> function) {
         return Tuple.tuple(v1, function.apply(v2));
     }
 

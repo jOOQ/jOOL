@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function0;
@@ -184,8 +185,8 @@ public class Tuple0 implements Tuple, Comparable<Tuple0>, Serializable, Cloneabl
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function0<? extends R> function) {
-        return function.apply(this);
+    public final <R> R map(Supplier<? extends R> function) {
+        return function.get();
     }
 
     @Override

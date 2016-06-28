@@ -207,14 +207,14 @@ public class Tuple1<T1> implements Tuple, Comparable<Tuple1<T1>>, Serializable, 
     /**
      * Apply this tuple as arguments to a function.
      */
-    public final <R> R map(Function1<? super T1, ? extends R> function) {
-        return function.apply(this);
+    public final <R> R map(Function<? super T1, ? extends R> function) {
+        return function.apply(v1);
     }
 
     /**
      * Apply attribute 1 as argument to a function and return a new tuple with the substituted argument.
      */
-    public final <U1> Tuple1<U1> map1(Function1<? super T1, ? extends U1> function) {
+    public final <U1> Tuple1<U1> map1(Function<? super T1, ? extends U1> function) {
         return Tuple.tuple(function.apply(v1));
     }
 
