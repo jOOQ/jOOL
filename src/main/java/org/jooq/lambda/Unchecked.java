@@ -65,6 +65,13 @@ public final class Unchecked {
     public static final Consumer<Throwable> RETHROW_ALL = t -> {
         SeqUtils.sneakyThrow(t);
     };
+    
+    /**
+     * "sneaky-throw" a checked exception or throwable.
+     */
+    public static final void throwChecked(Throwable t) {
+        SeqUtils.sneakyThrow(t);
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Wrappers for java.lang.Runnable
