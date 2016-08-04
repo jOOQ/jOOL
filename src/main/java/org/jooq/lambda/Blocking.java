@@ -71,7 +71,7 @@ import java.util.function.UnaryOperator;
 public final class Blocking {
 
     public static Runnable runnable(Runnable runnable) {
-        return () -> supplier(() -> { runnable.run(); return null; });
+        return () -> supplier(() -> { runnable.run(); return null; }).get();
     }
     
     public static <T, U> BiConsumer<T, U> biConsumer(BiConsumer<? super T, ? super U> biConsumer) {
