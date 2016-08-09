@@ -750,10 +750,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
     
     /**
-     * Get a single element from the stream given a predicate.
+     * Get the first element from the stream given a predicate.
      */
     default Optional<T> findFirst(Predicate<? super T> predicate) {
         return filter(predicate).findFirst();
+    }
+    
+    /**
+     * Get the last element from the stream.
+     */
+    default Optional<T> findLast() {
+        return reduce((a, b) -> b);
+    }
+    
+    /**
+     * Get a last element from the stream given a predicate.
+     */
+    default Optional<T> findLast(Predicate<? super T> predicate) {
+        return filter(predicate).findLast();
     }
 
     /**
