@@ -1686,9 +1686,9 @@ public class SeqTest {
         
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).findLast(t -> false));
         assertEquals(Optional.empty(), Seq.of(1, 2, 3).findLast(t -> t < 1));
-        assertEquals(Optional.of(1), Seq.of(1, 2, 3).findFirst(t -> t < 2));
-        assertEquals(Optional.of(2), Seq.of(1, 2, 3).findFirst(t -> t < 3));
-        assertEquals(Optional.of(3), Seq.of(1, 2, 3).findFirst(t -> t < 4));
+        assertEquals(Optional.of(1), Seq.of(1, 2, 3).findLast(t -> t < 2));
+        assertEquals(Optional.of(2), Seq.of(1, 2, 3).findLast(t -> t < 3));
+        assertEquals(Optional.of(3), Seq.of(1, 2, 3).findLast(t -> t < 4));
     }
 
     @Test
