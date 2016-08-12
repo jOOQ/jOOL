@@ -1692,6 +1692,21 @@ public class SeqTest {
     }
 
     @Test
+    public void testIndexOf() {
+        assertEquals(OptionalLong.empty(), Seq.empty().indexOf(0));
+        assertEquals(OptionalLong.empty(), Seq.of(1, 2, 3).indexOf(4));
+        assertEquals(OptionalLong.of(0), Seq.of(1).indexOf(1));
+        assertEquals(OptionalLong.of(1), Seq.of(1, 2).indexOf(2));
+        assertEquals(OptionalLong.of(2), Seq.of(1, 2, 3).indexOf(3));
+
+        assertEquals(OptionalLong.empty(), Seq.of(1, 2, 3).indexOf(t -> false));
+        assertEquals(OptionalLong.empty(), Seq.of(1, 2, 3).indexOf(t -> t > 3));
+        assertEquals(OptionalLong.of(2), Seq.of(1, 2, 3).indexOf(t -> t > 2));
+        assertEquals(OptionalLong.of(1), Seq.of(1, 2, 3).indexOf(t -> t > 1));
+        assertEquals(OptionalLong.of(0), Seq.of(1, 2, 3).indexOf(t -> t > 0));
+    }
+
+    @Test
     public void testCount() {
         assertEquals(0L, Seq.of().count());
         assertEquals(0L, Seq.of().countDistinct());
