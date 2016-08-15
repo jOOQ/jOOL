@@ -4534,6 +4534,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Seq<T> seq(Stream<? extends T> stream) {
+        if (stream == null)
+            return Seq.empty();
+        
         if (stream instanceof Seq)
             return (Seq<T>) stream;
 
@@ -4545,6 +4548,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SuppressWarnings("unchecked")
     static <T> Seq<T> seq(Seq<? extends T> stream) {
+        if (stream == null)
+            return Seq.empty();
+        
         return (Seq<T>) stream;
     }
 
@@ -4552,6 +4558,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap a <code>IntStream</code> into a <code>Seq</code>.
      */
     static Seq<Integer> seq(IntStream stream) {
+        if (stream == null)
+            return Seq.empty();
+        
         return new SeqImpl<>(stream.boxed());
     }
 
@@ -4559,6 +4568,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap a <code>IntStream</code> into a <code>Seq</code>.
      */
     static Seq<Long> seq(LongStream stream) {
+        if (stream == null)
+            return Seq.empty();
+        
         return new SeqImpl<>(stream.boxed());
     }
 
@@ -4566,6 +4578,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap a <code>IntStream</code> into a <code>Seq</code>.
      */
     static Seq<Double> seq(DoubleStream stream) {
+        if (stream == null)
+            return Seq.empty();
+        
         return new SeqImpl<>(stream.boxed());
     }
 
@@ -4573,6 +4588,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap an <code>Iterable</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Iterable<? extends T> iterable) {
+        if (iterable == null)
+            return Seq.empty();
+        
         return seq(iterable.iterator());
     }
 
@@ -4580,6 +4598,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap an <code>Iterator</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Iterator<? extends T> iterator) {
+        if (iterator == null)
+            return Seq.empty();
+        
         return seq(spliteratorUnknownSize(iterator, ORDERED));
     }
 
@@ -4587,6 +4608,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap an <code>Enumeration</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Enumeration<T> enumeration) {
+        if (enumeration == null)
+            return Seq.empty();
+        
         return Seq.seq(new Iterator<T>() {
             @Override
             public boolean hasNext() {
@@ -4604,6 +4628,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap a <code>Spliterator</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Spliterator<? extends T> spliterator) {
+        if (spliterator == null)
+            return Seq.empty();
+        
         return seq(StreamSupport.stream(spliterator, false));
     }
 
@@ -4611,6 +4638,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap a <code>Map</code> into a <code>Seq</code>.
      */
     static <K, V> Seq<Tuple2<K, V>> seq(Map<? extends K, ? extends V> map) {
+        if (map == null)
+            return Seq.empty();
+        
         return seq(map.entrySet()).map(e -> tuple(e.getKey(), e.getValue()));
     }
 
@@ -4618,6 +4648,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap an <code>Optional</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Optional<? extends T> optional) {
+        
+        // [#245] For the special kind of ugly client code...
+        if (optional == null)
+            return Seq.empty();
+        
         return optional.map(Seq::of).orElseGet(Seq::empty);
     }
 
@@ -4626,6 +4661,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SafeVarargs
     static <T> Seq<T> seq(Optional<? extends T>... optionals) {
+        if (optionals == null)
+            return Seq.empty();
+        
         return of(optionals).filter(Optional::isPresent).map(Optional::get);
     }
 
@@ -4637,6 +4675,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * by {@link UncheckedIOException}'s.
      */
     static Seq<Byte> seq(InputStream is) {
+        if (is == null)
+            return Seq.empty();
+        
         FunctionalSpliterator<Byte> spliterator = consumer -> {
             try {
                 int value = is.read();
@@ -4662,6 +4703,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * by {@link UncheckedIOException}'s.
      */
     static Seq<Character> seq(Reader reader) {
+        if (reader == null)
+            return Seq.empty();
+        
         FunctionalSpliterator<Character> spliterator = consumer -> {
             try {
                 int value = reader.read();
