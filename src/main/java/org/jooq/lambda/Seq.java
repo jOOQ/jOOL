@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -768,6 +769,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default Optional<T> findLast(Predicate<? super T> predicate) {
         return filter(predicate).findLast();
+    }
+
+    /**
+     * Get the index of the first element from the stream equal to given element.
+     */
+    default OptionalLong indexOf(T element) {
+        return indexOf(Predicate.isEqual(element));
+    }
+
+    /**
+     * Get the index of the first element from the stream matching given predicate.
+     */
+    default OptionalLong indexOf(Predicate<? super T> predicate) {
+        return indexOf(iterator(), predicate);
     }
 
     /**
@@ -2978,6 +2993,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default Seq<Tuple2<T, Long>> zipWithIndex() {
         return zipWithIndex(this);
+    }
+
+    /**
+     * Get the index of the first element matching the given predicate.
+     */
+    static <T> OptionalLong indexOf(Iterator<T> iterator, Predicate<? super T> predicate) {
+        for (long index = 0; iterator.hasNext(); index++) {
+            if (predicate.test(iterator.next())) {
+                return OptionalLong.of(index);
+            }
+        }
+        return OptionalLong.empty();
     }
 
     /**
