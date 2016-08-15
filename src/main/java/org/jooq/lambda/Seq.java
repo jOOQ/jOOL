@@ -782,7 +782,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Get the index of the first element from the stream matching given predicate.
      */
     default OptionalLong indexOf(Predicate<? super T> predicate) {
-        return indexOf(iterator(), predicate);
+        return SeqUtils.indexOf(iterator(), predicate);
     }
 
     /**
@@ -2993,18 +2993,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default Seq<Tuple2<T, Long>> zipWithIndex() {
         return zipWithIndex(this);
-    }
-
-    /**
-     * Get the index of the first element matching the given predicate.
-     */
-    static <T> OptionalLong indexOf(Iterator<T> iterator, Predicate<? super T> predicate) {
-        for (long index = 0; iterator.hasNext(); index++) {
-            if (predicate.test(iterator.next())) {
-                return OptionalLong.of(index);
-            }
-        }
-        return OptionalLong.empty();
     }
 
     /**

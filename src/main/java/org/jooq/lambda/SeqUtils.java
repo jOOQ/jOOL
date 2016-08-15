@@ -27,6 +27,9 @@ import java.util.stream.Stream;
 import org.jooq.lambda.tuple.Tuple2;
 
 import static java.util.Comparator.comparing;
+import java.util.Iterator;
+import java.util.OptionalLong;
+import java.util.function.Predicate;
 import static org.jooq.lambda.Seq.seq;
 
 /**
@@ -104,6 +107,14 @@ class SeqUtils {
         );
     }
 
+    static <T> OptionalLong indexOf(Iterator<T> iterator, Predicate<? super T> predicate) {
+        for (long index = 0; iterator.hasNext(); index++)
+            if (predicate.test(iterator.next()))
+                return OptionalLong.of(index);
+
+        return OptionalLong.empty();
+    }
+    
     /**
      * Sneaky throw any type of Throwable.
      */
