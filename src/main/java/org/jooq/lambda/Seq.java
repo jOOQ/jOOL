@@ -3369,6 +3369,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      *
      * @see #cast(Stream, Class)
+     * @see #ofType(Class) Seq.ofType(Class) If you want to filter and cast
      */
     default <U> Seq<U> cast(Class<? extends U> type) {
         return cast(this, type);
@@ -8150,6 +8151,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // ClassCastException
      * Seq.of(1, "a", 2, "b", 3).cast(Integer.class)
      * </pre></code>
+     * 
+     * @see #ofType(Stream, Class) Seq.ofType(Stream, Class) If you want to filter and cast
      */
     static <T, U> Seq<U> cast(Stream<? extends T> stream, Class<? extends U> type) {
         return seq(stream).map(type::cast);
