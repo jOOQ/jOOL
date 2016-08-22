@@ -632,26 +632,21 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Optional<Long>> rankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
-            () -> new ArrayList<U>(),
-            (l, v) -> l.add(function.apply(v)),
+            () -> new long[] { -1L },
+            (l, v) -> { 
+                if (l[0] == -1L)
+                    l[0] = 0L;
+                
+                if (comparator.compare(value, function.apply(v)) > 0)
+                    l[0] = l[0] + 1L;
+            },
             (l1, l2) -> {
-                l1.addAll(l2);
+                l1[0] = (l1[0] == -1 ? 0L : l1[0]) + 
+                        (l2[0] == -1 ? 0L : l2[0]);
+                
                 return l1;
             },
-            l -> {
-                int size = l.size();
-
-                if (size == 0)
-                    return Optional.empty();
-
-                // TODO: Find a faster implementation using binarySearch
-                l.sort(comparator);
-                for (int i = 0; i < size; i++)
-                    if (comparator.compare(value, l.get(i)) <= 0)
-                        return Optional.of((long) i);
-
-                return Optional.of((long) size);
-            }
+            l -> l[0] == -1 ? Optional.empty() : Optional.of((long) l[0])
         );
     }
 
@@ -681,27 +676,25 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Optional<Long>> denseRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
-            () -> new TreeSet<U>(comparator),
-            (l, v) -> l.add(function.apply(v)),
+            () -> (TreeSet<U>[]) new TreeSet[1],
+            (l, v) -> {
+                if (l[0] == null)
+                    l[0] = new TreeSet<>(comparator);
+                
+                U u = function.apply(v);
+                if (comparator.compare(value, u) > 0)
+                    l[0].add(u);
+            },
             (l1, l2) -> {
-                l1.addAll(l2);
+                if (l2[0] == null)
+                    return l1;
+                else if (l1[0] == null)
+                    return l2;
+                
+                l1[0].addAll(l2[0]);
                 return l1;
             },
-            l -> {
-                int size = l.size();
-
-                if (size == 0)
-                    return Optional.empty();
-
-                // TODO: Find a faster implementation using binarySearch
-                int i = -1;
-                Iterator<U> it = l.iterator();
-                while (it.hasNext() && i++ < l.size())
-                    if (comparator.compare(value, it.next()) <= 0)
-                        return Optional.of((long) i);
-
-                return Optional.of((long) size);
-            }
+            l -> l[0] == null ? Optional.empty() : Optional.of((long) l[0].size())
         );
     }
 
