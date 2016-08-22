@@ -67,7 +67,7 @@ public final class Unchecked {
     /**
      * "sneaky-throw" a checked exception or throwable.
      */
-    public static final void throwChecked(Throwable t) {
+    public static void throwChecked(Throwable t) {
         SeqUtils.sneakyThrow(t);
     }
 
