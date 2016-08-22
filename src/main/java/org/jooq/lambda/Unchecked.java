@@ -211,6 +211,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
