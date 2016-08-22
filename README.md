@@ -167,6 +167,15 @@ Arrays.stream(dir.listFiles()).forEach(
 );
 ```
 
+... or if you fancy method references:
+
+```java
+Arrays.stream(dir.listFiles())
+        .map(Unchecked.function(File::getCanonicalPath))
+        .forEach(System.out::println);
+);
+```
+
 Maven
 -----
 ```
