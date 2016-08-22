@@ -250,7 +250,7 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>MIN()</code> function.
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         class Accumulator {
@@ -316,7 +316,7 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
+     * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
      */
     public static <T, U> Collector<T, ?, Seq<T>> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         class Accumulator {
