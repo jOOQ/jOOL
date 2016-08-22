@@ -62,14 +62,12 @@ public final class Unchecked {
     /**
      * A {@link Consumer} that rethrows all exceptions, including checked exceptions.
      */
-    public static final Consumer<Throwable> RETHROW_ALL = t -> {
-        SeqUtils.sneakyThrow(t);
-    };
+    public static final Consumer<Throwable> RETHROW_ALL = SeqUtils::sneakyThrow;
     
     /**
      * "sneaky-throw" a checked exception or throwable.
      */
-    public static final void throwChecked(Throwable t) {
+    public static void throwChecked(Throwable t) {
         SeqUtils.sneakyThrow(t);
     }
 
@@ -211,6 +209,8 @@ public final class Unchecked {
             }
             catch (Throwable e) {
                 handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
             }
         };
     }
