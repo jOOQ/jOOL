@@ -645,15 +645,20 @@ public class Agg {
                     return Optional.empty();
 
                 l.sort(comparator);
-                int index = Collections.binarySearch(l, value, comparator);
-                if (index < 0)
-                    index = -index - 1;
-                else
-                    while (index > 0 && l.get(index) == l.get(index - 1))
-                        --index;
+                int index = binarySearchRank(l, value, comparator);
                 return Optional.of((long) index);
             }
         );
+    }
+
+    private static <U> int binarySearchRank(ArrayList<U> l, U value, Comparator<? super U> comparator) {
+        int index = Collections.binarySearch(l, value, comparator);
+        if (index < 0)
+            index = -index - 1;
+        else
+            while (index > 0 && l.get(index) == l.get(index - 1))
+                --index;
+        return index;
     }
 
     /**
@@ -738,12 +743,7 @@ public class Agg {
                     return Optional.empty();
 
                 l.sort(comparator);
-                int index = Collections.binarySearch(l, value, comparator);
-                if (index < 0)
-                    index = -index - 1;
-                else
-                    while (index > 0 && l.get(index) == l.get(index - 1))
-                        --index;
+                int index = binarySearchRank(l, value, comparator);
                 return Optional.of((double) index / (double) size);
             }
         );
