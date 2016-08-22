@@ -651,7 +651,7 @@ public class Agg {
         );
     }
 
-    private static <U> int binarySearchRank(ArrayList<U> l, U value, Comparator<? super U> comparator) {
+    private static <U> int binarySearchRank(List<? extends U> l, U value, Comparator<? super U> comparator) {
         int index = Collections.binarySearch(l, value, comparator);
         if (index < 0)
             index = -index - 1;
