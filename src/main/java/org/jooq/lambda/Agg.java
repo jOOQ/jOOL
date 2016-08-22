@@ -644,15 +644,21 @@ public class Agg {
                 if (size == 0)
                     return Optional.empty();
 
-                // TODO: Find a faster implementation using binarySearch
                 l.sort(comparator);
-                for (int i = 0; i < size; i++)
-                    if (comparator.compare(value, l.get(i)) <= 0)
-                        return Optional.of((long) i);
-
-                return Optional.of((long) size);
+                int index = binarySearchRank(l, value, comparator);
+                return Optional.of((long) index);
             }
         );
+    }
+
+    private static <U> int binarySearchRank(List<? extends U> l, U value, Comparator<? super U> comparator) {
+        int index = Collections.binarySearch(l, value, comparator);
+        if (index < 0)
+            index = -index - 1;
+        else
+            while (index > 0 && l.get(index) == l.get(index - 1))
+                --index;
+        return index;
     }
 
     /**
@@ -693,14 +699,7 @@ public class Agg {
                 if (size == 0)
                     return Optional.empty();
 
-                // TODO: Find a faster implementation using binarySearch
-                int i = -1;
-                Iterator<U> it = l.iterator();
-                while (it.hasNext() && i++ < l.size())
-                    if (comparator.compare(value, it.next()) <= 0)
-                        return Optional.of((long) i);
-
-                return Optional.of((long) size);
+                return Optional.of((long) l.headSet(value).size());
             }
         );
     }
@@ -743,13 +742,9 @@ public class Agg {
                 if (size == 0)
                     return Optional.empty();
 
-                // TODO: Find a faster implementation using binarySearch
                 l.sort(comparator);
-                for (int i = 0; i < size; i++)
-                    if (comparator.compare(value, l.get(i)) <= 0)
-                        return Optional.of((double) i / (double) size);
-
-                return Optional.of(1.0);
+                int index = binarySearchRank(l, value, comparator);
+                return Optional.of((double) index / (double) size);
             }
         );
     }
