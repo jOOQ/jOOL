@@ -62,9 +62,7 @@ public final class Unchecked {
     /**
      * A {@link Consumer} that rethrows all exceptions, including checked exceptions.
      */
-    public static final Consumer<Throwable> RETHROW_ALL = t -> {
-        SeqUtils.sneakyThrow(t);
-    };
+    public static final Consumer<Throwable> RETHROW_ALL = SeqUtils::sneakyThrow;
     
     /**
      * "sneaky-throw" a checked exception or throwable.
