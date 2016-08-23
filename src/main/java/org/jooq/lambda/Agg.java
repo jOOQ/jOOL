@@ -27,6 +27,7 @@ import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 
+import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
@@ -723,27 +724,11 @@ public class Agg {
      * Get a {@link Collector} that calculates the derived <code>PERCENT_RANK()</code> function given a specific ordering.
      */
     public static <T, U> Collector<T, ?, Optional<Double>> percentRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return Collector.of(
-            () -> new ArrayList<U>(),
-            (l, v) -> l.add(function.apply(v)),
-            (l1, l2) -> {
-                l1.addAll(l2);
-                return l1;
-            },
-            l -> {
-                int size = l.size();
-
-                if (size == 0)
-                    return Optional.empty();
-
-                // TODO: Find a faster implementation using binarySearch
-                l.sort(comparator);
-                for (int i = 0; i < size; i++)
-                    if (comparator.compare(value, l.get(i)) <= 0)
-                        return Optional.of((double) i / (double) size);
-
-                return Optional.of(1.0);
-            }
+        return collectingAndThen(
+                Tuple.collectors(
+                        rankBy(value, function, comparator),
+                        count()),
+                t -> t.map((rank, count) -> rank.map(r -> (double) r / count))
         );
     }
 
