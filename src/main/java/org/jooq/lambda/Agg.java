@@ -725,10 +725,10 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Optional<Double>> percentRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return collectingAndThen(
-                Tuple.collectors(
-                        rankBy(value, function, comparator),
-                        count()),
-                t -> t.map((rank, count) -> rank.map(r -> (double) r / count))
+            Tuple.collectors(
+                rankBy(value, function, comparator),
+                count()),
+            t -> t.map((rank, count) -> rank.map(r -> (double) r / count))
         );
     }
 
