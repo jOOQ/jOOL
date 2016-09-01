@@ -481,30 +481,112 @@ public class SeqTest {
 
     @Test
     public void testCrossApply() {
+        
+        Function<Integer, Seq<Integer>> f = t -> Seq.range(0, t == null ? 0 : t);
+        
+        // Default methods
         assertEquals(asList(),
-            Seq.<Integer>of().crossApply(t -> Seq.range(0, t)).toList());
+            Seq.<Integer>of().crossApply(f).toList());
         assertEquals(asList(),
-            Seq.of(0).crossApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0).crossApply(f).toList());
         assertEquals(asList(tuple(1, 0)),
-            Seq.of(0, 1).crossApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0, 1).crossApply(f).toList());
         assertEquals(asList(tuple(1, 0), tuple(2, 0), tuple(2, 1)),
-            Seq.of(0, 1, 2).crossApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0, 1, 2).crossApply(f).toList());
         assertEquals(asList(tuple(1, 0), tuple(2, 0), tuple(2, 1), tuple(3, 0), tuple(3, 1), tuple(3, 2)),
-            Seq.of(0, 1, 2, 3).crossApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0, 1, 2, 3).crossApply(f).toList());
+        
+        // Static methods
+        assertEquals(asList(),
+            Seq.crossApply(Seq.of(0), f).toList());
+        assertEquals(asList(tuple(1, 0)),
+            Seq.crossApply(Seq.of(0, 1), f).toList());
+        assertEquals(asList(tuple(1, 0), tuple(2, 0), tuple(2, 1)),
+            Seq.crossApply(Seq.of(0, 1, 2), f).toList());
+        assertEquals(asList(tuple(1, 0), tuple(2, 0), tuple(2, 1), tuple(3, 0), tuple(3, 1), tuple(3, 2)),
+            Seq.crossApply(Seq.of(0, 1, 2, 3), f).toList());
+        
+        assertEquals(asList(),
+            Seq.crossApply(Seq.of(0), f, f).toList());
+        assertEquals(asList(),
+            Seq.crossApply(Seq.of(0, 1), f, f).toList());
+        assertEquals(asList(tuple(2, 1, 0)),
+            Seq.crossApply(Seq.of(0, 1, 2), f, f).toList());
+        assertEquals(asList(tuple(2, 1, 0), tuple(3, 1, 0), tuple(3, 2, 0), tuple(3, 2, 1)),
+            Seq.crossApply(Seq.of(0, 1, 2, 3), f, f).toList());
+        assertEquals(asList(tuple(2, 1, 0), tuple(3, 1, 0), tuple(3, 2, 0), tuple(3, 2, 1), tuple(4, 1, 0), tuple(4, 2, 0), tuple(4, 2, 1), tuple(4, 3, 0), tuple(4, 3, 1), tuple(4, 3, 2)),
+            Seq.crossApply(Seq.of(0, 1, 2, 3, 4), f, f).toList());
+        
     }
 
     @Test
     public void testOuterApply() {
+        
+        Function<Integer, Seq<Integer>> f = t -> Seq.range(0, t == null ? 0 : t);
+        
+        // Default methods
         assertEquals(asList(),
-            Seq.<Integer>of().outerApply(t -> Seq.range(0, t)).toList());
+            Seq.<Integer>of().outerApply(f).toList());
         assertEquals(asList(tuple(0, null)),
-            Seq.of(0).outerApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0).outerApply(f).toList());
         assertEquals(asList(tuple(0, null), tuple(1, 0)),
-            Seq.of(0, 1).outerApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0, 1).outerApply(f).toList());
         assertEquals(asList(tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1)),
-            Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0, 1, 2).outerApply(f).toList());
         assertEquals(asList(tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1), tuple(3, 0), tuple(3, 1), tuple(3, 2)),
-            Seq.of(0, 1, 2, 3).outerApply(t -> Seq.range(0, t)).toList());
+            Seq.of(0, 1, 2, 3).outerApply(f).toList());
+                
+        // Static methods
+        assertEquals(asList(tuple(0, null)),
+            Seq.outerApply(Seq.of(0), f).toList());
+        assertEquals(asList(tuple(0, null), tuple(1, 0)),
+            Seq.outerApply(Seq.of(0, 1), f).toList());
+        assertEquals(asList(tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1)),
+            Seq.outerApply(Seq.of(0, 1, 2), f).toList());
+        assertEquals(asList(tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1), tuple(3, 0), tuple(3, 1), tuple(3, 2)),
+            Seq.outerApply(Seq.of(0, 1, 2, 3), f).toList());
+        
+        assertEquals(asList(
+                tuple(0, null, null)),
+            Seq.outerApply(Seq.of(0), f, f).toList());
+        assertEquals(asList(
+                tuple(0, null, null), 
+                tuple(1, 0, null)),
+            Seq.outerApply(Seq.of(0, 1), f, f).toList());
+        assertEquals(asList(
+                tuple(0, null, null), 
+                tuple(1, 0, null), 
+                tuple(2, 0, null), 
+                tuple(2, 1, 0)),
+            Seq.outerApply(Seq.of(0, 1, 2), f, f).toList());
+        assertEquals(asList(
+                tuple(0, null, null), 
+                tuple(1, 0, null), 
+                tuple(2, 0, null), 
+                tuple(2, 1, 0), 
+                tuple(3, 0, null),
+                tuple(3, 1, 0), 
+                tuple(3, 2, 0), 
+                tuple(3, 2, 1)),
+            Seq.outerApply(Seq.of(0, 1, 2, 3), f, f).toList());
+        assertEquals(asList(
+                tuple(0, null, null), 
+                tuple(1, 0, null), 
+                tuple(2, 0, null), 
+                tuple(2, 1, 0), 
+                tuple(3, 0, null),
+                tuple(3, 1, 0), 
+                tuple(3, 2, 0), 
+                tuple(3, 2, 1), 
+                tuple(4, 0, null), 
+                tuple(4, 1, 0), 
+                tuple(4, 2, 0), 
+                tuple(4, 2, 1), 
+                tuple(4, 3, 0), 
+                tuple(4, 3, 1), 
+                tuple(4, 3, 2)),
+            Seq.outerApply(Seq.of(0, 1, 2, 3, 4), f, f).toList());
+
     }
     
     @Test

@@ -149,7 +149,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </p>
      */
     default <U> Seq<Tuple2<T, U>> crossApply(Function<? super T, ? extends Iterable<? extends U>> function) {
-        return flatMap(t -> seq(function.apply(t)).map(u -> tuple(t, u)));
+        return crossApply(this, t -> seq(function.apply(t)));
     }
     
     /**
@@ -163,7 +163,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </p>
      */
     default <U> Seq<Tuple2<T, U>> outerApply(Function<? super T, ? extends Iterable<? extends U>> function) {
-        return flatMap(t -> seq(function.apply(t)).onEmpty(null).map(u -> tuple(t, u)));
+        return outerApply(this, t -> seq(function.apply(t)));
     }
     
     /**
@@ -6893,6 +6893,1424 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }).onClose(stream::close);
     }
 
+    // [jooq-tools] START [crossapply-static]
+
+    /**
+     * Cross apply 2 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)));
+    }
+
+    /**
+     * Cross apply 3 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
+    }
+
+    /**
+     * Cross apply 4 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
+    }
+
+    /**
+     * Cross apply 5 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
+    }
+
+    /**
+     * Cross apply 6 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
+    }
+
+    /**
+     * Cross apply 7 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
+    }
+
+    /**
+     * Cross apply 8 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
+    }
+
+    /**
+     * Cross apply 9 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
+    }
+
+    /**
+     * Cross apply 10 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
+    }
+
+    /**
+     * Cross apply 11 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
+    }
+
+    /**
+     * Cross apply 12 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
+    }
+
+    /**
+     * Cross apply 13 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
+    }
+
+    /**
+     * Cross apply 14 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
+    }
+
+    /**
+     * Cross apply 15 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
+    }
+
+    /**
+     * Cross apply 16 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15, Function<? super T15, ? extends Stream<? extends T16>> function16) {
+        return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
+    }
+
+    /**
+     * Cross apply 2 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)));
+    }
+
+    /**
+     * Cross apply 3 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
+    }
+
+    /**
+     * Cross apply 4 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
+    }
+
+    /**
+     * Cross apply 5 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
+    }
+
+    /**
+     * Cross apply 6 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
+    }
+
+    /**
+     * Cross apply 7 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
+    }
+
+    /**
+     * Cross apply 8 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
+    }
+
+    /**
+     * Cross apply 9 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
+    }
+
+    /**
+     * Cross apply 10 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
+    }
+
+    /**
+     * Cross apply 11 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
+    }
+
+    /**
+     * Cross apply 12 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
+    }
+
+    /**
+     * Cross apply 13 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
+    }
+
+    /**
+     * Cross apply 14 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
+    }
+
+    /**
+     * Cross apply 15 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
+    }
+
+    /**
+     * Cross apply 16 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15, Function<? super T15, ? extends Iterable<? extends T16>> function16) {
+        return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
+    }
+
+    /**
+     * Cross apply 2 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 3 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 4 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 5 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 6 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 7 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 8 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 9 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 10 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 11 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).map(t11 -> t.concat(t11)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 12 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).map(t12 -> t.concat(t12)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 13 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).map(t13 -> t.concat(t13)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 14 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).map(t13 -> t.concat(t13)))
+                  .flatMap(t -> function14.apply(t.v13).map(t14 -> t.concat(t14)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 15 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).map(t13 -> t.concat(t13)))
+                  .flatMap(t -> function14.apply(t.v13).map(t14 -> t.concat(t14)))
+                  .flatMap(t -> function15.apply(t.v14).map(t15 -> t.concat(t15)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Cross apply 16 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15, Function<? super T15, ? extends Seq<? extends T16>> function16) {
+        return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).map(t13 -> t.concat(t13)))
+                  .flatMap(t -> function14.apply(t.v13).map(t14 -> t.concat(t14)))
+                  .flatMap(t -> function15.apply(t.v14).map(t15 -> t.concat(t15)))
+                  .flatMap(t -> function16.apply(t.v15).map(t16 -> t.concat(t16)))
+                  .onClose(seq::close);
+    }
+
+// [jooq-tools] END [crossapply-static]
+    
+    // [jooq-tools] START [outerapply-static]
+
+    /**
+     * Outer apply 2 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)));
+    }
+
+    /**
+     * Outer apply 3 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
+    }
+
+    /**
+     * Outer apply 4 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
+    }
+
+    /**
+     * Outer apply 5 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
+    }
+
+    /**
+     * Outer apply 6 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
+    }
+
+    /**
+     * Outer apply 7 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
+    }
+
+    /**
+     * Outer apply 8 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
+    }
+
+    /**
+     * Outer apply 9 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
+    }
+
+    /**
+     * Outer apply 10 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
+    }
+
+    /**
+     * Outer apply 11 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
+    }
+
+    /**
+     * Outer apply 12 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
+    }
+
+    /**
+     * Outer apply 13 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
+    }
+
+    /**
+     * Outer apply 14 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
+    }
+
+    /**
+     * Outer apply 15 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
+    }
+
+    /**
+     * Outer apply 16 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15, Function<? super T15, ? extends Stream<? extends T16>> function16) {
+        return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
+    }
+
+    /**
+     * Outer apply 2 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)));
+    }
+
+    /**
+     * Outer apply 3 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
+    }
+
+    /**
+     * Outer apply 4 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
+    }
+
+    /**
+     * Outer apply 5 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
+    }
+
+    /**
+     * Outer apply 6 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
+    }
+
+    /**
+     * Outer apply 7 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
+    }
+
+    /**
+     * Outer apply 8 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
+    }
+
+    /**
+     * Outer apply 9 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
+    }
+
+    /**
+     * Outer apply 10 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
+    }
+
+    /**
+     * Outer apply 11 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
+    }
+
+    /**
+     * Outer apply 12 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
+    }
+
+    /**
+     * Outer apply 13 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
+    }
+
+    /**
+     * Outer apply 14 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
+    }
+
+    /**
+     * Outer apply 15 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
+    }
+
+    /**
+     * Outer apply 16 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15, Function<? super T15, ? extends Iterable<? extends T16>> function16) {
+        return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
+    }
+
+    /**
+     * Outer apply 2 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2> Seq<Tuple2<T1, T2>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 3 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 4 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 5 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 6 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 7 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 8 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 9 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 10 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 11 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).onEmpty(null).map(t11 -> t.concat(t11)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 12 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).onEmpty(null).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).onEmpty(null).map(t12 -> t.concat(t12)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 13 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).onEmpty(null).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).onEmpty(null).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).onEmpty(null).map(t13 -> t.concat(t13)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 14 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).onEmpty(null).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).onEmpty(null).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).onEmpty(null).map(t13 -> t.concat(t13)))
+                  .flatMap(t -> function14.apply(t.v13).onEmpty(null).map(t14 -> t.concat(t14)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 15 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).onEmpty(null).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).onEmpty(null).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).onEmpty(null).map(t13 -> t.concat(t13)))
+                  .flatMap(t -> function14.apply(t.v13).onEmpty(null).map(t14 -> t.concat(t14)))
+                  .flatMap(t -> function15.apply(t.v14).onEmpty(null).map(t15 -> t.concat(t15)))
+                  .onClose(seq::close);
+    }
+
+    /**
+     * Outer apply 16 functions to a stream.
+     * <p>
+     * <code><pre>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </pre></code>
+     */
+    @Generated("This method was generated using jOOQ-tools")
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15, Function<? super T15, ? extends Seq<? extends T16>> function16) {
+        return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
+                  .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
+                  .flatMap(t -> function4.apply(t.v3).onEmpty(null).map(t4 -> t.concat(t4)))
+                  .flatMap(t -> function5.apply(t.v4).onEmpty(null).map(t5 -> t.concat(t5)))
+                  .flatMap(t -> function6.apply(t.v5).onEmpty(null).map(t6 -> t.concat(t6)))
+                  .flatMap(t -> function7.apply(t.v6).onEmpty(null).map(t7 -> t.concat(t7)))
+                  .flatMap(t -> function8.apply(t.v7).onEmpty(null).map(t8 -> t.concat(t8)))
+                  .flatMap(t -> function9.apply(t.v8).onEmpty(null).map(t9 -> t.concat(t9)))
+                  .flatMap(t -> function10.apply(t.v9).onEmpty(null).map(t10 -> t.concat(t10)))
+                  .flatMap(t -> function11.apply(t.v10).onEmpty(null).map(t11 -> t.concat(t11)))
+                  .flatMap(t -> function12.apply(t.v11).onEmpty(null).map(t12 -> t.concat(t12)))
+                  .flatMap(t -> function13.apply(t.v12).onEmpty(null).map(t13 -> t.concat(t13)))
+                  .flatMap(t -> function14.apply(t.v13).onEmpty(null).map(t14 -> t.concat(t14)))
+                  .flatMap(t -> function15.apply(t.v14).onEmpty(null).map(t15 -> t.concat(t15)))
+                  .flatMap(t -> function16.apply(t.v15).onEmpty(null).map(t16 -> t.concat(t16)))
+                  .onClose(seq::close);
+    }
+
+// [jooq-tools] END [outerapply-static]
+    
     // [jooq-tools] START [crossjoin-static]
 
     /**
