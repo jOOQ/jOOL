@@ -480,6 +480,34 @@ public class SeqTest {
     }
 
     @Test
+    public void testCrossApply() {
+        assertEquals(asList(),
+            Seq.<Integer>of().crossApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(),
+            Seq.of(0).crossApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(1, 0)),
+            Seq.of(0, 1).crossApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(1, 0), tuple(2, 0), tuple(2, 1)),
+            Seq.of(0, 1, 2).crossApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(1, 0), tuple(2, 0), tuple(2, 1), tuple(3, 0), tuple(3, 1), tuple(3, 2)),
+            Seq.of(0, 1, 2, 3).crossApply(t -> Seq.range(0, t)).toList());
+    }
+
+    @Test
+    public void testOuterApply() {
+        assertEquals(asList(),
+            Seq.<Integer>of().outerApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(0, null)),
+            Seq.of(0).outerApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(0, null), tuple(1, 0)),
+            Seq.of(0, 1).outerApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1)),
+            Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t)).toList());
+        assertEquals(asList(tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1), tuple(3, 0), tuple(3, 1), tuple(3, 2)),
+            Seq.of(0, 1, 2, 3).outerApply(t -> Seq.range(0, t)).toList());
+    }
+    
+    @Test
     public void testCrossJoin() {
 
         // {A} x {B}

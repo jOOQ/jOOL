@@ -139,6 +139,34 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
     
     /**
+     * Cross apply a function to this stream.
+     * <p>
+     * This works like {@link #flatMap(java.util.function.Function)}, except 
+     * that the result retains the original <code>T</code> values.
+     * <p>
+     * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
+     * </p>
+     */
+    default <U> Seq<Tuple2<T, U>> crossApply(Function<? super T, ? extends Iterable<? extends U>> function) {
+        return flatMap(t -> seq(function.apply(t)).map(u -> tuple(t, u)));
+    }
+    
+    /**
+     * Outer apply a function to this stream.
+     * <p>
+     * This works like {@link #flatMap(java.util.function.Function)}, except 
+     * that the result retains the original <code>T</code> values.
+     * <p>
+     * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
+     * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
+     * </p>
+     */
+    default <U> Seq<Tuple2<T, U>> outerApply(Function<? super T, ? extends Iterable<? extends U>> function) {
+        return flatMap(t -> seq(function.apply(t)).onEmpty(null).map(u -> tuple(t, u)));
+    }
+    
+    /**
      * Cross join 2 streams into one.
      * <p>
      * <code><pre>
