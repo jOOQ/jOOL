@@ -4207,7 +4207,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * {@link Collectors#joining()}
      * collector.
      * 
-     * @deprecated - Use {@link #toString()} instead. This method will be
+     * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
      */
@@ -9636,7 +9636,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * {@link Collectors#joining()}
      * collector.
      * 
-     * @deprecated - Use {@link #toString()} instead. This method will be
+     * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
      */
@@ -9650,7 +9650,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * {@link Collectors#joining(CharSequence)}
      * collector.
      * 
-     * @deprecated - Use {@link #toString()} instead. This method will be
+     * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
      */
@@ -9664,7 +9664,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
      * collector.
      * 
-     * @deprecated - Use {@link #toString()} instead. This method will be
+     * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
      */
