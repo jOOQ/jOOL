@@ -15,22 +15,23 @@
  */
 package org.jooq.lambda;
 
+import static java.util.Comparator.comparing;
+import static org.jooq.lambda.Seq.seq;
+
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalLong;
 import java.util.Spliterator;
 import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.jooq.lambda.tuple.Tuple2;
 
-import static java.util.Comparator.comparing;
-import java.util.Iterator;
-import java.util.OptionalLong;
-import java.util.function.Predicate;
-import static org.jooq.lambda.Seq.seq;
+import org.jooq.lambda.tuple.Tuple2;
 
 /**
  * @author Lukas Eder

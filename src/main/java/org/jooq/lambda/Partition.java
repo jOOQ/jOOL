@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
+
 import org.jooq.lambda.tuple.Tuple2;
 
 /**

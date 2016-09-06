@@ -18,6 +18,8 @@ package org.jooq.lambda;
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.collectingAndThen;
 
+import static org.jooq.lambda.tuple.Tuple.tuple;
+
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Function;
@@ -29,7 +31,6 @@ import java.util.function.ToLongFunction;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
-import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
  * A set of additional {@link Collector} implementations.

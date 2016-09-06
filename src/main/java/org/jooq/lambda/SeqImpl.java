@@ -45,6 +45,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
 import org.jooq.lambda.tuple.Tuple;
 
 /**

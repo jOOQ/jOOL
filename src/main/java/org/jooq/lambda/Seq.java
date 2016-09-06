@@ -18,6 +18,7 @@ package org.jooq.lambda;
 import static java.util.Comparator.comparing;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
+
 import static org.jooq.lambda.SeqUtils.sneakyThrow;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
@@ -42,6 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -68,11 +70,9 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import java.util.NoSuchElementException;
-
 import javax.annotation.Generated;
-import org.jooq.lambda.exception.TooManyElementsException;
 
+import org.jooq.lambda.exception.TooManyElementsException;
 import org.jooq.lambda.function.Function10;
 import org.jooq.lambda.function.Function11;
 import org.jooq.lambda.function.Function12;
