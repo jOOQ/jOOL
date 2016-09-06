@@ -35,14 +35,14 @@ public interface CheckedDoubleConsumer {
     void accept(double value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#doubleConsumer(CheckedDoubleConsumer)}
+     * @see {@link Unchecked#doubleConsumer(CheckedDoubleConsumer)}
      */
     static DoubleConsumer unchecked(CheckedDoubleConsumer consumer) {
         return Unchecked.doubleConsumer(consumer);
     }
 
     /**
-     * @See {@link Unchecked#doubleConsumer(CheckedDoubleConsumer, Consumer)}
+     * @see {@link Unchecked#doubleConsumer(CheckedDoubleConsumer, Consumer)}
      */
     static DoubleConsumer unchecked(CheckedDoubleConsumer consumer, Consumer<Throwable> handler) {
         return Unchecked.doubleConsumer(consumer, handler);

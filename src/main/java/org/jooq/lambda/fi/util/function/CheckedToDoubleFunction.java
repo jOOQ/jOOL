@@ -36,14 +36,14 @@ public interface CheckedToDoubleFunction<T> {
     double applyAsDouble(T value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction)}
+     * @see {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction)}
      */
     static <T> ToDoubleFunction<T> unchecked(CheckedToDoubleFunction<T> function) {
         return Unchecked.toDoubleFunction(function);
     }
 
     /**
-     * @See {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction, Consumer)}
+     * @see {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction, Consumer)}
      */
     static <T> ToDoubleFunction<T> unchecked(CheckedToDoubleFunction<T> function, Consumer<Throwable> handler) {
         return Unchecked.toDoubleFunction(function, handler);

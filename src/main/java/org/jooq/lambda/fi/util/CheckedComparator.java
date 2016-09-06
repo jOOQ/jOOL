@@ -33,14 +33,14 @@ public interface CheckedComparator<T> {
     int compare(T o1, T o2) throws Throwable;
 
     /**
-     * @See {@link Unchecked#comparator(CheckedComparator)}
+     * @see {@link Unchecked#comparator(CheckedComparator)}
      */
     static <T> Comparator<T> unchecked(CheckedComparator<T> comparator) {
         return Unchecked.comparator(comparator);
     }
 
     /**
-     * @See {@link Unchecked#comparator(CheckedComparator, Consumer)}
+     * @see {@link Unchecked#comparator(CheckedComparator, Consumer)}
      */
     static <T> Comparator<T> unchecked(CheckedComparator<T> comparator, Consumer<Throwable> handler) {
         return Unchecked.comparator(comparator, handler);

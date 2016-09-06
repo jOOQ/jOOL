@@ -35,14 +35,14 @@ public interface CheckedBooleanSupplier {
     boolean getAsBoolean() throws Throwable;
 
     /**
-     * @See {@link Unchecked#booleanSupplier(CheckedBooleanSupplier)}
+     * @see {@link Unchecked#booleanSupplier(CheckedBooleanSupplier)}
      */
     static BooleanSupplier unchecked(CheckedBooleanSupplier supplier) {
         return Unchecked.booleanSupplier(supplier);
     }
 
     /**
-     * @See {@link Unchecked#booleanSupplier(CheckedBooleanSupplier, Consumer)}
+     * @see {@link Unchecked#booleanSupplier(CheckedBooleanSupplier, Consumer)}
      */
     static BooleanSupplier unchecked(CheckedBooleanSupplier supplier, Consumer<Throwable> handler) {
         return Unchecked.booleanSupplier(supplier, handler);

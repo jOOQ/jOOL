@@ -38,14 +38,14 @@ public interface CheckedBiPredicate<T, U> {
     boolean test(T t, U u) throws Throwable;
 
     /**
-     * @See {@link Unchecked#biPredicate(CheckedBiPredicate)}
+     * @see {@link Unchecked#biPredicate(CheckedBiPredicate)}
      */
     static <T, U> BiPredicate<T, U> unchecked(CheckedBiPredicate<T, U> predicate) {
         return Unchecked.biPredicate(predicate);
     }
 
     /**
-     * @See {@link Unchecked#biPredicate(CheckedBiPredicate, Consumer)}
+     * @see {@link Unchecked#biPredicate(CheckedBiPredicate, Consumer)}
      */
     static <T, U> BiPredicate<T, U> unchecked(CheckedBiPredicate<T, U> predicate, Consumer<Throwable> handler) {
         return Unchecked.biPredicate(predicate, handler);

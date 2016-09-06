@@ -36,14 +36,14 @@ public interface CheckedBiConsumer<T, U> {
     void accept(T t, U u) throws Throwable;
 
     /**
-     * @See {@link Unchecked#biConsumer(CheckedBiConsumer)}
+     * @see {@link Unchecked#biConsumer(CheckedBiConsumer)}
      */
     static <T, U> BiConsumer<T, U> unchecked(CheckedBiConsumer<T, U> consumer) {
         return Unchecked.biConsumer(consumer);
     }
 
     /**
-     * @See {@link Unchecked#biConsumer(CheckedBiConsumer, Consumer)}
+     * @see {@link Unchecked#biConsumer(CheckedBiConsumer, Consumer)}
      */
     static <T, U> BiConsumer<T, U> unchecked(CheckedBiConsumer<T, U> consumer, Consumer<Throwable> handler) {
         return Unchecked.biConsumer(consumer, handler);

@@ -36,14 +36,14 @@ public interface CheckedObjIntConsumer<T> {
     void accept(T t, int value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#objIntConsumer(CheckedObjIntConsumer)}
+     * @see {@link Unchecked#objIntConsumer(CheckedObjIntConsumer)}
      */
     static <T> ObjIntConsumer<T> unchecked(CheckedObjIntConsumer<T> consumer) {
         return Unchecked.objIntConsumer(consumer);
     }
 
     /**
-     * @See {@link Unchecked#objIntConsumer(CheckedObjIntConsumer, Consumer)}
+     * @see {@link Unchecked#objIntConsumer(CheckedObjIntConsumer, Consumer)}
      */
     static <T> ObjIntConsumer<T> unchecked(CheckedObjIntConsumer<T> consumer, Consumer<Throwable> handler) {
         return Unchecked.objIntConsumer(consumer, handler);

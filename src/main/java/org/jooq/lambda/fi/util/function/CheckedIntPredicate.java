@@ -37,14 +37,14 @@ public interface CheckedIntPredicate {
     boolean test(int value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#intPredicate(CheckedIntPredicate)}
+     * @see {@link Unchecked#intPredicate(CheckedIntPredicate)}
      */
     static IntPredicate unchecked(CheckedIntPredicate predicate) {
         return Unchecked.intPredicate(predicate);
     }
 
     /**
-     * @See {@link Unchecked#intPredicate(CheckedIntPredicate, Consumer)}
+     * @see {@link Unchecked#intPredicate(CheckedIntPredicate, Consumer)}
      */
     static IntPredicate unchecked(CheckedIntPredicate function, Consumer<Throwable> handler) {
         return Unchecked.intPredicate(function, handler);

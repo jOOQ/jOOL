@@ -36,14 +36,14 @@ public interface CheckedDoubleToIntFunction {
     int applyAsInt(double value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#doubleToIntFunction(CheckedDoubleToIntFunction)}
+     * @see {@link Unchecked#doubleToIntFunction(CheckedDoubleToIntFunction)}
      */
     static DoubleToIntFunction unchecked(CheckedDoubleToIntFunction function) {
         return Unchecked.doubleToIntFunction(function);
     }
 
     /**
-     * @See {@link Unchecked#doubleToIntFunction(CheckedDoubleToIntFunction, Consumer)}
+     * @see {@link Unchecked#doubleToIntFunction(CheckedDoubleToIntFunction, Consumer)}
      */
     static DoubleToIntFunction unchecked(CheckedDoubleToIntFunction function, Consumer<Throwable> handler) {
         return Unchecked.doubleToIntFunction(function, handler);

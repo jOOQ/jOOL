@@ -37,14 +37,14 @@ public interface CheckedBiFunction<T, U, R> {
     R apply(T t, U u) throws Throwable;
 
     /**
-     * @See {@link Unchecked#biFunction(CheckedBiFunction)}
+     * @see {@link Unchecked#biFunction(CheckedBiFunction)}
      */
     static <T, U, R> BiFunction<T, U, R> unchecked(CheckedBiFunction<T, U, R> function) {
         return Unchecked.biFunction(function);
     }
 
     /**
-     * @See {@link Unchecked#biFunction(CheckedBiFunction, Consumer)}
+     * @see {@link Unchecked#biFunction(CheckedBiFunction, Consumer)}
      */
     static <T, U, R> BiFunction<T, U, R> unchecked(CheckedBiFunction<T, U, R> function, Consumer<Throwable> handler) {
         return Unchecked.biFunction(function, handler);

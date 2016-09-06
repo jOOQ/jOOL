@@ -32,14 +32,14 @@ public interface CheckedRunnable {
     void run() throws Throwable;
 
     /**
-     * @See {@link Unchecked#runnable(CheckedRunnable)}
+     * @see {@link Unchecked#runnable(CheckedRunnable)}
      */
     static Runnable unchecked(CheckedRunnable runnable) {
         return Unchecked.runnable(runnable);
     }
 
     /**
-     * @See {@link Unchecked#runnable(CheckedRunnable, Consumer)}
+     * @see {@link Unchecked#runnable(CheckedRunnable, Consumer)}
      */
     static Runnable unchecked(CheckedRunnable runnable, Consumer<Throwable> handler) {
         return Unchecked.runnable(runnable, handler);

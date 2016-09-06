@@ -38,14 +38,14 @@ public interface CheckedToIntBiFunction<T, U> {
 
 
     /**
-     * @See {@link Unchecked#toIntBiFunction(CheckedToIntBiFunction)}
+     * @see {@link Unchecked#toIntBiFunction(CheckedToIntBiFunction)}
      */
     static <T, U> ToIntBiFunction<T, U> unchecked(CheckedToIntBiFunction<T, U> function) {
         return Unchecked.toIntBiFunction(function);
     }
 
     /**
-     * @See {@link Unchecked#toIntBiFunction(CheckedToIntBiFunction, Consumer)}
+     * @see {@link Unchecked#toIntBiFunction(CheckedToIntBiFunction, Consumer)}
      */
     static <T, U> ToIntBiFunction<T, U> unchecked(CheckedToIntBiFunction<T, U> function, Consumer<Throwable> handler) {
         return Unchecked.toIntBiFunction(function, handler);

@@ -36,14 +36,14 @@ public interface CheckedDoubleFunction<R> {
     R apply(double value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#doubleFunction(CheckedDoubleFunction)}
+     * @see {@link Unchecked#doubleFunction(CheckedDoubleFunction)}
      */
     static <R> DoubleFunction<R> unchecked(CheckedDoubleFunction<R> function) {
         return Unchecked.doubleFunction(function);
     }
 
     /**
-     * @See {@link Unchecked#doubleFunction(CheckedDoubleFunction, Consumer)}
+     * @see {@link Unchecked#doubleFunction(CheckedDoubleFunction, Consumer)}
      */
     static <R> DoubleFunction<R> unchecked(CheckedDoubleFunction<R> function, Consumer<Throwable> handler) {
         return Unchecked.doubleFunction(function, handler);

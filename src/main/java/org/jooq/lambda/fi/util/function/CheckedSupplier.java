@@ -35,14 +35,14 @@ public interface CheckedSupplier<T> {
     T get() throws Throwable;
 
     /**
-     * @See {@link Unchecked#supplier(CheckedSupplier)}
+     * @see {@link Unchecked#supplier(CheckedSupplier)}
      */
     static <T> Supplier<T> unchecked(CheckedSupplier<T> supplier) {
         return Unchecked.supplier(supplier);
     }
 
     /**
-     * @See {@link Unchecked#supplier(CheckedSupplier, Consumer)}
+     * @see {@link Unchecked#supplier(CheckedSupplier, Consumer)}
      */
     static <T> Supplier<T> unchecked(CheckedSupplier<T> supplier, Consumer<Throwable> handler) {
         return Unchecked.supplier(supplier, handler);

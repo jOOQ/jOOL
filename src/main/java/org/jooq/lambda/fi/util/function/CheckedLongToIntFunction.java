@@ -36,14 +36,14 @@ public interface CheckedLongToIntFunction {
     int applyAsInt(long value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#longToIntFunction(CheckedLongToIntFunction)}
+     * @see {@link Unchecked#longToIntFunction(CheckedLongToIntFunction)}
      */
     static LongToIntFunction unchecked(CheckedLongToIntFunction function) {
         return Unchecked.longToIntFunction(function);
     }
 
     /**
-     * @See {@link Unchecked#longToIntFunction(CheckedLongToIntFunction, Consumer)}
+     * @see {@link Unchecked#longToIntFunction(CheckedLongToIntFunction, Consumer)}
      */
     static LongToIntFunction unchecked(CheckedLongToIntFunction function, Consumer<Throwable> handler) {
         return Unchecked.longToIntFunction(function, handler);

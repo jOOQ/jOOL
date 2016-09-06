@@ -37,14 +37,14 @@ public interface CheckedDoublePredicate {
     boolean test(double value) throws Throwable;
 
     /**
-     * @See {@link Unchecked#doublePredicate(CheckedDoublePredicate)}
+     * @see {@link Unchecked#doublePredicate(CheckedDoublePredicate)}
      */
     static DoublePredicate unchecked(CheckedDoublePredicate predicate) {
         return Unchecked.doublePredicate(predicate);
     }
 
     /**
-     * @See {@link Unchecked#doublePredicate(CheckedDoublePredicate, Consumer)}
+     * @see {@link Unchecked#doublePredicate(CheckedDoublePredicate, Consumer)}
      */
     static DoublePredicate unchecked(CheckedDoublePredicate function, Consumer<Throwable> handler) {
         return Unchecked.doublePredicate(function, handler);

@@ -35,14 +35,14 @@ public interface CheckedIntSupplier {
     int getAsInt() throws Throwable;
 
     /**
-     * @See {@link Unchecked#intSupplier(CheckedIntSupplier)}
+     * @see {@link Unchecked#intSupplier(CheckedIntSupplier)}
      */
     static IntSupplier unchecked(CheckedIntSupplier supplier) {
         return Unchecked.intSupplier(supplier);
     }
 
     /**
-     * @See {@link Unchecked#intSupplier(CheckedIntSupplier, Consumer)}
+     * @see {@link Unchecked#intSupplier(CheckedIntSupplier, Consumer)}
      */
     static IntSupplier unchecked(CheckedIntSupplier supplier, Consumer<Throwable> handler) {
         return Unchecked.intSupplier(supplier, handler);

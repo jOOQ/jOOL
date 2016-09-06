@@ -37,14 +37,14 @@ public interface CheckedIntBinaryOperator {
     int applyAsInt(int left, int right) throws Throwable;
 
     /**
-     * @See {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator)}
+     * @see {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator)}
      */
     static IntBinaryOperator unchecked(CheckedIntBinaryOperator operator) {
         return Unchecked.intBinaryOperator(operator);
     }
 
     /**
-     * @See {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator, Consumer)}
+     * @see {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator, Consumer)}
      */
     static IntBinaryOperator unchecked(CheckedIntBinaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.intBinaryOperator(operator, handler);
