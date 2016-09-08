@@ -90,6 +90,22 @@ public interface Seq2<T1, T2> extends Seq<Tuple2<T1, T2>> {
         return zip(Seq.seq(s1), Seq.seq(s2));
     }
 
+    static <T1, T2> Seq2<T1, T2> zipWithResult(final Seq<T1> s, final Function<T1, T2> f) {
+        return Seq2.seq(s.map(element -> new Tuple2<>(element, f.apply(element))));
+    }
+
+    static <T1, T2> Seq2<T1, T2> zipWithResult(final Stream<T1> s, final Function<T1, T2> f) {
+        return Seq2.zipWithResult(Seq.seq(s), f);
+    }
+
+    static <T1, T2> Seq2<T1, T2> zipWithResult(final Iterable<T1> s, final Function<T1, T2> f) {
+        return Seq2.zipWithResult(Seq.seq(s), f);
+    }
+
+    static <T1, T2> Seq2<T1, T2> zipWithResult(final Iterator<T1> s, final Function<T1, T2> f) {
+        return Seq2.zipWithResult(Seq.seq(s), f);
+    }
+
     static <T> Seq2<T, Long> zipWithIndex(final Seq<T> stream) {
         return Seq2.seq(Seq.zipWithIndex(stream));
     }
