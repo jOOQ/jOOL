@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -33,6 +34,13 @@ public interface CheckedSupplier<T> {
      * @return a result
      */
     T get() throws Throwable;
+
+    /**
+     * @see {@link Sneaky#supplier(CheckedSupplier)}
+     */
+    static <T> Supplier<T> sneaky(CheckedSupplier<T> supplier) {
+        return Sneaky.supplier(supplier);
+    }
 
     /**
      * @see {@link Unchecked#supplier(CheckedSupplier)}

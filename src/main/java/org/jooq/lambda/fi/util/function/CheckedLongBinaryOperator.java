@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.LongBinaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedLongBinaryOperator {
      * @return the operator result
      */
     long applyAsLong(long left, long right) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#longBinaryOperator(CheckedLongBinaryOperator)}
+     */
+    static LongBinaryOperator sneaky(CheckedLongBinaryOperator operator) {
+        return Sneaky.longBinaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#longBinaryOperator(CheckedLongBinaryOperator)}

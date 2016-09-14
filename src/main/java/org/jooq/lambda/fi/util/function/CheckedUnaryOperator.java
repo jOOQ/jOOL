@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -26,6 +27,13 @@ import org.jooq.lambda.Unchecked;
  */
 @FunctionalInterface
 public interface CheckedUnaryOperator<T> extends CheckedFunction<T, T> {
+
+    /**
+     * @see {@link Sneaky#unaryOperator(CheckedUnaryOperator)}
+     */
+    static <T> UnaryOperator<T> sneaky(CheckedUnaryOperator<T> operator) {
+        return Sneaky.unaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#unaryOperator(CheckedUnaryOperator)}

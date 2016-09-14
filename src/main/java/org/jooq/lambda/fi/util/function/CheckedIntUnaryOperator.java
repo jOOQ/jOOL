@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.IntUnaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedIntUnaryOperator {
      * @return the operator result
      */
     int applyAsInt(int operand) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#intUnaryOperator(CheckedIntUnaryOperator)}
+     */
+    static IntUnaryOperator sneaky(CheckedIntUnaryOperator operator) {
+        return Sneaky.intUnaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#intUnaryOperator(CheckedIntUnaryOperator)}

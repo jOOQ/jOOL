@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.LongToIntFunction;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedLongToIntFunction {
      * @return the function result
      */
     int applyAsInt(long value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#longToIntFunction(CheckedLongToIntFunction)}
+     */
+    static LongToIntFunction sneaky(CheckedLongToIntFunction function) {
+        return Sneaky.longToIntFunction(function);
+    }
 
     /**
      * @see {@link Unchecked#longToIntFunction(CheckedLongToIntFunction)}

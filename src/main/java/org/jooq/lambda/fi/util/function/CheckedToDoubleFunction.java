@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.ToDoubleFunction;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedToDoubleFunction<T> {
      * @return the function result
      */
     double applyAsDouble(T value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#toDoubleFunction(CheckedToDoubleFunction)}
+     */
+    static <T> ToDoubleFunction<T> sneaky(CheckedToDoubleFunction<T> function) {
+        return Sneaky.toDoubleFunction(function);
+    }
 
     /**
      * @see {@link Unchecked#toDoubleFunction(CheckedToDoubleFunction)}

@@ -30,21 +30,23 @@ public class CheckedComparatorTest {
 
     @Test
     public void testCheckedComparator() {
-
         final CheckedComparator<Object> comparator = (t1, t2) -> {
             throw new Exception(t1 + ":" + t2);
         };
 
-        Comparator<Object> test = Unchecked.comparator(comparator);
-        Comparator<Object> alias = CheckedComparator.unchecked(comparator);
+        Comparator<Object> c1 = Unchecked.comparator(comparator);
+        Comparator<Object> c2 = CheckedComparator.unchecked(comparator);
+        Comparator<Object> c3 = Sneaky.comparator(comparator);
+        Comparator<Object> c4 = CheckedComparator.sneaky(comparator);
 
-        assertComparator(test, UncheckedException.class);
-        assertComparator(alias, UncheckedException.class);
+        assertComparator(c1, UncheckedException.class);
+        assertComparator(c2, UncheckedException.class);
+        assertComparator(c3, Exception.class);
+        assertComparator(c4, Exception.class);
     }
 
     @Test
     public void testCheckedComparatorWithCustomHandler() {
-
         final CheckedComparator<Object> comparator = (t1, t2) -> {
             throw new Exception(t1 + ":" + t2);
         };
@@ -59,19 +61,28 @@ public class CheckedComparatorTest {
         assertComparator(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertComparator(Comparator<Object> test, Class<E> type) {
+    private <E extends Exception> void assertComparator(Comparator<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.compare(null, null);
             fail();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             assertException(type, e, "null:null");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

@@ -16,6 +16,7 @@
 package org.jooq.lambda.fi.lang;
 
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -30,6 +31,13 @@ public interface CheckedRunnable {
      * Run this runnable.
      */
     void run() throws Throwable;
+
+    /**
+     * @see {@link Sneaky#runnable(CheckedRunnable)}
+     */
+    static Runnable sneaky(CheckedRunnable runnable) {
+        return Sneaky.runnable(runnable);
+    }
 
     /**
      * @see {@link Unchecked#runnable(CheckedRunnable)}

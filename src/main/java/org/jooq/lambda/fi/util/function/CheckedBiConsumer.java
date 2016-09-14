@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedBiConsumer<T, U> {
      * @param u the second input argument
      */
     void accept(T t, U u) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#biConsumer(CheckedBiConsumer)}
+     */
+    static <T, U> BiConsumer<T, U> sneaky(CheckedBiConsumer<T, U> consumer) {
+        return Sneaky.biConsumer(consumer);
+    }
 
     /**
      * @see {@link Unchecked#biConsumer(CheckedBiConsumer)}

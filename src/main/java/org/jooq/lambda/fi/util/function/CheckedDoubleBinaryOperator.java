@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.DoubleBinaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedDoubleBinaryOperator {
      * @return the operator result
      */
     double applyAsDouble(double left, double right) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#doubleBinaryOperator(CheckedDoubleBinaryOperator)}
+     */
+    static DoubleBinaryOperator sneaky(CheckedDoubleBinaryOperator operator) {
+        return Sneaky.doubleBinaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator)}

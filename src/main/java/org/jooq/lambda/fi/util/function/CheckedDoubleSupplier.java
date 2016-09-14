@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -33,6 +34,13 @@ public interface CheckedDoubleSupplier {
      * @return a result
      */
     double getAsDouble() throws Throwable;
+
+    /**
+     * @see {@link Sneaky#doubleSupplier(CheckedDoubleSupplier)}
+     */
+    static DoubleSupplier sneaky(CheckedDoubleSupplier supplier) {
+        return Sneaky.doubleSupplier(supplier);
+    }
 
     /**
      * @see {@link Unchecked#doubleSupplier(CheckedDoubleSupplier)}

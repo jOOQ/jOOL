@@ -40,21 +40,23 @@ public class CheckedPredicateTest {
 
     @Test
     public void testCheckedPredicate() {
-
         final CheckedPredicate<Object> predicate = t -> {
             throw new Exception("" + t);
         };
 
-        Predicate<Object> test = Unchecked.predicate(predicate);
-        Predicate<Object> alias = CheckedPredicate.unchecked(predicate);
+        Predicate<Object> p1 = Unchecked.predicate(predicate);
+        Predicate<Object> p2 = CheckedPredicate.unchecked(predicate);
+        Predicate<Object> p3 = Sneaky.predicate(predicate);
+        Predicate<Object> p4 = CheckedPredicate.sneaky(predicate);
 
-        assertPredicate(test, UncheckedException.class);
-        assertPredicate(alias, UncheckedException.class);
+        assertPredicate(p1, UncheckedException.class);
+        assertPredicate(p2, UncheckedException.class);
+        assertPredicate(p3, Exception.class);
+        assertPredicate(p4, Exception.class);
     }
 
     @Test
     public void testCheckedPredicateWithCustomHandler() {
-
         final CheckedPredicate<Object> predicate = t -> {
             throw new Exception("" + t);
         };
@@ -71,21 +73,23 @@ public class CheckedPredicateTest {
 
     @Test
     public void testCheckedIntPredicate() {
-
         final CheckedIntPredicate intPredicate = i -> {
             throw new Exception("" + i);
         };
 
-        IntPredicate test = Unchecked.intPredicate(intPredicate);
-        IntPredicate alias = CheckedIntPredicate.unchecked(intPredicate);
+        IntPredicate p1 = Unchecked.intPredicate(intPredicate);
+        IntPredicate p2 = CheckedIntPredicate.unchecked(intPredicate);
+        IntPredicate p3 = Sneaky.intPredicate(intPredicate);
+        IntPredicate p4 = CheckedIntPredicate.sneaky(intPredicate);
 
-        assertIntPredicate(test, UncheckedException.class);
-        assertIntPredicate(alias, UncheckedException.class);
+        assertIntPredicate(p1, UncheckedException.class);
+        assertIntPredicate(p2, UncheckedException.class);
+        assertIntPredicate(p3, Exception.class);
+        assertIntPredicate(p4, Exception.class);
     }
 
     @Test
     public void testCheckedIntPredicateWithCustomHandler() {
-
         final CheckedIntPredicate intPredicate = i -> {
             throw new Exception("" + i);
         };
@@ -102,21 +106,23 @@ public class CheckedPredicateTest {
 
     @Test
     public void testCheckedLongPredicate() {
-
         final CheckedLongPredicate longPredicate = l -> {
             throw new Exception("" + l);
         };
 
-        LongPredicate test = Unchecked.longPredicate(longPredicate);
-        LongPredicate alias = CheckedLongPredicate.unchecked(longPredicate);
+        LongPredicate p1 = Unchecked.longPredicate(longPredicate);
+        LongPredicate p2 = CheckedLongPredicate.unchecked(longPredicate);
+        LongPredicate p3 = Sneaky.longPredicate(longPredicate);
+        LongPredicate p4 = CheckedLongPredicate.sneaky(longPredicate);
 
-        assertLongPredicate(test, UncheckedException.class);
-        assertLongPredicate(alias, UncheckedException.class);
+        assertLongPredicate(p1, UncheckedException.class);
+        assertLongPredicate(p2, UncheckedException.class);
+        assertLongPredicate(p3, Exception.class);
+        assertLongPredicate(p4, Exception.class);
     }
 
     @Test
     public void testCheckedLongPredicateWithCustomHandler() {
-
         final CheckedLongPredicate longPredicate = l -> {
             throw new Exception("" + l);
         };
@@ -133,21 +139,23 @@ public class CheckedPredicateTest {
 
     @Test
     public void testCheckedDoublePredicate() {
-
         final CheckedDoublePredicate doublePredicate = d -> {
             throw new Exception("" + d);
         };
 
-        DoublePredicate test = Unchecked.doublePredicate(doublePredicate);
-        DoublePredicate alias = CheckedDoublePredicate.unchecked(doublePredicate);
+        DoublePredicate p1 = Unchecked.doublePredicate(doublePredicate);
+        DoublePredicate p2 = CheckedDoublePredicate.unchecked(doublePredicate);
+        DoublePredicate p3 = Sneaky.doublePredicate(doublePredicate);
+        DoublePredicate p4 = CheckedDoublePredicate.sneaky(doublePredicate);
 
-        assertDoublePredicate(test, UncheckedException.class);
-        assertDoublePredicate(alias, UncheckedException.class);
+        assertDoublePredicate(p1, UncheckedException.class);
+        assertDoublePredicate(p2, UncheckedException.class);
+        assertDoublePredicate(p3, Exception.class);
+        assertDoublePredicate(p4, Exception.class);
     }
 
     @Test
     public void testCheckedDoublePredicateWithCustomHandler() {
-
         final CheckedDoublePredicate doublePredicate = d -> {
             throw new Exception("" + d);
         };
@@ -162,73 +170,90 @@ public class CheckedPredicateTest {
         assertDoublePredicate(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertPredicate(Predicate<Object> test, Class<E> type) {
+    private <E extends Exception> void assertPredicate(Predicate<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.test(null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("a", "b", "c").filter(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "a");
         }
     }
 
-    private <E extends RuntimeException> void assertIntPredicate(IntPredicate test, Class<E> type) {
+    private <E extends Exception> void assertIntPredicate(IntPredicate test, Class<E> type) {
         assertNotNull(test);
         try {
             test.test(0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).filter(test);
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertLongPredicate(LongPredicate test, Class<E> type) {
+    private <E extends Exception> void assertLongPredicate(LongPredicate test, Class<E> type) {
         assertNotNull(test);
         try {
             test.test(0L);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).filter(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertDoublePredicate(DoublePredicate test, Class<E> type) {
+    private <E extends Exception> void assertDoublePredicate(DoublePredicate test, Class<E> type) {
         assertNotNull(test);
         try {
             test.test(0.0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).filter(test);
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "1.0");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

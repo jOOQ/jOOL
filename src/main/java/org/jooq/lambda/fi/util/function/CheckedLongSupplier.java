@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -33,6 +34,13 @@ public interface CheckedLongSupplier {
      * @return a result
      */
     long getAsLong() throws Throwable;
+
+    /**
+     * @see {@link Sneaky#longSupplier(CheckedLongSupplier)}
+     */
+    static LongSupplier sneaky(CheckedLongSupplier supplier) {
+        return Sneaky.longSupplier(supplier);
+    }
 
     /**
      * @see {@link Unchecked#longSupplier(CheckedLongSupplier)}

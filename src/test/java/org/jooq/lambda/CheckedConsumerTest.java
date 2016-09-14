@@ -36,21 +36,23 @@ public class CheckedConsumerTest {
 
     @Test
     public void testCheckedConsumer() {
-
         final CheckedConsumer<Object> consumer = o -> {
             throw new Exception("" + o);
         };
 
-        Consumer<Object> test = Unchecked.consumer(consumer);
-        Consumer<Object> alias = CheckedConsumer.unchecked(consumer);
+        Consumer<Object> c1 = Unchecked.consumer(consumer);
+        Consumer<Object> c2 = CheckedConsumer.unchecked(consumer);
+        Consumer<Object> c3 = Sneaky.consumer(consumer);
+        Consumer<Object> c4 = CheckedConsumer.sneaky(consumer);
 
-        assertConsumer(test, UncheckedException.class);
-        assertConsumer(alias, UncheckedException.class);
+        assertConsumer(c1, UncheckedException.class);
+        assertConsumer(c2, UncheckedException.class);
+        assertConsumer(c3, Exception.class);
+        assertConsumer(c4, Exception.class);
     }
 
     @Test
     public void testCheckedConsumerWithCustomHandler() {
-
         final CheckedConsumer<Object> consumer = o -> {
             throw new Exception("" + o);
         };
@@ -67,21 +69,23 @@ public class CheckedConsumerTest {
 
     @Test
     public void testCheckedIntConsumer() {
-
         final CheckedIntConsumer intConsumer = i -> {
             throw new Exception("" + i);
         };
 
-        IntConsumer test = Unchecked.intConsumer(intConsumer);
-        IntConsumer alias = CheckedIntConsumer.unchecked(intConsumer);
+        IntConsumer c1 = Unchecked.intConsumer(intConsumer);
+        IntConsumer c2 = CheckedIntConsumer.unchecked(intConsumer);
+        IntConsumer c3 = Sneaky.intConsumer(intConsumer);
+        IntConsumer c4 = CheckedIntConsumer.sneaky(intConsumer);
 
-        assertIntConsumer(test, UncheckedException.class);
-        assertIntConsumer(alias, UncheckedException.class);
+        assertIntConsumer(c1, UncheckedException.class);
+        assertIntConsumer(c2, UncheckedException.class);
+        assertIntConsumer(c3, Exception.class);
+        assertIntConsumer(c4, Exception.class);
     }
 
     @Test
     public void testCheckedIntConsumerWithCustomHandler() {
-
         final CheckedIntConsumer intConsumer = l -> {
             throw new Exception("" + l);
         };
@@ -98,21 +102,23 @@ public class CheckedConsumerTest {
 
     @Test
     public void testCheckedLongConsumer() {
-
         final CheckedLongConsumer longConsumer = l -> {
             throw new Exception("" + l);
         };
 
-        LongConsumer test = Unchecked.longConsumer(longConsumer);
-        LongConsumer alias = CheckedLongConsumer.unchecked(longConsumer);
+        LongConsumer c1 = Unchecked.longConsumer(longConsumer);
+        LongConsumer c2 = CheckedLongConsumer.unchecked(longConsumer);
+        LongConsumer c3 = Sneaky.longConsumer(longConsumer);
+        LongConsumer c4 = CheckedLongConsumer.sneaky(longConsumer);
 
-        assertLongConsumer(test, UncheckedException.class);
-        assertLongConsumer(alias, UncheckedException.class);
+        assertLongConsumer(c1, UncheckedException.class);
+        assertLongConsumer(c2, UncheckedException.class);
+        assertLongConsumer(c3, Exception.class);
+        assertLongConsumer(c4, Exception.class);
     }
 
     @Test
     public void testCheckedLongConsumerWithCustomHandler() {
-
         final CheckedLongConsumer longConsumer = l -> {
             throw new Exception("" + l);
         };
@@ -129,21 +135,23 @@ public class CheckedConsumerTest {
 
     @Test
     public void testCheckedDoubleConsumer() {
-
         final CheckedDoubleConsumer doubleConsumer = d -> {
             throw new Exception("" + d);
         };
 
-        DoubleConsumer test = Unchecked.doubleConsumer(doubleConsumer);
-        DoubleConsumer alias = CheckedDoubleConsumer.unchecked(doubleConsumer);
+        DoubleConsumer c1 = Unchecked.doubleConsumer(doubleConsumer);
+        DoubleConsumer c2 = CheckedDoubleConsumer.unchecked(doubleConsumer);
+        DoubleConsumer c3 = Sneaky.doubleConsumer(doubleConsumer);
+        DoubleConsumer c4 = CheckedDoubleConsumer.sneaky(doubleConsumer);
 
-        assertDoubleConsumer(test, UncheckedException.class);
-        assertDoubleConsumer(alias, UncheckedException.class);
+        assertDoubleConsumer(c1, UncheckedException.class);
+        assertDoubleConsumer(c2, UncheckedException.class);
+        assertDoubleConsumer(c3, Exception.class);
+        assertDoubleConsumer(c4, Exception.class);
     }
 
     @Test
     public void testCheckedDoubleConsumerWithCustomHandler() {
-
         final CheckedDoubleConsumer doubleConsumer = d -> {
             throw new Exception("" + d);
         };
@@ -158,73 +166,90 @@ public class CheckedConsumerTest {
         assertDoubleConsumer(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertConsumer(Consumer<Object> test, Class<E> type) {
+    private <E extends Exception> void assertConsumer(Consumer<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.accept(null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Arrays.asList("a", "b", "c").stream().forEach(test);
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "a");
         }
     }
 
-    private <E extends RuntimeException> void assertIntConsumer(IntConsumer test, Class<E> type) {
+    private <E extends Exception> void assertIntConsumer(IntConsumer test, Class<E> type) {
         assertNotNull(test);
         try {
             test.accept(0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             Arrays.stream(new int[]{1, 2, 3}).forEach(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertLongConsumer(LongConsumer test, Class<E> type) {
+    private <E extends Exception> void assertLongConsumer(LongConsumer test, Class<E> type) {
         assertNotNull(test);
         try {
             test.accept(0L);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             Arrays.stream(new long[]{1L, 2L, 3L}).forEach(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertDoubleConsumer(DoubleConsumer test, Class<E> type) {
+    private <E extends Exception> void assertDoubleConsumer(DoubleConsumer test, Class<E> type) {
         assertNotNull(test);
         try {
             test.accept(0.0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             Arrays.stream(new double[]{1.0, 2.0, 3.0}).forEach(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1.0");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

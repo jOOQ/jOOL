@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedBiFunction<T, U, R> {
      * @return the function result
      */
     R apply(T t, U u) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#biFunction(CheckedBiFunction)}
+     */
+    static <T, U, R> BiFunction<T, U, R> sneaky(CheckedBiFunction<T, U, R> function) {
+        return Sneaky.biFunction(function);
+    }
 
     /**
      * @see {@link Unchecked#biFunction(CheckedBiFunction)}

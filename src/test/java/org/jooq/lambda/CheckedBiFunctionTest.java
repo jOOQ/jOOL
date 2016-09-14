@@ -38,21 +38,23 @@ public class CheckedBiFunctionTest {
 
     @Test
     public void testCheckedBiFunction() {
-
         final CheckedBiFunction<Object, Object, Object> biFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
 
-        BiFunction<Object, Object, Object> test = Unchecked.biFunction(biFunction);
-        BiFunction<Object, Object, Object> alias = CheckedBiFunction.unchecked(biFunction);
+        BiFunction<Object, Object, Object> f1 = Unchecked.biFunction(biFunction);
+        BiFunction<Object, Object, Object> f2 = CheckedBiFunction.unchecked(biFunction);
+        BiFunction<Object, Object, Object> f3 = Sneaky.biFunction(biFunction);
+        BiFunction<Object, Object, Object> f4 = CheckedBiFunction.sneaky(biFunction);
 
-        assertBiFunction(test, UncheckedException.class);
-        assertBiFunction(alias, UncheckedException.class);
+        assertBiFunction(f1, UncheckedException.class);
+        assertBiFunction(f2, UncheckedException.class);
+        assertBiFunction(f3, Exception.class);
+        assertBiFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedBiFunctionWithCustomHandler() {
-
         final CheckedBiFunction<Object, Object, Object> biFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
@@ -69,21 +71,23 @@ public class CheckedBiFunctionTest {
 
     @Test
     public void testCheckedToIntBiFunction() {
-
         final CheckedToIntBiFunction<Object, Object> toIntBiFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
 
-        ToIntBiFunction<Object, Object> test = Unchecked.toIntBiFunction(toIntBiFunction);
-        ToIntBiFunction<Object, Object> alias = CheckedToIntBiFunction.unchecked(toIntBiFunction);
+        ToIntBiFunction<Object, Object> f1 = Unchecked.toIntBiFunction(toIntBiFunction);
+        ToIntBiFunction<Object, Object> f2 = CheckedToIntBiFunction.unchecked(toIntBiFunction);
+        ToIntBiFunction<Object, Object> f3 = Sneaky.toIntBiFunction(toIntBiFunction);
+        ToIntBiFunction<Object, Object> f4 = CheckedToIntBiFunction.sneaky(toIntBiFunction);
 
-        assertToIntBiFunction(test, UncheckedException.class);
-        assertToIntBiFunction(alias, UncheckedException.class);
+        assertToIntBiFunction(f1, UncheckedException.class);
+        assertToIntBiFunction(f2, UncheckedException.class);
+        assertToIntBiFunction(f3, Exception.class);
+        assertToIntBiFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedToIntBiFunctionWithCustomHandler() {
-
         final CheckedToIntBiFunction<Object, Object> toIntBiFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
@@ -100,21 +104,23 @@ public class CheckedBiFunctionTest {
 
     @Test
     public void testCheckedToLongBiFunction() {
-
         final CheckedToLongBiFunction<Object, Object> toLongBiFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
 
-        ToLongBiFunction<Object, Object> test = Unchecked.toLongBiFunction(toLongBiFunction);
-        ToLongBiFunction<Object, Object> alias = CheckedToLongBiFunction.unchecked(toLongBiFunction);
+        ToLongBiFunction<Object, Object> f1 = Unchecked.toLongBiFunction(toLongBiFunction);
+        ToLongBiFunction<Object, Object> f2 = CheckedToLongBiFunction.unchecked(toLongBiFunction);
+        ToLongBiFunction<Object, Object> f3 = Sneaky.toLongBiFunction(toLongBiFunction);
+        ToLongBiFunction<Object, Object> f4 = CheckedToLongBiFunction.sneaky(toLongBiFunction);
 
-        assertToLongBiFunction(test, UncheckedException.class);
-        assertToLongBiFunction(alias, UncheckedException.class);
+        assertToLongBiFunction(f1, UncheckedException.class);
+        assertToLongBiFunction(f2, UncheckedException.class);
+        assertToLongBiFunction(f3, Exception.class);
+        assertToLongBiFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedToLongBiFunctionWithCustomHandler() {
-
         final CheckedToLongBiFunction<Object, Object> toLongBiFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
@@ -131,21 +137,23 @@ public class CheckedBiFunctionTest {
 
     @Test
     public void testCheckedToDoubleBiFunction() {
-
         final CheckedToDoubleBiFunction<Object, Object> toDoubleBiFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
 
-        ToDoubleBiFunction<Object, Object> test = Unchecked.toDoubleBiFunction(toDoubleBiFunction);
-        ToDoubleBiFunction<Object, Object> alias = CheckedToDoubleBiFunction.unchecked(toDoubleBiFunction);
+        ToDoubleBiFunction<Object, Object> f1 = Unchecked.toDoubleBiFunction(toDoubleBiFunction);
+        ToDoubleBiFunction<Object, Object> f2 = CheckedToDoubleBiFunction.unchecked(toDoubleBiFunction);
+        ToDoubleBiFunction<Object, Object> f3 = Sneaky.toDoubleBiFunction(toDoubleBiFunction);
+        ToDoubleBiFunction<Object, Object> f4 = CheckedToDoubleBiFunction.sneaky(toDoubleBiFunction);
 
-        assertToDoubleBiFunction(test, UncheckedException.class);
-        assertToDoubleBiFunction(alias, UncheckedException.class);
+        assertToDoubleBiFunction(f1, UncheckedException.class);
+        assertToDoubleBiFunction(f2, UncheckedException.class);
+        assertToDoubleBiFunction(f3, Exception.class);
+        assertToDoubleBiFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedToDoubleBiFunctionWithCustomHandler() {
-
         final CheckedToDoubleBiFunction<Object, Object> toDoubleBiFunction = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
@@ -160,12 +168,14 @@ public class CheckedBiFunctionTest {
         assertToDoubleBiFunction(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertBiFunction(BiFunction<Object, Object, Object> test, Class<E> type) {
+    private <E extends Exception> void assertBiFunction(BiFunction<Object, Object, Object> test, Class<E> type) {
         assertNotNull(test);
+        
         try {
             test.apply(null, null);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "null:null");
         }
 
@@ -173,44 +183,57 @@ public class CheckedBiFunctionTest {
             Map<Object, Object> map = new LinkedHashMap<>();
             map.put("a", "b");
             map.computeIfPresent("a", test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "a:b");
         }
     }
 
-    private <E extends RuntimeException> void assertToIntBiFunction(ToIntBiFunction<Object, Object> test, Class<E> type) {
+    private <E extends Exception> void assertToIntBiFunction(ToIntBiFunction<Object, Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsInt(null, null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null:null");
         }
     }
 
-    private <E extends RuntimeException> void assertToLongBiFunction(ToLongBiFunction<Object, Object> test, Class<E> type) {
+    private <E extends Exception> void assertToLongBiFunction(ToLongBiFunction<Object, Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsLong(null, null);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "null:null");
         }
     }
 
-    private <E extends RuntimeException> void assertToDoubleBiFunction(ToDoubleBiFunction<Object, Object> test, Class<E> type) {
+    private <E extends Exception> void assertToDoubleBiFunction(ToDoubleBiFunction<Object, Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsDouble(null, null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null:null");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

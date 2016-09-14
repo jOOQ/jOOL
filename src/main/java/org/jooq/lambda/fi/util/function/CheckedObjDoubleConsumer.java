@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.ObjDoubleConsumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedObjDoubleConsumer<T> {
      * @param value the second input argument
      */
     void accept(T t, double value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#objDoubleConsumer(CheckedObjDoubleConsumer)}
+     */
+    static <T> ObjDoubleConsumer<T> sneaky(CheckedObjDoubleConsumer<T> consumer) {
+        return Sneaky.objDoubleConsumer(consumer);
+    }
 
     /**
      * @see {@link Unchecked#objDoubleConsumer(CheckedObjDoubleConsumer)}

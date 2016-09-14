@@ -30,21 +30,23 @@ public class CheckedBiPredicateTest {
 
     @Test
     public void testCheckedBiPredicate() {
-
         final CheckedBiPredicate<Object, Object> biPredicate = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
 
-        BiPredicate<Object, Object> test = Unchecked.biPredicate(biPredicate);
-        BiPredicate<Object, Object> alias = CheckedBiPredicate.unchecked(biPredicate);
+        BiPredicate<Object, Object> p1 = Unchecked.biPredicate(biPredicate);
+        BiPredicate<Object, Object> p2 = CheckedBiPredicate.unchecked(biPredicate);
+        BiPredicate<Object, Object> p3 = Sneaky.biPredicate(biPredicate);
+        BiPredicate<Object, Object> p4 = CheckedBiPredicate.sneaky(biPredicate);
 
-        assertBiPredicate(test, UncheckedException.class);
-        assertBiPredicate(alias, UncheckedException.class);
+        assertBiPredicate(p1, UncheckedException.class);
+        assertBiPredicate(p2, UncheckedException.class);
+        assertBiPredicate(p3, Exception.class);
+        assertBiPredicate(p4, Exception.class);
     }
 
     @Test
     public void testCheckedBiPredicateWithCustomHandler() {
-
         final CheckedBiPredicate<Object, Object> biPredicate = (t, u) -> {
             throw new Exception(t + ":" + u);
         };
@@ -59,19 +61,30 @@ public class CheckedBiPredicateTest {
         assertBiPredicate(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertBiPredicate(BiPredicate<Object, Object> test, Class<E> type) {
+    private <E extends Exception> void assertBiPredicate(BiPredicate<Object, Object> test, Class<E> type) {
         assertNotNull(test);
+        
         try {
             test.test(null, null);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "null:null");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

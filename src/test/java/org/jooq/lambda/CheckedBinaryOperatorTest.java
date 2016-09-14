@@ -40,21 +40,23 @@ public class CheckedBinaryOperatorTest {
 
     @Test
     public void testCheckedBinaryOperator() {
-
         final CheckedBinaryOperator<Object> binaryOperator = (t1, t2) -> {
             throw new Exception(t1 + ":" + t2);
         };
 
-        BinaryOperator<Object> test = Unchecked.binaryOperator(binaryOperator);
-        BinaryOperator<Object> alias = CheckedBinaryOperator.unchecked(binaryOperator);
+        BinaryOperator<Object> o1 = Unchecked.binaryOperator(binaryOperator);
+        BinaryOperator<Object> o2 = CheckedBinaryOperator.unchecked(binaryOperator);
+        BinaryOperator<Object> o3 = Sneaky.binaryOperator(binaryOperator);
+        BinaryOperator<Object> o4 = CheckedBinaryOperator.sneaky(binaryOperator);
 
-        assertBinaryOperator(test, UncheckedException.class);
-        assertBinaryOperator(alias, UncheckedException.class);
+        assertBinaryOperator(o1, UncheckedException.class);
+        assertBinaryOperator(o2, UncheckedException.class);
+        assertBinaryOperator(o3, Exception.class);
+        assertBinaryOperator(o4, Exception.class);
     }
 
     @Test
     public void testCheckedBinaryOperatorWithCustomHandler() {
-
         final CheckedBinaryOperator<Object> binaryOperator = (t1, t2) -> {
             throw new Exception(t1 + ":" + t2);
         };
@@ -71,21 +73,23 @@ public class CheckedBinaryOperatorTest {
 
     @Test
     public void testCheckedIntBinaryOperator() {
-
         final CheckedIntBinaryOperator intBinaryOperator = (i1, i2) -> {
             throw new Exception(i1 + ":" + i2);
         };
 
-        IntBinaryOperator test = Unchecked.intBinaryOperator(intBinaryOperator);
-        IntBinaryOperator alias = CheckedIntBinaryOperator.unchecked(intBinaryOperator);
+        IntBinaryOperator o1 = Unchecked.intBinaryOperator(intBinaryOperator);
+        IntBinaryOperator o2 = CheckedIntBinaryOperator.unchecked(intBinaryOperator);
+        IntBinaryOperator o3 = Sneaky.intBinaryOperator(intBinaryOperator);
+        IntBinaryOperator o4 = CheckedIntBinaryOperator.sneaky(intBinaryOperator);
 
-        assertIntBinaryOperator(test, UncheckedException.class);
-        assertIntBinaryOperator(alias, UncheckedException.class);
+        assertIntBinaryOperator(o1, UncheckedException.class);
+        assertIntBinaryOperator(o2, UncheckedException.class);
+        assertIntBinaryOperator(o3, Exception.class);
+        assertIntBinaryOperator(o4, Exception.class);
     }
 
     @Test
     public void testCheckedIntBinaryOperatorWithCustomHandler() {
-
         final CheckedIntBinaryOperator intBinaryOperator = (i1, i2) -> {
             throw new Exception(i1 + ":" + i2);
         };
@@ -102,21 +106,23 @@ public class CheckedBinaryOperatorTest {
 
     @Test
     public void testCheckedLongBinaryOperator() {
-
         final CheckedLongBinaryOperator longBinaryOperator = (l1, l2) -> {
             throw new Exception(l1 + ":" + l2);
         };
 
-        LongBinaryOperator test = Unchecked.longBinaryOperator(longBinaryOperator);
-        LongBinaryOperator alias = CheckedLongBinaryOperator.unchecked(longBinaryOperator);
+        LongBinaryOperator o1 = Unchecked.longBinaryOperator(longBinaryOperator);
+        LongBinaryOperator o2 = CheckedLongBinaryOperator.unchecked(longBinaryOperator);
+        LongBinaryOperator o3 = Sneaky.longBinaryOperator(longBinaryOperator);
+        LongBinaryOperator o4 = CheckedLongBinaryOperator.sneaky(longBinaryOperator);
 
-        assertLongBinaryOperator(test, UncheckedException.class);
-        assertLongBinaryOperator(alias, UncheckedException.class);
+        assertLongBinaryOperator(o1, UncheckedException.class);
+        assertLongBinaryOperator(o2, UncheckedException.class);
+        assertLongBinaryOperator(o3, Exception.class);
+        assertLongBinaryOperator(o4, Exception.class);
     }
 
     @Test
     public void testCheckedLongBinaryOperatorWithCustomHandler() {
-
         final CheckedLongBinaryOperator longBinaryOperator = (l1, l2) -> {
             throw new Exception(l1 + ":" + l2);
         };
@@ -133,21 +139,23 @@ public class CheckedBinaryOperatorTest {
 
     @Test
     public void testCheckedDoubleBinaryOperator() {
-
         final CheckedDoubleBinaryOperator doubleBinaryOperator = (d1, d2) -> {
             throw new Exception(d1 + ":" + d2);
         };
 
-        DoubleBinaryOperator test = Unchecked.doubleBinaryOperator(doubleBinaryOperator);
-        DoubleBinaryOperator alias = CheckedDoubleBinaryOperator.unchecked(doubleBinaryOperator);
+        DoubleBinaryOperator o1 = Unchecked.doubleBinaryOperator(doubleBinaryOperator);
+        DoubleBinaryOperator o2 = CheckedDoubleBinaryOperator.unchecked(doubleBinaryOperator);
+        DoubleBinaryOperator o3 = Sneaky.doubleBinaryOperator(doubleBinaryOperator);
+        DoubleBinaryOperator o4 = CheckedDoubleBinaryOperator.sneaky(doubleBinaryOperator);
 
-        assertDoubleBinaryOperator(test, UncheckedException.class);
-        assertDoubleBinaryOperator(alias, UncheckedException.class);
+        assertDoubleBinaryOperator(o1, UncheckedException.class);
+        assertDoubleBinaryOperator(o2, UncheckedException.class);
+        assertDoubleBinaryOperator(o3, Exception.class);
+        assertDoubleBinaryOperator(o4, Exception.class);
     }
 
     @Test
     public void testCheckedDoubleBinaryOperatorWithCustomHandler() {
-
         final CheckedDoubleBinaryOperator doubleBinaryOperator = (d1, d2) -> {
             throw new Exception(d1 + ":" + d2);
         };
@@ -162,73 +170,89 @@ public class CheckedBinaryOperatorTest {
         assertDoubleBinaryOperator(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertBinaryOperator(BinaryOperator<Object> test, Class<E> type) {
+    private <E extends Exception> void assertBinaryOperator(BinaryOperator<Object> test, Class<E> type) {
         assertNotNull(test);
+        
         try {
             test.apply(null, null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null:null");
         }
 
         try {
             Stream.of((Object) "a", "b", "c").reduce(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "a:b");
         }
     }
 
-    private <E extends RuntimeException> void assertIntBinaryOperator(IntBinaryOperator test, Class<E> type) {
+    private <E extends Exception> void assertIntBinaryOperator(IntBinaryOperator test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsInt(0, 0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0:0");
         }
 
         try {
             IntStream.of(1, 2, 3).reduce(test);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             assertException(type, e, "1:2");
         }
     }
 
-    private <E extends RuntimeException> void assertLongBinaryOperator(LongBinaryOperator test, Class<E> type) {
+    private <E extends Exception> void assertLongBinaryOperator(LongBinaryOperator test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsLong(0L, 0L);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0:0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).reduce(test);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             assertException(type, e, "1:2");
         }
     }
 
-    private <E extends RuntimeException> void assertDoubleBinaryOperator(DoubleBinaryOperator test, Class<E> type) {
+    private <E extends Exception> void assertDoubleBinaryOperator(DoubleBinaryOperator test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsDouble(0.0, 0.0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0.0:0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).reduce(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1.0:2.0");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

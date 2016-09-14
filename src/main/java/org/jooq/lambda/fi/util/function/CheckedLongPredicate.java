@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.LongPredicate;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedLongPredicate {
      * otherwise {@code false}
      */
     boolean test(long value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#longPredicate(CheckedLongPredicate)}
+     */
+    static LongPredicate sneaky(CheckedLongPredicate predicate) {
+        return Sneaky.longPredicate(predicate);
+    }
 
     /**
      * @see {@link Unchecked#longPredicate(CheckedLongPredicate)}

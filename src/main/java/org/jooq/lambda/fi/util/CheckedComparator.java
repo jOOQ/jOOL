@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util;
 
 import java.util.Comparator;
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -31,6 +32,13 @@ public interface CheckedComparator<T> {
      * Compares its two arguments for order.
      */
     int compare(T o1, T o2) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#comparator(CheckedComparator)}
+     */
+    static <T> Comparator<T> sneaky(CheckedComparator<T> comparator) {
+        return Sneaky.comparator(comparator);
+    }
 
     /**
      * @see {@link Unchecked#comparator(CheckedComparator)}

@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.IntPredicate;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedIntPredicate {
      * otherwise {@code false}
      */
     boolean test(int value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#intPredicate(CheckedIntPredicate)}
+     */
+    static IntPredicate sneaky(CheckedIntPredicate predicate) {
+        return Sneaky.intPredicate(predicate);
+    }
 
     /**
      * @see {@link Unchecked#intPredicate(CheckedIntPredicate)}

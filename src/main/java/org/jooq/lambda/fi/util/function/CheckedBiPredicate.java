@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -36,6 +37,13 @@ public interface CheckedBiPredicate<T, U> {
      * otherwise {@code false}
      */
     boolean test(T t, U u) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#biPredicate(CheckedBiPredicate)}
+     */
+    static <T, U> BiPredicate<T, U> sneaky(CheckedBiPredicate<T, U> predicate) {
+        return Sneaky.biPredicate(predicate);
+    }
 
     /**
      * @see {@link Unchecked#biPredicate(CheckedBiPredicate)}

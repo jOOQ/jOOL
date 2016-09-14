@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedObjIntConsumer<T> {
      * @param value the second input argument
      */
     void accept(T t, int value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#objIntConsumer(CheckedObjIntConsumer)}
+     */
+    static <T> ObjIntConsumer<T> sneaky(CheckedObjIntConsumer<T> consumer) {
+        return Sneaky.objIntConsumer(consumer);
+    }
 
     /**
      * @see {@link Unchecked#objIntConsumer(CheckedObjIntConsumer)}

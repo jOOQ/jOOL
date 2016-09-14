@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -26,6 +27,13 @@ import org.jooq.lambda.Unchecked;
  */
 @FunctionalInterface
 public interface CheckedBinaryOperator<T> extends CheckedBiFunction<T, T, T> {
+
+    /**
+     * @see {@link Sneaky#binaryOperator(CheckedBinaryOperator)}
+     */
+    static <T> BinaryOperator<T> sneaky(CheckedBinaryOperator<T> operator) {
+        return Sneaky.binaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#binaryOperator(CheckedBinaryOperator)}

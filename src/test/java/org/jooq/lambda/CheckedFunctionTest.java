@@ -60,21 +60,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedFunction() {
-
         final CheckedFunction<Object, Object> function = t -> {
             throw new Exception("" + t);
         };
 
-        Function<Object, Object> test = Unchecked.function(function);
-        Function<Object, Object> alias = CheckedFunction.unchecked(function);
+        Function<Object, Object> f1 = Unchecked.function(function);
+        Function<Object, Object> f2 = CheckedFunction.unchecked(function);
+        Function<Object, Object> f3 = Sneaky.function(function);
+        Function<Object, Object> f4 = CheckedFunction.sneaky(function);
 
-        assertFunction(test, UncheckedException.class);
-        assertFunction(alias, UncheckedException.class);
+        assertFunction(f1, UncheckedException.class);
+        assertFunction(f2, UncheckedException.class);
+        assertFunction(f3, Exception.class);
+        assertFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedFunctionWithCustomHandler() {
-
         final CheckedFunction<Object, Object> function = t -> {
             throw new Exception("" + t);
         };
@@ -91,21 +93,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedToIntFunction() {
-
         final CheckedToIntFunction<Object> toIntFunction = t -> {
             throw new Exception("" + t);
         };
 
-        ToIntFunction<Object> test = Unchecked.toIntFunction(toIntFunction);
-        ToIntFunction<Object> alias = CheckedToIntFunction.unchecked(toIntFunction);
+        ToIntFunction<Object> f1 = Unchecked.toIntFunction(toIntFunction);
+        ToIntFunction<Object> f2 = CheckedToIntFunction.unchecked(toIntFunction);
+        ToIntFunction<Object> f3 = Sneaky.toIntFunction(toIntFunction);
+        ToIntFunction<Object> f4 = CheckedToIntFunction.sneaky(toIntFunction);
 
-        assertToIntFunction(test, UncheckedException.class);
-        assertToIntFunction(alias, UncheckedException.class);
+        assertToIntFunction(f1, UncheckedException.class);
+        assertToIntFunction(f2, UncheckedException.class);
+        assertToIntFunction(f3, Exception.class);
+        assertToIntFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedToIntFunctionWithCustomHandler() {
-
         final CheckedToIntFunction<Object> toIntFunction = t -> {
             throw new Exception("" + t);
         };
@@ -122,21 +126,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedToLongFunction() {
-
         final CheckedToLongFunction<Object> toLongFunction = t -> {
             throw new Exception("" + t);
         };
 
-        ToLongFunction<Object> test = Unchecked.toLongFunction(toLongFunction);
-        ToLongFunction<Object> alias = CheckedToLongFunction.unchecked(toLongFunction);
+        ToLongFunction<Object> f1 = Unchecked.toLongFunction(toLongFunction);
+        ToLongFunction<Object> f2 = CheckedToLongFunction.unchecked(toLongFunction);
+        ToLongFunction<Object> f3 = Sneaky.toLongFunction(toLongFunction);
+        ToLongFunction<Object> f4 = CheckedToLongFunction.sneaky(toLongFunction);
 
-        assertToLongFunction(test, UncheckedException.class);
-        assertToLongFunction(alias, UncheckedException.class);
+        assertToLongFunction(f1, UncheckedException.class);
+        assertToLongFunction(f2, UncheckedException.class);
+        assertToLongFunction(f3, Exception.class);
+        assertToLongFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedToLongFunctionWithCustomHandler() {
-
         final CheckedToLongFunction<Object> toLongFunction = t -> {
             throw new Exception("" + t);
         };
@@ -153,21 +159,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedToDoubleFunction() {
-
         final CheckedToDoubleFunction<Object> toDoubleFunction = t -> {
             throw new Exception("" + t);
         };
 
-        ToDoubleFunction<Object> test = Unchecked.toDoubleFunction(toDoubleFunction);
-        ToDoubleFunction<Object> alias = CheckedToDoubleFunction.unchecked(toDoubleFunction);
+        ToDoubleFunction<Object> f1 = Unchecked.toDoubleFunction(toDoubleFunction);
+        ToDoubleFunction<Object> f2 = CheckedToDoubleFunction.unchecked(toDoubleFunction);
+        ToDoubleFunction<Object> f3 = Sneaky.toDoubleFunction(toDoubleFunction);
+        ToDoubleFunction<Object> f4 = CheckedToDoubleFunction.sneaky(toDoubleFunction);
 
-        assertToDoubleFunction(test, UncheckedException.class);
-        assertToDoubleFunction(alias, UncheckedException.class);
+        assertToDoubleFunction(f1, UncheckedException.class);
+        assertToDoubleFunction(f2, UncheckedException.class);
+        assertToDoubleFunction(f3, Exception.class);
+        assertToDoubleFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedToDoubleunctionWithCustomHandler() {
-
         final CheckedToDoubleFunction<Object> toDoubleFunction = t -> {
             throw new Exception("" + t);
         };
@@ -184,21 +192,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedIntFunction() {
-
         final CheckedIntFunction<Object> intFunction = i -> {
             throw new Exception("" + i);
         };
 
-        IntFunction<Object> test = Unchecked.intFunction(intFunction);
-        IntFunction<Object> alias = CheckedIntFunction.unchecked(intFunction);
+        IntFunction<Object> f1 = Unchecked.intFunction(intFunction);
+        IntFunction<Object> f2 = CheckedIntFunction.unchecked(intFunction);
+        IntFunction<Object> f3 = Sneaky.intFunction(intFunction);
+        IntFunction<Object> f4 = CheckedIntFunction.sneaky(intFunction);
 
-        assertIntFunction(test, UncheckedException.class);
-        assertIntFunction(alias, UncheckedException.class);
+        assertIntFunction(f1, UncheckedException.class);
+        assertIntFunction(f2, UncheckedException.class);
+        assertIntFunction(f3, Exception.class);
+        assertIntFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedIntFunctionWithCustomHandler() {
-
         final CheckedIntFunction<Object> intFunction = i -> {
             throw new Exception("" + i);
         };
@@ -215,21 +225,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedIntToLongFunction() {
-
         final CheckedIntToLongFunction intToLongFunction = i -> {
             throw new Exception("" + i);
         };
 
-        IntToLongFunction test = Unchecked.intToLongFunction(intToLongFunction);
-        IntToLongFunction alias = CheckedIntToLongFunction.unchecked(intToLongFunction);
+        IntToLongFunction f1 = Unchecked.intToLongFunction(intToLongFunction);
+        IntToLongFunction f2 = CheckedIntToLongFunction.unchecked(intToLongFunction);
+        IntToLongFunction f3 = Sneaky.intToLongFunction(intToLongFunction);
+        IntToLongFunction f4 = CheckedIntToLongFunction.sneaky(intToLongFunction);
 
-        assertIntToLongFunction(test, UncheckedException.class);
-        assertIntToLongFunction(alias, UncheckedException.class);
+        assertIntToLongFunction(f1, UncheckedException.class);
+        assertIntToLongFunction(f2, UncheckedException.class);
+        assertIntToLongFunction(f3, Exception.class);
+        assertIntToLongFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedIntToLongFunctionWithCustomHandler() {
-
         final CheckedIntToLongFunction intToLongFunction = i -> {
             throw new Exception("" + i);
         };
@@ -246,21 +258,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedIntToDoubleFunction() {
-
         final CheckedIntToDoubleFunction intToDoubleFunction = i -> {
             throw new Exception("" + i);
         };
 
-        IntToDoubleFunction test = Unchecked.intToDoubleFunction(intToDoubleFunction);
-        IntToDoubleFunction alias = CheckedIntToDoubleFunction.unchecked(intToDoubleFunction);
+        IntToDoubleFunction f1 = Unchecked.intToDoubleFunction(intToDoubleFunction);
+        IntToDoubleFunction f2 = CheckedIntToDoubleFunction.unchecked(intToDoubleFunction);
+        IntToDoubleFunction f3 = Sneaky.intToDoubleFunction(intToDoubleFunction);
+        IntToDoubleFunction f4 = CheckedIntToDoubleFunction.sneaky(intToDoubleFunction);
 
-        assertIntToDoubleFunction(test, UncheckedException.class);
-        assertIntToDoubleFunction(alias, UncheckedException.class);
+        assertIntToDoubleFunction(f1, UncheckedException.class);
+        assertIntToDoubleFunction(f2, UncheckedException.class);
+        assertIntToDoubleFunction(f3, Exception.class);
+        assertIntToDoubleFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedIntToDoubleFunctionWithCustomHandler() {
-
         final CheckedIntToDoubleFunction intToDoubleFunction = i -> {
             throw new Exception("" + i);
         };
@@ -277,21 +291,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedLongFunction() {
-
         final CheckedLongFunction<Object> longFunction = l -> {
             throw new Exception("" + l);
         };
 
-        LongFunction<Object> test = Unchecked.longFunction(longFunction);
-        LongFunction<Object> alias = CheckedLongFunction.unchecked(longFunction);
+        LongFunction<Object> f1 = Unchecked.longFunction(longFunction);
+        LongFunction<Object> f2 = CheckedLongFunction.unchecked(longFunction);
+        LongFunction<Object> f3 = Sneaky.longFunction(longFunction);
+        LongFunction<Object> f4 = CheckedLongFunction.sneaky(longFunction);
 
-        assertLongFunction(test, UncheckedException.class);
-        assertLongFunction(alias, UncheckedException.class);
+        assertLongFunction(f1, UncheckedException.class);
+        assertLongFunction(f2, UncheckedException.class);
+        assertLongFunction(f3, Exception.class);
+        assertLongFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedLongFunctionWithCustomHandler() {
-
         final CheckedLongFunction<Object> longFunction = l -> {
             throw new Exception("" + l);
         };
@@ -308,21 +324,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedLongToIntFunction() {
-
         final CheckedLongToIntFunction longToIntFunction = l -> {
             throw new Exception("" + l);
         };
 
-        LongToIntFunction test = Unchecked.longToIntFunction(longToIntFunction);
-        LongToIntFunction alias = CheckedLongToIntFunction.unchecked(longToIntFunction);
+        LongToIntFunction f1 = Unchecked.longToIntFunction(longToIntFunction);
+        LongToIntFunction f2 = CheckedLongToIntFunction.unchecked(longToIntFunction);
+        LongToIntFunction f3 = Sneaky.longToIntFunction(longToIntFunction);
+        LongToIntFunction f4 = CheckedLongToIntFunction.sneaky(longToIntFunction);
 
-        assertLongToIntFunction(test, UncheckedException.class);
-        assertLongToIntFunction(alias, UncheckedException.class);
+        assertLongToIntFunction(f1, UncheckedException.class);
+        assertLongToIntFunction(f2, UncheckedException.class);
+        assertLongToIntFunction(f3, Exception.class);
+        assertLongToIntFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedLongToIntFunctionWithCustomHandler() {
-
         final CheckedLongToIntFunction longToIntFunction = l -> {
             throw new Exception("" + l);
         };
@@ -339,21 +357,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedLongToDoubleFunction() {
-
         final CheckedLongToDoubleFunction longToDoubleFunction = l -> {
             throw new Exception("" + l);
         };
 
-        LongToDoubleFunction test = Unchecked.longToDoubleFunction(longToDoubleFunction);
-        LongToDoubleFunction alias = CheckedLongToDoubleFunction.unchecked(longToDoubleFunction);
+        LongToDoubleFunction f1 = Unchecked.longToDoubleFunction(longToDoubleFunction);
+        LongToDoubleFunction f2 = CheckedLongToDoubleFunction.unchecked(longToDoubleFunction);
+        LongToDoubleFunction f3 = Sneaky.longToDoubleFunction(longToDoubleFunction);
+        LongToDoubleFunction f4 = CheckedLongToDoubleFunction.sneaky(longToDoubleFunction);
 
-        assertLongToDoubleFunction(test, UncheckedException.class);
-        assertLongToDoubleFunction(alias, UncheckedException.class);
+        assertLongToDoubleFunction(f1, UncheckedException.class);
+        assertLongToDoubleFunction(f2, UncheckedException.class);
+        assertLongToDoubleFunction(f3, Exception.class);
+        assertLongToDoubleFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedLongToDoubleFunctionWithCustomHandler() {
-
         final CheckedLongToDoubleFunction longToDoubleFunction = l -> {
             throw new Exception("" + l);
         };
@@ -370,21 +390,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedDoubleFunction() {
-
         final CheckedDoubleFunction<Object> doubleFunction = d -> {
             throw new Exception("" + d);
         };
 
-        DoubleFunction<Object> test = Unchecked.doubleFunction(doubleFunction);
-        DoubleFunction<Object> alias = CheckedDoubleFunction.unchecked(doubleFunction);
+        DoubleFunction<Object> f1 = Unchecked.doubleFunction(doubleFunction);
+        DoubleFunction<Object> f2 = CheckedDoubleFunction.unchecked(doubleFunction);
+        DoubleFunction<Object> f3 = Sneaky.doubleFunction(doubleFunction);
+        DoubleFunction<Object> f4 = CheckedDoubleFunction.sneaky(doubleFunction);
 
-        assertDoubleFunction(test, UncheckedException.class);
-        assertDoubleFunction(alias, UncheckedException.class);
+        assertDoubleFunction(f1, UncheckedException.class);
+        assertDoubleFunction(f2, UncheckedException.class);
+        assertDoubleFunction(f3, Exception.class);
+        assertDoubleFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedDoubleFunctionWithCustomHandler() {
-
         final CheckedDoubleFunction<Object> doubleFunction = d -> {
             throw new Exception("" + d);
         };
@@ -401,21 +423,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedDoubleToIntFunction() {
-
         final CheckedDoubleToIntFunction doubleToIntFunction = d -> {
             throw new Exception("" + d);
         };
 
-        DoubleToIntFunction test = Unchecked.doubleToIntFunction(doubleToIntFunction);
-        DoubleToIntFunction alias = CheckedDoubleToIntFunction.unchecked(doubleToIntFunction);
+        DoubleToIntFunction f1 = Unchecked.doubleToIntFunction(doubleToIntFunction);
+        DoubleToIntFunction f2 = CheckedDoubleToIntFunction.unchecked(doubleToIntFunction);
+        DoubleToIntFunction f3 = Sneaky.doubleToIntFunction(doubleToIntFunction);
+        DoubleToIntFunction f4 = CheckedDoubleToIntFunction.sneaky(doubleToIntFunction);
 
-        assertDoubleToIntFunction(test, UncheckedException.class);
-        assertDoubleToIntFunction(alias, UncheckedException.class);
+        assertDoubleToIntFunction(f1, UncheckedException.class);
+        assertDoubleToIntFunction(f2, UncheckedException.class);
+        assertDoubleToIntFunction(f3, Exception.class);
+        assertDoubleToIntFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedDoubleToIntFunctionWithCustomHandler() {
-
         final CheckedDoubleToIntFunction doubleToIntFunction = d -> {
             throw new Exception("" + d);
         };
@@ -432,21 +456,23 @@ public class CheckedFunctionTest {
 
     @Test
     public void testCheckedDoubleToLongFunction() {
-
         final CheckedDoubleToLongFunction doubleToLongFunction = d -> {
             throw new Exception("" + d);
         };
 
-        DoubleToLongFunction test = Unchecked.doubleToLongFunction(doubleToLongFunction);
-        DoubleToLongFunction alias = CheckedDoubleToLongFunction.unchecked(doubleToLongFunction);
+        DoubleToLongFunction f1 = Unchecked.doubleToLongFunction(doubleToLongFunction);
+        DoubleToLongFunction f2 = CheckedDoubleToLongFunction.unchecked(doubleToLongFunction);
+        DoubleToLongFunction f3 = Sneaky.doubleToLongFunction(doubleToLongFunction);
+        DoubleToLongFunction f4 = CheckedDoubleToLongFunction.sneaky(doubleToLongFunction);
 
-        assertDoubleToLongFunction(test, UncheckedException.class);
-        assertDoubleToLongFunction(alias, UncheckedException.class);
+        assertDoubleToLongFunction(f1, UncheckedException.class);
+        assertDoubleToLongFunction(f2, UncheckedException.class);
+        assertDoubleToLongFunction(f3, Exception.class);
+        assertDoubleToLongFunction(f4, Exception.class);
     }
 
     @Test
     public void testCheckedDoubleToLongFunctionWithCustomHandler() {
-
         final CheckedDoubleToLongFunction doubleToLongFunction = d -> {
             throw new Exception("" + d);
         };
@@ -461,218 +487,253 @@ public class CheckedFunctionTest {
         assertDoubleToLongFunction(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertFunction(Function<Object, Object> test, Class<E> type) {
+    private <E extends Exception> void assertFunction(Function<Object, Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.apply(null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Map<Object, Object> map = new LinkedHashMap<>();
             map.computeIfAbsent("a", test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "a");
         }
     }
 
-    private <E extends RuntimeException> void assertToIntFunction(ToIntFunction<Object> test, Class<E> type) {
+    private <E extends Exception> void assertToIntFunction(ToIntFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsInt(null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("1", "2", "3").mapToInt(test);
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "a");
         }
     }
 
-    private <E extends RuntimeException> void assertToLongFunction(ToLongFunction<Object> test, Class<E> type) {
+    private <E extends Exception> void assertToLongFunction(ToLongFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsLong(null);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("1", "2", "3").mapToLong(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "a");
         }
     }
 
-    private <E extends RuntimeException> void assertToDoubleFunction(ToDoubleFunction<Object> test, Class<E> type) {
+    private <E extends Exception> void assertToDoubleFunction(ToDoubleFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsDouble(null);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("1", "2", "3").mapToDouble(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "a");
         }
     }
 
-    private <E extends RuntimeException> void assertIntFunction(IntFunction<Object> test, Class<E> type) {
+    private <E extends Exception> void assertIntFunction(IntFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.apply(0);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).mapToObj(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertIntToLongFunction(IntToLongFunction test, Class<E> type) {
+    private <E extends Exception> void assertIntToLongFunction(IntToLongFunction test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsLong(0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).mapToLong(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertIntToDoubleFunction(IntToDoubleFunction test, Class<E> type) {
+    private <E extends Exception> void assertIntToDoubleFunction(IntToDoubleFunction test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsDouble(0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).mapToDouble(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertLongFunction(LongFunction<Object> test, Class<E> type) {
+    private <E extends Exception> void assertLongFunction(LongFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.apply(0L);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).mapToObj(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertLongToIntFunction(LongToIntFunction test, Class<E> type) {
+    private <E extends Exception> void assertLongToIntFunction(LongToIntFunction test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsInt(0L);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).mapToInt(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertLongToDoubleFunction(LongToDoubleFunction test, Class<E> type) {
+    private <E extends Exception> void assertLongToDoubleFunction(LongToDoubleFunction test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsDouble(0L);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).mapToDouble(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1");
         }
     }
 
-    private <E extends RuntimeException> void assertDoubleFunction(DoubleFunction<Object> test, Class<E> type) {
+    private <E extends Exception> void assertDoubleFunction(DoubleFunction<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.apply(0.0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).mapToObj(test);
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "1.0");
         }
     }
 
-    private <E extends RuntimeException> void assertDoubleToIntFunction(DoubleToIntFunction test, Class<E> type) {
+    private <E extends Exception> void assertDoubleToIntFunction(DoubleToIntFunction test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsInt(0.0);
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).mapToInt(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1.0");
         }
     }
 
-    private <E extends RuntimeException> void assertDoubleToLongFunction(DoubleToLongFunction test, Class<E> type) {
+    private <E extends Exception> void assertDoubleToLongFunction(DoubleToLongFunction test, Class<E> type) {
         assertNotNull(test);
         try {
             test.applyAsLong(0.0);
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).mapToLong(test);
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "1.0");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.IntBinaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedIntBinaryOperator {
      * @return the operator result
      */
     int applyAsInt(int left, int right) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#intBinaryOperator(CheckedIntBinaryOperator)}
+     */
+    static IntBinaryOperator sneaky(CheckedIntBinaryOperator operator) {
+        return Sneaky.intBinaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#intBinaryOperator(CheckedIntBinaryOperator)}

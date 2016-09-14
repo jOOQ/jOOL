@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.ToLongBiFunction;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedToLongBiFunction<T, U> {
      * @return the function result
      */
     long applyAsLong(T t, U u) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#toLongBiFunction(CheckedToLongBiFunction)}
+     */
+    static <T, U> ToLongBiFunction<T, U> sneaky(CheckedToLongBiFunction<T, U> function) {
+        return Sneaky.toLongBiFunction(function);
+    }
 
     /**
      * @see {@link Unchecked#toLongBiFunction(CheckedToLongBiFunction)}

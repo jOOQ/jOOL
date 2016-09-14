@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -33,6 +34,13 @@ public interface CheckedBooleanSupplier {
      * @return a result
      */
     boolean getAsBoolean() throws Throwable;
+
+    /**
+     * @see {@link Sneaky#booleanSupplier(CheckedBooleanSupplier)}
+     */
+    static BooleanSupplier sneaky(CheckedBooleanSupplier supplier) {
+        return Sneaky.booleanSupplier(supplier);
+    }
 
     /**
      * @see {@link Unchecked#booleanSupplier(CheckedBooleanSupplier)}

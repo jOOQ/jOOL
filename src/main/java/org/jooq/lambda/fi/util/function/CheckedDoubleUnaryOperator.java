@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.DoubleUnaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedDoubleUnaryOperator {
      * @return the operator result
      */
     double applyAsDouble(double operand) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#doubleUnaryOperator(CheckedDoubleUnaryOperator)}
+     */
+    static DoubleUnaryOperator sneaky(CheckedDoubleUnaryOperator operator) {
+        return Sneaky.doubleUnaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#doubleUnaryOperator(CheckedDoubleUnaryOperator)}

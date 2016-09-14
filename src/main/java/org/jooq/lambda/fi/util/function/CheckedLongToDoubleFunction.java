@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.LongToDoubleFunction;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedLongToDoubleFunction {
      * @return the function result
      */
     double applyAsDouble(long value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#longToDoubleFunction(CheckedLongToDoubleFunction)}
+     */
+    static LongToDoubleFunction sneaky(CheckedLongToDoubleFunction function) {
+        return Sneaky.longToDoubleFunction(function);
+    }
 
     /**
      * @see {@link Unchecked#longToDoubleFunction(CheckedLongToDoubleFunction)}

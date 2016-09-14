@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.LongUnaryOperator;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -34,6 +35,13 @@ public interface CheckedLongUnaryOperator {
      * @return the operator result
      */
     long applyAsLong(long operand) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#longUnaryOperator(CheckedLongUnaryOperator)}
+     */
+    static LongUnaryOperator sneaky(CheckedLongUnaryOperator operator) {
+        return Sneaky.longUnaryOperator(operator);
+    }
 
     /**
      * @see {@link Unchecked#longUnaryOperator(CheckedLongUnaryOperator)}

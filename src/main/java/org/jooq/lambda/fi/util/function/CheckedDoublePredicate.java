@@ -17,6 +17,7 @@ package org.jooq.lambda.fi.util.function;
 
 import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
+import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
 
 /**
@@ -35,6 +36,13 @@ public interface CheckedDoublePredicate {
      * otherwise {@code false}
      */
     boolean test(double value) throws Throwable;
+
+    /**
+     * @see {@link Sneaky#doublePredicate(CheckedDoublePredicate)}
+     */
+    static DoublePredicate sneaky(CheckedDoublePredicate predicate) {
+        return Sneaky.doublePredicate(predicate);
+    }
 
     /**
      * @see {@link Unchecked#doublePredicate(CheckedDoublePredicate)}

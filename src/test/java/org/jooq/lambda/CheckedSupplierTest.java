@@ -42,21 +42,23 @@ public class CheckedSupplierTest {
 
     @Test
     public void testCheckedSupplier() {
-
         final CheckedSupplier<Object> supplier = () -> {
             throw new Exception("object");
         };
 
-        Supplier<Object> test = Unchecked.supplier(supplier);
-        Supplier<Object> alias = CheckedSupplier.unchecked(supplier);
+        Supplier<Object> s1 = Unchecked.supplier(supplier);
+        Supplier<Object> s2 = CheckedSupplier.unchecked(supplier);
+        Supplier<Object> s3 = Sneaky.supplier(supplier);
+        Supplier<Object> s4 = CheckedSupplier.sneaky(supplier);
 
-        assertSupplier(test, UncheckedException.class);
-        assertSupplier(alias, UncheckedException.class);
+        assertSupplier(s1, UncheckedException.class);
+        assertSupplier(s2, UncheckedException.class);
+        assertSupplier(s3, Exception.class);
+        assertSupplier(s4, Exception.class);
     }
 
     @Test
     public void testCheckedSupplierWithCustomHandler() {
-
         final CheckedSupplier<Object> supplier = () -> {
             throw new Exception("object");
         };
@@ -73,21 +75,23 @@ public class CheckedSupplierTest {
 
     @Test
     public void testCheckedIntSupplier() {
-
         final CheckedIntSupplier intSupplier = () -> {
             throw new Exception("int");
         };
 
-        IntSupplier test = Unchecked.intSupplier(intSupplier);
-        IntSupplier alias = CheckedIntSupplier.unchecked(intSupplier);
+        IntSupplier s1 = Unchecked.intSupplier(intSupplier);
+        IntSupplier s2 = CheckedIntSupplier.unchecked(intSupplier);
+        IntSupplier s3 = Sneaky.intSupplier(intSupplier);
+        IntSupplier s4 = CheckedIntSupplier.sneaky(intSupplier);
 
-        assertIntSupplier(test, UncheckedException.class);
-        assertIntSupplier(alias, UncheckedException.class);
+        assertIntSupplier(s1, UncheckedException.class);
+        assertIntSupplier(s2, UncheckedException.class);
+        assertIntSupplier(s3, Exception.class);
+        assertIntSupplier(s4, Exception.class);
     }
 
     @Test
     public void testCheckedIntSupplierWithCustomHandler() {
-
         final CheckedIntSupplier intSupplier = () -> {
             throw new Exception("int");
         };
@@ -104,21 +108,23 @@ public class CheckedSupplierTest {
 
     @Test
     public void testCheckedLongSupplier() {
-
         final CheckedLongSupplier longSupplier = () -> {
             throw new Exception("long");
         };
 
-        LongSupplier test = Unchecked.longSupplier(longSupplier);
-        LongSupplier alias = CheckedLongSupplier.unchecked(longSupplier);
+        LongSupplier s1 = Unchecked.longSupplier(longSupplier);
+        LongSupplier s2 = CheckedLongSupplier.unchecked(longSupplier);
+        LongSupplier s3 = Sneaky.longSupplier(longSupplier);
+        LongSupplier s4 = CheckedLongSupplier.sneaky(longSupplier);
 
-        assertLongSupplier(test, UncheckedException.class);
-        assertLongSupplier(alias, UncheckedException.class);
+        assertLongSupplier(s1, UncheckedException.class);
+        assertLongSupplier(s2, UncheckedException.class);
+        assertLongSupplier(s3, Exception.class);
+        assertLongSupplier(s4, Exception.class);
     }
 
     @Test
     public void testCheckedLongSupplierWithCustomHandler() {
-
         final CheckedLongSupplier longSupplier = () -> {
             throw new Exception("long");
         };
@@ -135,21 +141,23 @@ public class CheckedSupplierTest {
 
     @Test
     public void testCheckedDoubleSupplier() {
-
         final CheckedDoubleSupplier doubleSupplier = () -> {
             throw new Exception("double");
         };
 
-        DoubleSupplier test = Unchecked.doubleSupplier(doubleSupplier);
-        DoubleSupplier alias = CheckedDoubleSupplier.unchecked(doubleSupplier);
+        DoubleSupplier s1 = Unchecked.doubleSupplier(doubleSupplier);
+        DoubleSupplier s2 = CheckedDoubleSupplier.unchecked(doubleSupplier);
+        DoubleSupplier s3 = Sneaky.doubleSupplier(doubleSupplier);
+        DoubleSupplier s4 = CheckedDoubleSupplier.sneaky(doubleSupplier);
 
-        assertDoubleSupplier(test, UncheckedException.class);
-        assertDoubleSupplier(alias, UncheckedException.class);
+        assertDoubleSupplier(s1, UncheckedException.class);
+        assertDoubleSupplier(s2, UncheckedException.class);
+        assertDoubleSupplier(s3, Exception.class);
+        assertDoubleSupplier(s4, Exception.class);
     }
 
     @Test
     public void testCheckedDoubleSupplierWithCustomHandler() {
-
         final CheckedDoubleSupplier doubleSupplier = () -> {
             throw new Exception("double");
         };
@@ -166,21 +174,23 @@ public class CheckedSupplierTest {
 
     @Test
     public void testCheckedBooleanSupplier() {
-
         final CheckedBooleanSupplier booleanSupplier = () -> {
             throw new Exception("boolean");
         };
 
-        BooleanSupplier test = Unchecked.booleanSupplier(booleanSupplier);
-        BooleanSupplier alias = CheckedBooleanSupplier.unchecked(booleanSupplier);
+        BooleanSupplier s1 = Unchecked.booleanSupplier(booleanSupplier);
+        BooleanSupplier s2 = CheckedBooleanSupplier.unchecked(booleanSupplier);
+        BooleanSupplier s3 = Sneaky.booleanSupplier(booleanSupplier);
+        BooleanSupplier s4 = CheckedBooleanSupplier.sneaky(booleanSupplier);
 
-        assertBooleanSupplier(test, UncheckedException.class);
-        assertBooleanSupplier(alias, UncheckedException.class);
+        assertBooleanSupplier(s1, UncheckedException.class);
+        assertBooleanSupplier(s2, UncheckedException.class);
+        assertBooleanSupplier(s3, Exception.class);
+        assertBooleanSupplier(s4, Exception.class);
     }
 
     @Test
     public void testCheckedBooleanSupplierWithCustomHandler() {
-
         final CheckedBooleanSupplier booleanSupplier = () -> {
             throw new Exception("boolean");
         };
@@ -195,83 +205,101 @@ public class CheckedSupplierTest {
         assertBooleanSupplier(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertSupplier(Supplier<Object> test, Class<E> type) {
+    private <E extends Exception> void assertSupplier(Supplier<Object> test, Class<E> type) {
         assertNotNull(test);
         try {
             test.get();
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "object");
         }
 
         try {
             Stream.generate(test).findFirst();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "object");
         }
     }
 
-    private <E extends RuntimeException> void assertIntSupplier(IntSupplier test, Class<E> type) {
+    private <E extends Exception> void assertIntSupplier(IntSupplier test, Class<E> type) {
         assertNotNull(test);
         try {
             test.getAsInt();
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "int");
         }
 
         try {
             IntStream.generate(test).findFirst();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "int");
         }
     }
 
-    private <E extends RuntimeException> void assertLongSupplier(LongSupplier test, Class<E> type) {
+    private <E extends Exception> void assertLongSupplier(LongSupplier test, Class<E> type) {
         assertNotNull(test);
         try {
             test.getAsLong();
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "long");
         }
 
         try {
             LongStream.generate(test).findFirst();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "long");
         }
     }
 
-    private <E extends RuntimeException> void assertDoubleSupplier(DoubleSupplier test, Class<E> type) {
+    private <E extends Exception> void assertDoubleSupplier(DoubleSupplier test, Class<E> type) {
         assertNotNull(test);
         try {
             test.getAsDouble();
             fail();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "double");
         }
 
         try {
             DoubleStream.generate(test).findFirst();
-        } catch (RuntimeException e) {
+        }
+        catch (Exception e) {
             assertException(type, e, "double");
         }
     }
 
-    private <E extends RuntimeException> void assertBooleanSupplier(BooleanSupplier test, Class<E> type) {
+    private <E extends Exception> void assertBooleanSupplier(BooleanSupplier test, Class<E> type) {
         assertNotNull(test);
         try {
             test.getAsBoolean();
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "boolean");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 }

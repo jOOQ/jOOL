@@ -29,21 +29,23 @@ public class CheckedRunnableTest {
 
     @Test
     public void testCheckedRunnable() {
-
         final CheckedRunnable runnable = () -> {
             throw new Exception("runnable");
         };
 
-        Runnable test = Unchecked.runnable(runnable);
-        Runnable alias = CheckedRunnable.unchecked(runnable);
+        Runnable r1 = Unchecked.runnable(runnable);
+        Runnable r2 = CheckedRunnable.unchecked(runnable);
+        Runnable r3 = Sneaky.runnable(runnable);
+        Runnable r4 = CheckedRunnable.sneaky(runnable);
 
-        assertRunnable(test, UncheckedException.class);
-        assertRunnable(alias, UncheckedException.class);
+        assertRunnable(r1, UncheckedException.class);
+        assertRunnable(r2, UncheckedException.class);
+        assertRunnable(r3, Exception.class);
+        assertRunnable(r4, Exception.class);
     }
 
     @Test
     public void testCheckedRunnableWithCustomHandler() {
-
         final CheckedRunnable runnable = () -> {
             throw new Exception("runnable");
         };
@@ -58,35 +60,46 @@ public class CheckedRunnableTest {
         assertRunnable(alias, IllegalStateException.class);
     }
 
-    private <E extends RuntimeException> void assertRunnable(Runnable test, Class<E> type) {
+    private <E extends Exception> void assertRunnable(Runnable test, Class<E> type) {
         assertNotNull(test);
         try {
             test.run();
             fail();
-        } catch (RuntimeException e) {
+        } 
+        catch (Exception e) {
             assertException(type, e, "runnable");
         }
     }
 
-    private <E extends RuntimeException> void assertException(Class<E> type, RuntimeException e, String message) {
+    private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-        assertEquals(Exception.class, e.getCause().getClass());
-        assertEquals(message, e.getCause().getMessage());
+        
+        // Sneaky
+        if (e.getCause() == null) {
+            assertEquals(message, e.getMessage());
+        }
+        
+        // Unchecked
+        else {
+            assertEquals(Exception.class, e.getCause().getClass());
+            assertEquals(message, e.getCause().getMessage());
+        }
     }
 
     @Test
     public void testCheckedRunnableRethrowAll() {
         Runnable test = Unchecked.runnable(
-                () -> {
-                    throw new Throwable("runnable");
-                },
-                Unchecked.RETHROW_ALL
+            () -> {
+                throw new Throwable("runnable");
+            },
+            Unchecked.RETHROW_ALL
         );
 
         try {
             test.run();
             fail();
-        } catch (Throwable e) {
+        } 
+        catch (Throwable e) {
             assertEquals("runnable", e.getMessage());
         }
     }
