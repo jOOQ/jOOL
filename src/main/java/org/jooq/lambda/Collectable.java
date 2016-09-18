@@ -688,6 +688,11 @@ public interface Collectable<T> {
     <L extends List<T>> L toList(Supplier<L> factory);
     
     /**
+     * Collect the collectable into an unmodifiable {@link List}.
+     */
+    List<T> toUnmodifiableList();
+    
+    /**
      * Collect the collectable into a {@link LinkedHashSet}.
      */
     Set<T> toSet();
@@ -696,6 +701,11 @@ public interface Collectable<T> {
      * Collect the collectable into a {@link Set}.
      */
     <S extends Set<T>> S toSet(Supplier<S> factory);
+    
+    /**
+     * Collect the collectable into an unmodifiable {@link Set}.
+     */
+    Set<T> toUnmodifiableSet();
     
     /**
      * Collect the collectable into a {@link Collection}.

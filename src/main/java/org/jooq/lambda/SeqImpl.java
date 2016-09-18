@@ -564,6 +564,11 @@ class SeqImpl<T> implements Seq<T> {
     }
 
     @Override
+    public List<T> toUnmodifiableList() {
+        return Collections.unmodifiableList(toList());
+    }
+    
+    @Override
     public Set<T> toSet() {
         return Seq.toSet(this);
     }
@@ -573,6 +578,11 @@ class SeqImpl<T> implements Seq<T> {
         return Seq.toCollection(this, factory);
     }
 
+    @Override
+    public Set<T> toUnmodifiableSet() {
+        return Collections.unmodifiableSet(toSet());
+    }
+    
     @Override
     public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
         return Seq.toCollection(this, factory);

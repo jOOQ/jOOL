@@ -2722,4 +2722,10 @@ public class SeqTest {
         assertEquals("BA", Seq.of("CBA", "DCBA", "DBA").commonSuffix());
         assertEquals("BBAA", Seq.of("CCBBAA", "DDBBAA", "EBBAA").commonSuffix());
     }
+    
+    @Test
+    public void testToUnmodifiableListOrSet() {
+        assertThrows(UnsupportedOperationException.class, () -> Seq.of(1, 2, 3).toUnmodifiableList().clear());
+        assertThrows(UnsupportedOperationException.class, () -> Seq.of(1, 2, 3).toUnmodifiableSet().clear());
+    }
 }

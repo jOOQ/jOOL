@@ -16,6 +16,7 @@
 package org.jooq.lambda;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.comparing;
@@ -547,6 +548,11 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
+    public List<T> toUnmodifiableList() {
+        return Collections.unmodifiableList(toList());
+    }
+    
+    @Override
     public Set<T> toSet() {
         return partition.cacheIf(completePartition(), "toSet", () -> window().toSet());
     }
@@ -554,6 +560,11 @@ class WindowImpl<T> implements Window<T> {
     @Override
     public <S extends Set<T>> S toSet(Supplier<S> factory) {
         return partition.cacheIf(completePartition(), () -> tuple("toSet", factory), () -> window().toSet(factory));
+    }
+
+    @Override
+    public Set<T> toUnmodifiableSet() {
+        return Collections.unmodifiableSet(toSet());
     }
 
     @Override
