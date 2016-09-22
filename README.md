@@ -133,6 +133,9 @@ Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (x, y) -> x + ":" + y);
 
 // (tuple("a", 0), tuple("b", 1), tuple("c", 2))
 Seq.of("a", "b", "c").zipWithIndex();
+
+// ("a:0", "b:1", "c:2")
+Seq.of("a", "b", "c").zipWithIndex((s, i) -> s + ":" + i);
 ```
 
 org.jooq.lambda.Unchecked
