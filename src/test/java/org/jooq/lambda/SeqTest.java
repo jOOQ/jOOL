@@ -431,6 +431,14 @@ public class SeqTest {
     }
 
     @Test
+    public void testZipWithIndexBiFunction() {
+        assertEquals(asList(), Seq.of().zipWithIndex((s, i) -> s + ":" + i).toList());
+        assertEquals(asList("a:0"), Seq.of("a").zipWithIndex((s, i) -> s + ":" + i).toList());
+        assertEquals(asList("a:0", "b:1"), Seq.of("a", "b").zipWithIndex((s, i) -> s + ":" + i).toList());
+        assertEquals(asList("a:0", "b:1", "c:2"), Seq.of("a", "b", "c").zipWithIndex((s, i) -> s + ":" + i).toList());
+    }
+
+    @Test
     public void testDuplicate() {
         Supplier<Tuple2<Seq<Integer>, Seq<Integer>>> reset = () -> Seq.of(1, 2, 3).duplicate();
         Tuple2<Seq<Integer>, Seq<Integer>> duplicate;
@@ -2515,6 +2523,29 @@ public class SeqTest {
         assertEquals(
             asList(tuple("c", 0L), tuple("b", 2L), tuple("a", 1L)),
             Seq.of("c", "a", "b").zipWithIndex().sorted(reverseOrder()).toList()
+        );
+    }
+
+    @Test
+    public void testSortedWithZipWithIndexBiFunction() {
+        assertEquals(
+            asList("a:0", "b:1", "c:2"),
+            Seq.of("c", "a", "b").sorted().zipWithIndex((s, i) -> s + ":" + i).toList()
+        );
+
+        assertEquals(
+            asList("c:0", "b:1", "a:2"),
+            Seq.of("c", "a", "b").sorted(reverseOrder()).zipWithIndex((s, i) -> s + ":" + i).toList()
+        );
+
+        assertEquals(
+            asList("a:1", "b:2", "c:0"),
+            Seq.of("c", "a", "b").zipWithIndex((s, i) -> s + ":" + i).sorted().toList()
+        );
+
+        assertEquals(
+            asList("c:0", "b:2", "a:1"),
+            Seq.of("c", "a", "b").zipWithIndex((s, i) -> s + ":" + i).sorted(reverseOrder()).toList()
         );
     }
     

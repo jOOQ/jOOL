@@ -3024,6 +3024,20 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Zip a stream with indexes into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("0:a", "1:b", "2:c")
+     * Seq.of("a", "b", "c").zipWithIndex((s, i) -> i + ":" + s))
+     * </pre></code>
+     *
+     * @see #zipWithIndex(Seq, BiFunction)
+     */
+    default <R> Seq<R> zipWithIndex(BiFunction<? super T, ? super Long, ? extends R> zipper) {
+        return zipWithIndex(this, zipper);
+    }
+
+    /**
      * Fold a Stream to the left.
      * <p>
      * <code><pre>
@@ -6585,6 +6599,48 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return SeqUtils.transform(stream, (delegate, action) ->
             delegate.tryAdvance(t ->
                 action.accept(tuple(t, index[0] = index[0] + 1))
+            )
+        );
+    }
+
+    /**
+     * Zip a stream with indexes into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("0:a", "1:b", "2:c")
+     * Seq.of("a", "b", "c").zipWithIndex((s, i) -> i + ":" + s))
+     * </pre></code>
+     */
+    static <T, R> Seq<R> zipWithIndex(Stream<? extends T> stream, BiFunction<? super T, ? super Long, ? extends R> zipper) {
+        return zipWithIndex(seq(stream), zipper);
+    }
+
+    /**
+     * Zip a stream with indexes into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("0:a", "1:b", "2:c")
+     * Seq.of("a", "b", "c").zipWithIndex((s, i) -> i + ":" + s))
+     * </pre></code>
+     */
+    static <T, R> Seq<R> zipWithIndex(Iterable<? extends T> iterable, BiFunction<? super T, ? super Long, ? extends R> zipper) {
+        return zipWithIndex(seq(iterable), zipper);
+    }
+
+    /**
+     * Zip a stream with indexes into one using a {@link BiFunction} to produce resulting values.
+     * <p>
+     * <code><pre>
+     * // ("0:a", "1:b", "2:c")
+     * Seq.of("a", "b", "c").zipWithIndex((s, i) -> i + ":" + s))
+     * </pre></code>
+     */
+    static <T, R> Seq<R> zipWithIndex(Seq<? extends T> stream, BiFunction<? super T, ? super Long, ? extends R> zipper) {
+        long[] index = { -1L };
+
+        return SeqUtils.transform(stream, (delegate, action) ->
+            delegate.tryAdvance(t ->
+                action.accept(zipper.apply(t, ++index[0]))
             )
         );
     }
