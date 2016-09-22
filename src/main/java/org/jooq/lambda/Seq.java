@@ -1049,7 +1049,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      *
-     * @see #zip(Seq, BiFunction)
+     * @see #zip(Seq, Seq, BiFunction)
      */
     default <U, R> Seq<R> zip(Seq<? extends U> other, BiFunction<? super T, ? super U, ? extends R> zipper) {
         return zip(this, other, zipper);
@@ -6598,7 +6598,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return SeqUtils.transform(stream, (delegate, action) ->
             delegate.tryAdvance(t ->
-                action.accept(tuple(t, index[0] = index[0] + 1))
+                action.accept(tuple(t, ++index[0]))
             )
         );
     }
