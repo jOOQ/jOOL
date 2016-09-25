@@ -1274,6 +1274,18 @@ public class SeqTest {
         assertEquals(asList(-1, -2, -3), u4.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u4.v2.toList());
     }
+    
+    @Test
+    public void testUnzipFromMap() {
+        Map<Integer, String> map = new LinkedHashMap<>();
+        map.put(1, "a");
+        map.put(2, "b");
+        map.put(3, "c");
+        
+        Tuple2<Seq<Integer>, Seq<String>> u1 = Seq.unzip(map);
+        assertEquals(asList(1, 2, 3), u1.v1.toList());
+        assertEquals(asList("a", "b", "c"), u1.v2.toList());
+    }
 
     @Test
     public void testUnzipWithLimits() {

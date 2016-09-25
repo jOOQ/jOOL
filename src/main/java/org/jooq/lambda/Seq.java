@@ -4895,6 +4895,18 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Unzip a Map into its keys and values.
+     * <p>
+     * <code><pre>
+     * // tuple((1, 2, 3), (a, b, c))
+     * Seq.unzip(Map.of(1, "a", 2, "b", 3, "c"));
+     * </pre></code>
+     */
+    static <K, V> Tuple2<Seq<K>, Seq<V>> unzip(Map<? extends K, ? extends V> map) {
+        return unzip(seq(map));
+    }
+    
+    /**
      * Unzip one Stream into two.
      * <p>
      * <code><pre>
