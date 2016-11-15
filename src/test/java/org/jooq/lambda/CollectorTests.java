@@ -923,4 +923,19 @@ public class CollectorTests {
         assertEquals("BA", Seq.of("CBA", "DCBA", "DBA").collect(Agg.commonSuffix()));
         assertEquals("BBAA", Seq.of("CCBBAA", "DDBBAA", "EBBAA").collect(Agg.commonSuffix()));
     }
+    
+    @Test
+    public void testFilter() {
+        assertEquals(0L, (long) Seq.<Integer>of().collect(Agg.filter(t -> false, Agg.count())));
+        assertEquals(0L, (long) Seq.<Integer>of(1).collect(Agg.filter(t -> false, Agg.count())));
+        assertEquals(0L, (long) Seq.<Integer>of(1, 2).collect(Agg.filter(t -> false, Agg.count())));
+        assertEquals(0L, (long) Seq.<Integer>of(1, 2, 3).collect(Agg.filter(t -> false, Agg.count())));
+        assertEquals(0L, (long) Seq.<Integer>of(1, 2, 3, 4).collect(Agg.filter(t -> false, Agg.count())));
+
+        assertEquals(0L, (long) Seq.<Integer>of().collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
+        assertEquals(0L, (long) Seq.<Integer>of(1).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
+        assertEquals(1L, (long) Seq.<Integer>of(1, 2).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
+        assertEquals(1L, (long) Seq.<Integer>of(1, 2, 3).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
+        assertEquals(2L, (long) Seq.<Integer>of(1, 2, 3, 4).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
+    }
 }

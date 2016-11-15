@@ -42,6 +42,21 @@ import org.jooq.lambda.tuple.Tuple2;
 public class Agg {
 
     /**
+     * Get a {@link Collector} that filters data passed to other collectors.
+     */
+    public static <T, A, R> Collector<T, A, R> filter(Predicate<? super T> predicate, Collector<T, A, R> downstream) {
+        return Collector.of(
+            () -> downstream.supplier().get(), 
+            (c, t) -> {
+                if (predicate.test(t))
+                    downstream.accumulator().accept(c, t);
+            }, 
+            (t1, t2) -> downstream.combiner().apply(t1, t2),
+            a -> downstream.finisher().apply(a)
+        );
+    } 
+    
+    /**
      * Get a {@link Collector} that calculates the <code>COUNT(*)</code>
      * function.
      */
