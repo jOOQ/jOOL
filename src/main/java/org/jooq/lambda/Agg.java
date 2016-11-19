@@ -57,6 +57,40 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that calculates the <code>FIRST</code> function.
+     *
+     * @throws NullPointerException if first element is {@code null}
+     */
+    public static <T> Collector<T, ?, Optional<T>> first() {
+        final Object empty = new Object();
+        return Collector.of(
+                () -> new Object[] { empty },
+                (a, t) -> {
+                    if (a[0] == empty) {
+                        a[0] = t;
+                    }
+                },
+                (a1, a2) -> a1,
+                a -> a[0] == empty ? Optional.empty() : Optional.of((T) a[0])
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>LAST</code> function.
+     *
+     * @throws NullPointerException if last element is {@code null}
+     */
+    public static <T> Collector<T, ?, Optional<T>> last() {
+        final Object empty = new Object();
+        return Collector.of(
+                () -> new Object[] { empty },
+                (a, t) -> a[0] = t,
+                (a1, a2) -> a2,
+                a -> a[0] == empty ? Optional.empty() : Optional.of((T) a[0])
+        );
+    }
+
+    /**
      * Get a {@link Collector} that calculates the <code>COUNT(*)</code>
      * function.
      */

@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 import static org.jooq.lambda.Agg.*;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author Lukas Eder
@@ -937,5 +938,35 @@ public class CollectorTests {
         assertEquals(1L, (long) Seq.of(1, 2).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
         assertEquals(1L, (long) Seq.of(1, 2, 3).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
         assertEquals(2L, (long) Seq.of(1, 2, 3, 4).collect(Agg.filter(t -> t % 2 == 0, Agg.count())));
+    }
+
+    @Test
+    public void testFirst() {
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(Agg.first()));
+        assertEquals(Optional.of(1), Seq.of(1).collect(Agg.first()));
+        assertEquals(Optional.of(2), Seq.of(2, 3).collect(Agg.first()));
+        assertEquals(Optional.of(4), Seq.of(4, null).collect(Agg.first()));
+        try {
+            Seq.of(null, 5, 6).collect(Agg.first());
+            fail();
+        }
+        catch (Exception e) {
+            assertEquals(NullPointerException.class, e.getClass());
+        }
+    }
+
+    @Test
+    public void testLast() {
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(Agg.last()));
+        assertEquals(Optional.of(1), Seq.of(1).collect(Agg.last()));
+        assertEquals(Optional.of(3), Seq.of(2, 3).collect(Agg.last()));
+        assertEquals(Optional.of(4), Seq.of(null, 4).collect(Agg.last()));
+        try {
+            Seq.of(5, 6, null).collect(Agg.last());
+            fail();
+        }
+        catch (Exception e) {
+            assertEquals(NullPointerException.class, e.getClass());
+        }
     }
 }
