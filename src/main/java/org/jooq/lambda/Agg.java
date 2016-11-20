@@ -57,6 +57,20 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that calculates the <code>FIRST</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<T>> first() {
+        return Collectors.reducing((v1, v2) -> v1);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>LAST</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<T>> last() {
+        return Collectors.reducing((v1, v2) -> v2);
+    }
+
+    /**
      * Get a {@link Collector} that calculates the <code>COUNT(*)</code>
      * function.
      */
