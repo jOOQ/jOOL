@@ -58,6 +58,12 @@ public class Agg {
 
     /**
      * Get a {@link Collector} that calculates the <code>FIRST</code> function.
+     * <p>
+     * Note that unlike in (Oracle) SQL, where the <code>FIRST</code> function 
+     * is an ordered set aggregate function that produces a set of results, this
+     * collector just produces the first value in the order of stream traversal.
+     * For matching behaviour to Oracle's [ aggregate function ] KEEP 
+     * (DENSE_RANK FIRST ORDER BY ... ), use {@link #maxAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> first() {
         return Collectors.reducing((v1, v2) -> v1);
@@ -65,6 +71,12 @@ public class Agg {
 
     /**
      * Get a {@link Collector} that calculates the <code>LAST</code> function.
+     * <p>
+     * Note that unlike in (Oracle) SQL, where the <code>FIRST</code> function 
+     * is an ordered set aggregate function that produces a set of results, this
+     * collector just produces the first value in the order of stream traversal.
+     * For matching behaviour to Oracle's [ aggregate function ] KEEP 
+     * (DENSE_RANK LAST ORDER BY ... ), use {@link #minAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> last() {
         return Collectors.reducing((v1, v2) -> v2);
