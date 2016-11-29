@@ -15,9 +15,9 @@
  */
 package org.jooq.lambda.function;
 
-import java.util.function.Function;
-
 import org.jooq.lambda.tuple.Tuple1;
+
+import java.util.function.Function;
 
 /**
  * A function with 1 arguments.
@@ -89,4 +89,13 @@ public interface Function1<T1, R> extends Function<T1, R> {
     default Function0<R> curry(Tuple1<? extends T1> args) {
         return () -> apply(args.v1);
     }
+
+    default <V> Function1<V, R> compose(Function1<V, T1> before) {
+        return (v -> apply(before.apply(v)));
+    }
+
+    default <V> Function1<T1, V> andThen(Function1<R, V> after) {
+        return (v -> after.apply(apply(v)));
+    }
+
 }
