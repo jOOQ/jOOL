@@ -16,9 +16,11 @@
 package org.jooq.lambda;
 
 
-import org.jooq.lambda.fi.util.function.*;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.jooq.lambda.fi.util.CheckedComparator;
+import org.jooq.lambda.fi.util.function.*;
+import org.jooq.lambda.function.Consumer1;
+import org.jooq.lambda.function.Function1;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -653,6 +655,23 @@ public final class Unchecked {
         };
     }
 
+    public static <T> Consumer1<T> consumer1(CheckedConsumer1<T> consumer) {
+        return consumer1(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
+    }
+
+    public static <T> Consumer1<T> consumer1(CheckedConsumer1<T> consumer, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                consumer.accept(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
     /**
      * Wrap a {@link CheckedIntConsumer} in a {@link IntConsumer}.
      * <p>
@@ -804,6 +823,23 @@ public final class Unchecked {
      */
     public static <T, R> Function<T, R> function(CheckedFunction<T, R> function) {
         return function(function, THROWABLE_TO_RUNTIME_EXCEPTION);
+    }
+
+    public static <T, R> Function1<T, R> function1(CheckedFunction1<T, R> function) {
+        return function1(function, THROWABLE_TO_RUNTIME_EXCEPTION);
+    }
+
+    public static <T, R> Function1<T, R> function1(CheckedFunction1<T, R> function, Consumer<Throwable> handler) {
+        return t -> {
+            try {
+                return function.apply(t);
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
     }
 
     /**

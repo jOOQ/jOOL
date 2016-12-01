@@ -16,9 +16,11 @@
 package org.jooq.lambda;
 
 
-import org.jooq.lambda.fi.util.function.*;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.jooq.lambda.fi.util.CheckedComparator;
+import org.jooq.lambda.fi.util.function.*;
+import org.jooq.lambda.function.Consumer1;
+import org.jooq.lambda.function.Function1;
 
 import java.util.Comparator;
 import java.util.function.*;
@@ -233,6 +235,11 @@ public final class Sneaky {
         return Unchecked.doubleBinaryOperator(operator, Unchecked.RETHROW_ALL);
     }
 
+    public static <T> Consumer1<T> consumer1(CheckedConsumer1<T> consumer) {
+        return Unchecked.consumer1(consumer, Unchecked.RETHROW_ALL);
+    }
+
+
     // -----------------------------------------------------------------------------------------------------------------
     // Wrappers for java.util.function.Consumers
     // -----------------------------------------------------------------------------------------------------------------
@@ -316,6 +323,10 @@ public final class Sneaky {
      */
     public static <T, R> Function<T, R> function(CheckedFunction<T, R> function) {
         return Unchecked.function(function, Unchecked.RETHROW_ALL);
+    }
+
+    public static <T, R> Function1<T, R> function1(CheckedFunction1<T, R> function) {
+        return Unchecked.function1(function, Unchecked.RETHROW_ALL);
     }
 
     /**
