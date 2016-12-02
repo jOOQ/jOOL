@@ -68,6 +68,7 @@ import org.jooq.lambda.tuple.Tuple7;
 import org.jooq.lambda.tuple.Tuple8;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -97,7 +98,32 @@ public class SeqTest {
         Seq<String> s3 = Seq.of(1, 2, 3).transform(toStringAny);
         assertEquals(asList("1", "2", "3"), s3.toList());
     }
-    
+
+    @Test
+    public void testGroupedForEach() {
+        // [#271]
+        List<String> result = new ArrayList<>();
+        Seq.range(0, 8)
+           .grouped(i -> (int) i / 3)
+           .map(Object::toString)
+           .forEach(result::add);
+
+        assertEquals(Arrays.asList("(0, 012)", "(1, 345)", "(2, 67)"), result);
+    }
+
+    // TODO re-enable [#271]
+    @Test
+    @Ignore
+    public void testGroupedToList() {
+        // [#271]
+        assertEquals(
+            "[(0, 012), (1, 345), (2, 67)]",
+            Seq.range(0, 8)
+               .grouped(i -> (int) i / 3)
+               .toList()
+               .toString());
+    }
+
     @Test
     public void testGroupedIterator() throws Exception {
         Iterator<Tuple2<Integer, Seq<Integer>>> it1 =
@@ -183,7 +209,7 @@ public class SeqTest {
     }
 
     @Test
-    public void testGroupedToList() throws Exception {
+    public void testGroupedThenMapThenToList() throws Exception {
         List<Tuple2<Integer, List<Integer>>> list =
         Seq.of(1, 2, 3, 4)
            .grouped(x -> x % 2)
