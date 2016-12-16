@@ -19,8 +19,10 @@ package org.jooq.lambda;
 import org.jooq.lambda.fi.util.function.*;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.jooq.lambda.fi.util.CheckedComparator;
+import org.jooq.lambda.fi.util.concurrent.CheckedCallable;
 
 import java.util.Comparator;
+import java.util.concurrent.Callable;
 import java.util.function.*;
 
 /**
@@ -56,6 +58,24 @@ public final class Sneaky {
      */
     public static Runnable runnable(CheckedRunnable runnable) {
         return Unchecked.runnable(runnable, Unchecked.RETHROW_ALL);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for java.util.concurrent.Callable
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedCallable} in a {@link Callable}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Executors.newFixedThreadPool(1).submit(Unchecked.callable(() -> {
+     *     throw new Exception("Cannot execute this task");
+     * })).get();
+     * </pre></code>
+     */
+    public static <T> Callable<T> callable(CheckedCallable<T> callable) {
+        return Unchecked.callable(callable, Unchecked.RETHROW_ALL);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

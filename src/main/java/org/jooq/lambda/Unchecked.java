@@ -19,10 +19,12 @@ package org.jooq.lambda;
 import org.jooq.lambda.fi.util.function.*;
 import org.jooq.lambda.fi.lang.CheckedRunnable;
 import org.jooq.lambda.fi.util.CheckedComparator;
+import org.jooq.lambda.fi.util.concurrent.CheckedCallable;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Comparator;
+import java.util.concurrent.Callable;
 import java.util.function.*;
 
 /**
@@ -108,6 +110,52 @@ public final class Unchecked {
         return () -> {
             try {
                 runnable.run();
+            }
+            catch (Throwable e) {
+                handler.accept(e);
+
+                throw new IllegalStateException("Exception handler must throw a RuntimeException", e);
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Wrappers for java.lang.Callable<T>
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Wrap a {@link CheckedCallable<T>} in a {@link Callable<T>}.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Executors.newFixedThreadPool(1).submit(Unchecked.callable(() -> {
+     *     throw new Exception("Cannot execute this task");
+     * })).get();
+     * </pre></code>
+     */
+    public static <T> Callable<T> callable(CheckedCallable<T> callable) {
+        return callable(callable, THROWABLE_TO_RUNTIME_EXCEPTION);
+    }
+
+    /**
+     * Wrap a {@link CheckedCallable<T>} in a {@link Callable<T>} with a custom handler for checked exceptions.
+     * <p>
+     * Example:
+     * <code><pre>
+     * Executors.newFixedThreadPool(1).submit(Unchecked.callable(
+     *     () -> {
+     *         throw new Exception("Cannot execute this task");
+     *     },
+     *     e -> {
+     *         throw new IllegalStateException(e);
+     *     }
+     * )).get();
+     * </pre></code>
+     */
+    public static <T> Callable<T> callable(CheckedCallable<T> callable, Consumer<Throwable> handler) {
+        return () -> {
+            try {
+                return callable.call();
             }
             catch (Throwable e) {
                 handler.accept(e);
