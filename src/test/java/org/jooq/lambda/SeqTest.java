@@ -111,9 +111,7 @@ public class SeqTest {
         assertEquals(Arrays.asList("(0, 012)", "(1, 345)", "(2, 67)"), result);
     }
 
-    // TODO re-enable [#271]
     @Test
-    @Ignore
     public void testGroupedToList() {
         // [#271]
         assertEquals(

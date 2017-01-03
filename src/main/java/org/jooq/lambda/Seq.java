@@ -9480,14 +9480,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                         buffer = new ArrayDeque<>();
                         buffers.put(nextK, buffer);
                         keys.add(nextK);
-                        return true;
+                        return false;
                     }
                 }
                 finally {
                     buffer.offer(next);
                 }
 
-                return false;
+                return true;
             }
 
             @Override
