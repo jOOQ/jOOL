@@ -10,11 +10,19 @@ public final class Async {
 
     }
 
+    public static <U> CompletionStage<U> supplyAsync(Supplier<U> supplier) {
+        return SameExecutorCompletionStage.of(CompletableFuture.supplyAsync(supplier), null);
+    }
+    
     public static <U> CompletionStage<U> supplyAsync(Supplier<U> supplier, Executor executor) {
         return SameExecutorCompletionStage.of(CompletableFuture.supplyAsync(supplier, executor), executor);
     }
 
     public static CompletionStage<Void> runAsync(Runnable runnable, Executor executor) {
         return SameExecutorCompletionStage.of(CompletableFuture.runAsync(runnable, executor), executor);
+    }
+    
+    public static CompletionStage<Void> runAsync(Runnable runnable) {
+        return SameExecutorCompletionStage.of(CompletableFuture.runAsync(runnable), null);
     }
 }
