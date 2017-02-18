@@ -28,6 +28,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final <U> CompletionStage<U> thenApplyAsync(Function<? super T, ? extends U> fn) {
+        if (defaultExecutor == null) {
+            return of(delegate.thenApplyAsync(fn), null);
+        }
         return of(delegate.thenApplyAsync(fn, defaultExecutor), defaultExecutor);
     }
 
@@ -43,6 +46,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action) {
+        if (defaultExecutor == null) {
+            return of(delegate.thenAcceptAsync(action), null);
+        }
         return of(delegate.thenAcceptAsync(action, defaultExecutor), defaultExecutor);
     }
 
@@ -58,6 +64,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final CompletionStage<Void> thenRunAsync(Runnable action) {
+        if (defaultExecutor == null) {
+            return of(delegate.thenRunAsync(action), null);
+        }
         return of(delegate.thenRunAsync(action, defaultExecutor), defaultExecutor);
     }
 
@@ -75,6 +84,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     @Override
     public final <U, V> CompletionStage<V> thenCombineAsync(CompletionStage<? extends U> other,
             BiFunction<? super T, ? super U, ? extends V> fn) {
+        if (defaultExecutor == null) {
+            return of(delegate.thenCombineAsync(other, fn), null);
+        }
         return of(delegate.thenCombineAsync(other, fn, defaultExecutor), defaultExecutor);
     }
 
@@ -93,6 +105,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
     @Override
     public final <U> CompletionStage<Void> thenAcceptBothAsync(CompletionStage<? extends U> other,
             BiConsumer<? super T, ? super U> action) {
+        if (defaultExecutor == null) {
+            return of(delegate.thenAcceptBothAsync(other, action), null);
+        }
         return of(delegate.thenAcceptBothAsync(other, action, defaultExecutor), defaultExecutor);
     }
 
@@ -109,6 +124,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final CompletionStage<Void> runAfterBothAsync(CompletionStage<?> other, Runnable action) {
+        if (defaultExecutor == null) {
+            return of(delegate.runAfterBothAsync(other, action), null);
+        }
         return of(delegate.runAfterBothAsync(other, action, defaultExecutor), defaultExecutor);
     }
 
@@ -124,6 +142,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final <U> CompletionStage<U> applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T, U> fn) {
+        if (defaultExecutor == null) {
+            return of(delegate.applyToEitherAsync(other, fn), null);
+        }
         return of(delegate.applyToEitherAsync(other, fn, defaultExecutor), defaultExecutor);
     }
 
@@ -140,6 +161,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final CompletionStage<Void> acceptEitherAsync(CompletionStage<? extends T> other, Consumer<? super T> action) {
+        if (defaultExecutor == null) {
+            return of(delegate.acceptEitherAsync(other, action), null);
+        }
         return of(delegate.acceptEitherAsync(other, action, defaultExecutor), defaultExecutor);
     }
 
@@ -156,6 +180,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final CompletionStage<Void> runAfterEitherAsync(CompletionStage<?> other, Runnable action) {
+        if (defaultExecutor == null) {
+            return of(delegate.runAfterEitherAsync(other, action), null);
+        }
         return of(delegate.runAfterEitherAsync(other, action, defaultExecutor), defaultExecutor);
     }
 
@@ -171,6 +198,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final <U> CompletionStage<U> thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn) {
+        if (defaultExecutor == null) {
+            return of(delegate.thenComposeAsync(fn), null);
+        }
         return of(delegate.thenComposeAsync(fn, defaultExecutor), defaultExecutor);
     }
 
@@ -192,6 +222,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final CompletionStage<T> whenCompleteAsync(BiConsumer<? super T, ? super Throwable> action) {
+        if (defaultExecutor == null) {
+            return of(delegate.whenCompleteAsync(action), null);
+        }
         return of(delegate.whenCompleteAsync(action, defaultExecutor), defaultExecutor);
     }
 
@@ -207,6 +240,9 @@ final class SameExecutorCompletionStage<T> implements CompletionStage<T> {
 
     @Override
     public final <U> CompletionStage<U> handleAsync(BiFunction<? super T, Throwable, ? extends U> fn) {
+        if (defaultExecutor == null) {
+            return of(delegate.handleAsync(fn), null);
+        }
         return of(delegate.handleAsync(fn, defaultExecutor), defaultExecutor);
     }
 
