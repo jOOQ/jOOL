@@ -37,7 +37,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testThenApply() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -46,12 +46,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.thenApplyAsync(latchIdentity(latch2));
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
-        latch2.await();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.thenApplyAsync(latchIdentity(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -60,7 +60,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testThenAccept() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -69,12 +69,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.thenAcceptAsync(latchConsumer(latch2));
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.thenAcceptAsync(latchConsumer(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -83,7 +83,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testThenRun() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -92,12 +92,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.thenRunAsync(latchRunnable(latch2));
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.thenRunAsync(latchRunnable(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -106,7 +106,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testThenCombine() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -115,16 +115,15 @@ public class SameExecutorCompletionStageTest {
         secondCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
-        BiFunction<Void, Void, Void> bf2 = (Void x, Void y) -> {latch2.countDown(); return null;};
+        BiFunction<Void, Void, Void> bf2 = Unchecked.biFunction((Void x, Void y) -> {latch2.await(); return null;});
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.thenCombineAsync(completedFuture(), bf2);
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
-        BiFunction<Void, Void, Void> bf3 = (Void x, Void y) -> {latch3.countDown(); return null;};
+        BiFunction<Void, Void, Void> bf3 = Unchecked.biFunction((Void x, Void y) -> {latch3.await(); return null;});
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.thenCombineAsync(completedFuture(), bf3, executorB);
-        latch3.await();
-        
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -133,7 +132,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testThenAcceptBoth() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -142,15 +141,15 @@ public class SameExecutorCompletionStageTest {
         secondCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
-        BiConsumer<Void, Void> bf2 = (Void x, Void y) -> {latch2.countDown();};
+        BiConsumer<Void, Void> bf2 = Unchecked.biConsumer((Void x, Void y) -> {latch2.await();});
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.thenAcceptBothAsync(completedFuture(), bf2);
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
-        BiConsumer<Void, Void> bf3 = (Void x, Void y) -> {latch3.countDown();};
+        BiConsumer<Void, Void> bf3 = Unchecked.biConsumer((Void x, Void y) -> {latch3.await();});
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.thenAcceptBothAsync(completedFuture(), bf3, executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -159,7 +158,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testRunAfterBoth() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -168,12 +167,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.runAfterBothAsync(completedFuture(), latchRunnable(latch2));
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.runAfterBothAsync(completedFuture(), latchRunnable(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -182,7 +181,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testApplyToEither() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -191,12 +190,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.applyToEitherAsync(neverCompleteFuture(), latchIdentity(latch2));
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.applyToEitherAsync(neverCompleteFuture(), latchIdentity(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -205,7 +204,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testAcceptEither() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -214,12 +213,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.acceptEitherAsync(neverCompleteFuture(), latchConsumer(latch2));
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.acceptEitherAsync(neverCompleteFuture(), latchConsumer(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -228,7 +227,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testRunAfterEither() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -237,12 +236,12 @@ public class SameExecutorCompletionStageTest {
         assertHits(executorA, 1);
         
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.runAfterEitherAsync(neverCompleteFuture(), latchRunnable(latch2));
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.runAfterEitherAsync(neverCompleteFuture(), latchRunnable(latch3), executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -251,7 +250,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testThenCompose() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -260,21 +259,21 @@ public class SameExecutorCompletionStageTest {
         secondCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
-        Function<Void, CompletableFuture<Void>> fn2 = x -> {
-            latch2.countDown();
+        Function<Void, CompletableFuture<Void>> fn2 = Unchecked.function(x -> {
+            latch2.await();
             return CompletableFuture.completedFuture(x);
-        };
+        });
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.thenComposeAsync(fn2);
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
-        Function<Void, CompletableFuture<Void>> fn3 = x -> {
-            latch3.countDown();
+        Function<Void, CompletableFuture<Void>> fn3 = Unchecked.function(x -> {
+            latch3.await();
             return CompletableFuture.completedFuture(x);
-        };
+        });
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.thenComposeAsync(fn3, executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -284,7 +283,7 @@ public class SameExecutorCompletionStageTest {
     public void testExceptionally() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
         firstCompletionStage = firstCompletionStage.exceptionally(ex -> null);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
     }
@@ -292,7 +291,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testWhenComplete() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
 
@@ -301,15 +300,15 @@ public class SameExecutorCompletionStageTest {
         secondCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
 
-        BiConsumer<Void, Throwable> bc2 = (Void x, Throwable y) -> {latch2.countDown();};
+        BiConsumer<Void, Throwable> bc2 = Unchecked.biConsumer((Void x, Throwable y) -> {latch2.await();});
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.whenCompleteAsync(bc2);
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
 
-        BiConsumer<Void, Throwable> bc3 = (Void x, Throwable y) -> {latch3.countDown();};
+        BiConsumer<Void, Throwable> bc3 = Unchecked.biConsumer((Void x, Throwable y) -> {latch3.await();});
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.whenCompleteAsync(bc3, executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -318,7 +317,7 @@ public class SameExecutorCompletionStageTest {
     @Test
     public void testHandle() throws InterruptedException {
         CompletionStage<Void> firstCompletionStage = Async.supplyAsync(latchSupplier(latch1), executorA);
-        latch1.await();
+        latch1.countDown();
         firstCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
@@ -327,15 +326,15 @@ public class SameExecutorCompletionStageTest {
         secondCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 1);
         
-        BiFunction<Void, Throwable, Void> bf2 = (Void x, Throwable y) -> {latch2.countDown(); return null;};
+        BiFunction<Void, Throwable, Void> bf2 = Unchecked.biFunction((Void x, Throwable y) -> {latch2.await(); return null;});
         CompletionStage<Void> thirdCompletionStage = secondCompletionStage.handleAsync(bf2);
-        latch2.await();
+        latch2.countDown();
         thirdCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         
-        BiFunction<Void, Throwable, Void> bf3 = (Void x, Throwable y) -> {latch3.countDown(); return null;};
+        BiFunction<Void, Throwable, Void> bf3 = Unchecked.biFunction((Void x, Throwable y) -> {latch3.await(); return null;});
         CompletionStage<Void> fourthCompletionStage = thirdCompletionStage.handleAsync(bf3, executorB);
-        latch3.await();
+        latch3.countDown();
         fourthCompletionStage.toCompletableFuture().join();
         assertHits(executorA, 2);
         assertHits(executorB, 1);
@@ -343,14 +342,14 @@ public class SameExecutorCompletionStageTest {
     
     private Supplier<Void> latchSupplier(CountDownLatch latch) {
         return Unchecked.supplier(() -> {
-            latch.countDown();
+            latch.await();
             return null;
         });
     }
     
     private <T> Function<T, T> latchIdentity(CountDownLatch latch) {
         return Unchecked.function(t -> {
-            latch.countDown();
+            latch.await();
             return t;
         });
     }
@@ -364,11 +363,11 @@ public class SameExecutorCompletionStageTest {
     }
     
     private <T> Consumer<T> latchConsumer(CountDownLatch latch) {
-        return (x) -> latch.countDown();
+        return Unchecked.consumer((x) -> latch.await());
     }
     
     private Runnable latchRunnable(CountDownLatch latch) {
-        return () -> latch.countDown();
+        return Unchecked.runnable(() -> latch.await());
     }
     
     private void assertHits(CallCountingExecutor exec, int hits) {
