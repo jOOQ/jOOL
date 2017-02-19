@@ -1,4 +1,4 @@
-package org.jooq.lambda.concurrent;
+package org.jooq.lambda;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;

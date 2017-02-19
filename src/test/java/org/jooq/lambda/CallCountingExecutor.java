@@ -1,4 +1,4 @@
-package org.jooq.lambda.concurrent;
+package org.jooq.lambda;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;

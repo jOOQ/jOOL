@@ -1,4 +1,4 @@
-package org.jooq.lambda.concurrent;
+package org.jooq.lambda;
 
 import static org.junit.Assert.assertNull;
 
