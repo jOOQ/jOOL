@@ -65,8 +65,8 @@ Seq.of(1, 2, 3, 4).grouped(i -> i % 2);
 // (tuple(1, 1), tuple(2, 2))
 Seq.of(1, 2, 4).innerJoin(Seq.of(1, 2, 3), (a, b) -> a == b);
 
-// (tuple(1, 1), tuple(2, 2))
-Seq.of(1, 2).innerSelfJoin((t, u) -> t == u)
+// (tuple(1, 2), tuple(2, 1))
+Seq.of(1, 2).innerSelfJoin((t, u) -> t != u)
 
 // (1, 0, 2, 0, 3, 0, 4)
 Seq.of(1, 2, 3, 4).intersperse(0);
@@ -84,7 +84,7 @@ Seq.of(1, 2, 3).join("|", "^", "$");
 Seq.of(1, 2, 4).leftOuterJoin(Seq.of(1, 2, 3), (a, b) -> a == b);
 
 // (tuple(tuple(1, 0), NULL), tuple(tuple(2, 1), tuple(1, 0)))
-Seq.of(new Tuple2<Integer, Integer>(1, 0), new Tuple2<Integer, Integer>(2, 1)).leftOuterSelfJoin((t, u) -> t.v2 == u.v1)
+Seq.of(tuple(1, 0), tuple(2, 1)).leftOuterSelfJoin((t, u) -> t.v2 == u.v1)
 
 // (1, 2)
 Seq.of(1, 2, 3, 4, 5).limitWhile(i -> i < 3);
@@ -99,7 +99,7 @@ Seq.of(new Object(), 1, "B", 2L).ofType(Number.class);
 Seq.of(1, 2, 4).rightOuterJoin(Seq.of(1, 2, 3), (a, b) -> a == b);
 
 // (tuple(NULL, tuple(1, 0)), tuple(tuple(1, 0), tuple(2, 1)))
-Seq.of(new Tuple2<Integer, Integer>(1, 0), new Tuple2<Integer, Integer>(2, 1)).rightOuterSelfJoin((t, u) -> t.v2 == u.v1)
+Seq.of(tuple(1, 0), tuple(2, 1)).rightOuterSelfJoin((t, u) -> t.v2 == u.v1)
 
 // tuple((1, 3), (2, 4))
 Seq.of(1, 2, 3, 4).partition(i -> i % 2 != 0);
