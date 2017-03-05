@@ -207,7 +207,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2))
-     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> innerJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -219,7 +219,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2))
-     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> innerJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -231,7 +231,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2))
-     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2, 3).innerJoin(Seq.of(1, 2), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> innerJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -240,8 +240,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         List<? extends U> list = other.toList();
 
         return flatMap(t -> seq(list)
-              .filter(u -> predicate.test(t, u))
-              .map(u -> tuple(t, u)))
+                           .filter(u -> predicate.test(t, u))
+                           .map(u -> tuple(t, u)))
               .onClose(other::close);
     }
 
@@ -250,7 +250,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2), tuple(3, null))
-     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> leftOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -262,7 +262,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2), tuple(3, null))
-     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> leftOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -274,7 +274,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2), tuple(3, null))
-     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2, 3).leftOuterJoin(Seq.of(1, 2), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> leftOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -283,9 +283,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         List<? extends U> list = other.toList();
 
         return flatMap(t -> seq(list)
-              .filter(u -> predicate.test(t, u))
-              .onEmpty(null)
-              .map(u -> tuple(t, u)))
+                           .filter(u -> predicate.test(t, u))
+                           .onEmpty(null)
+                           .map(u -> tuple(t, u)))
               .onClose(other::close);
     }
 
@@ -294,7 +294,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2), tuple(null, 3))
-     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> rightOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -306,7 +306,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2), tuple(null, 3))
-     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> rightOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
@@ -318,7 +318,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <p>
      * <code><pre>
      * // (tuple(1, 1), tuple(2, 2), tuple(null, 3))
-     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), t -> Objects.equals(t.v1, t.v2))
+     * Seq.of(1, 2).rightOuterJoin(Seq.of(1, 2, 3), (t, u) -> Objects.equals(t, u))
      * </pre></code>
      */
     default <U> Seq<Tuple2<T, U>> rightOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
