@@ -255,8 +255,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<? extends U> list = other.toList();
 
-        return flatMap(t -> seq(list).filter(u -> predicate.test(t, u))
-                                     .map(u -> tuple(t, u)))
+        return flatMap(t -> seq(list)
+                           .filter(u -> predicate.test(t, u))
+                           .map(u -> tuple(t, u)))
               .onClose(other::close);
     }
 
@@ -319,7 +320,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                            .filter(u -> predicate.test(t, u))
                            .onEmpty(null)
                            .map(u -> tuple(t, u)))
-                           .onClose(other::close);
+              .onClose(other::close);
     }
 
     /**
