@@ -799,6 +799,39 @@ public class SeqTest {
     }
 
     @Test
+    public void testCrossSelfJoin() {
+
+        // {A} x {B}
+        // ---------------------------------------------------------------------
+        assertEquals(asList(),
+            Seq.of().crossSelfJoin().toList());
+
+        assertEquals(asList(
+            tuple(1, 1)),
+            Seq.of(1).crossSelfJoin().toList());
+
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(1, 2),
+            tuple(2, 1),
+            tuple(2, 2)),
+            Seq.of(1, 2).crossSelfJoin().toList());
+
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(1, 2),
+            tuple(1, 3),
+            tuple(2, 1),
+            tuple(2, 2),
+            tuple(2, 3),
+            tuple(3, 1),
+            tuple(3, 2),
+            tuple(3, 3)),
+            Seq.of(1, 2, 3).crossSelfJoin().toList());
+
+    }
+
+    @Test
     public void testInnerJoin() {
         BiPredicate<Object, Object> TRUE = (t, u) -> true;
 
@@ -826,6 +859,23 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).innerJoin(Seq.of(1, 2), TRUE).toList());
+    }
+
+    @Test
+    public void testInnerSelfJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+            Seq.of().innerSelfJoin(TRUE).toList());
+
+        assertEquals(asList(
+            tuple(1, 1),
+            tuple(2, 2)),
+            Seq.of(1, 2).innerSelfJoin((t, u) -> t == u).toList());
+
+        assertEquals(asList(
+            tuple(1, 2)),
+            Seq.of(1, 2).innerSelfJoin((t, u) -> t * 2 == u).toList());
     }
 
     @Test
@@ -858,6 +908,19 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).leftOuterJoin(Seq.of(1, 2), TRUE).toList());
+    }
+
+    @Test
+    public void testLeftOuterSelfJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+            Seq.of().leftOuterSelfJoin(TRUE).toList());
+
+        assertEquals(asList(
+            tuple(tuple(1, 0), (Tuple2<Integer, Integer>) null),
+            tuple(tuple(2, 1), tuple(1,0))),
+            Seq.of(tuple(1, 0), tuple(2, 1)).leftOuterSelfJoin((t, u) -> t.v2 == u.v1).toList());
     }
 
     @Test
@@ -894,6 +957,19 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).rightOuterJoin(Seq.of(1, 2), TRUE).toList());
+    }
+
+    @Test
+    public void testRightOuterSelfJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+        
+        assertEquals(asList(),
+            Seq.of().rightOuterSelfJoin(TRUE).toList());
+
+        assertEquals(asList(
+            tuple((Tuple2<Integer, Integer>) null, tuple(1, 0)),
+            tuple(tuple(1,0), tuple(2, 1))),
+            Seq.of(tuple(1, 0), tuple(2, 1)).rightOuterSelfJoin((t, u) -> t.v1 == u.v2).toList());
     }
 
     @Test

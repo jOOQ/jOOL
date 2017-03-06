@@ -203,6 +203,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Cross join stream with itself into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(1, 2), tuple(2, 1), tuple(2, 2))
+     * Seq.of(1, 2).crossSelfJoin()
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> crossSelfJoin() {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+        List<? extends T> list = toList();
+
+        return Seq.crossJoin(seq(list), seq(list));
+    }
+
+    /**
      * Inner join 2 streams into one.
      * <p>
      * <code><pre>
@@ -243,6 +259,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                            .filter(u -> predicate.test(t, u))
                            .map(u -> tuple(t, u)))
               .onClose(other::close);
+    }
+
+    /**
+     * Inner join stream with itself.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2))
+     * Seq.of(1, 2).innerSelfJoin((t, u) -> Objects.equals(t, u))
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> innerSelfJoin(BiPredicate<? super T, ? super T> predicate) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+        List<? extends T> list = toList();
+
+        return seq(list).innerJoin(seq(list), predicate);
     }
 
     /**
@@ -290,6 +322,22 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Left outer join one streams into itself.
+     * <p>
+     * <code><pre>
+     * // (tuple(tuple(1, 0), NULL), tuple(tuple(2, 1), tuple(1, 0)))
+     * Seq.of(new Tuple2<Integer, Integer>(1, 0), new Tuple2<Integer, Integer>(2, 1)).leftOuterSelfJoin((t, u) -> Objects.equals(t.v2, u.v1))
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> leftOuterSelfJoin(BiPredicate<? super T, ? super T> predicate) {
+
+        // This algorithm isn't lazy and has substantial complexity for large argument streams!
+        List<? extends T> list = toList();
+
+        return seq(list).leftOuterJoin(seq(list), predicate);
+    }
+
+    /**
      * Right outer join 2 streams into one.
      * <p>
      * <code><pre>
@@ -326,6 +374,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
               .leftOuterJoin(this, (u, t) -> predicate.test(t, u))
               .map(t -> tuple(t.v2, t.v1))
               .onClose(other::close);
+    }
+
+    /**
+     * Right outer join stream into itself.
+     * <p>
+     * <code><pre>
+     * // (tuple(NULL, tuple(1, 0)), tuple(tuple(1, 0), tuple(2, 1)))
+     * Seq.of(new Tuple2<Integer, Integer>(1, 0), new Tuple2<Integer, Integer>(2, 1)).rightOuterSelfJoin((t, u) -> Objects.equals(t.v2, u.v1))
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> rightOuterSelfJoin(BiPredicate<? super T, ? super T> predicate) {
+        return leftOuterSelfJoin((u, t) -> predicate.test(t, u))
+              .map(t -> tuple(t.v2, t.v1));
     }
 
     /**
