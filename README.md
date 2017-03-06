@@ -99,7 +99,7 @@ Seq.of(new Object(), 1, "B", 2L).ofType(Number.class);
 Seq.of(1, 2, 4).rightOuterJoin(Seq.of(1, 2, 3), (a, b) -> a == b);
 
 // (tuple(NULL, tuple(1, 0)), tuple(tuple(1, 0), tuple(2, 1)))
-Seq.of(tuple(1, 0), tuple(2, 1)).rightOuterSelfJoin((t, u) -> t.v2 == u.v1)
+Seq.of(tuple(1, 0), tuple(2, 1)).rightOuterSelfJoin((t, u) -> t.v1 == u.v2)
 
 // tuple((1, 3), (2, 4))
 Seq.of(1, 2, 3, 4).partition(i -> i % 2 != 0);
