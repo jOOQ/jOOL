@@ -187,6 +187,13 @@ Arrays.stream(dir.listFiles())
         .forEach(System.out::println);
 ```
 
+Do note that `Unchecked` also allows you to throw checked exceptions explicitly without the compiler noticing:
+
+```java
+// Compiler doesn't see that checked Exception is being thrown:
+Unchecked.throwChecked(new Exception());
+```
+
 Maven
 -----
 ```
