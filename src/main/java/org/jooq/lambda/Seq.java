@@ -419,6 +419,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Produce this stream, or an alternative stream from the
+     * <code>supplier</code>, in case this stream is empty.
+     */
+    default Seq<T> onEmptySupply(Supplier<? extends Seq<T>> supplier) {
+        return lazy(() -> {
+            Iterator<T> it = seq.iterator();
+            return it.hasNext() ? seq(it) : supplier.get();
+        });
+    }
+
+    /**
      * Produce this stream, or throw a throwable from the
      * <code>supplier</code>, in case this stream is empty.
      */
