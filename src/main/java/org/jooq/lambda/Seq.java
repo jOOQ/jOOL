@@ -390,7 +390,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Produce this stream, or an alternative stream from the
+     * Produce this stream, or an alternative stream with the
      * <code>value</code>, in case this stream is empty.
      */
     default Seq<T> onEmpty(T value) {
@@ -398,7 +398,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Produce this stream, or an alternative stream from the
+     * Produce this stream, or an alternative stream with a value from the
      * <code>supplier</code>, in case this stream is empty.
      */
     default Seq<T> onEmptyGet(Supplier<? extends T> supplier) {
@@ -419,7 +419,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Produce this stream, or an alternative stream from the
+     * Produce this stream, or throw a throwable from the
      * <code>supplier</code>, in case this stream is empty.
      */
     default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<? extends X> supplier) {
