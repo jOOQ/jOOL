@@ -1543,6 +1543,22 @@ public class SeqTest {
     }
 
     @Test
+    public void testIterateWhilePresent() {
+        assertEquals(
+              asList(),
+              Seq.iterateWhilePresent(null, i -> Optional.empty()).toList()
+        );
+        assertEquals(
+              asList(2),
+              Seq.iterateWhilePresent(2, i -> Optional.empty()).toList()
+        );
+        assertEquals(
+              asList(2, 4, 16, 256, 65536),
+              Seq.iterateWhilePresent(2, i -> i <= 256 ? Optional.of(i * i) : Optional.empty()).toList()
+        );
+    }
+
+    @Test
     public void testOfType() {
         assertEquals(asList(1, 2, 3), Seq.of(1, "a", 2, "b", 3, null).ofType(Integer.class).toList());
         assertEquals(asList(1, "a", 2, "b", 3), Seq.of(1, "a", 2, "b", 3, null).ofType(Serializable.class).toList());
