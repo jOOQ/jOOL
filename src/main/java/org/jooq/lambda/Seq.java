@@ -257,7 +257,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
         return flatMap(t -> seq(list)
                            .filter(u -> predicate.test(t, u))
-                           .map(u -> tuple(t, u)))
+                           .map(u -> Tuple.<T, U>tuple(t, u)))
               .onClose(other::close);
     }
 
@@ -274,7 +274,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<? extends T> list = toList();
 
-        return seq(list).innerJoin(seq(list), predicate);
+        return Seq.<T>seq(list).innerJoin(seq(list), predicate);
     }
 
     /**
@@ -317,7 +317,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return flatMap(t -> seq(list)
                            .filter(u -> predicate.test(t, u))
                            .onEmpty(null)
-                           .map(u -> tuple(t, u)))
+                           .map(u -> Tuple.<T, U>tuple(t, u)))
               .onClose(other::close);
     }
 
@@ -334,7 +334,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         // This algorithm isn't lazy and has substantial complexity for large argument streams!
         List<? extends T> list = toList();
 
-        return seq(list).leftOuterJoin(seq(list), predicate);
+        return Seq.<T>seq(list).leftOuterJoin(seq(list), predicate);
     }
 
     /**
@@ -372,7 +372,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U> Seq<Tuple2<T, U>> rightOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
         return other
               .leftOuterJoin(this, (u, t) -> predicate.test(t, u))
-              .map(t -> tuple(t.v2, t.v1))
+              .map(t -> Tuple.<T, U>tuple(t.v2, t.v1))
               .onClose(other::close);
     }
 
@@ -624,7 +624,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #concat(Stream[])
      */
     default Seq<T> prepend(Stream<? extends T> other) {
-        return seq(other).concat(this);
+        return Seq.<T>seq(other).concat(this);
     }
 
     /**
@@ -638,7 +638,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see #concat(Stream[])
      */
     default Seq<T> prepend(Iterable<? extends T> other) {
-        return seq(other).concat(this);
+        return Seq.<T>seq(other).concat(this);
     }
 
     /**
@@ -697,7 +697,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     default Seq<T> prepend(Optional<? extends T> other) {
-        return Seq.seq(other).concat(this);
+        return Seq.<T>seq(other).concat(this);
     }
 
     /**

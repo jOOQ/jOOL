@@ -18,14 +18,7 @@ package org.jooq.lambda;
 import static java.util.Comparator.comparing;
 import static org.jooq.lambda.Seq.seq;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalLong;
-import java.util.Spliterator;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -97,13 +90,17 @@ class SeqUtils {
     static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
         return seq(input).groupBy(
             window.partition().compose(t -> t.v1), 
-            Collector.of(
+            Collector.<
+                Tuple2<T, Long>,
+                Collection<Tuple2<T, Long>>,
+                Partition<T>
+            >of(
                 () -> window.order().isPresent()
-                    ? new TreeSet<Tuple2<T, Long>>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
-                    : new ArrayList<Tuple2<T, Long>>(),
+                    ? new TreeSet<>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
+                    : new ArrayList<>(),
                 (s, t) -> s.add(t),
                 (s1, s2) -> { s1.addAll(s2); return s1; },
-                s -> new Partition<>(s instanceof ArrayList ? (List<Tuple2<T, Long>>) s : new ArrayList<>(s))
+                Partition::new
             )
         );
     }
