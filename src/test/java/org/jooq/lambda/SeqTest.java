@@ -1647,6 +1647,15 @@ public class SeqTest {
         assertEquals(asList(1,2), Seq.seq(Optional.of(1), Optional.of(2)).toList());
         assertEquals(asList(), Seq.seq(Optional.empty()).toList());
     }
+
+    @Test
+    public void testSeqFromSupplier() {
+        assertEquals(asList("a"), Seq.seq(() -> "a").toList());
+        assertEquals(asList(1), Seq.seq(() -> 1).toList());
+        assertEquals(asList(1L), Seq.seq(() -> 1L).toList());
+        assertEquals(asList(1.0), Seq.seq(() -> 1.0).toList());
+    }
+
     @Test
     public void testInputStream() {
         InputStream is = new ByteArrayInputStream(new byte[] { 0, 1, 2, 3 });

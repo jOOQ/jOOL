@@ -52,16 +52,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -112,6 +103,7 @@ import org.jooq.lambda.tuple.Tuple9;
  *
  * @author Lukas Eder
  * @author Roman Tkalenko
+ * @author Tomasz Linkowski
  */
 public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
 
@@ -390,7 +382,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Produce this stream, or an alternative stream from the
+     * Produce this stream, or an alternative stream with the
      * <code>value</code>, in case this stream is empty.
      */
     default Seq<T> onEmpty(T value) {
@@ -398,7 +390,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Produce this stream, or an alternative stream from the
+     * Produce this stream, or an alternative stream with a value from the
      * <code>supplier</code>, in case this stream is empty.
      */
     default Seq<T> onEmptyGet(Supplier<? extends T> supplier) {
@@ -419,7 +411,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Produce this stream, or an alternative stream from the
+     * Produce this stream, or throw a throwable from the
      * <code>supplier</code>, in case this stream is empty.
      */
     default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<? extends X> supplier) {
@@ -4621,7 +4613,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> generate(Supplier<? extends T> s) {
         return seq(Stream.generate(s));
     }
-    
+
     /**
      * Wrap an array slice into a <code>Seq</code>.
      * 
@@ -4769,6 +4761,34 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             return Seq.empty();
         
         return of(optionals).filter(Optional::isPresent).map(Optional::get);
+    }
+
+    /**
+     * Get a stream from a single element from a <code>Supplier</code>.
+     */
+    static <T> Seq<T> seq(Supplier<? extends T> s) {
+        return Seq.generate(s).limit(1);
+    }
+
+    /**
+     * Get a stream from a single element from a <code>Supplier</code>.
+     */
+    static Seq<Integer> seq(IntSupplier s) {
+        return Seq.generate(s::getAsInt).limit(1);
+    }
+
+    /**
+     * Get a stream from a single element from a <code>Supplier</code>.
+     */
+    static Seq<Long> seq(LongSupplier s) {
+        return Seq.generate(s::getAsLong).limit(1);
+    }
+
+    /**
+     * Get a stream from a single element from a <code>Supplier</code>.
+     */
+    static Seq<Double> seq(DoubleSupplier s) {
+        return Seq.generate(s::getAsDouble).limit(1);
     }
 
     /**
