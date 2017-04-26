@@ -4621,7 +4621,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> generate(Supplier<? extends T> s) {
         return seq(Stream.generate(s));
     }
-    
+
+    /**
+     * Lazily produce a <code>Seq</code>.
+     */
+    static <T> Seq<T> lazy(Supplier<? extends Stream<T>> s) {
+        return seq(Stream.of(s).flatMap(Supplier::get));
+    }
+
     /**
      * Wrap an array slice into a <code>Seq</code>.
      * 
