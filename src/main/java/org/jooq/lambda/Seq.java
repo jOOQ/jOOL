@@ -422,6 +422,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Produce this stream, or throw a throwable from the
      * <code>supplier</code>, in case this stream is empty.
      */
+    default Seq<T> onEmptySupply(Supplier<? extends Seq<T>> supplier) {
+        return lazy(() -> {
+            Iterator<T> it = seq.iterator();
+            return it.hasNext() ? seq(it) : supplier.get();
+        });
+    }
+
+    /**
+     * Produce this stream, or throw a throwable from the
+     * <code>supplier</code>, in case this stream is empty.
+     */
     default <X extends Throwable> Seq<T> onEmptyThrow(Supplier<? extends X> supplier) {
         boolean[] first = { true };
 
@@ -4621,7 +4632,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> generate(Supplier<? extends T> s) {
         return seq(Stream.generate(s));
     }
-    
+
+    /**
+     * Lazily produce a <code>Seq</code>.
+     */
+    static <T> Seq<T> lazy(Supplier<? extends Seq<T>> s) {
+        return of(s).flatMap(Supplier::get);
+    }
+
     /**
      * Wrap an array slice into a <code>Seq</code>.
      * 
