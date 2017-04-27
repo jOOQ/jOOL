@@ -924,8 +924,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre><code>
      */
     default Seq<T> removeAll(Seq<? extends T> other) {
-        Set<? extends T> set = other.toSet(HashSet::new);
-        return set.isEmpty() ? this : filter(t -> !set.contains(t)).onClose(other::close);
+        return lazy(() -> {
+            Set<? extends T> set = other.toSet(HashSet::new);
+            return set.isEmpty() ? this : filter(t -> !set.contains(t)).onClose(other::close);
+        });
     }
 
     /**
@@ -973,8 +975,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre><code>
      */
     default Seq<T> retainAll(Seq<? extends T> other) {
-        Set<? extends T> set = other.toSet(HashSet::new);
-        return set.isEmpty() ? empty() : filter(t -> set.contains(t)).onClose(other::close);
+        return lazy(() -> {
+            Set<? extends T> set = other.toSet(HashSet::new);
+            return set.isEmpty() ? empty() : filter(t -> set.contains(t)).onClose(other::close);
+        });
     }
 
     /**
@@ -6957,9 +6961,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> reverse(Seq<? extends T> stream) {
-        List<T> list = toList(stream);
-        Collections.reverse(list);
-        return seq(list).onClose(stream::close);
+        return lazy(() -> {
+            List<T> list = toList(stream);
+            Collections.reverse(list);
+            return seq(list).onClose(stream::close);
+        });
     }
 
     /**
@@ -7031,22 +7037,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Seq<? extends T> stream, Random random) {
-        Spliterator<? extends T>[] shuffled = new Spliterator[1];
-        
-        return SeqUtils.<T, T>transform(stream, (delegate, action) -> {
-            if (shuffled[0] == null) {
-                List<T> list = seq(delegate).toList();
-                
-                if (random == null)
-                    Collections.shuffle(list);
-                else
-                    Collections.shuffle(list, random);
-                
-                shuffled[0] = list.spliterator();
-            }
-
-            return shuffled[0].tryAdvance(action);
-        }).onClose(stream::close);
+        return lazy(() -> {
+            List<T> list = toList(stream);
+            if (random == null)
+                Collections.shuffle(list);
+            else
+                Collections.shuffle(list, random);
+            return seq(list).onClose(stream::close);
+        });
     }
 
     // [jooq-tools] START [crossapply-static]
