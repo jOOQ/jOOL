@@ -1537,6 +1537,10 @@ public class SeqTest {
     @Test
     public void testIterate() {
         assertEquals(
+            asList((Object) null),
+            Seq.iterate(null, i -> i).limit(1).toList()
+        );
+        assertEquals(
             asList(2, 4, 16, 256, 65536),
             Seq.iterate(2, i -> i * i).limit(5).toList()
         );
