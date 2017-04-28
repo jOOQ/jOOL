@@ -4622,7 +4622,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Lazily produce a <code>Seq</code>.
      */
     static <T> Seq<T> lazy(Supplier<? extends Stream<T>> s) {
-        return seq(Stream.of(s).flatMap(Supplier::get));
+        return SeqUtils.lazy(s);
     }
 
     /**

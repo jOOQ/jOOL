@@ -21,6 +21,7 @@ import static org.jooq.lambda.Seq.seq;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -112,7 +113,52 @@ class SeqUtils {
 
         return OptionalLong.empty();
     }
-    
+
+    static <T> Seq<T> lazy(Supplier<? extends Stream<T>> s) {
+        Stream<T>[] stream = new Stream[1];
+
+        return seq(new Spliterator<T>() {
+            private Spliterator<T> delegateOrNull = null;
+
+            @Override
+            public boolean tryAdvance(Consumer<? super T> action) {
+                return delegate().tryAdvance(action);
+            }
+
+            @Override
+            public Spliterator<T> trySplit() {
+                return null;
+            }
+
+            @Override
+            public long estimateSize() {
+                return delegate().estimateSize();
+            }
+
+            @Override
+            public int characteristics() {
+                return delegate().characteristics();
+            }
+
+            @Override
+            public Comparator<? super T> getComparator() {
+                return delegate().getComparator();
+            }
+
+            private Spliterator<T> delegate() {
+                if (delegateOrNull == null) {
+                    stream[0] = s.get();
+                    delegateOrNull = stream[0].spliterator();
+                }
+                return delegateOrNull;
+            }
+        }).onClose(() -> {
+            if (stream[0] != null) {
+                stream[0].close();
+            }
+        });
+    }
+
     /**
      * Sneaky throw any type of Throwable.
      */
