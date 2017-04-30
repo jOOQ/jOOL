@@ -2884,4 +2884,38 @@ public class SeqTest {
         assertThrows(UnsupportedOperationException.class, () -> Seq.of(1, 2, 3).toUnmodifiableList().clear());
         assertThrows(UnsupportedOperationException.class, () -> Seq.of(1, 2, 3).toUnmodifiableSet().clear());
     }
+
+    /**
+     * This method tests the validity of an Iterator obtained from given <code>source</code> <code>Seq</code>
+     * after given <code>Seq</code>-transforming <code>operation</code> has been applied to it.
+     *
+     * We test an <code>Iterator</code> (not a <code>Spliterator</code>) because <code>Stream</code>'s
+     * <code>Iterator</code> is based on the <code>Spliterator</code>, and so this <code>Iterator</code>
+     * is the most low-level derivative of given Stream</code>.
+     *
+     * This is what we would like to test:
+     * - whether every call to <code>Spliterator.tryAdvance</code> that returns <code>true</code> actually
+     * calls given <code>action</code> (if it doesn't, the <code>Iterator</code> ends prematurely)
+     * - whether calling redundantly <code>Iterator.hasNext</code> (and thus <code>Spliterator.tryAdvance</code>)
+     * does not have any side effects (such calls are valid and should be "safe")
+     *
+     * This is what we really test:
+     * - whether the number of elements fetched from the <code>source</code> is equal to <code>expectedCount</code>
+     * - whether redundantly calling <code>Iterator.hasNext</code> does not fetch any extra element from the <code>source</code>
+     *
+     * @see Spliterators#iterator
+     */
+    private <T> void verifyIteratorValidity(int expectedCount, Seq<T> source, Function<Seq<T>, Seq<?>> operation) {
+        List<T> fetchedFromSource = new ArrayList<>();
+        Iterator<?> iterator = source.peek(fetchedFromSource::add).transform(operation).iterator();
+
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+        assertEquals("number of elements fetched from source", expectedCount, fetchedFromSource.size());
+
+        // redundant call to iterator.hasNext() should not consume any more elements from source
+        iterator.hasNext();
+        assertEquals("extra element fetched due to redundant Iterator.hasNext() call", expectedCount, fetchedFromSource.size());
+    }
 }
