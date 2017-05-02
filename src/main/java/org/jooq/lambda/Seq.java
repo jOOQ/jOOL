@@ -1025,15 +1025,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Flat maps this stream using given <code>mapper</code> but in a fully lazy way.
-     *
-     * @see Stream#flatMap
-     */
-    default <R> Seq<R> flatMapLazily(Function<? super T, ? extends Stream<? extends R>> mapper) {
-        return LazyFlatMapper.flatMapLazily(this, mapper);
-    }
-
-    /**
      * Zip two streams into one.
      * <p>
      * <code><pre>
@@ -9849,6 +9840,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     @Override
     DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper);
 
+    /**
+     * ATTENTION: this <code>flatMap()</code> does not redirect to <code>Stream</code>!
+     *
+     * @see SeqImpl#flatMap
+     */
     @Override
     <R> Seq<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
 

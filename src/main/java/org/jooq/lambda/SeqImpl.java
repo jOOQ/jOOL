@@ -97,7 +97,7 @@ class SeqImpl<T> implements Seq<T> {
 
     @Override
     public <R> Seq<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
-        return Seq.seq(stream().flatMap(mapper));
+        return LazyFlatMapper.flatMapLazily(stream(), mapper);
     }
 
     @Override

@@ -20,33 +20,33 @@ public class LazyFlatMapperTest {
 
     @Test
     public void testSimpleSeq() {
-        List<Integer> peekedRegular = obtainElementsPeekedInOrderToFindFirst(simpleFlatMapSeq(false));
-        assertEquals(asList(2, 4, 6), peekedRegular); // at least 2 unnecessary elements
+        List<Integer> peekedOld = obtainElementsPeekedInOrderToFindFirst(simpleFlatMapSeq(true));
+        assertEquals(asList(2, 4, 6), peekedOld); // at least 2 unnecessary elements
 
-        List<Integer> peekedLazy = obtainElementsPeekedInOrderToFindFirst(simpleFlatMapSeq(true));
-        assertEquals(asList(2), peekedLazy);
+        List<Integer> peekedNew = obtainElementsPeekedInOrderToFindFirst(simpleFlatMapSeq(false));
+        assertEquals(asList(2), peekedNew);
 
         testNecessaryEquality(this::simpleFlatMapSeq);
     }
 
     @Test
     public void testDoublyNestedSeq() {
-        List<Integer> peekedRegular = obtainElementsPeekedInOrderToFindFirst(doublyNestedFlatMapSeq(false));
-        assertEquals(asList(2, 4, 6, 4, 8, 12, 6, 12, 18), peekedRegular); // at least 8 unnecessary elements
+        List<Integer> peekedOld = obtainElementsPeekedInOrderToFindFirst(doublyNestedFlatMapSeq(true));
+        assertEquals(asList(2, 4, 6, 4, 8, 12, 6, 12, 18), peekedOld); // at least 8 unnecessary elements
 
-        List<Integer> peekedLazy = obtainElementsPeekedInOrderToFindFirst(doublyNestedFlatMapSeq(true));
-        assertEquals(asList(2), peekedLazy);
+        List<Integer> peekedNew = obtainElementsPeekedInOrderToFindFirst(doublyNestedFlatMapSeq(false));
+        assertEquals(asList(2), peekedNew);
 
         testNecessaryEquality(this::doublyNestedFlatMapSeq);
     }
 
     @Test
     public void testVeryComplexSeq() {
-        List<Integer> peekedRegular = obtainElementsPeekedInOrderToFindFirst(veryComplexFlatMapSeq(false));
-        assertEquals(asList(8, 16, 24, 6, 12, 18, 10, 20, 30), peekedRegular); // at least 8 unnecessary elements
+        List<Integer> peekedOld = obtainElementsPeekedInOrderToFindFirst(veryComplexFlatMapSeq(true));
+        assertEquals(asList(8, 16, 24, 6, 12, 18, 10, 20, 30), peekedOld); // at least 8 unnecessary elements
 
-        List<Integer> peekedLazy = obtainElementsPeekedInOrderToFindFirst(veryComplexFlatMapSeq(true));
-        assertEquals(asList(8), peekedLazy);
+        List<Integer> peekedNew = obtainElementsPeekedInOrderToFindFirst(veryComplexFlatMapSeq(false));
+        assertEquals(asList(8), peekedNew);
 
         testNecessaryEquality(this::veryComplexFlatMapSeq);
     }
@@ -54,13 +54,13 @@ public class LazyFlatMapperTest {
     @Test
     public void testSeqClosesAllResources() {
         testCloseableFlatMapSeq(
-              regularSeq -> {
-                  List<Integer> peekedRegular = obtainElementsPeekedInOrderToFindFirst(regularSeq);
-                  assertEquals(asList(2, 4, 6), peekedRegular);
+              oldSeq -> {
+                  List<Integer> peekedOld = obtainElementsPeekedInOrderToFindFirst(oldSeq);
+                  assertEquals(asList(2, 4, 6), peekedOld);
               },
-              lazySeq -> {
-                  List<Integer> peekedLazy = obtainElementsPeekedInOrderToFindFirst(lazySeq);
-                  assertEquals(asList(2), peekedLazy);
+              newSeq -> {
+                  List<Integer> peekedNew = obtainElementsPeekedInOrderToFindFirst(newSeq);
+                  assertEquals(asList(2), peekedNew);
               }
         );
 
@@ -73,8 +73,8 @@ public class LazyFlatMapperTest {
     /**
      * Returns all the elements traversed until <code>findFirst()</code> returned its result.
      *
-     * This represents the difference between regular <code>flatMap</code> from proposed <code>flatMapLazily</code>
-     * when it was the last operation perform on the stream.
+     * This represents the difference between old (regular) <code>flatMap</code> from proposed (lazy)
+     * <code>flatMap</code> when it was the last operation performed on the stream.
      */
     private <T> List<T> obtainElementsPeekedInOrderToFindFirst(Stream<T> stream) {
         List<T> peeked = new ArrayList<>();
@@ -87,28 +87,29 @@ public class LazyFlatMapperTest {
     }
 
     /**
-     * Tests consumption of simple (singly-nested) regular and lazy seqs within try-with-resources block,
+     * Tests consumption of simple (singly-nested) old (regular) and new (lazy) seqs within try-with-resources block,
      * calling provided test operations.
      *
      * Then, after both Seqs have been consumed, ensures the same number of Seqs have been closed in order to make
      * sure that the lazy implementation indeed closes all the resources it should.
      */
-    private void testCloseableFlatMapSeq(TestOperation<Integer> regularSeqTestOp, TestOperation<Integer> lazySeqTestOp) {
-        Set<Seq<Integer>> regularClosedSeqs = createIdentitySet();
-        try (Seq<Integer> regularSeq = simpleCloseableFlatMapSeq(false, regularClosedSeqs)) {
-            regularSeqTestOp.consumeSeq(regularSeq);
+    private void testCloseableFlatMapSeq(TestOperation<Integer> oldSeqTestOp, TestOperation<Integer> newSeqTestOp) {
+        Set<Seq<Integer>> oldClosedSeqs = createIdentitySet();
+        try (Seq<Integer> regularSeq = simpleCloseableFlatMapSeq(true, oldClosedSeqs)) {
+            oldSeqTestOp.consumeSeq(regularSeq);
         }
 
-        Set<Seq<Integer>> lazyClosedSeqs = createIdentitySet();
-        try (Seq<Integer> lazySeq = simpleCloseableFlatMapSeq(true, lazyClosedSeqs)) {
-            lazySeqTestOp.consumeSeq(lazySeq);
+        Set<Seq<Integer>> newClosedSeqs = createIdentitySet();
+        try (Seq<Integer> lazySeq = simpleCloseableFlatMapSeq(false, newClosedSeqs)) {
+            newSeqTestOp.consumeSeq(lazySeq);
         }
 
-        assertEquals("closed resources", regularClosedSeqs.size(), lazyClosedSeqs.size());
+        assertEquals("closed resources", oldClosedSeqs.size(), newClosedSeqs.size());
     }
 
     /**
-     * Runs various terminal operations on both regular and lazy seq and tests that they return the same value.
+     * Runs various terminal operations on both old (regular) and new (lazy) seq
+     * and tests that they return the same value.
      */
     private void testNecessaryEquality(TestSeqProvider<Integer> seqProvider) {
         testEquality(seqProvider, Collectable::toList);
@@ -125,12 +126,12 @@ public class LazyFlatMapperTest {
     }
 
     /**
-     * Runs given terminal operation on both regular and lazy seq and test that they return the same value.
+     * Runs given terminal operation on both old (regular) and new (lazy) seq and test that they return the same value.
      */
     private <R> void testEquality(TestSeqProvider<Integer> seqProvider, TestValueOperation<Integer, R> operation) {
-        Seq<Integer> regularSeq = seqProvider.provideSeq(false);
-        Seq<Integer> lazySeq = seqProvider.provideSeq(true);
-        assertEquals(operation.applyToSeq(regularSeq), operation.applyToSeq(lazySeq));
+        Seq<Integer> oldSeq = seqProvider.provideSeq(true);
+        Seq<Integer> newSeq = seqProvider.provideSeq(false);
+        assertEquals(operation.applyToSeq(oldSeq), operation.applyToSeq(newSeq));
     }
 
     private <T> Set<Seq<T>> createIdentitySet() {
@@ -146,7 +147,7 @@ public class LazyFlatMapperTest {
      */
     @FunctionalInterface
     private interface TestSeqProvider<T> {
-        Seq<T> provideSeq(boolean lazy);
+        Seq<T> provideSeq(boolean old);
     }
 
     /**
@@ -180,31 +181,31 @@ public class LazyFlatMapperTest {
     /**
      * Simplest flat map operation (flat map called once).
      */
-    private Seq<Integer> simpleFlatMapSeq(boolean lazy) {
-        return lazy
-              ? testSeq().flatMapLazily(this::testMap)
+    private Seq<Integer> simpleFlatMapSeq(boolean old) {
+        return old
+              ? testSeq().transform(flatMapO(this::testMap))
               : testSeq().flatMap(this::testMap);
     }
 
     /**
      * Flat map called twice (two levels of flat-mapping).
      */
-    private Seq<Integer> doublyNestedFlatMapSeq(boolean lazy) {
-        return lazy
-              ? testSeq().flatMapLazily(this::testMap).flatMapLazily(this::testMap)
+    private Seq<Integer> doublyNestedFlatMapSeq(boolean old) {
+        return old
+              ? testSeq().transform(flatMapO(this::testMap)).transform(flatMapO(this::testMap))
               : testSeq().flatMap(this::testMap).flatMap(this::testMap);
     }
 
     /**
      * Flat map called a few times, among many other operations.
      */
-    private Seq<Integer> veryComplexFlatMapSeq(boolean lazy) {
-        if (lazy) {
-            return testSeq().flatMapLazily(this::testMap).limit(6)
+    private Seq<Integer> veryComplexFlatMapSeq(boolean old) {
+        if (old) {
+            return testSeq().transform(flatMapO(this::testMap)).limit(6)
                   .append(testSeq().filter(i -> i % 2 == 0).onEmpty(2).limitUntil(i -> i > 50))
-                  .flatMapLazily(i -> testMap(i).flatMapLazily(this::testMap).skip(2).limitWhile(j -> j < 10))
+                  .transform(flatMapO(i -> testMap(i).transform(flatMapO(this::testMap)).skip(2).limitWhile(j -> j < 10)))
                   .map(i -> i + 2)
-                  .flatMapLazily(this::testMap);
+                  .transform(flatMapO(this::testMap));
         } else {
             return testSeq().flatMap(this::testMap).limit(6)
                   .append(testSeq().filter(i -> i % 2 == 0).onEmpty(2).limitUntil(i -> i > 50))
@@ -218,11 +219,18 @@ public class LazyFlatMapperTest {
      * Simple flat map but with registered close handlers for all Seqs. These close handlers trace whether given Seq
      * has been closed by adding such Seq to the <code>closedSeqs</code> identity set.
      */
-    private Seq<Integer> simpleCloseableFlatMapSeq(boolean lazy, Set<Seq<Integer>> closedSeqs) {
+    private Seq<Integer> simpleCloseableFlatMapSeq(boolean old, Set<Seq<Integer>> closedSeqs) {
         Seq<Integer> closeableSeq = registerCloseHandler(testSeq(), closedSeqs);
         Function<Integer, Stream<Integer>> closeableMapper = i -> registerCloseHandler(testMap(i), closedSeqs);
-        return lazy
-              ? closeableSeq.flatMapLazily(closeableMapper)
+        return old
+              ? closeableSeq.transform(flatMapO(closeableMapper))
               : closeableSeq.flatMap(closeableMapper);
+    }
+
+    /**
+     * Transformation that perform the old (non-lazy) flat map on given argument Seq.
+     */
+    private static <T, R> Function<Seq<T>, Seq<R>> flatMapO(Function<T, ? extends Stream<? extends R>> mapper) {
+        return seq -> Seq.seq(seq.stream().flatMap(mapper));
     }
 }

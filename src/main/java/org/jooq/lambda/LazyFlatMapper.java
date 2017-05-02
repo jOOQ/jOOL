@@ -19,6 +19,9 @@ import java.util.stream.Stream;
  */
 final class LazyFlatMapper<T, R> {
 
+    /**
+     * Flat maps this stream using given <code>mapper</code> but in a fully lazy way.
+     */
     static <T, R> Seq<R> flatMapLazily(Stream<? extends T> stream, Function<? super T, ? extends Stream<? extends R>> mapper) {
         return new LazyFlatMapper<T, R>(mapper).flatMapLazily(stream);
     }
