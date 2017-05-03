@@ -4594,6 +4594,16 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Returns a sequence of elements provided by the <code>generator</code> until it returns
+     * <code>Optional.empty()</code> (in other words, it performs <code>iterateUntilAbsent</code>).
+     *
+     * @TODO when jOOL switches to Java 9, implement it using its new <code>Stream.iterate</code>
+     */
+    static <T> Seq<T> iterateWhilePresent(T seed, Function<? super T, Optional<? extends T>> generator) {
+        return iterate(Objects.requireNonNull(seed), t -> generator.apply(t).orElse(null)).limitWhile(Objects::nonNull);
+    }
+
+    /**
      * @see Stream#generate(Supplier)
      */
     static Seq<Void> generate() {
