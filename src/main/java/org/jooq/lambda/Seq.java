@@ -4600,7 +4600,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @TODO when jOOL switches to Java 9, implement it using its new <code>Stream.iterate</code>
      */
     static <T> Seq<T> iterateWhilePresent(T seed, Function<? super T, Optional<? extends T>> generator) {
-        return iterate(seed, t -> generator.apply(t).orElse(null)).limitWhile(Objects::nonNull);
+        return iterate(Objects.requireNonNull(seed), t -> generator.apply(t).orElse(null)).limitWhile(Objects::nonNull);
     }
 
     /**

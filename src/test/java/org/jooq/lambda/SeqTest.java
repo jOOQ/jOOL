@@ -1544,10 +1544,7 @@ public class SeqTest {
 
     @Test
     public void testIterateWhilePresent() {
-        assertEquals(
-              asList(),
-              Seq.iterateWhilePresent(null, i -> Optional.empty()).toList()
-        );
+        assertThrows(NullPointerException.class, () -> Seq.iterateWhilePresent(null, i -> Optional.empty()).toList());
         assertEquals(
               asList(2),
               Seq.iterateWhilePresent(2, i -> Optional.empty()).toList()
