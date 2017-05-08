@@ -924,7 +924,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre><code>
      */
     default Seq<T> removeAll(Seq<? extends T> other) {
-        return lazy(() -> {
+        return SeqUtils.lazy(() -> {
             Set<? extends T> set = other.toSet(HashSet::new);
             return set.isEmpty() ? this : filter(t -> !set.contains(t)).onClose(other::close);
         });
@@ -975,7 +975,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre><code>
      */
     default Seq<T> retainAll(Seq<? extends T> other) {
-        return lazy(() -> {
+        return SeqUtils.lazy(() -> {
             Set<? extends T> set = other.toSet(HashSet::new);
             return set.isEmpty() ? empty() : filter(t -> set.contains(t)).onClose(other::close);
         });
@@ -4619,13 +4619,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Lazily produce a <code>Seq</code>.
-     */
-    static <T> Seq<T> lazy(Supplier<? extends Stream<T>> s) {
-        return SeqUtils.lazy(s);
-    }
-
-    /**
      * Wrap an array slice into a <code>Seq</code>.
      * 
      * @throws IndexOutOfBoundsException if
@@ -6961,7 +6954,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> reverse(Seq<? extends T> stream) {
-        return lazy(() -> {
+        return SeqUtils.lazy(() -> {
             List<T> list = toList(stream);
             Collections.reverse(list);
             return seq(list).onClose(stream::close);
@@ -7037,7 +7030,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Seq<T> shuffle(Seq<? extends T> stream, Random random) {
-        return lazy(() -> {
+        return SeqUtils.lazy(() -> {
             List<T> list = toList(stream);
             if (random == null)
                 Collections.shuffle(list);
