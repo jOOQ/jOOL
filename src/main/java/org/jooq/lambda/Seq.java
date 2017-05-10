@@ -3233,6 +3233,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Returns a stream without its <code>n</code> last elements,
+     * or an empty stream if it has less than <code>n</code> elements.
+     * <p>
+     * <code><pre>
+     * // (1, 2, 3)
+     * Seq.of(1, 2, 3, 4, 5).skipLast(2)
+     * </pre></code>
+     */
+    default Seq<T> skipLast(long n) {
+        if (n == 0)
+            return this;
+        return TailBuffer.skipLast(this, n);
+    }
+
+    /**
      * Returns a stream limited to all elements for which a predicate evaluates to <code>true</code>.
      * <p>
      * <code><pre>
@@ -3288,6 +3303,21 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default Seq<T> limitUntilClosed(Predicate<? super T> predicate) {
         return limitUntilClosed(this, predicate);
+    }
+
+    /**
+     * Returns a stream with only its <code>maxSize</code> last elements,
+     * or an empty stream if it has less than <code>maxSize</code> elements.
+     * <p>
+     * <code><pre>
+     * // (4, 5)
+     * Seq.of(1, 2, 3, 4, 5).limitLast(2)
+     * </pre></code>
+     */
+    default Seq<T> limitLast(long maxSize) {
+        if (maxSize == 0)
+            return empty();
+        return TailBuffer.limitLast(this, maxSize);
     }
 
     /**
@@ -9385,12 +9415,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Alias for limitLast
+     *
+     * @see Seq#limitLast(long)
+     */
+    default Seq<T> takeLast(long maxSize) {
+        return limitLast(maxSize);
+    }
+
+    /**
      * Alias for skip
      *
      * @see Seq#skip(long)
      */
     default Seq<T> drop(long n) {
         return skip(n);
+    }
+
+    /**
+     * Alias for skipLast
+     *
+     * @see Seq#skipLast(long)
+     */
+    default Seq<T> dropLast(long n) {
+        return skipLast(n);
     }
 
     /**

@@ -1176,6 +1176,23 @@ public class SeqTest {
     }
 
     @Test
+    public void testSkipLast() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(), s.get().skipLast(7).toList());
+        assertEquals(asList(), s.get().skipLast(6).toList());
+        assertEquals(asList(), s.get().skipLast(5).toList());
+        assertEquals(asList(1), s.get().skipLast(4).toList());
+        assertEquals(asList(1, 2), s.get().skipLast(3).toList());
+        assertEquals(asList(1, 2, 3), s.get().skipLast(2).toList());
+        assertEquals(asList(1, 2, 3, 4), s.get().skipLast(1).toList());
+        assertEquals(asList(1, 2, 3, 4, 5), s.get().skipLast(0).toList());
+
+        assertThrows(IllegalArgumentException.class, () -> s.get().skipLast(-1));
+        assertThrows(IllegalArgumentException.class, () -> s.get().skipLast(Integer.MAX_VALUE));
+    }
+
+    @Test
     public void testLimitWhile() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
 
@@ -1224,6 +1241,23 @@ public class SeqTest {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, null, 3, 4, 5);
 
         assertEquals(asList(1, 2, null, 3, 4, 5), s.get().limitUntil(i -> false).toList());
+    }
+
+    @Test
+    public void testLimitLast() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5);
+
+        assertEquals(asList(1, 2, 3, 4, 5), s.get().limitLast(7).toList());
+        assertEquals(asList(1, 2, 3, 4, 5), s.get().limitLast(6).toList());
+        assertEquals(asList(1, 2, 3, 4, 5), s.get().limitLast(5).toList());
+        assertEquals(asList(2, 3, 4, 5), s.get().limitLast(4).toList());
+        assertEquals(asList(3, 4, 5), s.get().limitLast(3).toList());
+        assertEquals(asList(4, 5), s.get().limitLast(2).toList());
+        assertEquals(asList(5), s.get().limitLast(1).toList());
+        assertEquals(asList(), s.get().limitLast(0).toList());
+
+        assertThrows(IllegalArgumentException.class, () -> s.get().limitLast(-1));
+        assertThrows(IllegalArgumentException.class, () -> s.get().limitLast(Integer.MAX_VALUE));
     }
 
     @Test
@@ -2814,8 +2848,18 @@ public class SeqTest {
     }
 
     @Test
+    public void testTakeLastBehavesAsLimitLast() {
+        assertEquals(Seq.range(1, 10).limitLast(3).toList(), Seq.range(1, 10).takeLast(3).toList());
+    }
+
+    @Test
     public void testDropBehavesAsSkip() {
         assertEquals(Seq.range(1, 10).skip(3).toList(), Seq.range(1, 10).drop(3).toList());
+    }
+
+    @Test
+    public void testDropLastBehavesAsSkipLast() {
+        assertEquals(Seq.range(1, 10).skipLast(3).toList(), Seq.range(1, 10).dropLast(3).toList());
     }
 
     @Test
