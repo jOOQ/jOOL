@@ -2810,12 +2810,12 @@ public class SeqTest {
 
     @Test
     public void testTakeBehavesAsLimit() {
-        assertTrue(Seq.range(1, 10).take(3).toList().equals(Seq.range(1, 10).limit(3).toList()));
+        assertEquals(Seq.range(1, 10).limit(3).toList(), Seq.range(1, 10).take(3).toList());
     }
 
     @Test
     public void testDropBehavesAsSkip() {
-        assertTrue(Seq.range(1, 10).drop(3).toList().equals(Seq.range(1, 10).skip(3).toList()));
+        assertEquals(Seq.range(1, 10).skip(3).toList(), Seq.range(1, 10).drop(3).toList());
     }
 
     @Test
