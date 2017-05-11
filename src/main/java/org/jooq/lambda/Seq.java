@@ -203,11 +203,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     default Seq<Tuple2<T, T>> crossSelfJoin() {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<? extends T> list = toList();
-
-        return Seq.crossJoin(seq(list), seq(list));
+        SeqBuffer<T> buffer = SeqBuffer.of(this);
+        return crossJoin(buffer.seq(), buffer.seq());
     }
 
     /**
@@ -244,10 +241,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default <U> Seq<Tuple2<T, U>> innerJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
 
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<? extends U> list = other.toList();
+        // This algorithm has substantial complexity for large argument streams!
+        SeqBuffer<? extends U> buffer = SeqBuffer.of(other);
 
-        return flatMap(t -> seq(list)
+        return flatMap(t -> buffer.seq()
                            .filter(u -> predicate.test(t, u))
                            .map(u -> Tuple.<T, U>tuple(t, u)))
               .onClose(other::close);
@@ -262,11 +259,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     default Seq<Tuple2<T, T>> innerSelfJoin(BiPredicate<? super T, ? super T> predicate) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<? extends T> list = toList();
-
-        return Seq.<T>seq(list).innerJoin(seq(list), predicate);
+        SeqBuffer<T> buffer = SeqBuffer.of(this);
+        return buffer.seq().innerJoin(buffer.seq(), predicate);
     }
 
     /**
@@ -303,10 +297,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     default <U> Seq<Tuple2<T, U>> leftOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
 
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<? extends U> list = other.toList();
+        // This algorithm has substantial complexity for large argument streams!
+        SeqBuffer<? extends U> buffer = SeqBuffer.of(other);
 
-        return flatMap(t -> seq(list)
+        return flatMap(t -> buffer.seq()
                            .filter(u -> predicate.test(t, u))
                            .onEmpty(null)
                            .map(u -> Tuple.<T, U>tuple(t, u)))
@@ -322,11 +316,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     default Seq<Tuple2<T, T>> leftOuterSelfJoin(BiPredicate<? super T, ? super T> predicate) {
-
-        // This algorithm isn't lazy and has substantial complexity for large argument streams!
-        List<? extends T> list = toList();
-
-        return Seq.<T>seq(list).leftOuterJoin(seq(list), predicate);
+        SeqBuffer<T> buffer = SeqBuffer.of(this);
+        return buffer.seq().leftOuterJoin(buffer.seq(), predicate);
     }
 
     /**
@@ -9165,43 +9156,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Tuple2<Seq<T>, Seq<T>> duplicate(Stream<? extends T> stream) {
-        final Iterator<? extends T> it = stream.iterator();
-        final LinkedList<T> gap = new LinkedList<>();
-
-        @SuppressWarnings("unchecked")
-        final Iterator<T>[] ahead = new Iterator[] { null };
-
-        class Duplicate implements Iterator<T> {
-            @Override
-            public boolean hasNext() {
-                if (ahead[0] == null || ahead[0] == this)
-                    return it.hasNext();
-
-                return !gap.isEmpty();
-            }
-
-            @Override
-            public T next() {
-                if (ahead[0] == null)
-                    ahead[0] = this;
-
-                if (ahead[0] == this) {
-                    T value = it.next();
-                    gap.offer(value);
-                    return value;
-                }
-                else {
-                    T value = gap.poll();
-
-                    if (gap.isEmpty())
-                        ahead[0] = null;
-
-                    return value;
-                }
-            }
-        }
-
-        return tuple(seq(new Duplicate()), seq(new Duplicate()));
+        SeqBuffer<T> buffer = SeqBuffer.of(stream);
+        return tuple(buffer.seq(), buffer.seq());
     }
 
     /**
@@ -9707,15 +9663,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </pre></code>
      */
     static <T> Tuple2<Seq<T>, Seq<T>> splitAt(Stream<? extends T> stream, long position) {
-        return seq(stream)
-            .zipWithIndex()
-            .partition(t -> t.v2 < position)
-            // Explicit type parameters to work around this Eclipse compiler bug:
-            // https://bugs.eclipse.org/bugs/show_bug.cgi?id=455945
-            .map((v1, v2) -> Tuple.<Seq<T>, Seq<T>>tuple(
-                v1.map(t -> t.v1),
-                v2.map(t -> t.v1)
-            ));
+        SeqBuffer<T> buffer = SeqBuffer.of(stream);
+        return tuple(buffer.seq().limit(position), buffer.seq().skip(position));
     }
 
     /**
