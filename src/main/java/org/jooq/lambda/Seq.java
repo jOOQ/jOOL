@@ -4777,28 +4777,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Get a stream from a single element from a <code>Supplier</code>.
      */
     static <T> Seq<T> seq(Supplier<? extends T> s) {
-        return Seq.generate(s).limit(1);
-    }
-
-    /**
-     * Get a stream from a single element from a <code>Supplier</code>.
-     */
-    static Seq<Integer> seq(IntSupplier s) {
-        return Seq.generate(s::getAsInt).limit(1);
-    }
-
-    /**
-     * Get a stream from a single element from a <code>Supplier</code>.
-     */
-    static Seq<Long> seq(LongSupplier s) {
-        return Seq.generate(s::getAsLong).limit(1);
-    }
-
-    /**
-     * Get a stream from a single element from a <code>Supplier</code>.
-     */
-    static Seq<Double> seq(DoubleSupplier s) {
-        return Seq.generate(s::getAsDouble).limit(1);
+        return Seq.<T>generate(s).limit(1);
     }
 
     /**
