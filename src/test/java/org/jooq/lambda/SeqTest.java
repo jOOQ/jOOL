@@ -973,69 +973,22 @@ public class SeqTest {
     }
 
     @Test
-    public void testOnEmpty() {
+    public void testOnEmpty() throws X {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
-        assertThrows(CheckedX.class, () -> Seq.of().onEmptyThrow(() -> new CheckedX()).toList());
+        assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()).toList());
 
         assertEquals(asList(2), Seq.of(2).onEmpty(1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyGet(() -> 1).toList());
-        assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new CheckedX()).toList());
+        assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new X()).toList());
 
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmpty(1).toList());
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyGet(() -> 1).toList());
-        assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new CheckedX()).toList());
-    }
-
-    @Test
-    public void testPeekThrowable() {
-        class PeekedX extends RuntimeException {}
-
-        Function<Integer, Consumer<Integer>> throwXUpon = i -> j -> {
-            if (i.equals(j)) {
-                throw new UncheckedX();
-            }
-        };
-        Consumer<Throwable> rethrowAsPeekedX = ex -> {
-            throw new PeekedX();
-        };
-
-        // assert throws X
-        assertThrows(UncheckedX.class, () -> Seq.of(1, 2, 3)
-              .peek(throwXUpon.apply(2))
-              .toList());
-
-        // assert throws PeekedX when "peekThrowable" AFTER "throw"
-        assertThrows(PeekedX.class, () -> Seq.of(1, 2, 3)
-              .peek(throwXUpon.apply(2))
-              .peekThrowable(rethrowAsPeekedX)
-              .toList());
-
-        // assert throws PeekedX EVEN when "peekThrowable" BEFORE "throw" but on the SAME Spliterator
-        assertThrows(PeekedX.class, () -> Seq.of(1, 2, 3)
-              .peekThrowable(rethrowAsPeekedX)
-              .peek(throwXUpon.apply(2))
-              .toList());
-
-        // assert throws X when "peekThrowable" on DIFFERENT Spliterator than "throw"
-        assertThrows(UncheckedX.class, () -> Seq.of(1, 2, 3).peekThrowable(rethrowAsPeekedX)
-              .append(Seq.of(4, 5, 6).peek(throwXUpon.apply(5)))
-              .toList());
-
-        // assert throws PeekedX in a complex Seq
-        assertThrows(PeekedX.class, () -> Seq.of(1, 2, 3)
-              .flatMap(i -> Seq.of(4 * i, 5 * i, 6 * i).peek(throwXUpon.apply(10)))
-              .filter(i -> i % 2 != 0)
-              .limitWhile(i -> i <= 9)
-              .peekThrowable(rethrowAsPeekedX)
-              .toList());
+        assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new X()).toList());
     }
 
     @SuppressWarnings("serial")
-    static class CheckedX extends Exception {}
-
-    @SuppressWarnings("serial")
-    static class UncheckedX extends RuntimeException {}
+    class X extends Exception {}
 
     @Test
     public void testConcat() {

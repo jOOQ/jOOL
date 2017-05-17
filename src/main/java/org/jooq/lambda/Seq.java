@@ -432,21 +432,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * If a throwable occurs during traversal of elements, call the <code>throwableHandler</code>
-     * on this throwable before rethrowing it.
-     */
-    default Seq<T> peekThrowable(Consumer<? super Throwable> throwableHandler) {
-        return SeqUtils.transform(this, (delegate, action) -> {
-            try {
-                return delegate.tryAdvance(action);
-            } catch (Throwable throwable) {
-                throwableHandler.accept(throwable);
-                throw throwable;
-            }
-        });
-    }
-
-    /**
      * Concatenate two streams.
      * <p>
      * <code><pre>
