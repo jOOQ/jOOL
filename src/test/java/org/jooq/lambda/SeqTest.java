@@ -973,7 +973,7 @@ public class SeqTest {
     }
 
     @Test
-    public void testOnEmpty() throws X {
+    public void testOnEmpty() {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
         assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()).toList());
@@ -988,7 +988,7 @@ public class SeqTest {
     }
 
     @SuppressWarnings("serial")
-    class X extends Exception {}
+    static class X extends RuntimeException {}
 
     @Test
     public void testConcat() {
