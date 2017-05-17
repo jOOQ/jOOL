@@ -976,15 +976,15 @@ public class SeqTest {
     public void testOnEmpty() {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
-        assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()).toList());
+        assertThrows(CheckedX.class, () -> Seq.of().onEmptyThrow(() -> new CheckedX()).toList());
 
         assertEquals(asList(2), Seq.of(2).onEmpty(1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyGet(() -> 1).toList());
-        assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new X()).toList());
+        assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new CheckedX()).toList());
 
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmpty(1).toList());
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyGet(() -> 1).toList());
-        assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new X()).toList());
+        assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new CheckedX()).toList());
     }
 
     @Test
@@ -993,7 +993,7 @@ public class SeqTest {
 
         Function<Integer, Consumer<Integer>> throwXUpon = i -> j -> {
             if (i.equals(j)) {
-                throw new X();
+                throw new UncheckedX();
             }
         };
         Consumer<Throwable> rethrowAsPeekedX = ex -> {
@@ -1001,7 +1001,7 @@ public class SeqTest {
         };
 
         // assert throws X
-        assertThrows(X.class, () -> Seq.of(1, 2, 3)
+        assertThrows(UncheckedX.class, () -> Seq.of(1, 2, 3)
               .peek(throwXUpon.apply(2))
               .toList());
 
@@ -1018,7 +1018,7 @@ public class SeqTest {
               .toList());
 
         // assert throws X when "peekThrowable" on DIFFERENT Spliterator than "throw"
-        assertThrows(X.class, () -> Seq.of(1, 2, 3).peekThrowable(rethrowAsPeekedX)
+        assertThrows(UncheckedX.class, () -> Seq.of(1, 2, 3).peekThrowable(rethrowAsPeekedX)
               .append(Seq.of(4, 5, 6).peek(throwXUpon.apply(5)))
               .toList());
 
@@ -1032,7 +1032,10 @@ public class SeqTest {
     }
 
     @SuppressWarnings("serial")
-    static class X extends RuntimeException {}
+    static class CheckedX extends Exception {}
+
+    @SuppressWarnings("serial")
+    static class UncheckedX extends RuntimeException {}
 
     @Test
     public void testConcat() {
