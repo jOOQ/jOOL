@@ -432,6 +432,27 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * If a throwable occurs, call the <code>throwableHandler</code> on it before rethrowing.
+     */
+    default Seq<T> onThrowable(Consumer<? super Throwable> throwableHandler) {
+        return SeqUtils.transform(this, (delegate, action) -> {
+            try {
+                return delegate.tryAdvance(action);
+            } catch (Throwable throwable) {
+                throwableHandler.accept(throwable);
+                throw throwable;
+            }
+        });
+    }
+
+    /**
+     * If a throwable occurs, wrap it in a throwable from the <code>throwableWrapper</code>.
+     */
+    default Seq<T> onThrowableAs(Function<? super Throwable, ? extends Throwable> throwableWrapper) {
+        return onThrowable(throwable -> SeqUtils.sneakyThrow(throwableWrapper.apply(throwable)));
+    }
+
+    /**
      * Concatenate two streams.
      * <p>
      * <code><pre>
