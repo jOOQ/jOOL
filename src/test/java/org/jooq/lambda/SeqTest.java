@@ -977,7 +977,7 @@ public class SeqTest {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
         assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()).toList());
-
+        
         assertEquals(asList(2), Seq.of(2).onEmpty(1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyGet(() -> 1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new X()).toList());
@@ -985,6 +985,23 @@ public class SeqTest {
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmpty(1).toList());
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyGet(() -> 1).toList());
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new X()).toList());
+    }
+
+    @Test
+    public void testOnOptionalThrow() throws X {
+        assertThrows(X.class, () -> Seq.of(1, 2, 3).onOptionalThrow(t -> {
+            if (t > 2) {
+                return Optional.of(new X());
+            }
+            return Optional.empty();
+        }).toList());
+
+        Seq.of(1, 2, 3).onOptionalThrow(t -> {
+            if (t > 3) {
+                return Optional.of(new X());
+            }
+            return Optional.empty();
+        }).toList();
     }
 
     @SuppressWarnings("serial")

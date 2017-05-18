@@ -432,6 +432,19 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Produce this stream, or an alternative stream from the
+     * <code>supplier</code>, in case this stream is empty.
+     */
+    default <X extends Throwable> Seq<T> onOptionalThrow(Function<? super T, Optional<? extends X>> function) {
+        return peek(e -> {
+            Optional<? extends X> opt = function.apply(e);
+            if (opt.isPresent()) {
+                sneakyThrow(opt.get());
+            }
+        });
+    }
+
+    /**
      * Concatenate two streams.
      * <p>
      * <code><pre>
