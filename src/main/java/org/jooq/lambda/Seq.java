@@ -3397,6 +3397,30 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Chunk a Stream based on a predicate
+     * <p>
+     * <code><pre>
+     * // ((1,1,2), (2), (3,4))
+     * Seq.of(1, 1, 2, 2, 3, 4).chunked(n -> n %2 == 0)
+     * </pre></code>
+     */
+    default Seq<Seq<T>> chunked(Predicate<T> predicate) {
+        return chunked(this, predicate);
+    }
+
+    /**
+     * Chunk a Stream based on a number of elements
+     * <p>
+     * <code><pre>
+     * // ((0,1,2), (3,4,5), (6,7,8), (9))
+     * Seq.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9).chunked(3)
+     * </pre></code>
+     */
+    default Seq<Seq<T>> chunked(long chunkSize) {
+        return chunked(this, Iterators.countingPredicate(chunkSize));
+    }
+
+    /**
      * Returns a limited interval from a given Stream.
      * <p>
      * <code><pre>
@@ -9710,6 +9734,36 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return tuple(it.hasNext() ? 
                 Optional.of(it.next()) : 
                 Optional.empty(), seq(it));
+    }
+
+    /**
+     * Chunk a Stream based on a predicate
+     * <p>
+     * <code><pre>
+     * // ((1,1,2), (2), (3,4))
+     * Seq.of(1, 1, 2, 2, 3, 4).chunked(n -> n %2 == 0)
+     * </pre></code>
+     */
+    static <T> Seq<Seq<T>> chunked(Stream<T> stream, Predicate<T> predicate) {
+        // This iterator can get in a bad state if you call next
+        // multiple times without consuming the intermediate Seq.
+        // It should be safe since its not exposed. A fix could
+        // be to force has next to make sure the current Seq was iterated.
+        Iterator<Seq<T>> it = new Iterator<Seq<T>>() {
+            private final PeekingIterator<T> peeking = Iterators.peeking(stream.iterator());
+
+            @Override
+            public boolean hasNext() {
+                return peeking.hasNext();
+            }
+
+            @Override
+            public Seq<T> next() {
+                return Seq.seq(Iterators.takeWhileIterator(peeking, predicate));
+            }
+        };
+
+        return Seq.seq(it);
     }
 
     // Methods taken from LINQ

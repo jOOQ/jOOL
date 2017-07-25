@@ -1286,6 +1286,44 @@ public class SeqTest {
     }
 
     @Test
+    public void testChunked() {
+        Seq<Seq<Integer>> seq1 = Seq.range(0, 10).chunked(5);
+        List<List<Integer>> expected1 = Seq.of(
+            Seq.of(0, 1, 2, 3, 4),
+            Seq.of(5, 6, 7, 8, 9)
+        ).map(s -> s.toList()).toList();
+        assertEquals(expected1, seq1.map(s -> s.toList()).toList());
+
+        Seq<Seq<Integer>> seq2 = Seq.range(0, 10).chunked(3);
+        List<List<Integer>> expected2 = Seq.of(
+            Seq.of(0, 1, 2),
+            Seq.of(3, 4, 5),
+            Seq.of(6, 7, 8),
+            Seq.of(9)
+        ).map(s -> s.toList()).toList();
+        assertEquals(expected2, seq2.map(s -> s.toList()).toList());
+
+        // Show that it is lazy
+        Seq<Seq<Integer>> seq3 = Seq.range(0, 10).cycle().chunked(5);
+        List<List<Integer>> expected3 = Seq.of(
+                Seq.of(0, 1, 2, 3, 4),
+                Seq.of(5, 6, 7, 8, 9),
+                Seq.of(0, 1, 2, 3, 4)
+        ).map(s -> s.toList()).toList();
+        assertEquals(expected3, seq3.limit(3).map(s -> s.toList()).toList());
+
+        Predicate<Integer> isEven = n -> n % 2 == 0;
+        Seq<Seq<Integer>> seq4 = Seq.of(1,1,2,2,3,3,3,4).cycle().chunked(isEven);
+        List<List<Integer>> expected4 = Seq.of(
+                Seq.of(1, 1, 2),
+                Seq.of(2),
+                Seq.of(3, 3, 3, 4),
+                Seq.of(1, 1, 2)
+        ).map(s -> s.toList()).toList();
+        assertEquals(expected4, seq4.limit(4).map(s -> s.toList()).toList());
+    }
+
+    @Test
     public void testMinByMaxBy() {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3, 4, 5, 6);
 
