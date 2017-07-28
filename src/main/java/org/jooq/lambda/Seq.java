@@ -9410,10 +9410,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         boolean[] test = { false };
 
         return SeqUtils.transform(stream, (delegate, action) ->
-            delegate.tryAdvance(t -> {
+            !test[0] && delegate.tryAdvance(t -> {
                 if (!(test[0] = predicate.test(t)))
                     action.accept(t);
-            }) && !test[0]
+            })
         );
     }
 

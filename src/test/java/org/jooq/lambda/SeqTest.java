@@ -1214,7 +1214,7 @@ public class SeqTest {
         assertEquals(asList(1, 2, 3), s.get().limitWhile(i -> i < 4).toList());
         assertEquals(asList(1, 2, 3, 4, 5), s.get().limitWhile(i -> true).toList());
 
-        // verifyIteratorValidity(4, s.get(), seq -> seq.limitWhile(i -> i <= 3)); // #309
+        verifyIteratorValidity(4, s.get(), seq -> seq.limitWhile(i -> i <= 3));
     }
 
     @Test
