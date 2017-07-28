@@ -157,6 +157,8 @@ public class SeqTest {
         assertThrows(NoSuchElementException.class, () -> it1.next());
         assertThrows(NoSuchElementException.class, () -> it11.next());
         assertThrows(NoSuchElementException.class, () -> it12.next());
+
+        verifyIteratorValidity(4, Seq.of(1, 2, 3, 4), seq -> seq.grouped(i -> i % 2));
     }
 
     @Test
@@ -476,6 +478,8 @@ public class SeqTest {
 
         duplicate = reset.get();
         assertEquals(asList(tuple(1, 1), tuple(2, 2), tuple(3, 3)), duplicate.v1.zip(duplicate.v2).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.duplicate().v1());
     }
 
     @Test
@@ -796,6 +800,8 @@ public class SeqTest {
                 Seq.of("A", "B"),
                 Seq.of(1, 2)
             ).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.crossJoin(Seq.of("A", "B")));
     }
 
     @Test
@@ -859,6 +865,8 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).innerJoin(Seq.of(1, 2), TRUE).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.innerJoin(Seq.of("A", "B"), TRUE));
     }
 
     @Test
@@ -908,6 +916,8 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).leftOuterJoin(Seq.of(1, 2), TRUE).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.leftOuterJoin(Seq.of("A", "B"), TRUE));
     }
 
     @Test
@@ -957,6 +967,8 @@ public class SeqTest {
             tuple(1, 1),
             tuple(1, 2)),
             Seq.<Object>of(1).rightOuterJoin(Seq.of(1, 2), TRUE).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.rightOuterJoin(Seq.of("A", "B"), TRUE));
     }
 
     @Test
@@ -977,14 +989,17 @@ public class SeqTest {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
         assertThrows(X.class, () -> Seq.of().onEmptyThrow(() -> new X()).toList());
+        verifyIteratorValidity(0, Seq.of(), seq -> seq.onEmpty(1));
 
         assertEquals(asList(2), Seq.of(2).onEmpty(1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyGet(() -> 1).toList());
         assertEquals(asList(2), Seq.of(2).onEmptyThrow(() -> new X()).toList());
+        verifyIteratorValidity(1, Seq.of(2), seq -> seq.onEmpty(1));
 
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmpty(1).toList());
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyGet(() -> 1).toList());
         assertEquals(asList(2, 3), Seq.of(2, 3).onEmptyThrow(() -> new X()).toList());
+        verifyIteratorValidity(2, Seq.of(2, 3), seq -> seq.onEmpty(1));
     }
 
     @SuppressWarnings("serial")
@@ -1004,6 +1019,8 @@ public class SeqTest {
         assertEquals(asList(0, 1, 2, 3), Seq.of(1, 2, 3).prepend(Optional.of(0)).toList());
         
         assertEquals(asList(1, 2), Seq.concat(Optional.of(1), Optional.empty(), Optional.of(2), Optional.empty()).toList());
+
+        verifyIteratorValidity(2, Seq.of(1, 2), seq -> seq.concat(Seq.of(3, 4)));
     }
 
     @Test
@@ -1028,6 +1045,8 @@ public class SeqTest {
         assertEquals(asList(1), Seq.of(1).intersperse(0).toList());
         assertEquals(asList(1, 0, 2), Seq.of(1, 2).intersperse(0).toList());
         assertEquals(asList(1, 0, 2, 0, 3), Seq.of(1, 2, 3).intersperse(0).toList());
+
+        verifyIteratorValidity(2, Seq.of(1, 2), seq -> seq.intersperse(0));
     }
 
     @Test
@@ -1063,6 +1082,8 @@ public class SeqTest {
         assertEquals(10, Seq.generate(() -> null).limit(10).toList().size());
         assertEquals(10, Seq.generate(1).limit(10).toList().size());
         assertEquals(Collections.nCopies(10, 1), Seq.generate(1).limit(10).toList());
+
+        verifyIteratorValidity(2, Seq.generate(), seq -> seq.limit(2));
     }
 
     @Test
@@ -1113,6 +1134,8 @@ public class SeqTest {
         assertEquals(asList(3, 4, 5), s.get().skipWhile(i -> i < 3).toList());
         assertEquals(asList(4, 5), s.get().skipWhile(i -> i < 4).toList());
         assertEquals(asList(), s.get().skipWhile(i -> true).toList());
+
+        verifyIteratorValidity(5, s.get(), seq -> seq.skipWhile(i -> i <= 3));
     }
 
     @Test
@@ -1124,6 +1147,8 @@ public class SeqTest {
         assertEquals(asList(4, 5), s.get().skipWhileClosed(i -> i < 3).toList());
         assertEquals(asList(5), s.get().skipWhileClosed(i -> i < 4).toList());
         assertEquals(asList(), s.get().skipWhileClosed(i -> true).toList());
+
+        verifyIteratorValidity(5, s.get(), seq -> seq.skipWhileClosed(i -> i <= 3));
     }
 
     @Test
@@ -1135,6 +1160,8 @@ public class SeqTest {
         assertEquals(asList(3, 4, 5), s.get().skipUntil(i -> i == 3).toList());
         assertEquals(asList(4, 5), s.get().skipUntil(i -> i == 4).toList());
         assertEquals(asList(1, 2, 3, 4, 5), s.get().skipUntil(i -> true).toList());
+
+        verifyIteratorValidity(5, s.get(), seq -> seq.skipUntil(i -> i > 3));
     }
 
     @Test
@@ -1156,6 +1183,8 @@ public class SeqTest {
         assertEquals(asList(4, 5), s.get().skipUntilClosed(i -> i == 3).toList());
         assertEquals(asList(5), s.get().skipUntilClosed(i -> i == 4).toList());
         assertEquals(asList(2, 3, 4, 5), s.get().skipUntilClosed(i -> true).toList());
+
+        verifyIteratorValidity(5, s.get(), seq -> seq.skipUntilClosed(i -> i > 3));
     }
 
     @Test
@@ -1184,6 +1213,8 @@ public class SeqTest {
         assertEquals(asList(1, 2), s.get().limitWhile(i -> i < 3).toList());
         assertEquals(asList(1, 2, 3), s.get().limitWhile(i -> i < 4).toList());
         assertEquals(asList(1, 2, 3, 4, 5), s.get().limitWhile(i -> true).toList());
+
+        // verifyIteratorValidity(4, s.get(), seq -> seq.limitWhile(i -> i <= 3)); // #309
     }
 
     @Test
@@ -1195,6 +1226,8 @@ public class SeqTest {
         assertEquals(asList(1, 2, 3), s.get().limitWhileClosed(i -> i < 3).toList());
         assertEquals(asList(1, 2, 3, 4), s.get().limitWhileClosed(i -> i < 4).toList());
         assertEquals(asList(1, 2, 3, 4, 5), s.get().limitWhileClosed(i -> true).toList());
+
+        verifyIteratorValidity(4, s.get(), seq -> seq.limitWhileClosed(i -> i <= 3));
     }
 
     @Test
@@ -1206,6 +1239,8 @@ public class SeqTest {
         assertEquals(asList(1, 2), s.get().limitUntil(i -> i == 3).toList());
         assertEquals(asList(1, 2, 3), s.get().limitUntil(i -> i == 4).toList());
         assertEquals(asList(), s.get().limitUntil(i -> true).toList());
+
+        // verifyIteratorValidity(4, s.get(), seq -> seq.limitUntil(i -> i > 3)); // #309
     }
 
     @Test
@@ -1217,6 +1252,8 @@ public class SeqTest {
         assertEquals(asList(1, 2, 3), s.get().limitUntilClosed(i -> i == 3).toList());
         assertEquals(asList(1, 2, 3, 4), s.get().limitUntilClosed(i -> i == 4).toList());
         assertEquals(asList(1), s.get().limitUntilClosed(i -> true).toList());
+
+        verifyIteratorValidity(4, s.get(), seq -> seq.limitUntilClosed(i -> i > 3));
     }
 
     @Test
@@ -1244,6 +1281,9 @@ public class SeqTest {
 
         assertEquals(asList(), s.get().partition(i -> false).v1.toList());
         assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().partition(i -> false).v2.toList());
+
+        verifyIteratorValidity(6, s.get(), seq -> seq.partition(i -> i % 2 == 0).v1());
+        verifyIteratorValidity(6, s.get(), seq -> seq.partition(i -> i % 2 == 0).v2());
     }
 
     @Test
@@ -1264,6 +1304,9 @@ public class SeqTest {
 
         assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(7).v1.toList());
         assertEquals(asList(), s.get().splitAt(7).v2.toList());
+
+        // verifyIteratorValidity(2, s.get(), seq -> seq.splitAt(2).v1()); // #308
+        verifyIteratorValidity(6, s.get(), seq -> seq.splitAt(2).v2());
     }
 
     @Test
@@ -1283,6 +1326,8 @@ public class SeqTest {
         assertEquals(asList(2, 3), Seq.of(1, 2, 3).splitAtHead().v2.toList());
         assertEquals(asList(3), Seq.of(1, 2, 3).splitAtHead().v2.splitAtHead().v2.toList());
         assertEquals(asList(), Seq.of(1, 2, 3).splitAtHead().v2.splitAtHead().v2.splitAtHead().v2.toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.splitAtHead().v2());
     }
 
     @Test
@@ -1373,6 +1418,9 @@ public class SeqTest {
         Tuple2<Seq<Integer>, Seq<String>> u4 = Seq.unzip(s.get(), (Integer t1, String t2) -> tuple(-t1, t2 + "!"));
         assertEquals(asList(-1, -2, -3), u4.v1.toList());
         assertEquals(asList("a!", "b!", "c!"), u4.v2.toList());
+
+        verifyIteratorValidity(3, s.get(), seq -> Seq.unzip(seq).v1());
+        verifyIteratorValidity(3, s.get(), seq -> Seq.unzip(seq).v2());
     }
     
     @Test
@@ -1485,6 +1533,8 @@ public class SeqTest {
         assertThat(s.get().shuffle().toList(), hasItems(1, 2, 3));
 
         assertEquals(asList(2, 3, 1), s.get().shuffle(new Random(1)).toList());
+
+        verifyIteratorValidity(3, s.get(), seq -> seq.shuffle());
     }
 
     @Test
@@ -1492,6 +1542,8 @@ public class SeqTest {
         assertEquals(asList(), Seq.empty().cycle().toList());
         assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle().limit(6).toList());
         assertEquals(asList(1, 2, 3, 1, 2, 3), Seq.of(1, 2, 3).cycle().limit(6).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.cycle().limit(6));
     }
     
     @Test
@@ -1509,6 +1561,8 @@ public class SeqTest {
         assertEquals(asList(1, 2), Seq.of(1, 2).cycle(1).toList());
         assertEquals(asList(1, 2, 1, 2), Seq.of(1, 2).cycle(2).toList());
         assertEquals(asList(1, 2, 1, 2, 1, 2), Seq.of(1, 2).cycle(3).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.cycle(3));
     }
 
     @Test
@@ -1774,6 +1828,8 @@ public class SeqTest {
         assertEquals(Arrays.asList(1, 3, 4), Seq.of(1, 2, 3, 2, 4).remove(2).remove(2).remove(2).toList());
         assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).remove(5).toList());
         assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).remove(null).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.remove(2));
     }
 
     @Test
@@ -1783,6 +1839,8 @@ public class SeqTest {
         assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).removeAll(5).toList());
         assertEquals(Arrays.asList(1, 4), Seq.of(1, 2, 3, 2, 4).removeAll(2, 3).toList());
         assertEquals(Arrays.asList(1, 2, 3, 2, 4), Seq.of(1, 2, 3, 2, 4).removeAll((Integer) null).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.removeAll(2));
     }
 
     @Test
@@ -1791,6 +1849,8 @@ public class SeqTest {
         assertEquals(Arrays.asList(2, 2), Seq.of(1, 2, 3, 2, 4).retainAll(2, 3).retainAll(2).toList());
         assertEquals(Arrays.asList(), Seq.of(1, 2, 3, 2, 4).retainAll(5).toList());
         assertEquals(Arrays.asList(), Seq.of(1, 2, 3, 2, 4).retainAll((Integer) null).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.retainAll(2));
     }
 
     @Test
@@ -2896,5 +2956,39 @@ public class SeqTest {
     public void testToUnmodifiableListOrSet() {
         assertThrows(UnsupportedOperationException.class, () -> Seq.of(1, 2, 3).toUnmodifiableList().clear());
         assertThrows(UnsupportedOperationException.class, () -> Seq.of(1, 2, 3).toUnmodifiableSet().clear());
+    }
+
+    /**
+     * This method tests the validity of an Iterator obtained from given <code>source</code> <code>Seq</code>
+     * after given <code>Seq</code>-transforming <code>operation</code> has been applied to it.
+     *
+     * We test an <code>Iterator</code> (not a <code>Spliterator</code>) because <code>Stream</code>'s
+     * <code>Iterator</code> is based on the <code>Spliterator</code>, and so this <code>Iterator</code>
+     * is the most low-level derivative of given Stream</code>.
+     *
+     * This is what we would like to test:
+     * - whether every call to <code>Spliterator.tryAdvance</code> that returns <code>true</code> actually
+     * calls given <code>action</code> (if it doesn't, the <code>Iterator</code> ends prematurely)
+     * - whether calling redundantly <code>Iterator.hasNext</code> (and thus <code>Spliterator.tryAdvance</code>)
+     * does not have any side effects (such calls are valid and should be "safe")
+     *
+     * This is what we really test:
+     * - whether the number of elements fetched from the <code>source</code> is equal to <code>expectedCount</code>
+     * - whether redundantly calling <code>Iterator.hasNext</code> does not fetch any extra element from the <code>source</code>
+     *
+     * @see Spliterators#iterator
+     */
+    private <T> void verifyIteratorValidity(int expectedCount, Seq<T> source, Function<Seq<T>, Seq<?>> operation) {
+        List<T> fetchedFromSource = new ArrayList<>();
+        Iterator<?> iterator = source.peek(fetchedFromSource::add).transform(operation).iterator();
+
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+        assertEquals("number of elements fetched from source", expectedCount, fetchedFromSource.size());
+
+        // redundant call to iterator.hasNext() should not consume any more elements from source
+        iterator.hasNext();
+        assertEquals("extra element fetched due to redundant Iterator.hasNext() call", expectedCount, fetchedFromSource.size());
     }
 }
