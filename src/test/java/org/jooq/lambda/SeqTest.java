@@ -1305,7 +1305,7 @@ public class SeqTest {
         assertEquals(asList(1, 2, 3, 4, 5, 6), s.get().splitAt(7).v1.toList());
         assertEquals(asList(), s.get().splitAt(7).v2.toList());
 
-        // verifyIteratorValidity(2, s.get(), seq -> seq.splitAt(2).v1()); // #308
+        verifyIteratorValidity(2, s.get(), seq -> seq.splitAt(2).v1());
         verifyIteratorValidity(6, s.get(), seq -> seq.splitAt(2).v2());
     }
 
