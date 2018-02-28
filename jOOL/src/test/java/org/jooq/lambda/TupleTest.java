@@ -154,6 +154,13 @@ public class TupleTest {
     }
 
     @Test
+    public void testCompareToWithNonComparables() {
+        Set<Tuple2<Integer, Object>> set = new TreeSet<>();
+        Utils.assertThrows(ClassCastException.class, () -> set.add(tuple(1, new Object())));
+        assertEquals(0, set.size());
+    }
+
+    @Test
     public void testIterable() {
         LinkedList<Object> list = new LinkedList<>(tuple(1, "b", null).toList());
         for (Object o : tuple(1, "b", null)) {
