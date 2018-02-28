@@ -199,7 +199,7 @@ Download
 
 **For use with Java 9+**
 
-```
+```xml
 <dependency>
   <groupId>org.jooq</groupId>
   <artifactId>jool</artifactId>
@@ -209,7 +209,7 @@ Download
 
 **For use with Java 8+**
 
-```
+```xml
 <dependency>
   <groupId>org.jooq</groupId>
   <artifactId>jool-java-8</artifactId>
