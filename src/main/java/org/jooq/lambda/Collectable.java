@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c), Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,6 @@ import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import javax.annotation.Generated;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple10;
@@ -73,7 +71,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 2 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, A1, A2> Tuple2<R1, R2> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2
@@ -84,7 +82,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 3 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, A1, A2, A3> Tuple3<R1, R2, R3> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -96,7 +94,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 4 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, A1, A2, A3, A4> Tuple4<R1, R2, R3, R4> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -109,7 +107,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 5 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, A1, A2, A3, A4, A5> Tuple5<R1, R2, R3, R4, R5> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -123,7 +121,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 6 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, A1, A2, A3, A4, A5, A6> Tuple6<R1, R2, R3, R4, R5, R6> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -138,7 +136,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 7 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, A1, A2, A3, A4, A5, A6, A7> Tuple7<R1, R2, R3, R4, R5, R6, R7> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -154,7 +152,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 8 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<R1, R2, R3, R4, R5, R6, R7, R8> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -171,7 +169,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 9 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, A1, A2, A3, A4, A5, A6, A7, A8, A9> Tuple9<R1, R2, R3, R4, R5, R6, R7, R8, R9> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -189,7 +187,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 10 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> Tuple10<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -208,7 +206,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 11 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11> Tuple11<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -228,7 +226,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 12 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12> Tuple12<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -249,7 +247,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 13 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13> Tuple13<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -271,7 +269,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 14 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14> Tuple14<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -294,7 +292,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 15 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15> Tuple15<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,
@@ -318,7 +316,7 @@ public interface Collectable<T> {
     /**
      * Collect this collectable into 16 {@link Collector}s.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default <R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16> Tuple16<R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16> collect(
         Collector<? super T, A1, R1> collector1,
         Collector<? super T, A2, R2> collector2,

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2016, Data Geekery GmbH, contact@datageekery.com
+ * Copyright (c), Data Geekery GmbH, contact@datageekery.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,8 +60,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import javax.annotation.Generated;
 
 import org.jooq.lambda.exception.TooManyElementsException;
 import org.jooq.lambda.function.Function10;
@@ -3586,7 +3584,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 1 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple1<Window<T>>> window(
         WindowSpecification<T> specification1
     ) {
@@ -3604,7 +3602,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 2 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple2<Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2
@@ -3625,7 +3623,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 3 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple3<Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3649,7 +3647,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 4 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple4<Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3676,7 +3674,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 5 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple5<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3706,7 +3704,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 6 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple6<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3739,7 +3737,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 7 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple7<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3775,7 +3773,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 8 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple8<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3814,7 +3812,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 9 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple9<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3856,7 +3854,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 10 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple10<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3901,7 +3899,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 11 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple11<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -3949,7 +3947,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 12 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple12<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -4000,7 +3998,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 13 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple13<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -4054,7 +4052,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 14 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple14<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -4111,7 +4109,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 15 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple15<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -4171,7 +4169,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Map this stream to a windowed stream with 16 distinct windows.
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     default Seq<Tuple16<Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>, Window<T>>> window(
         WindowSpecification<T> specification1,
         WindowSpecification<T> specification2,
@@ -5125,7 +5123,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2) {
         return zip(seq(s1), seq(s2));
     }
@@ -5138,7 +5136,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3) {
         return zip(seq(s1), seq(s2), seq(s3));
     }
@@ -5151,7 +5149,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4));
     }
@@ -5164,7 +5162,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5));
     }
@@ -5177,7 +5175,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6));
     }
@@ -5190,7 +5188,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7));
     }
@@ -5203,7 +5201,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8));
     }
@@ -5216,7 +5214,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9));
     }
@@ -5229,7 +5227,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10));
     }
@@ -5242,7 +5240,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11));
     }
@@ -5255,7 +5253,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12));
     }
@@ -5268,7 +5266,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13));
     }
@@ -5281,7 +5279,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14));
     }
@@ -5294,7 +5292,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15));
     }
@@ -5307,7 +5305,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16));
     }
@@ -5320,7 +5318,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2) {
         return zip(seq(i1), seq(i2));
     }
@@ -5333,7 +5331,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3) {
         return zip(seq(i1), seq(i2), seq(i3));
     }
@@ -5346,7 +5344,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4));
     }
@@ -5359,7 +5357,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5));
     }
@@ -5372,7 +5370,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6));
     }
@@ -5385,7 +5383,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7));
     }
@@ -5398,7 +5396,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
     }
@@ -5411,7 +5409,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9));
     }
@@ -5424,7 +5422,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10));
     }
@@ -5437,7 +5435,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11));
     }
@@ -5450,7 +5448,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12));
     }
@@ -5463,7 +5461,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13));
     }
@@ -5476,7 +5474,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14));
     }
@@ -5489,7 +5487,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15));
     }
@@ -5502,7 +5500,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Iterable<? extends T16> i16) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16));
     }
@@ -5515,7 +5513,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2) {
         return zip(s1, s2, (t1, t2) -> tuple(t1, t2))
               .onClose(SeqUtils.closeAll(s1, s2));
@@ -5529,7 +5527,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3) {
         return zip(s1, s2, s3, (t1, t2, t3) -> tuple(t1, t2, t3))
               .onClose(SeqUtils.closeAll(s1, s2, s3));
@@ -5543,7 +5541,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4) {
         return zip(s1, s2, s3, s4, (t1, t2, t3, t4) -> tuple(t1, t2, t3, t4))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4));
@@ -5557,7 +5555,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5) {
         return zip(s1, s2, s3, s4, s5, (t1, t2, t3, t4, t5) -> tuple(t1, t2, t3, t4, t5))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5));
@@ -5571,7 +5569,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6) {
         return zip(s1, s2, s3, s4, s5, s6, (t1, t2, t3, t4, t5, t6) -> tuple(t1, t2, t3, t4, t5, t6))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6));
@@ -5585,7 +5583,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7) {
         return zip(s1, s2, s3, s4, s5, s6, s7, (t1, t2, t3, t4, t5, t6, t7) -> tuple(t1, t2, t3, t4, t5, t6, t7))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7));
@@ -5599,7 +5597,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, (t1, t2, t3, t4, t5, t6, t7, t8) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8));
@@ -5613,7 +5611,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9));
@@ -5627,7 +5625,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
@@ -5641,7 +5639,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
@@ -5655,7 +5653,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
@@ -5669,7 +5667,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
@@ -5683,7 +5681,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
@@ -5697,7 +5695,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
@@ -5711,7 +5709,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16) {
         return zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16))
               .onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
@@ -5725,7 +5723,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), zipper);
     }
@@ -5738,7 +5736,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), zipper);
     }
@@ -5751,7 +5749,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), zipper);
     }
@@ -5764,7 +5762,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), zipper);
     }
@@ -5777,7 +5775,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), zipper);
     }
@@ -5790,7 +5788,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), zipper);
     }
@@ -5803,7 +5801,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), zipper);
     }
@@ -5816,7 +5814,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), zipper);
     }
@@ -5829,7 +5827,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), zipper);
     }
@@ -5842,7 +5840,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), zipper);
     }
@@ -5855,7 +5853,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), zipper);
     }
@@ -5868,7 +5866,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), zipper);
     }
@@ -5881,7 +5879,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), zipper);
     }
@@ -5894,7 +5892,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), zipper);
     }
@@ -5907,7 +5905,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
         return zip(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16), zipper);
     }
@@ -5920,7 +5918,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), zipper);
     }
@@ -5933,7 +5931,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), zipper);
     }
@@ -5946,7 +5944,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), zipper);
     }
@@ -5959,7 +5957,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), zipper);
     }
@@ -5972,7 +5970,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), zipper);
     }
@@ -5985,7 +5983,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), zipper);
     }
@@ -5998,7 +5996,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), zipper);
     }
@@ -6011,7 +6009,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), zipper);
     }
@@ -6024,7 +6022,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), zipper);
     }
@@ -6037,7 +6035,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), zipper);
     }
@@ -6050,7 +6048,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), zipper);
     }
@@ -6063,7 +6061,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), zipper);
     }
@@ -6076,7 +6074,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), zipper);
     }
@@ -6089,7 +6087,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), zipper);
     }
@@ -6102,7 +6100,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Iterable<? extends T16> i16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
         return zip(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16), zipper);
     }
@@ -6115,7 +6113,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, BiFunction<? super T1, ? super T2, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6143,7 +6141,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Function3<? super T1, ? super T2, ? super T3, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6172,7 +6170,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6202,7 +6200,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6233,7 +6231,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6265,7 +6263,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6298,7 +6296,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6332,7 +6330,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Function9<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6367,7 +6365,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Function10<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6403,7 +6401,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Function11<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6440,7 +6438,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Function12<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6478,7 +6476,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Function13<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6517,7 +6515,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Function14<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6557,7 +6555,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Function15<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -6598,7 +6596,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).zip(Seq.of("a", "b", "c"), (i, s) -> i + ":" + s)
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Seq<R> zip(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16, Function16<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? super T10, ? super T11, ? super T12, ? super T13, ? super T14, ? super T15, ? super T16, ? extends R> zipper) {
         final Iterator<? extends T1> it1 = s1.iterator();
         final Iterator<? extends T2> it2 = s2.iterator();
@@ -7033,7 +7031,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)));
     }
@@ -7046,7 +7044,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
     }
@@ -7059,7 +7057,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
     }
@@ -7072,7 +7070,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
     }
@@ -7085,7 +7083,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
     }
@@ -7098,7 +7096,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
     }
@@ -7111,7 +7109,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
     }
@@ -7124,7 +7122,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
     }
@@ -7137,7 +7135,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
     }
@@ -7150,7 +7148,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
     }
@@ -7163,7 +7161,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
     }
@@ -7176,7 +7174,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
     }
@@ -7189,7 +7187,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
     }
@@ -7202,7 +7200,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
     }
@@ -7215,7 +7213,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15, Function<? super T15, ? extends Stream<? extends T16>> function16) {
         return crossApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
     }
@@ -7228,7 +7226,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)));
     }
@@ -7241,7 +7239,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
     }
@@ -7254,7 +7252,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
     }
@@ -7267,7 +7265,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
     }
@@ -7280,7 +7278,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
     }
@@ -7293,7 +7291,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
     }
@@ -7306,7 +7304,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
     }
@@ -7319,7 +7317,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
     }
@@ -7332,7 +7330,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
     }
@@ -7345,7 +7343,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
     }
@@ -7358,7 +7356,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
     }
@@ -7371,7 +7369,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
     }
@@ -7384,7 +7382,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
     }
@@ -7397,7 +7395,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
     }
@@ -7410,7 +7408,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15, Function<? super T15, ? extends Iterable<? extends T16>> function16) {
         return crossApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
     }
@@ -7423,7 +7421,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .onClose(seq::close);
@@ -7437,7 +7435,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7452,7 +7450,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7468,7 +7466,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7485,7 +7483,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7503,7 +7501,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7522,7 +7520,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7542,7 +7540,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7563,7 +7561,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7585,7 +7583,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7608,7 +7606,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7632,7 +7630,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7657,7 +7655,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7683,7 +7681,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7710,7 +7708,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15, Function<? super T15, ? extends Seq<? extends T16>> function16) {
         return seq.flatMap(t1 -> function2.apply(t1).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).map(t3 -> t.concat(t3)))
@@ -7742,7 +7740,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)));
     }
@@ -7755,7 +7753,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
     }
@@ -7768,7 +7766,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
     }
@@ -7781,7 +7779,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
     }
@@ -7794,7 +7792,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
     }
@@ -7807,7 +7805,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
     }
@@ -7820,7 +7818,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
     }
@@ -7833,7 +7831,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
     }
@@ -7846,7 +7844,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
     }
@@ -7859,7 +7857,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
     }
@@ -7872,7 +7870,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
     }
@@ -7885,7 +7883,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
     }
@@ -7898,7 +7896,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
     }
@@ -7911,7 +7909,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
     }
@@ -7924,7 +7922,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> outerApply(Stream<? extends T1> stream, Function<? super T1, ? extends Stream<? extends T2>> function2, Function<? super T2, ? extends Stream<? extends T3>> function3, Function<? super T3, ? extends Stream<? extends T4>> function4, Function<? super T4, ? extends Stream<? extends T5>> function5, Function<? super T5, ? extends Stream<? extends T6>> function6, Function<? super T6, ? extends Stream<? extends T7>> function7, Function<? super T7, ? extends Stream<? extends T8>> function8, Function<? super T8, ? extends Stream<? extends T9>> function9, Function<? super T9, ? extends Stream<? extends T10>> function10, Function<? super T10, ? extends Stream<? extends T11>> function11, Function<? super T11, ? extends Stream<? extends T12>> function12, Function<? super T12, ? extends Stream<? extends T13>> function13, Function<? super T13, ? extends Stream<? extends T14>> function14, Function<? super T14, ? extends Stream<? extends T15>> function15, Function<? super T15, ? extends Stream<? extends T16>> function16) {
         return outerApply(seq(stream), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
     }
@@ -7937,7 +7935,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)));
     }
@@ -7950,7 +7948,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)));
     }
@@ -7963,7 +7961,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)));
     }
@@ -7976,7 +7974,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)));
     }
@@ -7989,7 +7987,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)));
     }
@@ -8002,7 +8000,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)));
     }
@@ -8015,7 +8013,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)));
     }
@@ -8028,7 +8026,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)));
     }
@@ -8041,7 +8039,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)));
     }
@@ -8054,7 +8052,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)));
     }
@@ -8067,7 +8065,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)));
     }
@@ -8080,7 +8078,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)));
     }
@@ -8093,7 +8091,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)));
     }
@@ -8106,7 +8104,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)));
     }
@@ -8119,7 +8117,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> outerApply(Iterable<? extends T1> iterable, Function<? super T1, ? extends Iterable<? extends T2>> function2, Function<? super T2, ? extends Iterable<? extends T3>> function3, Function<? super T3, ? extends Iterable<? extends T4>> function4, Function<? super T4, ? extends Iterable<? extends T5>> function5, Function<? super T5, ? extends Iterable<? extends T6>> function6, Function<? super T6, ? extends Iterable<? extends T7>> function7, Function<? super T7, ? extends Iterable<? extends T8>> function8, Function<? super T8, ? extends Iterable<? extends T9>> function9, Function<? super T9, ? extends Iterable<? extends T10>> function10, Function<? super T10, ? extends Iterable<? extends T11>> function11, Function<? super T11, ? extends Iterable<? extends T12>> function12, Function<? super T12, ? extends Iterable<? extends T13>> function13, Function<? super T13, ? extends Iterable<? extends T14>> function14, Function<? super T14, ? extends Iterable<? extends T15>> function15, Function<? super T15, ? extends Iterable<? extends T16>> function16) {
         return outerApply(seq(iterable), t -> seq(function2.apply(t)), t -> seq(function3.apply(t)), t -> seq(function4.apply(t)), t -> seq(function5.apply(t)), t -> seq(function6.apply(t)), t -> seq(function7.apply(t)), t -> seq(function8.apply(t)), t -> seq(function9.apply(t)), t -> seq(function10.apply(t)), t -> seq(function11.apply(t)), t -> seq(function12.apply(t)), t -> seq(function13.apply(t)), t -> seq(function14.apply(t)), t -> seq(function15.apply(t)), t -> seq(function16.apply(t)));
     }
@@ -8132,7 +8130,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .onClose(seq::close);
@@ -8146,7 +8144,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8161,7 +8159,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8177,7 +8175,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8194,7 +8192,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8212,7 +8210,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8231,7 +8229,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8251,7 +8249,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8272,7 +8270,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8294,7 +8292,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8317,7 +8315,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8341,7 +8339,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8366,7 +8364,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8392,7 +8390,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8419,7 +8417,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(0, 1, 2).outerApply(t -> Seq.range(0, t))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> outerApply(Seq<? extends T1> seq, Function<? super T1, ? extends Seq<? extends T2>> function2, Function<? super T2, ? extends Seq<? extends T3>> function3, Function<? super T3, ? extends Seq<? extends T4>> function4, Function<? super T4, ? extends Seq<? extends T5>> function5, Function<? super T5, ? extends Seq<? extends T6>> function6, Function<? super T6, ? extends Seq<? extends T7>> function7, Function<? super T7, ? extends Seq<? extends T8>> function8, Function<? super T8, ? extends Seq<? extends T9>> function9, Function<? super T9, ? extends Seq<? extends T10>> function10, Function<? super T10, ? extends Seq<? extends T11>> function11, Function<? super T11, ? extends Seq<? extends T12>> function12, Function<? super T12, ? extends Seq<? extends T13>> function13, Function<? super T13, ? extends Seq<? extends T14>> function14, Function<? super T14, ? extends Seq<? extends T15>> function15, Function<? super T15, ? extends Seq<? extends T16>> function16) {
         return seq.flatMap(t1 -> function2.apply(t1).onEmpty(null).map(t2 -> tuple(t1, t2)))
                   .flatMap(t -> function3.apply(t.v2).onEmpty(null).map(t3 -> t.concat(t3)))
@@ -8451,7 +8449,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2) {
         return crossJoin(seq(s1), seq(s2));
     }
@@ -8464,7 +8462,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3) {
         return crossJoin(seq(s1), seq(s2), seq(s3));
     }
@@ -8477,7 +8475,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4));
     }
@@ -8490,7 +8488,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5));
     }
@@ -8503,7 +8501,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6));
     }
@@ -8516,7 +8514,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7));
     }
@@ -8529,7 +8527,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8));
     }
@@ -8542,7 +8540,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9));
     }
@@ -8555,7 +8553,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10));
     }
@@ -8568,7 +8566,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11));
     }
@@ -8581,7 +8579,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12));
     }
@@ -8594,7 +8592,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13));
     }
@@ -8607,7 +8605,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14));
     }
@@ -8620,7 +8618,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15));
     }
@@ -8633,7 +8631,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Stream<? extends T1> s1, Stream<? extends T2> s2, Stream<? extends T3> s3, Stream<? extends T4> s4, Stream<? extends T5> s5, Stream<? extends T6> s6, Stream<? extends T7> s7, Stream<? extends T8> s8, Stream<? extends T9> s9, Stream<? extends T10> s10, Stream<? extends T11> s11, Stream<? extends T12> s12, Stream<? extends T13> s13, Stream<? extends T14> s14, Stream<? extends T15> s15, Stream<? extends T16> s16) {
         return crossJoin(seq(s1), seq(s2), seq(s3), seq(s4), seq(s5), seq(s6), seq(s7), seq(s8), seq(s9), seq(s10), seq(s11), seq(s12), seq(s13), seq(s14), seq(s15), seq(s16));
     }
@@ -8646,7 +8644,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2) {
         return crossJoin(seq(i1), seq(i2));
     }
@@ -8659,7 +8657,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3) {
         return crossJoin(seq(i1), seq(i2), seq(i3));
     }
@@ -8672,7 +8670,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4));
     }
@@ -8685,7 +8683,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5));
     }
@@ -8698,7 +8696,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6));
     }
@@ -8711,7 +8709,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7));
     }
@@ -8724,7 +8722,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8));
     }
@@ -8737,7 +8735,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9));
     }
@@ -8750,7 +8748,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10));
     }
@@ -8763,7 +8761,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11));
     }
@@ -8776,7 +8774,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12));
     }
@@ -8789,7 +8787,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13));
     }
@@ -8802,7 +8800,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14));
     }
@@ -8815,7 +8813,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15));
     }
@@ -8828,7 +8826,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Iterable<? extends T1> i1, Iterable<? extends T2> i2, Iterable<? extends T3> i3, Iterable<? extends T4> i4, Iterable<? extends T5> i5, Iterable<? extends T6> i6, Iterable<? extends T7> i7, Iterable<? extends T8> i8, Iterable<? extends T9> i9, Iterable<? extends T10> i10, Iterable<? extends T11> i11, Iterable<? extends T12> i12, Iterable<? extends T13> i13, Iterable<? extends T14> i14, Iterable<? extends T15> i15, Iterable<? extends T16> i16) {
         return crossJoin(seq(i1), seq(i2), seq(i3), seq(i4), seq(i5), seq(i6), seq(i7), seq(i8), seq(i9), seq(i10), seq(i11), seq(i12), seq(i13), seq(i14), seq(i15), seq(i16));
     }
@@ -8841,7 +8839,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2) {
         List<? extends T2> list = s2.toList();
         return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)))
@@ -8856,7 +8854,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8873,7 +8871,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8890,7 +8888,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8907,7 +8905,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8924,7 +8922,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8941,7 +8939,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8958,7 +8956,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8975,7 +8973,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -8992,7 +8990,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -9009,7 +9007,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -9026,7 +9024,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -9043,7 +9041,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -9060,7 +9058,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
@@ -9077,7 +9075,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2).crossJoin(Seq.of("a", "b"))
      * </pre></code>
      */
-    @Generated("This method was generated using jOOQ-tools")
+    /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
