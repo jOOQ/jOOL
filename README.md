@@ -194,12 +194,24 @@ Do note that `Unchecked` also allows you to throw checked exceptions explicitly 
 Unchecked.throwChecked(new Exception());
 ```
 
-Maven
------
+Download
+--------
+
+**For use with Java 9+**
+
 ```
 <dependency>
-	<groupId>org.jooq</groupId>
-	<artifactId>jool</artifactId>
-	<version>0.9.12</version>
+  <groupId>org.jooq</groupId>
+  <artifactId>jool</artifactId>
+  <version>0.9.13</version>
 </dependency>
 ```
+
+**For use with Java 8+**
+
+```
+<dependency>
+  <groupId>org.jooq</groupId>
+  <artifactId>jool-java-8</artifactId>
+  <version>0.9.13</version>
+</dependency>
