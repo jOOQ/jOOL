@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk9
+  - openjdk10
 install:
   - sh -c 'cd jOOL && mvn install -DskipTests=true'
 script:
