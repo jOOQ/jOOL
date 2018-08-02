@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -39,6 +40,7 @@ import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
 
+import org.jooq.lambda.tuple.Tuple5;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -208,6 +210,29 @@ public class TupleTest {
     @Test
     public void testRange() {
         assertEquals(range(1, 3), range(3, 1));
+    }
+
+    @Test
+    public void testCollectorsWithAgg() {
+        Tuple5<Long, Optional<BigDecimal>, Optional<BigDecimal>, Optional<BigDecimal>, Optional<BigDecimal>> result =
+        Stream.of(new BigDecimal(0), new BigDecimal(1), new BigDecimal(2))
+            .collect(collectors(
+                Agg.count(),
+                Agg.sum(),
+                Agg.avg(),
+                Agg.<BigDecimal>min(),
+                Agg.<BigDecimal>max()
+            ));
+        assertEquals(
+            tuple(
+                3L,
+                Optional.of(new BigDecimal(3)),
+                Optional.of(new BigDecimal(1)),
+                Optional.of(new BigDecimal(0)),
+                Optional.of(new BigDecimal(2))
+            ),
+            result
+        );
     }
 
     @Test
