@@ -4660,7 +4660,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Wrap a <code>IntStream</code> into a <code>Seq</code>.
+     * Wrap a <code>LongStream</code> into a <code>Seq</code>.
      */
     static Seq<Long> seq(LongStream stream) {
         if (stream == null)
@@ -4670,7 +4670,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
-     * Wrap a <code>IntStream</code> into a <code>Seq</code>.
+     * Wrap a <code>DoubleStream</code> into a <code>Seq</code>.
      */
     static Seq<Double> seq(DoubleStream stream) {
         if (stream == null)
