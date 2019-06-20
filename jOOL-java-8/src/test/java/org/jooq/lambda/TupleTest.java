@@ -15,34 +15,18 @@
  */
 package org.jooq.lambda;
 
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.averagingInt;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.mapping;
-import static org.jooq.lambda.tuple.Tuple.collectors;
-import static org.jooq.lambda.tuple.Tuple.range;
-import static org.jooq.lambda.tuple.Tuple.tuple;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple5;
+import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Stream;
 
-import org.jooq.lambda.tuple.Tuple2;
-
-import org.jooq.lambda.tuple.Tuple5;
-import org.junit.Assert;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.*;
+import static org.jooq.lambda.tuple.Tuple.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Lukas Eder
@@ -200,6 +184,27 @@ public class TupleTest {
     }
 
     @Test
+    public void testOverlaps_withInfiniteBounds() {
+        assertTrue(range((Integer) null, null).overlaps(range(1, 3)));
+        assertTrue(range(1, 3).overlaps(range(null, null)));
+
+        assertTrue(range(3, null).overlaps(range(2, 3)));
+        assertFalse(range(3, null).overlaps(range(1, 2)));
+        assertTrue(range(3, null).overlaps(range(null, 3)));
+        assertFalse(range(3, null).overlaps(range(null, 2)));
+
+        assertTrue(range(2, 3).overlaps(range(3, null)));
+        assertFalse(range(2, 3).overlaps(range(4, null)));
+        assertTrue(range(2, 3).overlaps(range(null, 2)));
+        assertFalse(range(2, 3).overlaps(range(null, 1)));
+
+        assertTrue(range(null, 3).overlaps(tuple(3, null)));
+        assertFalse(range(null, 3).overlaps((tuple(4, null))));
+        assertTrue(range(null, 3).overlaps(tuple(3, 5)));
+        assertFalse(range(null, 3).overlaps((tuple(4, 6))));
+    }
+
+    @Test
     public void testIntersect() {
         assertEquals(Optional.of(tuple(2, 3)), range(1, 3).intersect(range(2, 4)));
         assertEquals(Optional.of(tuple(2, 3)), range(3, 1).intersect(range(4, 2)));
@@ -210,6 +215,37 @@ public class TupleTest {
     @Test
     public void testRange() {
         assertEquals(range(1, 3), range(3, 1));
+        assertNotEquals(range(1, null), range(null, 1));
+    }
+
+    @Test
+    public void testRangeContainsValue() {
+        assertTrue(range(1, 3).contains(1));
+        assertTrue(range(1, 3).contains(2));
+        assertTrue(range(1, 3).contains(3));
+        assertFalse(range(1, 3).contains(0));
+        assertFalse(range(1, 3).contains(4));
+        assertFalse(range(1, 3).contains(-1));
+        assertFalse(range(1, 3).contains(50));
+
+        assertTrue(range(null, 3).contains(1));
+        assertTrue(range((Integer) null, null).contains(1));
+        assertFalse(range(null, 3).contains(4));
+    }
+
+    @Test
+    public void testRangeContainsRange() {
+        assertTrue(range(1, 3).contains(range(1, 1)));
+        assertTrue(range(1, 3).contains(range(1, 2)));
+        assertTrue(range(1, 3).contains(range(1, 3)));
+        assertFalse(range(1, 3).contains(range(0, 1)));
+        assertFalse(range(1, 3).contains(range(1, 4)));
+        assertFalse(range(1, 3).contains(range(-1, 1)));
+        assertFalse(range(1, 3).contains(range(1, 50)));
+
+        assertTrue(range(null, 3).contains(range(1, 2)));
+        assertTrue(range((Integer) null, null).contains(range(1, 5)));
+        assertFalse(range(null, 3).contains(range(1, 4)));
     }
 
     @Test

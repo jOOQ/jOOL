@@ -35,18 +35,23 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     }
 
     private static <T extends Comparable<T>> Tuple2<T, T> r(T t1, T t2) {
-        return t1.compareTo(t2) <= 0 ? new Tuple2<>(t1, t2) : new Tuple2<>(t2, t1);
+        if (t1 != null && t2 != null)
+            return t1.compareTo(t2) <= 0 ? new Tuple2<>(t1, t2) : new Tuple2<>(t2, t1);
+        else
+            return new Tuple2<>(t1, t2);
     }
 
     /**
-     * Whether two ranges overlap.
+     * Whether two ranges overlap. Assumes inclusiveness.
      * <p>
      * <code><pre>
      * // true
      * range(1, 3).overlaps(range(2, 4))
+     * range(1, null).overlaps(range(null, 1))
      *
      * // false
      * range(1, 3).overlaps(range(5, 8))
+     * range(null, 3).overlaps(range(5, null))
      * </pre></code>
      */
     public boolean overlaps(Tuple2<T, T> other) {
@@ -96,5 +101,39 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      */
     public Optional<Range<T>> intersect(T t1, T t2) {
         return intersect(new Range<>(t1, t2));
+    }
+
+    /**
+     * Whether the given value is included in the range. Assumes range inclusiveness.
+     * <p>
+     * <code><pre>
+     * // true
+     * range(1, 3).contains(1)
+     * range(2, null).contains(5)
+     *
+     * // false
+     * range(1, 3).contains(4)
+     * range(2, null).contains(1)
+     * </pre></code>
+     */
+    public boolean contains(T t) {
+        return Tuple2.contains(this, t);
+    }
+
+    /**
+     * Whether the given right tuple is included in the left tuple.
+     * <p>
+     * <code><pre>
+     * // true
+     * range(1, 3).contains(range(1, 2))
+     * range(2, null).contains(range(3, 5))
+     *
+     * // false
+     * range(1, 3).contains(range(null, 2))
+     * range(2, null).contains(range(1, 3))
+     * </pre></code>
+     */
+    public boolean contains(Tuple2<T, T> other) {
+        return Tuple2.contains(this, other);
     }
 }

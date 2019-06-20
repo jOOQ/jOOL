@@ -15,21 +15,13 @@
  */
 package org.jooq.lambda.tuple;
 
+import org.jooq.lambda.Seq;
+
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import org.jooq.lambda.Seq;
-import org.jooq.lambda.function.Function1;
-import org.jooq.lambda.function.Function2;
 
 /**
  * A tuple of degree 2.
@@ -237,19 +229,39 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     }
 
     /**
-     * Whether two tuples overlap.
+     * Whether two tuples overlap. Assumes inclusiveness.
      * <p>
      * <code><pre>
      * // true
      * range(1, 3).overlaps(range(2, 4))
+     * range(1, null).overlaps(range(null, 1))
      *
      * // false
      * range(1, 3).overlaps(range(5, 8))
+     * range(null, 3).overlaps(range(5, null))
      * </pre></code>
      */
     public static final <T extends Comparable<? super T>> boolean overlaps(Tuple2<T, T> left, Tuple2<T, T> right) {
-        return left.v1.compareTo(right.v2) <= 0
-            && left.v2.compareTo(right.v1) >= 0;
+        if (left == null || right == null) {
+            return false;
+        }
+
+        if (left.infinite() || right.infinite()) {
+            return true;
+        }
+        if (left.finite() && right.finite()) {
+            return left.v1.compareTo(right.v2) <= 0
+                    && left.v2.compareTo(right.v1) >= 0;
+        }
+
+        if (!left.upperInfinite() && !right.lowerInfinite()) {
+            return left.v2.compareTo(right.v1) >= 0;
+        }
+        if (!left.lowerInfinite() && !right.upperInfinite()) {
+            return left.v1.compareTo(right.v2) <= 0;
+        }
+        // two remaining positive cases: either both have upper or lower bound infinite
+        return true;
     }
 
     /**
@@ -264,13 +276,74 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
      * </pre></code>
      */
     public static final <T extends Comparable<? super T>> Optional<Tuple2<T, T>> intersect(Tuple2<T, T> left, Tuple2<T, T> right) {
-        if (overlaps(left, right))
+        if (overlaps(left, right)) {
+            if (!left.finite() || !right.finite()) {
+                // todo?
+                throw new UnsupportedOperationException("to be done in another commit!");
+            }
             return Optional.of(new Tuple2<>(
-                left.v1.compareTo(right.v1) >= 0 ? left.v1 : right.v1,
-                left.v2.compareTo(right.v2) <= 0 ? left.v2 : right.v2
+                    left.v1.compareTo(right.v1) >= 0 ? left.v1 : right.v1,
+                    left.v2.compareTo(right.v2) <= 0 ? left.v2 : right.v2
             ));
-        else
+        } else
             return Optional.empty();
+    }
+
+    /**
+     * Whether the given values are included in the tuple. Assumes inclusiveness.
+     * <p>
+     * <code><pre>
+     * // true
+     * contains(range(1, 3), 1, 3)
+     * contains(range(2, null), 5)
+     *
+     * // false
+     * contains(range(1, 3), 2, 4)
+     * contains(range(2, null), 1)
+     * </pre></code>
+     */
+    @SafeVarargs
+    public static final <T extends Comparable<? super T>> boolean contains(Tuple2<T, T> tuple2, T... vals) {
+        return Arrays.stream(vals).map(v -> {
+            if (tuple2.v1 != null && tuple2.v1.compareTo(v) > 0)
+                return false; // value is below the lower bound
+            if (tuple2.v2 != null && tuple2.v2.compareTo(v) < 0)
+                return false; // value is above the upper bound
+            return true;
+        }).reduce(Boolean::logicalAnd).orElse(false);
+    }
+
+    /**
+     * Whether the right tuple is included in the left tuple.
+     * <p>
+     * <code><pre>
+     * // true
+     * contains(range(1, 3), range(1, 2))
+     * contains(range(2, null), range(3, 5))
+     *
+     * // false
+     * contains(range(1, 3), range(null, 2))
+     * contains(range(2, null), range(1, 3))
+     * </pre></code>
+     */
+    public static final <T extends Comparable<? super T>> boolean contains(Tuple2<T, T> left, Tuple2<T, T> right) {
+        return contains(left, right.v1, right.v2);
+    }
+
+    public final <T extends Comparable<? super T>> boolean lowerInfinite() {
+        return v1 == null;
+    }
+
+    public final <T extends Comparable<? super T>> boolean upperInfinite() {
+        return v2 == null;
+    }
+
+    public final <T extends Comparable<? super T>> boolean finite() {
+        return !lowerInfinite() && !upperInfinite();
+    }
+
+    public final <T extends Comparable<? super T>> boolean infinite() {
+        return lowerInfinite() && upperInfinite();
     }
 
     /**
