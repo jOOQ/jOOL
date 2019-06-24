@@ -1377,10 +1377,10 @@ public interface Tuple extends Iterable<Object> {
     }
 
     /**
-     * Create a new range.
+     * Create a new range with inclusive bounds.
      */
-    static <T extends Comparable<T>> Range<T> range(T t1, T t2) {
-        return new Range<>(t1, t2);
+    static <T extends Comparable<T>> Range<T> range(T lowerInclusive, T upperInclusive) {
+        return new Range<>(lowerInclusive, upperInclusive);
     }
 
     /**

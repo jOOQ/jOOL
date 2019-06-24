@@ -23,6 +23,8 @@ import java.util.Optional;
  * Ranges can be (partially) unbounded if one or both of their bounds are <code>null</code>,
  * which corresponds to "infinity", if <code>T</code> is a type that doesn't already have an
  * infinity value, such as {@link Double#POSITIVE_INFINITY} or {@link Double#NEGATIVE_INFINITY}.
+ * <p>
+ * Ranges are inclusive on both bounds.
  *
  * @author Lukas Eder
  */
@@ -30,8 +32,8 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
 
     private static final long serialVersionUID = 1L;
 
-    public Range(T v1, T v2) {
-        super(r(v1, v2));
+    public Range(T lowerInclusive, T upperInclusive) {
+        super(r(lowerInclusive, upperInclusive));
     }
 
     public Range(Tuple2<T, T> tuple) {
@@ -94,8 +96,8 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * range(1, 3).overlaps(5, 8)
      * </pre></code>
      */
-    public boolean overlaps(T t1, T t2) {
-        return overlaps(new Range<>(t1, t2));
+    public boolean overlaps(T lowerInclusive, T upperInclusive) {
+        return overlaps(new Range<>(lowerInclusive, upperInclusive));
     }
 
     /**
@@ -158,8 +160,8 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * range(1, 3).intersect(5, 8)
      * </pre></code>
      */
-    public Optional<Range<T>> intersect(T t1, T t2) {
-        return intersect(new Range<>(t1, t2));
+    public Optional<Range<T>> intersect(T lowerInclusive, T upperInclusive) {
+        return intersect(new Range<>(lowerInclusive, upperInclusive));
     }
 
     /**
