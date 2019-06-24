@@ -48,9 +48,27 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * // false
      * range(1, 3).overlaps(range(5, 8))
      * </pre></code>
+     *
+     * @deprecated - Use {@link #overlaps(Range)} instead.
      */
+    @Deprecated
     public boolean overlaps(Tuple2<T, T> other) {
-        return Tuple2.overlaps(this, other);
+        return overlaps(new Range<>(other));
+    }
+
+    /**
+     * Whether two ranges overlap.
+     * <p>
+     * <code><pre>
+     * // true
+     * range(1, 3).overlaps(range(2, 4))
+     *
+     * // false
+     * range(1, 3).overlaps(range(5, 8))
+     * </pre></code>
+     */
+    public boolean overlaps(Range<T> other) {
+        return v1.compareTo(other.v2) <= 0 && v2.compareTo(other.v1) >= 0;
     }
 
     /**
@@ -78,9 +96,31 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * // none
      * range(1, 3).intersect(range(5, 8))
      * </pre></code>
+     * @deprecated - Use {@link #intersect(Range)} instead.
      */
     public Optional<Range<T>> intersect(Tuple2<T, T> other) {
-        return Tuple2.intersect(this, other).map(Range::new);
+        return intersect(new Range<>(other));
+    }
+
+    /**
+     * The intersection of two ranges.
+     * <p>
+     * <code><pre>
+     * // (2, 3)
+     * range(1, 3).intersect(range(2, 4))
+     *
+     * // none
+     * range(1, 3).intersect(range(5, 8))
+     * </pre></code>
+     */
+    public Optional<Range<T>> intersect(Range<T> other) {
+        if (overlaps(other))
+            return Optional.of(new Range<>(
+                v1.compareTo(other.v1) >= 0 ? v1 : other.v1,
+                v2.compareTo(other.v2) <= 0 ? v2 : other.v2
+            ));
+        else
+            return Optional.empty();
     }
 
     /**

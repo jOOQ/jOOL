@@ -182,28 +182,27 @@ public class TupleTest {
     }
 
     @Test
-    public void testOverlaps() {
-        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(1, 3)));
-        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(2, 3)));
-        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(2, 4)));
-        assertTrue(Tuple2.overlaps(tuple(1, 3), tuple(3, 4)));
-        assertFalse(Tuple2.overlaps(tuple(1, 3), tuple(4, 5)));
-        assertFalse(Tuple2.overlaps(tuple(1, 1), tuple(2, 2)));
-
-
-        assertTrue(range(1, 3).overlaps(tuple(1, 3)));
-        assertTrue(range(1, 3).overlaps(tuple(2, 3)));
-        assertTrue(range(1, 3).overlaps(tuple(2, 4)));
-        assertTrue(range(1, 3).overlaps(tuple(3, 4)));
-        assertFalse(range(1, 3).overlaps(tuple(4, 5)));
+    public void testRangeOverlaps() {
+        assertTrue(range(1, 3).overlaps(1, 3));
+        assertTrue(range(1, 3).overlaps(2, 3));
+        assertTrue(range(1, 3).overlaps(2, 4));
+        assertTrue(range(1, 3).overlaps(3, 4));
+        assertFalse(range(1, 3).overlaps(4, 5));
         assertFalse(range(1, 1).overlaps(2, 2));
+
+        assertTrue(range(1, 3).overlaps(range(1, 3)));
+        assertTrue(range(1, 3).overlaps(range(2, 3)));
+        assertTrue(range(1, 3).overlaps(range(2, 4)));
+        assertTrue(range(1, 3).overlaps(range(3, 4)));
+        assertFalse(range(1, 3).overlaps(range(4, 5)));
+        assertFalse(range(1, 1).overlaps(range(2, 2)));
     }
 
     @Test
     public void testIntersect() {
-        assertEquals(Optional.of(tuple(2, 3)), range(1, 3).intersect(range(2, 4)));
-        assertEquals(Optional.of(tuple(2, 3)), range(3, 1).intersect(range(4, 2)));
-        assertEquals(Optional.of(tuple(3, 3)), range(1, 3).intersect(3, 5));
+        assertEquals(Optional.of(range(2, 3)), range(1, 3).intersect(range(2, 4)));
+        assertEquals(Optional.of(range(2, 3)), range(3, 1).intersect(range(4, 2)));
+        assertEquals(Optional.of(range(3, 3)), range(1, 3).intersect(3, 5));
         assertEquals(Optional.empty(), range(1, 3).intersect(range(4, 5)));
     }
 
