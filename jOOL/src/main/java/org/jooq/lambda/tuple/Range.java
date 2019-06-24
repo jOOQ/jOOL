@@ -161,4 +161,37 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     public Optional<Range<T>> intersect(T t1, T t2) {
         return intersect(new Range<>(t1, t2));
     }
+
+    /**
+     * Whether a value is contained in this range.
+     * <p>
+     * <code><pre>
+     * // true
+     * range(1, 3).contains(2)
+     *
+     * // false
+     * range(1, 3).contains(4)
+     * </pre></code>
+     */
+    public boolean contains(T t) {
+        return t != null
+            && (v1 == null || v1.compareTo(t) <= 0)
+            && (v2 == null || v2.compareTo(t) >= 0);
+    }
+
+    /**
+     * Whether a range is contained in this range.
+     * <p>
+     * <code><pre>
+     * // true
+     * range(1, 3).contains(range(2, 3))
+     *
+     * // false
+     * range(1, 3).contains(range(2, 4))
+     * </pre></code>
+     */
+    public boolean contains(Range<T> other) {
+        return (other.v1 == null && v1 == null || contains(other.v1))
+            && (other.v2 == null && v2 == null || contains(other.v2));
+    }
 }

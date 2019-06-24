@@ -251,6 +251,61 @@ public class TupleTest {
     }
 
     @Test
+    public void testRangeContainsValue() {
+        assertFalse(range(1, 3).contains((Integer) null));
+        assertFalse(range((Integer) null, null).contains((Integer) null));
+
+        assertTrue(range(1, 3).contains(1));
+        assertTrue(range(1, 3).contains(2));
+        assertTrue(range(1, 3).contains(3));
+        assertFalse(range(1, 3).contains(0));
+        assertFalse(range(1, 3).contains(4));
+        assertFalse(range(1, 3).contains(-1));
+        assertFalse(range(1, 3).contains(50));
+
+        assertTrue(range(null, 3).contains(1));
+        assertTrue(range((Integer) null, null).contains(1));
+        assertFalse(range(null, 3).contains(4));
+    }
+
+    @Test
+    public void testRangeContainsRange() {
+        assertTrue(range(null, null).contains(range(null, null)));
+        assertTrue(range((Integer) null, null).contains(range(0, null)));
+        assertTrue(range((Integer) null, null).contains(range(null, 0)));
+        assertTrue(range((Integer) null, null).contains(range(0, 0)));
+
+        assertFalse(range(null, 0).contains(range(null, null)));
+
+        assertFalse(range(null, 0).contains(range(null, null)));
+        assertTrue(range(null, 0).contains(range(null, 0)));
+        assertTrue(range(null, 0).contains(range(null, -1)));
+        assertFalse(range(null, 0).contains(range(null, 1)));
+
+        assertFalse(range(0, null).contains(range(null, null)));
+        assertTrue(range(0, null).contains(range(0, null)));
+        assertFalse(range(0, null).contains(range(-1, null)));
+        assertTrue(range(0, null).contains(range(1, null)));
+
+        assertFalse(range(0, 1).contains(range(null, null)));
+        assertFalse(range(0, 1).contains(range(0, null)));
+        assertFalse(range(0, 1).contains(range(-1, null)));
+        assertFalse(range(0, 1).contains(range(1, null)));
+
+        assertTrue(range(1, 3).contains(range(1, 1)));
+        assertTrue(range(1, 3).contains(range(1, 2)));
+        assertTrue(range(1, 3).contains(range(1, 3)));
+        assertFalse(range(1, 3).contains(range(0, 1)));
+        assertFalse(range(1, 3).contains(range(1, 4)));
+        assertFalse(range(1, 3).contains(range(-1, 1)));
+        assertFalse(range(1, 3).contains(range(1, 50)));
+
+        assertTrue(range(null, 3).contains(range(1, 2)));
+        assertTrue(range((Integer) null, null).contains(range(1, 5)));
+        assertFalse(range(null, 3).contains(range(1, 4)));
+    }
+
+    @Test
     public void testCollectorsWithAgg() {
         Tuple5<Long, Optional<BigDecimal>, Optional<BigDecimal>, Optional<BigDecimal>, Optional<BigDecimal>> result =
         Stream.of(new BigDecimal(0), new BigDecimal(1), new BigDecimal(2))
