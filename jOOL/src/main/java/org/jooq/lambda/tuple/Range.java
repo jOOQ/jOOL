@@ -19,6 +19,10 @@ import java.util.Optional;
 
 /**
  * A range is a special {@link Tuple2} with two times the same type.
+ * <p>
+ * Ranges can be (partially) unbounded if one or both of their bounds are <code>null</code>,
+ * which corresponds to "infinity", if <code>T</code> is a type that doesn't already have an
+ * infinity value, such as {@link Double#POSITIVE_INFINITY} or {@link Double#NEGATIVE_INFINITY}.
  *
  * @author Lukas Eder
  */
@@ -35,7 +39,10 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     }
 
     private static <T extends Comparable<T>> Tuple2<T, T> r(T t1, T t2) {
-        return t1.compareTo(t2) <= 0 ? new Tuple2<>(t1, t2) : new Tuple2<>(t2, t1);
+        if (t1 != null && t2 != null)
+            return t1.compareTo(t2) <= 0 ? new Tuple2<>(t1, t2) : new Tuple2<>(t2, t1);
+        else
+            return new Tuple2<>(t1, t2);
     }
 
     /**
@@ -68,7 +75,12 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * </pre></code>
      */
     public boolean overlaps(Range<T> other) {
-        return v1.compareTo(other.v2) <= 0 && v2.compareTo(other.v1) >= 0;
+        return (v1 == null
+            ||  other.v2 == null
+            ||  v1.compareTo(other.v2) <= 0)
+            && (v2 == null
+            ||  other.v1 == null
+            ||  v2.compareTo(other.v1) >= 0);
     }
 
     /**
@@ -116,8 +128,20 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     public Optional<Range<T>> intersect(Range<T> other) {
         if (overlaps(other))
             return Optional.of(new Range<>(
-                v1.compareTo(other.v1) >= 0 ? v1 : other.v1,
-                v2.compareTo(other.v2) <= 0 ? v2 : other.v2
+                v1 == null
+                    ? other.v1
+                    : other.v1 == null
+                    ? v1
+                    : v1.compareTo(other.v1) >= 0
+                    ? v1
+                    : other.v1,
+                v2 == null
+                    ? other.v2
+                    : other.v2 == null
+                    ? v2
+                    : v2.compareTo(other.v2) <= 0
+                    ? v2
+                    : other.v2
             ));
         else
             return Optional.empty();

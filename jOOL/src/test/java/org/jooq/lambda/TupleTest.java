@@ -199,11 +199,50 @@ public class TupleTest {
     }
 
     @Test
-    public void testIntersect() {
+    public void testRangeOverlapsWithInfiniteBounds() {
+        assertTrue(range(null, null).overlaps(range(null, null)));
+        assertTrue(range((Integer) null, null).overlaps(range(1, 3)));
+        assertTrue(range(1, 3).overlaps(range(null, null)));
+
+        assertTrue(range(3, null).overlaps(range(2, 3)));
+        assertFalse(range(3, null).overlaps(range(1, 2)));
+        assertTrue(range(3, null).overlaps(range(null, 3)));
+        assertFalse(range(3, null).overlaps(range(null, 2)));
+
+        assertTrue(range(2, 3).overlaps(range(3, null)));
+        assertFalse(range(2, 3).overlaps(range(4, null)));
+        assertTrue(range(2, 3).overlaps(range(null, 2)));
+        assertFalse(range(2, 3).overlaps(range(null, 1)));
+
+        assertTrue(range(null, 3).overlaps(3, null));
+        assertFalse(range(null, 3).overlaps(4, null));
+        assertTrue(range(null, 3).overlaps(3, 5));
+        assertFalse(range(null, 3).overlaps(4, 6));
+    }
+
+    @Test
+    public void testRangeIntersect() {
         assertEquals(Optional.of(range(2, 3)), range(1, 3).intersect(range(2, 4)));
         assertEquals(Optional.of(range(2, 3)), range(3, 1).intersect(range(4, 2)));
         assertEquals(Optional.of(range(3, 3)), range(1, 3).intersect(3, 5));
         assertEquals(Optional.empty(), range(1, 3).intersect(range(4, 5)));
+    }
+
+    @Test
+    public void testRangeIntersectWithInfiniteBounds() {
+        assertEquals(Optional.of(range(null, null)), range(null, null).intersect(range(null, null)));
+        assertEquals(Optional.of(range(1, 3)), range((Integer) null, null).intersect(range(1, 3)));
+        assertEquals(Optional.of(range(1, 3)), range(1, 3).intersect(range(null, null)));
+
+        assertEquals(Optional.of(range(3, 3)), range(3, null).intersect(range(2, 3)));
+        assertEquals(Optional.empty(), range(3, null).intersect(range(1, 2)));
+        assertEquals(Optional.of(range(3, 3)), range(3, null).intersect(range(null, 3)));
+        assertEquals(Optional.empty(), range(3, null).intersect(range(null, 2)));
+
+        assertEquals(Optional.of(range(3, 4)), range(2, 4).intersect(range(3, null)));
+        assertEquals(Optional.empty(), range(2, 3).intersect(range(4, null)));
+        assertEquals(Optional.of(range(2, 3)), range(2, 4).intersect(range(null, 3)));
+        assertEquals(Optional.empty(), range(2, 3).intersect(range(null, 1)));
     }
 
     @Test
