@@ -1097,7 +1097,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return zip(this, other, zipper);
     }
 
-    // [jooq-tools] START [zip-all-static]
+
 
     /**
      * Zip two streams into one - by storing the corresponding elements from them in a tuple,
@@ -3049,7 +3049,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
     }
 
-// [jooq-tools] END [zip-all-static]
+
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
@@ -3579,7 +3579,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return window(Window.of(partitionBy, orderBy, lower, upper)).map(t -> t.v1);
     }
 
-    // [jooq-tools] START [windows]
+
 
     /**
      * Map this stream to a windowed stream with 1 distinct windows.
@@ -4229,7 +4229,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
               .onClose(this::close);
     }
 
-// [jooq-tools] END [windows]
+
 
     // Shortcuts to Collectors
     // -----------------------
@@ -4313,7 +4313,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SafeVarargs
     static <T> Seq<T> of(T... values) {
-        return seq(Stream.of(values));
+        return values == null ? empty() : seq(Stream.of(values));
     }
 
     /**
@@ -4611,6 +4611,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     static <T> Seq<T> generate(Supplier<? extends T> s) {
         return seq(Stream.generate(s));
+    }
+
+    /**
+     * Wrap an array into a <code>Seq</code>.
+     */
+    static <T> Seq<T> seq(T[] values) {
+        return of(values);
     }
 
     /**
@@ -5113,7 +5120,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
               .map2(s -> s.map(u -> u.v2));
     }
 
- // [jooq-tools] START [zip-static]
+
 
     /**
      * Zip 2 streams into one.
@@ -6630,7 +6637,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return seq(new Zip());
     }
 
-// [jooq-tools] END [zip-static]
+
 
     /**
      * Zip a Stream with a corresponding Stream of indexes.
@@ -7021,7 +7028,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }).onClose(stream::close);
     }
 
-    // [jooq-tools] START [crossapply-static]
+
 
     /**
      * Cross apply 2 functions to a stream.
@@ -7728,9 +7735,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                   .onClose(seq::close);
     }
 
-// [jooq-tools] END [crossapply-static]
 
-    // [jooq-tools] START [outerapply-static]
+
+
 
     /**
      * Outer apply 2 functions to a stream.
@@ -8437,9 +8444,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                   .onClose(seq::close);
     }
 
-// [jooq-tools] END [outerapply-static]
 
-    // [jooq-tools] START [crossjoin-static]
+
+
 
     /**
      * Cross join 2 streams into one.
@@ -9084,7 +9091,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
     }
 
-// [jooq-tools] END [crossjoin-static]
+
 
     /**
      * Concatenate a number of streams.

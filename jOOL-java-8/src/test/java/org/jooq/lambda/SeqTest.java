@@ -78,6 +78,15 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
+    public void testSeqArray() throws Exception {
+        Seq<Integer> s1 = seq((Integer[]) null);
+        assertEquals(asList(), s1.toList());
+
+        Seq<Integer> s2 = seq(new Integer[] { 1, 2, 3, 4, 5 });
+        assertEquals(asList(1, 2, 3, 4, 5), s2.toList());
+    }
+
+    @Test
     public void testSeqArraySlice() throws Exception {
         Seq<Integer> seq = seq(new Integer[] { 1, 2, 3, 4, 5 }, 2, 4);
         assertEquals(asList(3, 4), seq.toList());

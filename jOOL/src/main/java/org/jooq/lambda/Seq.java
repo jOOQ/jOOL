@@ -4313,7 +4313,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     @SafeVarargs
     static <T> Seq<T> of(T... values) {
-        return seq(Stream.of(values));
+        return values == null ? empty() : seq(Stream.of(values));
     }
 
     /**
@@ -4614,8 +4614,15 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Wrap an array into a <code>Seq</code>.
+     */
+    static <T> Seq<T> seq(T[] values) {
+        return of(values);
+    }
+
+    /**
      * Wrap an array slice into a <code>Seq</code>.
-     * 
+     *
      * @throws IndexOutOfBoundsException if
      *         (<code>startIndex &lt; 0 || endIndex &gt; size ||
      *         startIndex &gt; endIndex</code>)

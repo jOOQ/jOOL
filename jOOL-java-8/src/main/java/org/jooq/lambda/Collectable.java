@@ -66,7 +66,7 @@ public interface Collectable<T> {
      */
     <R, A> R collect(Collector<? super T, A, R> collector);
 
-    // [jooq-tools] START [collect]
+
 
     /**
      * Collect this collectable into 2 {@link Collector}s.
@@ -338,7 +338,7 @@ public interface Collectable<T> {
         return collect(Tuple.collectors(collector1, collector2, collector3, collector4, collector5, collector6, collector7, collector8, collector9, collector10, collector11, collector12, collector13, collector14, collector15, collector16));
     }
 
-// [jooq-tools] END [collect]
+
 
     /**
      * Count the values in this collectable.
