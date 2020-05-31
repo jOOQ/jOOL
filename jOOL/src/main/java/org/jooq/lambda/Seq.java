@@ -379,6 +379,64 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * Full outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(null, 3)), tuple(3, null)
+     * Seq.of(1, 2).fullOuterJoin(Seq.of(1, 2, 3), (t, u) -> Objects.equals(t, u))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> fullOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
+        return fullOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Full outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(null, 3)), tuple(3, null)
+     * Seq.of(1, 2).fullOuterJoin(Seq.of(1, 2, 3), (t, u) -> Objects.equals(t, u))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> fullOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
+        return fullOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Full outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     * // (tuple(1, 1), tuple(2, 2), tuple(null, 3)), tuple(3, null)
+     * Seq.of(1, 2).fullOuterJoin(Seq.of(1, 2, 3), (t, u) -> Objects.equals(t, u))
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> fullOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
+
+        // This algorithm has substantial complexity for large argument streams!
+        SeqBuffer<T> thisBuffer = SeqBuffer.of(this);
+        SeqBuffer<U> otherBuffer = SeqBuffer.of(other);
+
+        return thisBuffer
+                .seq()
+                .leftOuterJoin(otherBuffer.seq(), predicate)
+                .append(thisBuffer.seq().rightOuterJoin(otherBuffer.seq(), predicate))
+                .distinct();
+    }
+
+    /**
+     * Full outer join one streams into itself.
+     * <p>
+     * <code><pre>
+     * // (tuple(tuple(1, 0), NULL), tuple(NULL, tuple(1, 0)), tuple(tuple(2, 1), tuple(1, 0)))
+     * Seq.of(new Tuple2<Integer, Integer>(1, 0), new Tuple2<Integer, Integer>(2, 1)).fullOuterSelfJoin((t, u) -> Objects.equals(t.v2, u.v1))
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> fullOuterSelfJoin(BiPredicate<? super T, ? super T> predicate) {
+        SeqBuffer<T> buffer = SeqBuffer.of(this);
+        return buffer.seq().fullOuterJoin(buffer.seq(), predicate);
+    }
+
+    /**
      * Produce this stream, or an alternative stream with a value from the
      * <code>supplier</code>, in case this stream is empty.
      */

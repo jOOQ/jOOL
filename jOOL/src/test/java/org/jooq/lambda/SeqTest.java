@@ -994,6 +994,60 @@ public class SeqTest {
     }
 
     @Test
+    public void testFullOuterJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+                Seq.of().fullOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(
+                tuple(null, 1)),
+                Seq.of().fullOuterJoin(Seq.of(1), TRUE).toList());
+        assertEquals(asList(
+                tuple(null, 1),
+                tuple(null, 2)),
+                Seq.of().fullOuterJoin(Seq.of(1, 2), TRUE).toList());
+
+        assertEquals(asList(
+                tuple(1, null)),
+                Seq.<Object>of(1).fullOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(
+                tuple(1, null),
+                tuple(null, 2)),
+                Seq.of(1).fullOuterJoin(Seq.of(2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+                tuple(1, 2)),
+                Seq.of(1).fullOuterJoin(Seq.of(2), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+                tuple(1, 1),
+                tuple(null, 2)),
+                Seq.of(1).fullOuterJoin(Seq.of(1, 2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+                tuple(1, 2),
+                tuple(null, 1)),
+                Seq.of(1).fullOuterJoin(Seq.of(1, 2), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+                tuple(1, 1),
+                tuple(1, 2)),
+                Seq.<Object>of(1).fullOuterJoin(Seq.of(1, 2), TRUE).toList());
+
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.fullOuterJoin(Seq.of("A", "B"), TRUE));
+    }
+
+    @Test
+    public void testFullOuterSelfJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+                Seq.of().fullOuterSelfJoin(TRUE).toList());
+
+        assertEquals(asList(
+                tuple(tuple(1, 0), tuple(2, 1)),
+                tuple(tuple(2, 1), null),
+                tuple((Tuple2<Integer, Integer>) null, tuple(1, 0))),
+                Seq.of(tuple(1, 0), tuple(2, 1)).fullOuterSelfJoin((t, u) -> t.v1.equals(u.v2)).toList());
+    }
+
+    @Test
     public void testOnEmpty() throws X {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
