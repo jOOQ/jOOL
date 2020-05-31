@@ -23,9 +23,10 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
+import static java.util.Comparator.*;
 import static org.jooq.lambda.Agg.*;
 import static org.jooq.lambda.tuple.Tuple.tuple;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals
 
 /**
  * @author Lukas Eder
@@ -847,6 +848,36 @@ public class CollectorTests {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(max()));
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(minBy(i -> -i)));
         assertEquals(Optional.of(1), Seq.of(1, 2, 3).collect(maxBy(i -> -i)));
+    }
+
+    @Test
+    public void testPercentileAll(){
+        assertEquals(List.of(), Seq.<Integer>of().collect(percentileAll(1.0)).toList());
+        assertEquals(List.of(1), Seq.of(1).collect(percentileAll(0.0)).toList());
+        assertEquals(List.of(3, 3), Seq.of(1, 3, 3, 2, 1, 2).collect(percentileAll(1.0)).toList());
+        assertEquals(List.of(2, 2), Seq.of(1, 1, 2, 2, 3, 3).collect(percentileAll(0.5)).toList());
+        assertEquals(List.of(1, 1), Seq.of(1, 1, 2, 2, 3, 3).collect(percentileAll(0.0)).toList());
+
+        assertEquals(List.of(-1, -1), Seq.of(1, 3, 3, 2, 1, 2).collect(percentileAll(1.0, t -> -t)).toList());
+        assertEquals(List.of(3, 3), Seq.of(1, 3, 3, 2, 1, 2).collect(percentileAll(1.0, comparingInt(o -> o))).toList());
+
+        assertEquals(List.of(4, 4), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(percentileAllBy(1.0, t -> t * t)).toList());
+        assertEquals(List.of(3, 3), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(percentileAllBy(0.75, t -> t * t)).toList());
+        assertEquals(List.of(2, 2), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(percentileAllBy(0.5, t -> t * t)).toList());
+        assertEquals(List.of(1, 1), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(percentileAllBy(0.25, t -> t * t)).toList());
+        assertEquals(List.of(1, 1), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(percentileAllBy(0.0, t -> t * t)).toList());
+
+        //  Illegal args
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileAllBy(-1, String::length)));
+        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileAllBy(2, String::length)));
+    }
+
+    @Test
+    public void testMedianAll(){
+        assertEquals(List.of(2, 2), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(medianAll()).toList());
+        assertEquals(List.of(2, 2), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(medianAll(comparingInt(o -> o))).toList());
+        assertEquals(List.of(4, 4), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(medianAll(t -> t * t)).toList());
+        assertEquals(List.of(2, 2), Seq.of(1, 3, 3, 2, 1, 2, 4, 4).collect(medianAllBy(t -> t * t)).toList());
     }
     
     @Test

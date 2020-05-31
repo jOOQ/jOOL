@@ -41,6 +41,10 @@ import org.jooq.lambda.tuple.Tuple2;
  */
 public class Agg {
 
+    private static double half = 0.5;
+    private static double zero = 0.0;
+    private static double one = 1.0;
+
     /**
      * Get a {@link Collector} that filters data passed to downstream collector.
      */
@@ -817,6 +821,86 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given a natural ordering.
+     * <p>This method will return all the eligible elements if they exist.
+     * @param <T>   The type of element
+     * @return      A {@link Seq} of type <code>T</code>
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
+        return medianAllBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given a specific ordering.
+     * <p>The <code>comparator</code> determines the order of original elements.
+     * @param <T>           The type of element
+     * @param comparator    The given comparator
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T> Collector<T, ?, Seq<T>> medianAll(final Comparator<? super T> comparator) {
+        return medianAllBy(t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function
+     * given a natural ordering and a function for elements.
+     * <p>This method is different with <code>medianAllBy</code> since this method will return the result
+     * after applying the <code>function</code>.
+     * @param <T>       The type of element
+     * @param <U>       The type of result of <code>function</code>
+     * @param function  The given function
+     * @return          A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<U>> medianAll(final Function<? super T, ? extends U> function) {
+        return medianAll(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function
+     * given a specific ordering and a function for elements.
+     * <p>This method is different with <code>medianAllBy</code> since this method will return the result
+     * after applying the <code>function</code>.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param function      The given function
+     * @param comparator    The given comparator
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U> Collector<T, ?, Seq<U>> medianAll(final Function<? super T, ? extends U> function, final Comparator<? super U> comparator) {
+        return collectingAndThen(medianAllBy(function, comparator), t -> t.map(function));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function
+     * given a natural ordering and a function for elements.
+     * <p>This method will sort the elements after applying the <code>function</code> based on
+     * <code>comparator</code> at first, then it will find the all eligible results.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param function      The given function
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> medianAllBy(final Function<? super T, ? extends U> function) {
+        return medianAllBy(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function
+     * given a specific ordering and a function for elements.
+     * <p>This method will sort the elements after applying the <code>function</code> based on
+     * <code>comparator</code> at first, then it will find the all eligible results.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param function      The given function
+     * @param comparator    The given comparator
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(final Function<? super T, ? extends U> function, final Comparator<? super U> comparator) {
+        return percentileAllBy(half, function, comparator);
+    }
+
+
+    /**
      * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given natural ordering.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Optional<T>> percentile(double percentile) {
@@ -884,6 +968,126 @@ public class Agg {
                 // x.5 should be rounded down
                 return Optional.of(l.get((int) -Math.round(-(size * percentile + 0.5)) - 1).v1);
             }
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function
+     * given a natural ordering.
+     * <p>This method will return all the eligible elements if they exist.
+     * @param <T>           The type of element
+     * @param percentile    The percentile number
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> percentileAll(final double percentile) {
+        return percentileAllBy(percentile, t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function
+     * given a specific ordering.
+     * <p>The <code>comparator</code> determines the order of original elements.
+     * @param <T>           The type of element
+     * @param percentile    The percentile number
+     * @param comparator    The given comparator
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T> Collector<T, ?, Seq<T>> percentileAll(final double percentile, final Comparator<? super T> comparator) {
+        return percentileAllBy(percentile, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function
+     * given a natural ordering.
+     * <p>This method is different with <code>percentileAllBy</code> since this method will return the result
+     * after applying the <code>function</code>.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param percentile    The percentile number
+     * @param function      The given function
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<U>> percentileAll(final double percentile, final Function<? super T, ? extends U> function) {
+        return percentileAll(percentile, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function
+     * given a specific ordering.
+     * <p>This method is different with <code>percentileAllBy</code> since this method will return the result
+     * after applying the <code>function</code>.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param percentile    The percentile number
+     * @param function      The given function
+     * @param comparator    The given comparator
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U> Collector<T, ?, Seq<U>> percentileAll(final double percentile, final Function<? super T, ? extends U> function, final Comparator<? super U> comparator) {
+        return collectingAndThen(percentileAllBy(percentile, function, comparator), t -> t.map(function));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function
+     * given a natural ordering.
+     * <p>This method will sort the elements after applying the <code>function</code> based on
+     * <code>comparator</code> at first, then it will find the all eligible results.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param percentile    The percentile number
+     * @param function      The given function
+     * @return              A {@link Seq} of type <code>T</code>
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> percentileAllBy(final double percentile, final Function<? super T, ? extends U> function) {
+        return percentileAllBy(percentile, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function
+     * given a specific ordering.
+     * <p>This method will sort the elements after applying the <code>function</code> based on
+     * <code>comparator</code> at first, then it will find the all eligible results.
+     * @param <T>           The type of element
+     * @param <U>           The type of result of <code>function</code>
+     * @param percentile    The percentile number
+     * @param function      The given function
+     * @param comparator    The given comparator
+     * @return              A {@link Seq} of type <code>T</code>
+     * @throws IllegalArgumentException when the percentile is less than 0 or more than 1
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> percentileAllBy(final double percentile, final Function<? super T, ? extends U> function, final Comparator<? super U> comparator) {
+        if (percentile < 0.0 || percentile > 1.0) {
+            throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
+        }
+
+        if (percentile == zero) {
+            return minAllBy(function, comparator);
+        } else if (percentile == one) {
+            return maxAllBy(function, comparator);
+        }
+
+        return Collector.of(
+                (Supplier<ArrayList<Tuple2<T, U>>>) ArrayList::new,
+                (l, v) -> l.add(tuple(v, function.apply(v))),
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    final int size = l.size();
+
+                    if (size == zero) {
+                        return Seq.empty();
+                    } else if (size == one) {
+                        return Seq.of(l.get(0).v1);
+                    }
+
+                    l.sort(Comparator.comparing(t -> t.v2, comparator));
+                    // x.5 should be rounded down
+                    final int index = (int) -Math.round(-(size * percentile + half)) - 1;
+                    final T element = l.get(index).v1;
+                    return Seq.seq(l.stream().filter(t -> t.v1.equals(element)).map(t -> t.v1));
+                }
         );
     }
     
