@@ -1483,47 +1483,6 @@ public class SeqTest {
     }
 
     @Test
-    public void testLimitedFold(){
-        //  Four methods are tested in 3 aspects: overloaded methods, different member variable and critical situations.
-        //	------------------------------------------------------------------------------------------------------------
-        //  foldLeftWhile
-        assertEquals("!ab", Seq.of("a", "b", "c", "d").foldLeftWhile("!", u -> u.length() < 3, (t, u) -> t + u));
-        assertEquals("!abc", Seq.of("a", "b", "c", "d").foldLeftWhile("!", u -> u.length() <= 3, (t, u) -> t + u));
-        assertEquals(15, (int) Seq.of(1, 2, 3, 4, 5).foldLeftWhile(0, t -> t <= 10, Integer::sum));
-        assertEquals(10, (int) Seq.of(1, 2, 3, 4, 5).foldLeftWhile(0, t -> t < 10, Integer::sum));
-        assertEquals(10, (int) Seq.foldLeftWhile(Seq.of(1, 2, 3, 4, 5), 0, t -> t < 10, Integer::sum));
-        assertEquals(10, (int) Seq.foldLeftWhile(Seq.of(1, 2, 3, 4, 5).stream(), 0, t -> t < 10, Integer::sum));
-        assertEquals(5, (int) Seq.foldLeftWhile(new ArrayList<>(), 5, t -> t < 10, Integer::sum));
-
-        //  foldLeftUntil
-        assertEquals("!abc", Seq.of("a", "b", "c", "d").foldLeftUntil("!", u -> u.length() > 3, (t, u) -> t + u));
-        assertEquals("!ab", Seq.of("a", "b", "c", "d").foldLeftUntil("!", u -> u.length() >= 3, (t, u) -> t + u));
-        assertEquals(10, (int) Seq.of(1, 2, 3, 4, 5).foldLeftUntil(0, t -> t >= 10, Integer::sum));
-        assertEquals(15, (int) Seq.of(1, 2, 3, 4, 5).foldLeftUntil(0, t -> t > 10, Integer::sum));
-        assertEquals(10, (int) Seq.foldLeftUntil(Seq.of(1, 2, 3, 4, 5), 0, t -> t >= 10, Integer::sum));
-        assertEquals(10, (int) Seq.foldLeftUntil(Seq.of(1, 2, 3, 4, 5).stream(), 0, t -> t >= 10, Integer::sum));
-        assertEquals(5, (int) Seq.foldLeftUntil(new ArrayList<>(), 5, t -> t > 0, Integer::sum));
-
-        //  foldRightWhile
-        assertEquals("cd!", Seq.of("a", "b", "c", "d").foldRightWhile("!", u -> u.length() < 3, (t, u) -> t + u));
-        assertEquals("bcd!", Seq.of("a", "b", "c", "d").foldRightWhile("!", u -> u.length() <= 3, (t, u) -> t + u));
-        assertEquals(14, (int) Seq.of(1, 2, 3, 4, 5).foldRightWhile(0, t -> t <= 12, Integer::sum));
-        assertEquals(12, (int) Seq.of(1, 2, 3, 4, 5).foldRightWhile(0, t -> t < 12, Integer::sum));
-        assertEquals(12, (int) Seq.foldRightWhile(Seq.of(1, 2, 3, 4, 5), 0, t -> t < 12, Integer::sum));
-        assertEquals(12, (int) Seq.foldRightWhile(Seq.of(1, 2, 3, 4, 5).stream(), 0, t -> t < 12, Integer::sum));
-        assertEquals(5, (int) Seq.foldRightWhile(new ArrayList<>(), 5, t -> t < 10, Integer::sum));
-
-        //  foldRightUntil
-        assertEquals("bcd!", Seq.of("a", "b", "c", "d").foldRightUntil("!", u -> u.length() > 3, (t, u) -> t + u));
-        assertEquals("cd!", Seq.of("a", "b", "c", "d").foldRightUntil("!", u -> u.length() >= 3, (t, u) -> t + u));
-        assertEquals(12, (int) Seq.of(1, 2, 3, 4, 5).foldRightUntil(0, t -> t >= 12, Integer::sum));
-        assertEquals(14, (int) Seq.of(1, 2, 3, 4, 5).foldRightUntil(0, t -> t > 12, Integer::sum));
-        assertEquals(12, (int) Seq.foldRightUntil(Seq.of(1, 2, 3, 4, 5), 0, t -> t >= 12, Integer::sum));
-        assertEquals(12, (int) Seq.foldRightUntil(Seq.of(1, 2, 3, 4, 5).stream(), 0, t -> t >= 12, Integer::sum));
-        assertEquals(5, (int) Seq.foldRightUntil(new ArrayList<>(), 5, t -> t > 0, Integer::sum));
-    }
-
-    @Test
     public void testScanLeft() {
         assertEquals(
             asList("", "a", "ab", "abc"),
