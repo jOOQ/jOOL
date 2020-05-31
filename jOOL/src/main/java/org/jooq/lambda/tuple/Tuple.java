@@ -425,6 +425,615 @@ public interface Tuple extends Iterable<Object> {
     }
 
     /**
+     * The inverse operation of <code>function1(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function1</code> whose type parameters have been unwrapped
+     */
+    static <T1, R> Function1<T1, R> function1(Function<? super Tuple1<T1>, ? extends R> function) {
+        return (t1) -> function.apply(tuple(t1));
+    }
+
+    /**
+     * The inverse operation of <code>function2(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function2</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, R> Function2<T1, T2, R> function2(Function<? super Tuple2<T1, T2>, ? extends R> function) {
+        return (t1, t2) -> function.apply(tuple(t1, t2));
+    }
+
+    /**
+     * The inverse operation of <code>function3(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function3</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, R> Function3<T1, T2, T3, R> function3(Function<? super Tuple3<T1, T2, T3>, ? extends R> function) {
+        return (t1, t2, t3) -> function.apply(tuple(t1, t2, t3));
+    }
+
+    /**
+     * The inverse operation of <code>function4(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function4</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, R> Function4<T1, T2, T3, T4, R> function4(Function<? super Tuple4<T1, T2, T3, T4>, ? extends R> function) {
+        return (t1, t2, t3, t4) -> function.apply(tuple(t1, t2, t3, t4));
+    }
+
+    /**
+     * The inverse operation of <code>function5(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function5</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, R> Function5<T1, T2, T3, T4, T5, R> function5(Function<? super Tuple5<T1, T2, T3, T4, T5>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5) -> function.apply(tuple(t1, t2, t3, t4, t5));
+    }
+
+    /**
+     * The inverse operation of <code>function6(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function6</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, R> Function6<T1, T2, T3, T4, T5, T6, R> function6(Function<? super Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6) -> function.apply(tuple(t1, t2, t3, t4, t5, t6));
+    }
+
+    /**
+     * The inverse operation of <code>function7(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function7</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, R> Function7<T1, T2, T3, T4, T5, T6, T7, R> function7(Function<? super Tuple7<T1, T2, T3, T4, T5, T6, T7>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7));
+    }
+
+    /**
+     * The inverse operation of <code>function8(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function8</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, R> Function8<T1, T2, T3, T4, T5, T6, T7, T8, R> function8(Function<? super Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8));
+    }
+
+    /**
+     * The inverse operation of <code>function9(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function9</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Function9<T1, T2, T3, T4, T5, T6, T7, T8, T9, R> function9(Function<? super Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9));
+    }
+
+    /**
+     * The inverse operation of <code>function10(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function10</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> Function10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R> function10(Function<? super Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
+    }
+
+    /**
+     * The inverse operation of <code>function11(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function11</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> Function11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, R> function11(Function<? super Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11));
+    }
+
+    /**
+     * The inverse operation of <code>function12(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function12</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> Function12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> function12(Function<? super Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12));
+    }
+
+    /**
+     * The inverse operation of <code>function13(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function13</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> Function13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R> function13(Function<? super Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13));
+    }
+
+    /**
+     * The inverse operation of <code>function14(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <T14>     The 14th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function14</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> Function14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, R> function14(Function<? super Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14));
+    }
+
+    /**
+     * The inverse operation of <code>function15(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <T14>     The 14th type parameter of <code>Tuple</code>
+     * @param <T15>     The 15th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function15</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> Function15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, R> function15(Function<? super Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15));
+    }
+
+    /**
+     * The inverse operation of <code>function16(Function<...> function)</code>,
+     * which unwraps the type parameters of <code>function</code>.
+     * @param function  The function whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <T14>     The 14th type parameter of <code>Tuple</code>
+     * @param <T15>     The 15th type parameter of <code>Tuple</code>
+     * @param <T16>     The 16th type parameter of <code>Tuple</code>
+     * @param <R>       The type of result of <code>function</code>
+     * @return          The <code>Function16</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, R> function16(Function<? super Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, ? extends R> function) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> function.apply(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16));
+    }
+
+    /**
+     * The inverse operation of <code>consumer1(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer1</code> whose type parameters have been unwrapped
+     */
+    static <T1> Consumer1<T1> consumer1(Consumer<? super Tuple1<T1>> consumer) {
+        return (t1) -> consumer.accept(tuple(t1));
+    }
+
+    /**
+     * The inverse operation of <code>consumer2(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer2</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2> Consumer2<T1, T2> consumer2(Consumer<? super Tuple2<T1, T2>> consumer) {
+        return (t1, t2) -> consumer.accept(tuple(t1, t2));
+    }
+
+    /**
+     * The inverse operation of <code>consumer3(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer3</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3> Consumer3<T1, T2, T3> consumer3(Consumer<? super Tuple3<T1, T2, T3>> consumer) {
+        return (t1, t2, t3) -> consumer.accept(tuple(t1, t2, t3));
+    }
+
+    /**
+     * The inverse operation of <code>consumer4(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer4</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4> Consumer4<T1, T2, T3, T4> consumer4(Consumer<? super Tuple4<T1, T2, T3, T4>> consumer) {
+        return (t1, t2, t3, t4) -> consumer.accept(tuple(t1, t2, t3, t4));
+    }
+
+    /**
+     * The inverse operation of <code>consumer5(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer5</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5> Consumer5<T1, T2, T3, T4, T5> consumer5(Consumer<? super Tuple5<T1, T2, T3, T4, T5>> consumer) {
+        return (t1, t2, t3, t4, t5) -> consumer.accept(tuple(t1, t2, t3, t4, t5));
+    }
+
+    /**
+     * The inverse operation of <code>consumer6(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer6</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6> Consumer6<T1, T2, T3, T4, T5, T6> consumer6(Consumer<? super Tuple6<T1, T2, T3, T4, T5, T6>> consumer) {
+        return (t1, t2, t3, t4, t5, t6) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6));
+    }
+
+    /**
+     * The inverse operation of <code>consumer7(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer7</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7> Consumer7<T1, T2, T3, T4, T5, T6, T7> consumer7(Consumer<? super Tuple7<T1, T2, T3, T4, T5, T6, T7>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7));
+    }
+
+    /**
+     * The inverse operation of <code>consumer8(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer8</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8> Consumer8<T1, T2, T3, T4, T5, T6, T7, T8> consumer8(Consumer<? super Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8));
+    }
+
+    /**
+     * The inverse operation of <code>consumer9(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer9</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Consumer9<T1, T2, T3, T4, T5, T6, T7, T8, T9> consumer9(Consumer<? super Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9));
+    }
+
+    /**
+     * The inverse operation of <code>consumer10(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer10</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Consumer10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> consumer10(Consumer<? super Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
+    }
+
+    /**
+     * The inverse operation of <code>consumer11(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer11</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Consumer11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> consumer11(Consumer<? super Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11));
+    }
+
+    /**
+     * The inverse operation of <code>consumer12(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer12</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Consumer12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> consumer12(Consumer<? super Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12));
+    }
+
+    /**
+     * The inverse operation of <code>consumer13(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer13</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Consumer13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> consumer13(Consumer<? super Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13));
+    }
+
+    /**
+     * The inverse operation of <code>consumer14(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <T14>     The 14th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer14</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Consumer14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> consumer14(Consumer<? super Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14));
+    }
+
+    /**
+     * The inverse operation of <code>consumer15(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <T14>     The 14th type parameter of <code>Tuple</code>
+     * @param <T15>     The 15th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer15</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Consumer15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> consumer15(Consumer<? super Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15));
+    }
+
+    /**
+     * The inverse operation of <code>consumer16(Consumer<...> consumer)</code>,
+     * which unwraps the type parameters of <code>consumer</code>.
+     * @param consumer  The consumer whose type parameter is wrapped in a <code>Tuple</code>
+     * @param <T1>      The 1st type parameter of <code>Tuple</code>
+     * @param <T2>      The 2nd type parameter of <code>Tuple</code>
+     * @param <T3>      The 3rd type parameter of <code>Tuple</code>
+     * @param <T4>      The 4th type parameter of <code>Tuple</code>
+     * @param <T5>      The 5th type parameter of <code>Tuple</code>
+     * @param <T6>      The 6th type parameter of <code>Tuple</code>
+     * @param <T7>      The 7th type parameter of <code>Tuple</code>
+     * @param <T8>      The 8th type parameter of <code>Tuple</code>
+     * @param <T9>      The 9th type parameter of <code>Tuple</code>
+     * @param <T10>     The 10th type parameter of <code>Tuple</code>
+     * @param <T11>     The 11th type parameter of <code>Tuple</code>
+     * @param <T12>     The 12th type parameter of <code>Tuple</code>
+     * @param <T13>     The 13th type parameter of <code>Tuple</code>
+     * @param <T14>     The 14th type parameter of <code>Tuple</code>
+     * @param <T15>     The 15th type parameter of <code>Tuple</code>
+     * @param <T16>     The 16th type parameter of <code>Tuple</code>
+     * @return          The <code>Consumer16</code> whose type parameters have been unwrapped
+     */
+    static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Consumer16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> consumer16(Consumer<? super Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> consumer) {
+        return (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> consumer.accept(tuple(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16));
+    }
+
+
+    /**
      * Construct a tuple collector of degree 1.
      */
     static <T, A1, D1> Collector<T, Tuple1<A1>, Tuple1<D1>> collectors(

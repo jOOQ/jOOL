@@ -38,11 +38,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
+import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 import org.jooq.lambda.tuple.Tuple5;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.Test
 
 /**
  * @author Lukas Eder
@@ -328,6 +329,27 @@ public class TupleTest {
         );
     }
 
+    @Test
+    public void testInverseFunctions() {
+        //  Test the overloaded methods of inverse Tuple.function[N]
+        //  --------------------------------------------------------
+        assertEquals(3, (int)Tuple.function2(t -> (int)t.v1 + (int)t.v2).apply(1, 2));
+        assertEquals(6, (int)Tuple.function3(t -> (int)t.v1 + (int)t.v2 + (int)t.v3).apply(1, 2, 3));
+        assertEquals(7, (int)Tuple.function4(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v4).apply(1, 2, 3, 1));
+        assertEquals(7, (int)Tuple.function5(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v5).apply(1, 2, 3, 1, 1));
+        assertEquals(7, (int)Tuple.function6(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v6).apply(1, 2, 3, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function7(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v7).apply(1, 2, 3, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function8(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v8).apply(1, 2, 3, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function9(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v9).apply(1, 2, 3, 1, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function10(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v10).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function11(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v11).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function12(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v12).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function13(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v13).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1));
+        assertEquals(7, (int)Tuple.function14(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v14).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function15(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v15).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+        assertEquals(7, (int)Tuple.function16(t -> (int)t.v1 + (int)t.v2 + (int)t.v3 + (int)t.v16).apply(1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+    }
+    
     @Test
     public void testCollectors() {
         assertEquals(
