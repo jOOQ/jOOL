@@ -9752,6 +9752,331 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return seq(stream).groupBy(classifier, mapFactory, downstream);
     }
 
+/**
+     * Fold a Stream to the left while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input <code>Seq</code> stream
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldLeftWhile(Seq<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        final Iterator<? extends T> iterator = stream.iterator();
+        U result = seed;
+
+        while (iterator.hasNext() && predicate.test(result)) {
+            result = function.apply(result, iterator.next());
+        }
+
+        return result;
+    }
+
+    /**
+     * Fold a Stream to the left while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldLeftWhile(Stream<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return foldLeftWhile(seq(stream), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the left while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param iterable  Input iterable collection
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldLeftWhile(Iterable<? extends T> iterable, U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return foldLeftWhile(seq(iterable), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the left while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * <code><pre>
+     * // "!ab"
+     * Seq.of("a", "b", "c").foldLeftWhile("!", u -> u.length() < 3, (t, u) -> t + u)
+     * </pre></code>
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    default <U> U foldLeftWhile(U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return  foldLeftWhile(this, seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the left until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldLeftUntil(Seq<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return foldLeftWhile(stream, seed, predicate.negate(), function);
+    }
+
+    /**
+     * Fold a Stream to the left until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldLeftUntil(Stream<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return foldLeftUntil(seq(stream), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the left until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param iterable  Input iterable collection
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldLeftUntil(Iterable<? extends T> iterable, U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return foldLeftUntil(seq(iterable), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the left until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * <code><pre>
+     * // "!ab"
+     * Seq.of("a", "b", "c").foldLeftUntil("!", u -> u.length() >= 3, (t, u) -> t + u)
+     * </pre></code>
+     * @param seed      The initial first argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    default <U> U foldLeftUntil(U seed, Predicate<? super U> predicate, BiFunction<? super U, ? super T, ? extends U> function) {
+        return  foldLeftUntil(this, seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the right while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldRightWhile(Seq<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        final Iterator<? extends T> iterator = stream.reverse().iterator();
+        U result = seed;
+
+        while (iterator.hasNext() && predicate.test(result)) {
+            result = function.apply(iterator.next(), result);
+        }
+        return result;
+    }
+
+    /**
+     * Fold a Stream to the right while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldRightWhile(Stream<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return foldRightWhile(seq(stream), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the right while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param iterable  Input iterable collection
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldRightWhile(Iterable<? extends T> iterable, U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return foldRightWhile(seq(iterable), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the right while the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is not satisfied any more. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * <code><pre>
+     * // "bc!"
+     * Seq.of("a", "b", "c").foldRightWhile("!", u -> u.length() < 3, (t, u) -> t + u)
+     * </pre></code>
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    default <U> U foldRightWhile(U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return  foldRightWhile(this, seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the right until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldRightUntil(Seq<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return foldRightWhile(stream, seed, predicate.negate(), function);
+    }
+
+    /**
+     * Fold a Stream to the right until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param stream    Input stream
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldRightUntil(Stream<? extends T> stream, U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return foldRightUntil(seq(stream), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the right until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * @param iterable  Input iterable collection
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <T>       Type of elements in <code>stream</code>
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    static <T, U> U foldRightUntil(Iterable<? extends T> iterable, U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return foldRightUntil(seq(iterable), seed, predicate, function);
+    }
+
+    /**
+     * Fold a Stream to the right until the specified condition is satisfied.
+     * <p>In each iteration, the result of last iteration(at first it is <code>seed</code>) and
+     * an element in <code>stream</code> will be two arguments of <code>function</code>.
+     * The function will be executed until the iteration is completed or <code>predicate</code>
+     * is satisfied. Here, <code>predicate</code> is a statement that determines the
+     * end condition, and it only depends on the result in each iteration.
+     * <code><pre>
+     * // "bc!"
+     * Seq.of("a", "b", "c").foldRightUntil("!", u -> u.length() >= 3, (t, u) -> t + u)
+     * </pre></code>
+     * @param seed      The initial second argument of <code>function</code>
+     * @param predicate The end condition
+     * @param function  The executed function
+     * @param <U>       Type of <code>seed</code>
+     * @return          The final result
+     */
+    default <U> U foldRightUntil(U seed, Predicate<? super U> predicate, BiFunction<? super T, ? super U, ? extends U> function) {
+        return  foldRightUntil(this, seed, predicate, function);
+    }
+
     /**
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining()}
