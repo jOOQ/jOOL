@@ -143,4 +143,15 @@ public interface Function3<T1, T2, T3, R> {
     default Function0<R> curry(Tuple3<? extends T1, ? extends T2, ? extends T3> args) {
         return () -> apply(args.v1, args.v2, args.v3);
     }
+	
+	/**
+     * The method used to compose two functions while
+     * the type parameter <code>after</code> will be applied last
+     * @param after     The function that will be applied last
+     * @param <V>       The result of this <code>Function3</code> that is applied first
+     * @return          The composite function <code>Function3</code>
+     */
+    default <V> Function3<T1, T2, T3, V> andThen(Function1<R, V> after) {
+        return ((t1, t2, t3) -> after.apply(apply(t1, t2, t3)));
+    }
 }

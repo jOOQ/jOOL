@@ -124,4 +124,15 @@ public interface Function2<T1, T2, R> extends BiFunction<T1, T2, R> {
     default Function0<R> curry(Tuple2<? extends T1, ? extends T2> args) {
         return () -> apply(args.v1, args.v2);
     }
+	
+	/**
+     * The method used to compose two functions while
+     * the type parameter <code>after</code> will be applied last
+     * @param after     The function that will be applied last
+     * @param <V>       The result of this <code>Function2</code> that is applied first
+     * @return          The composite function <code>Function2</code>
+     */
+    default <V> Function2<T1, T2, V> andThen(Function1<R, V> after) {
+        return ((t1, t2) -> after.apply(apply(t1, t2)));
+    }
 }

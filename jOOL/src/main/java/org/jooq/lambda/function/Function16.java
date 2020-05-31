@@ -598,4 +598,15 @@ public interface Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T
     default Function0<R> curry(Tuple16<? extends T1, ? extends T2, ? extends T3, ? extends T4, ? extends T5, ? extends T6, ? extends T7, ? extends T8, ? extends T9, ? extends T10, ? extends T11, ? extends T12, ? extends T13, ? extends T14, ? extends T15, ? extends T16> args) {
         return () -> apply(args.v1, args.v2, args.v3, args.v4, args.v5, args.v6, args.v7, args.v8, args.v9, args.v10, args.v11, args.v12, args.v13, args.v14, args.v15, args.v16);
     }
+	
+	/**
+     * The method used to compose two functions while
+     * the type parameter <code>after</code> will be applied last
+     * @param after     The function that will be applied last
+     * @param <V>       The result of this <code>Function16</code> that is applied first
+     * @return          The composite function <code>Function16</code>
+     */
+    default <V> Function16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, V> andThen(Function1<R, V> after) {
+        return ((t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16) -> after.apply(apply(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16)));
+    }
 }
