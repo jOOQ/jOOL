@@ -3344,6 +3344,1044 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * The version of <code>grouped</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier    The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1> Tuple2<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2) {
+        return grouped(this, classifier, downstream1,
+                downstream2);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2> Tuple3<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3> Tuple4<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4> Tuple5<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5> Tuple6<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6> Tuple7<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7> Tuple8<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8> Tuple9<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9> Tuple10<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>> grouped(Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9,
+                                        Collector<? super T, A9, D9> downstream10) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10> Tuple11<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>> grouped(Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11> Tuple12<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>> grouped(Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12> Tuple13<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>> grouped(Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13> Tuple14<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>> grouped(Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14> Tuple15<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>> grouped(Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15);
+    }
+
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14,
+            A15, D15> Tuple16<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>,
+            Seq<Tuple2<K, D15>>> grouped(Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15,
+                                         Collector<? super T, A15, D15> downstream16) {
+        return grouped(this, classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15,
+                downstream16);
+    }
+
+    /**
      * Partition a stream into two given a predicate.
      * <p>
      * <code><pre>
@@ -4251,11 +5289,1903 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * The version of <code>groupBy</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1> Tuple2<Map<K, D>,
+            Map<K, D1>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2> Tuple3<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3> Tuple4<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4> Tuple5<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5> Tuple6<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6> Tuple7<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7> Tuple8<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7,
+                                Collector<? super T, A7, D7> downstream8) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8> Tuple9<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7,
+                                Collector<? super T, A7, D7> downstream8,
+                                Collector<? super T, A8, D8> downstream9) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9> Tuple10<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>> groupBy(Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7,
+                                Collector<? super T, A7, D7> downstream8,
+                                Collector<? super T, A8, D8> downstream9,
+                                Collector<? super T, A9, D9> downstream10) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10> Tuple11<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>> groupBy(Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10),
+                Collectors.groupingBy(classifier, downstream11)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11> Tuple12<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>> groupBy(Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10),
+                Collectors.groupingBy(classifier, downstream11),
+                Collectors.groupingBy(classifier, downstream12)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12> Tuple13<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>> groupBy(Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10),
+                Collectors.groupingBy(classifier, downstream11),
+                Collectors.groupingBy(classifier, downstream12),
+                Collectors.groupingBy(classifier, downstream13)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13> Tuple14<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>,
+            Map<K, D13>> groupBy(Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13,
+                                 Collector<? super T, A13, D13> downstream14) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10),
+                Collectors.groupingBy(classifier, downstream11),
+                Collectors.groupingBy(classifier, downstream12),
+                Collectors.groupingBy(classifier, downstream13),
+                Collectors.groupingBy(classifier, downstream14)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14> Tuple15<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>,
+            Map<K, D13>,
+            Map<K, D14>> groupBy(Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13,
+                                 Collector<? super T, A13, D13> downstream14,
+                                 Collector<? super T, A14, D14> downstream15) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10),
+                Collectors.groupingBy(classifier, downstream11),
+                Collectors.groupingBy(classifier, downstream12),
+                Collectors.groupingBy(classifier, downstream13),
+                Collectors.groupingBy(classifier, downstream14),
+                Collectors.groupingBy(classifier, downstream15)));
+    }
+
+    default <K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14,
+            A15, D15> Tuple16<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>,
+            Map<K, D13>,
+            Map<K, D14>,
+            Map<K, D15>> groupBy(Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13,
+                                 Collector<? super T, A13, D13> downstream14,
+                                 Collector<? super T, A14, D14> downstream15,
+                                 Collector<? super T, A15, D15> downstream16) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, downstream1),
+                Collectors.groupingBy(classifier, downstream2),
+                Collectors.groupingBy(classifier, downstream3),
+                Collectors.groupingBy(classifier, downstream4),
+                Collectors.groupingBy(classifier, downstream5),
+                Collectors.groupingBy(classifier, downstream6),
+                Collectors.groupingBy(classifier, downstream7),
+                Collectors.groupingBy(classifier, downstream8),
+                Collectors.groupingBy(classifier, downstream9),
+                Collectors.groupingBy(classifier, downstream10),
+                Collectors.groupingBy(classifier, downstream11),
+                Collectors.groupingBy(classifier, downstream12),
+                Collectors.groupingBy(classifier, downstream13),
+                Collectors.groupingBy(classifier, downstream14),
+                Collectors.groupingBy(classifier, downstream15),
+                Collectors.groupingBy(classifier, downstream16)));
+    }
+
+    /**
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function, Supplier, Collector)} collector.
      */
     default <K, D, A, M extends Map<K, D>> M groupBy(Function<? super T, ? extends K> classifier, Supplier<M> mapFactory, Collector<? super T, A, D> downstream) {
         return collect(Collectors.groupingBy(classifier, mapFactory, downstream));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>>
+    Tuple2<M, M1>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>>
+    Tuple3<M, M1, M2>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>>
+    Tuple4<M, M1, M2, M3>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>>
+    Tuple5<M, M1, M2, M3, M4>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>>
+    Tuple6<M, M1, M2, M3, M4, M5>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>>
+    Tuple7<M, M1, M2, M3, M4, M5, M6>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>>
+    Tuple8<M, M1, M2, M3, M4, M5, M6, M7>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>>
+    Tuple9<M, M1, M2, M3, M4, M5, M6, M7, M8>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>>
+    Tuple10<M, M1, M2, M3, M4, M5, M6, M7, M8, M9>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>>
+    Tuple11<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10),
+                Collectors.groupingBy(classifier, mapFactory11, downstream11)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>>
+    Tuple12<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10),
+                Collectors.groupingBy(classifier, mapFactory11, downstream11),
+                Collectors.groupingBy(classifier, mapFactory12, downstream12)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>>
+    Tuple13<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10),
+                Collectors.groupingBy(classifier, mapFactory11, downstream11),
+                Collectors.groupingBy(classifier, mapFactory12, downstream12),
+                Collectors.groupingBy(classifier, mapFactory13, downstream13)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            D13, A13,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>,
+            M13 extends Map<K, D13>>
+    Tuple14<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, M13>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Supplier<M13> mapFactory14,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13,
+            Collector<? super T, A13, D13> downstream14) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10),
+                Collectors.groupingBy(classifier, mapFactory11, downstream11),
+                Collectors.groupingBy(classifier, mapFactory12, downstream12),
+                Collectors.groupingBy(classifier, mapFactory13, downstream13),
+                Collectors.groupingBy(classifier, mapFactory14, downstream14)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            D13, A13,
+            D14, A14,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>,
+            M13 extends Map<K, D13>,
+            M14 extends Map<K, D14>>
+    Tuple15<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, M13, M14>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Supplier<M13> mapFactory14,
+            Supplier<M14> mapFactory15,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13,
+            Collector<? super T, A13, D13> downstream14,
+            Collector<? super T, A14, D14> downstream15) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10),
+                Collectors.groupingBy(classifier, mapFactory11, downstream11),
+                Collectors.groupingBy(classifier, mapFactory12, downstream12),
+                Collectors.groupingBy(classifier, mapFactory13, downstream13),
+                Collectors.groupingBy(classifier, mapFactory14, downstream14),
+                Collectors.groupingBy(classifier, mapFactory15, downstream15)));
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 16 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    default <K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            D13, A13,
+            D14, A14,
+            D15, A15,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>,
+            M13 extends Map<K, D13>,
+            M14 extends Map<K, D14>,
+            M15 extends Map<K, D15>>
+    Tuple16<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, M13, M14, M15>
+    groupBy(Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Supplier<M13> mapFactory14,
+            Supplier<M14> mapFactory15,
+            Supplier<M15> mapFactory16,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13,
+            Collector<? super T, A13, D13> downstream14,
+            Collector<? super T, A14, D14> downstream15,
+            Collector<? super T, A15, D15> downstream16) {
+        return collect(Tuple.collectors(Collectors.groupingBy(classifier, mapFactory1, downstream1),
+                Collectors.groupingBy(classifier, mapFactory2, downstream2),
+                Collectors.groupingBy(classifier, mapFactory3, downstream3),
+                Collectors.groupingBy(classifier, mapFactory4, downstream4),
+                Collectors.groupingBy(classifier, mapFactory5, downstream5),
+                Collectors.groupingBy(classifier, mapFactory6, downstream6),
+                Collectors.groupingBy(classifier, mapFactory7, downstream7),
+                Collectors.groupingBy(classifier, mapFactory8, downstream8),
+                Collectors.groupingBy(classifier, mapFactory9, downstream9),
+                Collectors.groupingBy(classifier, mapFactory10, downstream10),
+                Collectors.groupingBy(classifier, mapFactory11, downstream11),
+                Collectors.groupingBy(classifier, mapFactory12, downstream12),
+                Collectors.groupingBy(classifier, mapFactory13, downstream13),
+                Collectors.groupingBy(classifier, mapFactory14, downstream14),
+                Collectors.groupingBy(classifier, mapFactory15, downstream15),
+                Collectors.groupingBy(classifier, mapFactory16, downstream16)));
     }
 
     /**
@@ -9585,6 +12515,1127 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * The version of <code>grouped</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1> Tuple2<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2> Tuple3<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3> Tuple4<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4> Tuple5<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5> Tuple6<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6> Tuple7<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7> Tuple8<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8> Tuple9<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9> Tuple10<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9,
+                                        Collector<? super T, A9, D9> downstream10) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10> Tuple11<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11> Tuple12<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12> Tuple13<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13> Tuple14<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     *//**
+     * The version of <code>grouped</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>           The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14> Tuple15<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15);
+    }
+
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14,
+            A15, D15> Tuple16<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>,
+            Seq<Tuple2<K, D15>>> grouped(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15,
+                                         Collector<? super T, A15, D15> downstream16) {
+        return grouped(seq(stream), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15,
+                downstream16);
+    }
+
+    /**
      * Classify this stream's elements according to a given classifier function
      * and collect each class's elements using a collector.
      * <p>
@@ -9603,6 +13654,1131 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * The version of <code>grouped</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1> Tuple2<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2> Tuple3<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3> Tuple4<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4> Tuple5<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5> Tuple6<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6> Tuple7<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7> Tuple8<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8> Tuple9<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9> Tuple10<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9,
+                                        Collector<? super T, A9, D9> downstream10) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10> Tuple11<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11> Tuple12<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12> Tuple13<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13> Tuple14<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14> Tuple15<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15);
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 16 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param iterable      The iterable object to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param downstream16	The 16th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @param <A15>			The type of accumulator of 15th <code>Collector</code>
+     * @param <D15>			The type of result of 15th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14,
+            A15, D15> Tuple16<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>,
+            Seq<Tuple2<K, D15>>> grouped(Iterable<? extends T> iterable, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15,
+                                         Collector<? super T, A15, D15> downstream16) {
+        return grouped(seq(iterable), classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15,
+                downstream16);
+    }
+
+    /**
      * Classify this stream's elements according to a given classifier function
      * and collect each class's elements using a collector.
      * <p>
@@ -9618,6 +14794,1131 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     public static <K, T, A, D> Seq<Tuple2<K, D>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier, Collector<? super T, A, D> downstream) {
         return grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream)));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1> Tuple2<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2> Tuple3<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3> Tuple4<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4> Tuple5<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5> Tuple6<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6> Tuple7<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7> Tuple8<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8> Tuple9<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9> Tuple10<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                        Collector<? super T, A, D> downstream1,
+                                        Collector<? super T, A1, D1> downstream2,
+                                        Collector<? super T, A2, D2> downstream3,
+                                        Collector<? super T, A3, D3> downstream4,
+                                        Collector<? super T, A4, D4> downstream5,
+                                        Collector<? super T, A5, D5> downstream6,
+                                        Collector<? super T, A6, D6> downstream7,
+                                        Collector<? super T, A7, D7> downstream8,
+                                        Collector<? super T, A8, D8> downstream9,
+                                        Collector<? super T, A9, D9> downstream10) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10> Tuple11<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream11))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11> Tuple12<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream11))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream12))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12> Tuple13<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream11))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream12))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream13))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13> Tuple14<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream11))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream12))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream13))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream14))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14> Tuple15<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream11))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream12))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream13))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream14))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream15))));
+    }
+
+    /**
+     * The version of <code>grouped</code> that supports 16 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code> with a key(result of <code>classifier</code>)
+     * for each element in this <code>tuple</code>.
+     *
+     * @param seq			The <code>Seq</code> to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param downstream16	The 16th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @param <A15>			The type of accumulator of 15th <code>Collector</code>
+     * @param <D15>			The type of result of 15th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    public static <K, T, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14,
+            A15, D15> Tuple16<Seq<Tuple2<K, D>>,
+            Seq<Tuple2<K, D1>>,
+            Seq<Tuple2<K, D2>>,
+            Seq<Tuple2<K, D3>>,
+            Seq<Tuple2<K, D4>>,
+            Seq<Tuple2<K, D5>>,
+            Seq<Tuple2<K, D6>>,
+            Seq<Tuple2<K, D7>>,
+            Seq<Tuple2<K, D8>>,
+            Seq<Tuple2<K, D9>>,
+            Seq<Tuple2<K, D10>>,
+            Seq<Tuple2<K, D11>>,
+            Seq<Tuple2<K, D12>>,
+            Seq<Tuple2<K, D13>>,
+            Seq<Tuple2<K, D14>>,
+            Seq<Tuple2<K, D15>>> grouped(Seq<? extends T> seq, Function<? super T, ? extends K> classifier,
+                                         Collector<? super T, A, D> downstream1,
+                                         Collector<? super T, A1, D1> downstream2,
+                                         Collector<? super T, A2, D2> downstream3,
+                                         Collector<? super T, A3, D3> downstream4,
+                                         Collector<? super T, A4, D4> downstream5,
+                                         Collector<? super T, A5, D5> downstream6,
+                                         Collector<? super T, A6, D6> downstream7,
+                                         Collector<? super T, A7, D7> downstream8,
+                                         Collector<? super T, A8, D8> downstream9,
+                                         Collector<? super T, A9, D9> downstream10,
+                                         Collector<? super T, A10, D10> downstream11,
+                                         Collector<? super T, A11, D11> downstream12,
+                                         Collector<? super T, A12, D12> downstream13,
+                                         Collector<? super T, A13, D13> downstream14,
+                                         Collector<? super T, A14, D14> downstream15,
+                                         Collector<? super T, A15, D15> downstream16) {
+        return tuple(grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream1))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream2))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream3))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream4))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream5))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream6))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream7))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream8))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream9))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream10))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream11))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream12))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream13))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream14))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream15))),
+                grouped(seq, classifier).map(t -> tuple(t.v1, t.v2.collect(downstream16))));
     }
 
     /**
@@ -9745,11 +16046,2141 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
     /**
+     * The version of <code>groupBy</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1> Tuple2<Map<K, D>,
+            Map<K, D1>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2> Tuple3<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3> Tuple4<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4> Tuple5<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5> Tuple6<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6> Tuple7<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7> Tuple8<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7,
+                                Collector<? super T, A7, D7> downstream8) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8> Tuple9<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7,
+                                Collector<? super T, A7, D7> downstream8,
+                                Collector<? super T, A8, D8> downstream9) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9> Tuple10<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                Collector<? super T, A, D> downstream1,
+                                Collector<? super T, A1, D1> downstream2,
+                                Collector<? super T, A2, D2> downstream3,
+                                Collector<? super T, A3, D3> downstream4,
+                                Collector<? super T, A4, D4> downstream5,
+                                Collector<? super T, A5, D5> downstream6,
+                                Collector<? super T, A6, D6> downstream7,
+                                Collector<? super T, A7, D7> downstream8,
+                                Collector<? super T, A8, D8> downstream9,
+                                Collector<? super T, A9, D9> downstream10) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10> Tuple11<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11> Tuple12<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12> Tuple13<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13> Tuple14<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>,
+            Map<K, D13>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13,
+                                 Collector<? super T, A13, D13> downstream14) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14> Tuple15<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>,
+            Map<K, D13>,
+            Map<K, D14>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13,
+                                 Collector<? super T, A13, D13> downstream14,
+                                 Collector<? super T, A14, D14> downstream15) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 16 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     *
+     * @param stream		The stream to be handled
+     * @param classifier	The function of grouping operation.
+     * @param downstream1	The 1st <code>Collector</code>
+     * @param downstream2	The 2nd <code>Collector</code>
+     * @param downstream3	The 3rd <code>Collector</code>
+     * @param downstream4	The 4th <code>Collector</code>
+     * @param downstream5	The 5th <code>Collector</code>
+     * @param downstream6	The 6th <code>Collector</code>
+     * @param downstream7	The 7th <code>Collector</code>
+     * @param downstream8	The 8th <code>Collector</code>
+     * @param downstream9	The 9th <code>Collector</code>
+     * @param downstream10	The 10th <code>Collector</code>
+     * @param downstream11	The 11th <code>Collector</code>
+     * @param downstream12	The 12th <code>Collector</code>
+     * @param downstream13	The 13th <code>Collector</code>
+     * @param downstream14	The 14th <code>Collector</code>
+     * @param downstream15	The 15th <code>Collector</code>
+     * @param downstream16	The 16th <code>Collector</code>
+     * @param <K>			The type of key of <code>tuple</code>
+     * @param <T>			The type of <code>stream</code>
+     * @param <A>			The type of accumulator of <code>Collector</code>
+     * @param <D>			The type of result of <code>Collector</code>
+     * @param <A1>			The type of accumulator of 1st <code>Collector</code>
+     * @param <D1>			The type of result of 1st <code>Collector</code>
+     * @param <A2>			The type of accumulator of 2nd <code>Collector</code>
+     * @param <D2>			The type of result of 2nd <code>Collector</code>
+     * @param <A3>			The type of accumulator of 3rd <code>Collector</code>
+     * @param <D3>			The type of result of 3rd <code>Collector</code>
+     * @param <A4>			The type of accumulator of 4th <code>Collector</code>
+     * @param <D4>			The type of result of 4th <code>Collector</code>
+     * @param <A5>			The type of accumulator of 5th <code>Collector</code>
+     * @param <D5>			The type of result of 5th <code>Collector</code>
+     * @param <A6>			The type of accumulator of 6th <code>Collector</code>
+     * @param <D6>			The type of result of 6th <code>Collector</code>
+     * @param <A7>			The type of accumulator of 7th <code>Collector</code>
+     * @param <D7>			The type of result of 7th <code>Collector</code>
+     * @param <A8>			The type of accumulator of 8th <code>Collector</code>
+     * @param <D8>			The type of result of 8th <code>Collector</code>
+     * @param <A9>			The type of accumulator of 9th <code>Collector</code>
+     * @param <D9>			The type of result of 9th <code>Collector</code>
+     * @param <A10>			The type of accumulator of 10th <code>Collector</code>
+     * @param <D10>			The type of result of 10th <code>Collector</code>
+     * @param <A11>			The type of accumulator of 11th <code>Collector</code>
+     * @param <D11>			The type of result of 11th <code>Collector</code>
+     * @param <A12>			The type of accumulator of 12th <code>Collector</code>
+     * @param <D12>			The type of result of 12th <code>Collector</code>
+     * @param <A13>			The type of accumulator of 13th <code>Collector</code>
+     * @param <D13>			The type of result of 13th <code>Collector</code>
+     * @param <A14>			The type of accumulator of 14th <code>Collector</code>
+     * @param <D14>			The type of result of 14th <code>Collector</code>
+     * @param <A15>			The type of accumulator of 15th <code>Collector</code>
+     * @param <D15>			The type of result of 15th <code>Collector</code>
+     * @return				The <code>tuple</code> that wraps the results of grouping
+     */
+    static <T, K, A, D,
+            A1, D1,
+            A2, D2,
+            A3, D3,
+            A4, D4,
+            A5, D5,
+            A6, D6,
+            A7, D7,
+            A8, D8,
+            A9, D9,
+            A10, D10,
+            A11, D11,
+            A12, D12,
+            A13, D13,
+            A14, D14,
+            A15, D15> Tuple16<Map<K, D>,
+            Map<K, D1>,
+            Map<K, D2>,
+            Map<K, D3>,
+            Map<K, D4>,
+            Map<K, D5>,
+            Map<K, D6>,
+            Map<K, D7>,
+            Map<K, D8>,
+            Map<K, D9>,
+            Map<K, D10>,
+            Map<K, D11>,
+            Map<K, D12>,
+            Map<K, D13>,
+            Map<K, D14>,
+            Map<K, D15>> groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+                                 Collector<? super T, A, D> downstream1,
+                                 Collector<? super T, A1, D1> downstream2,
+                                 Collector<? super T, A2, D2> downstream3,
+                                 Collector<? super T, A3, D3> downstream4,
+                                 Collector<? super T, A4, D4> downstream5,
+                                 Collector<? super T, A5, D5> downstream6,
+                                 Collector<? super T, A6, D6> downstream7,
+                                 Collector<? super T, A7, D7> downstream8,
+                                 Collector<? super T, A8, D8> downstream9,
+                                 Collector<? super T, A9, D9> downstream10,
+                                 Collector<? super T, A10, D10> downstream11,
+                                 Collector<? super T, A11, D11> downstream12,
+                                 Collector<? super T, A12, D12> downstream13,
+                                 Collector<? super T, A13, D13> downstream14,
+                                 Collector<? super T, A14, D14> downstream15,
+                                 Collector<? super T, A15, D15> downstream16) {
+        return seq(stream).groupBy(classifier, downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15,
+                downstream16);
+    }
+
+    /**
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#groupingBy(Function, Supplier, Collector)} collector.
      */
     static <T, K, D, A, M extends Map<K, D>> M groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier, Supplier<M> mapFactory, Collector<? super T, A, D> downstream) {
         return seq(stream).groupBy(classifier, mapFactory, downstream);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 2 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>>
+    Tuple2<M, M1>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                downstream1,
+                downstream2);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 3 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>>
+    Tuple3<M, M1, M2>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                downstream1,
+                downstream2,
+                downstream3);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 4 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>>
+    Tuple4<M, M1, M2, M3>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 5 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>>
+    Tuple5<M, M1, M2, M3, M4>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 6 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>>
+    Tuple6<M, M1, M2, M3, M4, M5>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 7 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>>
+    Tuple7<M, M1, M2, M3, M4, M5, M6>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 8 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>>
+    Tuple8<M, M1, M2, M3, M4, M5, M6, M7>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 9 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>>
+    Tuple9<M, M1, M2, M3, M4, M5, M6, M7, M8>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 10 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>>
+    Tuple10<M, M1, M2, M3, M4, M5, M6, M7, M8, M9>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 11 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>>
+    Tuple11<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                mapFactory11,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 12 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>>
+    Tuple12<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                mapFactory11,
+                mapFactory12,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 13 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>>
+    Tuple13<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                mapFactory11,
+                mapFactory12,
+                mapFactory13,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 14 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            D13, A13,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>,
+            M13 extends Map<K, D13>>
+    Tuple14<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, M13>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Supplier<M13> mapFactory14,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13,
+            Collector<? super T, A13, D13> downstream14) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                mapFactory11,
+                mapFactory12,
+                mapFactory13,
+                mapFactory14,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 15 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            D13, A13,
+            D14, A14,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>,
+            M13 extends Map<K, D13>,
+            M14 extends Map<K, D14>>
+    Tuple15<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, M13, M14>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Supplier<M13> mapFactory14,
+            Supplier<M14> mapFactory15,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13,
+            Collector<? super T, A13, D13> downstream14,
+            Collector<? super T, A14, D14> downstream15) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                mapFactory11,
+                mapFactory12,
+                mapFactory13,
+                mapFactory14,
+                mapFactory15,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15);
+    }
+
+    /**
+     * The version of <code>groupBy</code> that supports 16 <code>Collector</code> and
+     * wraps the result into a <code>tuple</code>. Meanwhile, this method supports
+     * custom <code>Supplier</code>.
+     * <p>The difference between <code>grouped</code> and <code>groupBy</code> is that
+     * the result of <code>grouped</code> has a key for each group but <code>groupBy</code> not.
+     */
+    static <T, K, D, A,
+            D1, A1,
+            D2, A2,
+            D3, A3,
+            D4, A4,
+            D5, A5,
+            D6, A6,
+            D7, A7,
+            D8, A8,
+            D9, A9,
+            D10, A10,
+            D11, A11,
+            D12, A12,
+            D13, A13,
+            D14, A14,
+            D15, A15,
+            M extends Map<K, D>,
+            M1 extends Map<K, D1>,
+            M2 extends Map<K, D2>,
+            M3 extends Map<K, D3>,
+            M4 extends Map<K, D4>,
+            M5 extends Map<K, D5>,
+            M6 extends Map<K, D6>,
+            M7 extends Map<K, D7>,
+            M8 extends Map<K, D8>,
+            M9 extends Map<K, D9>,
+            M10 extends Map<K, D10>,
+            M11 extends Map<K, D11>,
+            M12 extends Map<K, D12>,
+            M13 extends Map<K, D13>,
+            M14 extends Map<K, D14>,
+            M15 extends Map<K, D15>>
+    Tuple16<M, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, M13, M14, M15>
+    groupBy(Stream<? extends T> stream, Function<? super T, ? extends K> classifier,
+            Supplier<M> mapFactory1,
+            Supplier<M1> mapFactory2,
+            Supplier<M2> mapFactory3,
+            Supplier<M3> mapFactory4,
+            Supplier<M4> mapFactory5,
+            Supplier<M5> mapFactory6,
+            Supplier<M6> mapFactory7,
+            Supplier<M7> mapFactory8,
+            Supplier<M8> mapFactory9,
+            Supplier<M9> mapFactory10,
+            Supplier<M10> mapFactory11,
+            Supplier<M11> mapFactory12,
+            Supplier<M12> mapFactory13,
+            Supplier<M13> mapFactory14,
+            Supplier<M14> mapFactory15,
+            Supplier<M15> mapFactory16,
+            Collector<? super T, A, D> downstream1,
+            Collector<? super T, A1, D1> downstream2,
+            Collector<? super T, A2, D2> downstream3,
+            Collector<? super T, A3, D3> downstream4,
+            Collector<? super T, A4, D4> downstream5,
+            Collector<? super T, A5, D5> downstream6,
+            Collector<? super T, A6, D6> downstream7,
+            Collector<? super T, A7, D7> downstream8,
+            Collector<? super T, A8, D8> downstream9,
+            Collector<? super T, A9, D9> downstream10,
+            Collector<? super T, A10, D10> downstream11,
+            Collector<? super T, A11, D11> downstream12,
+            Collector<? super T, A12, D12> downstream13,
+            Collector<? super T, A13, D13> downstream14,
+            Collector<? super T, A14, D14> downstream15,
+            Collector<? super T, A15, D15> downstream16) {
+        return seq(stream).groupBy(classifier,
+                mapFactory1,
+                mapFactory2,
+                mapFactory3,
+                mapFactory4,
+                mapFactory5,
+                mapFactory6,
+                mapFactory7,
+                mapFactory8,
+                mapFactory9,
+                mapFactory10,
+                mapFactory11,
+                mapFactory12,
+                mapFactory13,
+                mapFactory14,
+                mapFactory15,
+                mapFactory16,
+                downstream1,
+                downstream2,
+                downstream3,
+                downstream4,
+                downstream5,
+                downstream6,
+                downstream7,
+                downstream8,
+                downstream9,
+                downstream10,
+                downstream11,
+                downstream12,
+                downstream13,
+                downstream14,
+                downstream15,
+                downstream16);
     }
 
     /**

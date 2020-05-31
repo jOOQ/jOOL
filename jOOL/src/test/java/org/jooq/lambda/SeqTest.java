@@ -78,6 +78,29 @@ import org.junit.Test;
 public class SeqTest {
 
     @Test
+    public void testGrouped() {
+        //  Test the overloaded method of grouped
+        Tuple2<Map<Integer, Long>, Map<Integer, String> > tuple2 =
+                Seq.of(tuple(1, 1), tuple(1, 2), tuple(1, 3), tuple(2, 4), tuple(2, 5))
+                        .groupBy(t -> t.v1, counting(), mapping(t -> t.map2(Object::toString).v2, joining(", ")));
+        assertEquals(3L, (long) tuple2.v1.get(1));
+        assertEquals(2L, (long) tuple2.v1.get(2));
+        assertEquals("1, 2, 3", tuple2.v2.get(1));
+        assertEquals("4, 5", tuple2.v2.get(2));
+
+        Tuple3<Map<Integer, Long>, Map<Integer, String>, Map<Integer, Long> > tuple3 =
+                Seq.of(tuple(1, 1), tuple(1, 2), tuple(1, 3), tuple(2, 4), tuple(2, 5))
+                        .groupBy(t -> t.v1, counting(), mapping(t -> t.map2(Object::toString).v2, joining(", ")), counting());
+        assertEquals(3L, (long) tuple3.v1.get(1));
+        assertEquals(2L, (long) tuple3.v1.get(2));
+        assertEquals("1, 2, 3", tuple3.v2.get(1));
+        assertEquals("4, 5", tuple3.v2.get(2));
+        assertEquals(3L, (long) tuple3.v3.get(1));
+        assertEquals(2L, (long) tuple3.v3.get(2));
+    }
+
+
+    @Test
     public void testSeqArray() throws Exception {
         Seq<Integer> s1 = seq((Integer[]) null);
         assertEquals(asList(), s1.toList());
