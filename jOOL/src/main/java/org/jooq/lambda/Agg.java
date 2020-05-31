@@ -926,4 +926,234 @@ public class Agg {
             s -> s.map(Objects::toString).orElse("")
         );
     }
+	
+	public static <T extends Number> Collector<T, ?, Optional<Double>> stdDev() {
+
+        return Collector.of(
+                (Supplier<ArrayList<Double>>) ArrayList::new,
+                (l, v) -> l.add(v.doubleValue()),
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    final int size = l.size();
+
+                    if (size == 0) {
+                        return Optional.empty();
+                    } else if (size == 1) {
+                        return Optional.of(l.get(0));
+                    }
+
+                    double average;
+                    double all = 0;
+                    double result = 0;
+                    for (final Double value : l) {
+                        all = value + all;
+                    }
+                    average = all / size;
+                    for (final Double aDouble : l) {
+                        result = result + (aDouble - average) * (aDouble - average);
+                    }
+                    result = Math.sqrt(result / size);
+
+                    return Optional.of(result);
+                }
+        );
+    }
+
+    /**
+     * Calculate the standard deviation of a collection.
+     * @param plus      The {@link BiFunction} of custom "plus" function.
+     * @param minus     The {@link BiFunction} of custom "minus" function.
+     * @param times     The {@link BiFunction} of custom "times" function.
+     * @param square    The {@link Function} of custom "square" function.
+     * @param sqrt      The {@link Function} of custom "sqrt" function.
+     * @param <T>       Type of element in collection.
+     * @return          {@link Optional} type of standard deviation.
+     */
+    public static <T> Collector<T, ?, Optional<T>> stdDev(final BiFunction<? super T, ? super T, T> plus,
+                                                          final BiFunction<? super T, ? super T, T> minus,
+                                                          final BiFunction<? super T, Double, T> times,
+                                                          final Function<? super T, T> square,
+                                                          final Function<? super T, T> sqrt) {
+
+        return Collector.of(
+                (Supplier<ArrayList<T>>) ArrayList::new,
+                ArrayList::add,
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    final int size = l.size();
+
+                    if (size == 0) {
+                        return Optional.empty();
+                    } else if (size == 1) {
+                        return Optional.of(minus.apply(l.get(0), l.get(0)));
+                    }
+
+                    T sum = minus.apply(l.get(0), l.get(0));
+                    T average;
+                    T squareSum = minus.apply(l.get(0), l.get(0));
+
+                    for (final T t : l) {
+                        sum = plus.apply(sum, t);
+                    }
+
+                    average = times.apply(sum, 1.0 / size);
+
+                    for (final T t : l) {
+                        T squareValue = square.apply(minus.apply(t, average));
+                        squareSum = plus.apply(squareSum, squareValue);
+                    }
+
+                    return Optional.of(sqrt.apply(times.apply(squareSum, 1.0 / size)));
+                }
+        );
+    }
+
+    /**
+     * Calculate the variance of a collection.
+     * @param <T>   Type of element in collection, which must be an extension of {@link Number}.
+     * @return      {@link Optional} type of variance.
+     */
+    public static <T extends Number> Collector<T, ?, Optional<Double>> variance() {
+
+        return Collector.of(
+                (Supplier<ArrayList<Double>>) ArrayList::new,
+                (l, v) -> l.add(v.doubleValue()),
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    final int size = l.size();
+
+                    if (size == 0) {
+                        return Optional.empty();
+                    } else if (size == 1) {
+                        return Optional.of(l.get(0));
+                    }
+
+                    double average;
+                    double all = 0;
+                    double result = 0;
+                    for (final Double value : l) {
+                        all = value + all;
+                    }
+                    average = all / size;
+                    for (final Double aDouble : l) {
+                        result = result + (aDouble - average) * (aDouble - average);
+                    }
+
+                    return Optional.of(result / size);
+                }
+        );
+    }
+
+    /**
+     * Calculate the variance of a collection.
+     * @param plus      The {@link BiFunction} of custom "plus" function.
+     * @param minus     The {@link BiFunction} of custom "minus" function.
+     * @param times     The {@link BiFunction} of custom "times" function.
+     * @param square    The {@link Function} of custom "square" function.
+     * @param <T>       Type of element in collection.
+     * @return          {@link Optional} type of variance.
+     */
+    public static <T> Collector<T, ?, Optional<T>> variance(final BiFunction<? super T, ? super T, T> plus,
+                                                            final BiFunction<? super T, ? super T, T> minus,
+                                                            final BiFunction<? super T, Double, T> times,
+                                                            final Function<? super T, T> square) {
+
+        return Collector.of(
+                (Supplier<ArrayList<T>>) ArrayList::new,
+                ArrayList::add,
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    final int size = l.size();
+
+                    if (size == 0) {
+                        return Optional.empty();
+                    } else if (size == 1) {
+                        return Optional.of(minus.apply(l.get(0), l.get(0)));
+                    }
+
+                    T sum = minus.apply(l.get(0), l.get(0));
+                    T average;
+                    T squareSum = minus.apply(l.get(0), l.get(0));
+
+                    for (final T t : l) {
+                        sum = plus.apply(sum, t);
+                    }
+
+                    average = times.apply(sum, 1.0 / size);
+
+                    for (final T t : l) {
+                        T squareValue = square.apply(minus.apply(t, average));
+                        squareSum = plus.apply(squareSum, squareValue);
+                    }
+
+                    return Optional.of(times.apply(squareSum, 1.0 / size));
+                }
+        );
+    }
+
+    /**
+     * Calculate the linear regression of a collection, whose elements extends {@link Number}.
+     * @param <T>   Type of elements in input collection.
+     * @return      The <code>b</code> and <code>a</code> value.
+     */
+    public static <T extends Number> Collector<Tuple2<T, T>, ?, Optional<Tuple2<Double, Double>>> linearRegression() {
+
+        return Collector.of(
+                (Supplier<ArrayList<Tuple2<Double, Double>>>) ArrayList::new,
+                (l, v) -> l.add(new Tuple2<Double, Double>(v.v1.doubleValue(), v.v2.doubleValue())),
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    final int size = l.size();
+
+                    if (size == 0) {
+                        return Optional.empty();
+                    } else if (size == 1) {
+                        return Optional.of(l.get(0));
+                    }
+
+                    double xAverage;
+                    double xAll = 0;
+                    double yAverage;
+                    double yAll = 0;
+                    double variance = 0;
+                    double xTimesy = 0;
+
+                    for (final Tuple2<Double, Double> element : l) {
+                        xAll = element.v1 + xAll;
+                    }
+                    xAverage = xAll / size;
+
+                    for (final Tuple2<Double, Double> element : l) {
+                        yAll = element.v2 + yAll;
+                    }
+                    yAverage = yAll / size;
+
+                    for (final Tuple2<Double, Double> element : l) {
+                        variance = variance + (element.v1 - xAverage) * (element.v1 - xAverage);
+                    }
+
+                    for (final Tuple2<Double, Double> element : l) {
+                        xTimesy = xTimesy + (element.v1 - xAverage) * (element.v2 - yAverage);
+                    }
+                    final double bValue = xTimesy / variance;
+                    final double aValue = yAverage - bValue * xAverage;
+                    return Optional.of(tuple(bValue, aValue));
+                }
+        );
+    }
 }

@@ -923,6 +923,23 @@ public class CollectorTests {
         assertEquals("BA", Seq.of("CBA", "DCBA", "DBA").collect(Agg.commonSuffix()));
         assertEquals("BBAA", Seq.of("CCBBAA", "DDBBAA", "EBBAA").collect(Agg.commonSuffix()));
     }
+	
+	@Test
+    public void testStatisticsFunction() {
+        DecimalFormat d = new DecimalFormat("#.000");
+        assertEquals(Optional.of(0.0), Seq.of(2, 2, 2, 2).collect(Agg.stdDev()));
+        assertEquals(Optional.of(0.0), Seq.of(2.0, 2.0, 2.0, 2.0).collect(Agg.stdDev()));
+        assertEquals(1.118, Double.valueOf(d.format(Seq.of(1, 2, 3, 4).collect(Agg.stdDev()).get())).doubleValue(), 0.001);
+        assertEquals(1.118, Double.valueOf(d.format(Seq.of(1, 2.0, 3.0, 4).collect(Agg.stdDev()).get())).doubleValue(), 0.001);
+
+
+        assertEquals(Optional.of(0.0), Seq.of(2, 2, 2, 2).collect(Agg.variance()));
+        assertEquals(Optional.of(0.0), Seq.of(2.0, 2.0, 2.0, 2.0).collect(Agg.variance()));
+        assertEquals(1.250, Double.valueOf(d.format(Seq.of(1, 2, 3, 4).collect(Agg.variance()).get())).doubleValue(), 0.001);
+        assertEquals(1.250, Double.valueOf(d.format(Seq.of(1, 2.0, 3.0, 4).collect(Agg.variance()).get())).doubleValue(), 0.001);
+		
+        assertEquals(tuple(0.0, 1.0), Seq.of(tuple(1, 0), tuple(0, 1), tuple(2, 1), tuple(1, 2)).collect(Agg.linearRegression()).get());
+    }
     
     @Test
     public void testFilter() {
