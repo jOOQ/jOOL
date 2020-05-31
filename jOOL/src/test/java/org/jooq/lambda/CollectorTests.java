@@ -956,4 +956,25 @@ public class CollectorTests {
         assertEquals(Optional.of(4), Seq.of(null, 4).collect(Agg.last()));
         assertEquals(Optional.empty(), Seq.of(5, 6, null).collect(Agg.last()));
     }
+
+    @Test
+    public void testTaking(){
+        assertEquals(Seq.of().toList(), Seq.of(1, 2, 3).collect(Agg.taking(0)).toList());
+        assertEquals(Seq.of().toList(), Seq.of(1, 2, 3).collect(Agg.taking(-1)).toList());
+        assertEquals(Seq.of(1).toList(), Seq.of(1, 2, 3).collect(Agg.taking(1)).toList());
+        assertEquals(Seq.of(1, 2, 3).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.taking(3)).toList());
+        assertEquals(Seq.of(1, 2, 3, 4, 5).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.taking(6)).toList());
+        assertEquals(Seq.of("a", "b").toList(), Seq.of("a", "b", "c", "d").collect(Agg.taking(2)).toList());
+    }
+
+    @Test
+    public void testDropping(){
+        assertEquals(Seq.of(1, 2, 3).toList(), Seq.of(1, 2, 3).collect(Agg.dropping(0)).toList());
+        assertEquals(Seq.of(1, 2, 3).toList(), Seq.of(1, 2, 3).collect(Agg.dropping(-1)).toList());
+        assertEquals(Seq.of(2, 3).toList(), Seq.of(1, 2, 3).collect(Agg.dropping(1)).toList());
+        assertEquals(Seq.of(4, 5).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(3)).toList());
+        assertEquals(Seq.of().toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(6)).toList());
+        assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
+    }
+}
 }

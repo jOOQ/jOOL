@@ -83,6 +83,57 @@ public class Agg {
     }
 
     /**
+     * Get a {@link Collector} that takes the first <code>n</code> elements from a collection.
+     * <p>The final type of this {@link Collector} is {@link Seq} type.
+     * @param n     The number of elements to be taken
+     * @param <T>   The type of element
+     * @return      A {@link Seq} of type <code>T</code>
+     */
+    public static <T> Collector<T, ?, Seq<T>> taking(long n) {
+        return Collector.of(
+                (Supplier<LinkedList<T>>) LinkedList::new,
+                (l, v) -> {
+                    if (l.size() < n) {
+                        l.add(v);
+                    }
+                },
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> Seq.seq(l.stream())
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that skip the first <code>n</code> elements of a collection.
+     * <p>This method will skip the first <code>n</code> elements, and start from the (n+1)th element.
+     * The final type of this {@link Collector} is {@link Seq} type.
+     * @param n     The number of elements to be skipped
+     * @param <T>   The type of element
+     * @return      A {@link Seq} of type <code>T</code>
+     */
+    public static <T> Collector<T, ?, Seq<T>> dropping(long n) {
+        long[] index = {0};
+
+        return Collector.of(
+                (Supplier<LinkedList<T>>) LinkedList::new,
+                (l, v) -> {
+                    if (index[0] >= n) {
+                        l.add(v);
+                    }
+                    index[0]++;
+                },
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> Seq.seq(l.stream())
+        );
+    }
+
+
+    /**
      * Get a {@link Collector} that calculates the <code>COUNT(*)</code>
      * function.
      */
