@@ -8848,8 +8848,9 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     /// @Generated("This method was generated using jOOQ-tools")
     static <T1, T2> Seq<Tuple2<T1, T2>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2) {
-        List<? extends T2> list = s2.toList();
-        return seq(s1).flatMap(v1 -> seq(list).map(v2 -> tuple(v1, v2)))
+
+        SeqBuffer<? extends T2> buffer = SeqBuffer.of(s2);
+        return seq(s1).flatMap(v1 -> buffer.seq().map(v2 -> tuple(v1, v2)))
                       .onClose(SeqUtils.closeAll(s1, s2));
     }
 
@@ -8865,8 +8866,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3> Seq<Tuple3<T1, T2, T3>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple2<T2, T3>> list = Seq.<T2, T3>crossJoin(s2, s3).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2)))
+        SeqBuffer<Tuple2<T2, T3>> buffer = SeqBuffer.of(Seq.<T2, T3>crossJoin(s2, s3));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2)))
                  .onClose(SeqUtils.closeAll(s2, s3));
     }
 
@@ -8882,8 +8883,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4> Seq<Tuple4<T1, T2, T3, T4>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple3<T2, T3, T4>> list = Seq.<T2, T3, T4>crossJoin(s2, s3, s4).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3)))
+        SeqBuffer<Tuple3<T2, T3, T4>> buffer = SeqBuffer.of(Seq.<T2, T3, T4>crossJoin(s2, s3, s4));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4));
     }
 
@@ -8899,8 +8900,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5> Seq<Tuple5<T1, T2, T3, T4, T5>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple4<T2, T3, T4, T5>> list = Seq.<T2, T3, T4, T5>crossJoin(s2, s3, s4, s5).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)))
+        SeqBuffer<Tuple4<T2, T3, T4, T5>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5>crossJoin(s2, s3, s4, s5));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5));
     }
 
@@ -8916,8 +8917,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6> Seq<Tuple6<T1, T2, T3, T4, T5, T6>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple5<T2, T3, T4, T5, T6>> list = Seq.<T2, T3, T4, T5, T6>crossJoin(s2, s3, s4, s5, s6).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)))
+        SeqBuffer<Tuple5<T2, T3, T4, T5, T6>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6>crossJoin(s2, s3, s4, s5, s6));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6));
     }
 
@@ -8933,8 +8934,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7> Seq<Tuple7<T1, T2, T3, T4, T5, T6, T7>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple6<T2, T3, T4, T5, T6, T7>> list = Seq.<T2, T3, T4, T5, T6, T7>crossJoin(s2, s3, s4, s5, s6, s7).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)))
+        SeqBuffer<Tuple6<T2, T3, T4, T5, T6, T7>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7>crossJoin(s2, s3, s4, s5, s6, s7));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7));
     }
 
@@ -8950,8 +8951,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8> Seq<Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple7<T2, T3, T4, T5, T6, T7, T8>> list = Seq.<T2, T3, T4, T5, T6, T7, T8>crossJoin(s2, s3, s4, s5, s6, s7, s8).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)))
+        SeqBuffer<Tuple7<T2, T3, T4, T5, T6, T7, T8>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8>crossJoin(s2, s3, s4, s5, s6, s7, s8));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8));
     }
 
@@ -8967,8 +8968,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Seq<Tuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple8<T2, T3, T4, T5, T6, T7, T8, T9>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8)))
+        SeqBuffer<Tuple8<T2, T3, T4, T5, T6, T7, T8, T9>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9));
     }
 
@@ -8984,8 +8985,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Seq<Tuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple9<T2, T3, T4, T5, T6, T7, T8, T9, T10>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9)))
+        SeqBuffer<Tuple9<T2, T3, T4, T5, T6, T7, T8, T9, T10>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10));
     }
 
@@ -9001,8 +9002,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Seq<Tuple11<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10)))
+        SeqBuffer<Tuple10<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
     }
 
@@ -9018,8 +9019,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Seq<Tuple12<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple11<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11)))
+        SeqBuffer<Tuple11<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
     }
 
@@ -9035,8 +9036,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Seq<Tuple13<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple12<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12)))
+         SeqBuffer<Tuple12<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
     }
 
@@ -9052,8 +9053,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Seq<Tuple14<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple13<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13)))
+        SeqBuffer<Tuple13<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
     }
 
@@ -9069,8 +9070,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Seq<Tuple15<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple14<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14)))
+        SeqBuffer<Tuple14<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
     }
 
@@ -9086,8 +9087,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Seq<Tuple16<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> crossJoin(Seq<? extends T1> s1, Seq<? extends T2> s2, Seq<? extends T3> s3, Seq<? extends T4> s4, Seq<? extends T5> s5, Seq<? extends T6> s6, Seq<? extends T7> s7, Seq<? extends T8> s8, Seq<? extends T9> s9, Seq<? extends T10> s10, Seq<? extends T11> s11, Seq<? extends T12> s12, Seq<? extends T13> s13, Seq<? extends T14> s14, Seq<? extends T15> s15, Seq<? extends T16> s16) {
 
         // [#323] Some explicit type variable bindings required because of compiler regressions in JDK 9
-        List<Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> list = Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16).toList();
-        return s1.flatMap(v1 -> seq(list).map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14, t.v15)))
+        SeqBuffer<Tuple15<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>> buffer = SeqBuffer.of(Seq.<T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>crossJoin(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
+        return s1.flatMap(v1 -> buffer.seq().map(t -> tuple(v1, t.v1, t.v2, t.v3, t.v4, t.v5, t.v6, t.v7, t.v8, t.v9, t.v10, t.v11, t.v12, t.v13, t.v14, t.v15)))
                  .onClose(SeqUtils.closeAll(s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
     }
 
