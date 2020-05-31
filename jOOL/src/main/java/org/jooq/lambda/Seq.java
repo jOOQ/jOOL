@@ -370,6 +370,117 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
               .map(t -> tuple(t.v2, t.v1));
     }
 
+/**
+     * Partition outer join 2 streams into one. <code>comparator</code> determines the way for partition.
+     * <p>
+     * <code><pre>
+     * todo: example code
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> partitionOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate, Comparator<T> comparator) {
+        return partitionOuterJoin(seq(other), predicate, comparator);
+    }
+
+    /**
+     * Partition outer join 2 streams into one. <code>comparator</code> determines the way for partition.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> partitionOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate, Comparator<T> comparator) {
+        return partitionOuterJoin(seq(other), predicate, comparator);
+    }
+
+    /**
+     * Partition outer join 2 streams into one. <code>comparator</code> determines the way for partition.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> partitionOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate, Comparator<T> comparator) {
+        // Use comparator if it is not NULL, otherwise, use default method.
+        if(comparator != null)
+            return SeqBuffer.of(this.sorted(comparator)).seq().leftOuterJoin(other, predicate);
+        else
+            return partitionOuterJoin(other, predicate);
+
+    }
+
+    /**
+     * Partition outer join 2 streams into one. <code>comparator</code> determines the way for partition.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> partitionOuterSelfJoin(BiPredicate<? super T, ? super T> predicate, Comparator<T> comparator) {
+        SeqBuffer<T> buffer = SeqBuffer.of(this);
+        return buffer.seq().partitionOuterJoin(buffer.seq(), predicate, comparator);
+    }
+
+
+    /**
+     * Partition outer join 2 streams into one. The partition is based on left <code>tuple2</code> entry.
+     * i.e. A.partitionOuterJoin(B, TRUE), here partition is based on A.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> partitionOuterJoin(Stream<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
+        return partitionOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Partition outer join 2 streams into one. The partition is based on left <code>tuple2</code> entry.
+     * i.e. A.partitionOuterJoin(B, TRUE), here partition is based on A.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> partitionOuterJoin(Iterable<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
+        return partitionOuterJoin(seq(other), predicate);
+    }
+
+    /**
+     * Partition outer join 2 streams into one. The partition is based on left <code>tuple2</code> entry.
+     * i.e. A.partitionOuterJoin(B, TRUE), here partition is based on A.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default <U> Seq<Tuple2<T, U>> partitionOuterJoin(Seq<? extends U> other, BiPredicate<? super T, ? super U> predicate) {
+        // Group based on left tuple2, the same tuple2 are divided into one group
+        List<List> l = leftOuterJoin(other, predicate)
+                        .groupBy(Objects::hashCode)
+                        .entrySet()
+                        .stream()
+                        .sorted(Comparator.comparing(Map.Entry::getKey))
+                        .map(Map.Entry::getValue)
+                        .collect(Collectors.toList());
+
+        return SeqBuffer
+                .of(l.stream().flatMap(e -> e.stream()))
+                .seq();
+
+    }
+
+    /**
+     * Partition outer join 2 streams into one.
+     * <p>
+     * <code><pre>
+     *todo: example code
+     * </pre></code>
+     */
+    default Seq<Tuple2<T, T>> partitionOuterSelfJoin(BiPredicate<? super T, ? super T> predicate) {
+        SeqBuffer<T> buffer = SeqBuffer.of(this);
+        return buffer.seq().partitionOuterJoin(buffer.seq(), predicate);
+    }
+
     /**
      * Produce this stream, or an alternative stream with the
      * <code>value</code>, in case this stream is empty.

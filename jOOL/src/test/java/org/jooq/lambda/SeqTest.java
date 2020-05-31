@@ -994,6 +994,136 @@ public class SeqTest {
     }
 
     @Test
+    public void testPartitionOuterJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        //  Several overloaded methods
+        //	--------------------------
+        assertEquals(asList(),
+                Seq.of().partitionOuterJoin(Seq.of(), TRUE).toList());
+        assertEquals(asList(),
+                Seq.of().partitionOuterJoin(Seq.of().stream(), TRUE).toList());
+        assertEquals(asList(),
+                Seq.of().partitionOuterJoin(new ArrayList<>(), TRUE).toList());
+        assertEquals(asList(),
+                Seq.of().partitionOuterJoin(new ArrayList<>(), TRUE, null).toList());
+
+        //  Some basic cases
+        //	----------------
+        assertEquals(asList(),
+                Seq.of().partitionOuterJoin(Seq.of(1), TRUE).toList());
+        assertEquals(asList(),
+                Seq.of().partitionOuterJoin(Seq.of(1, 2), TRUE).toList());
+        assertEquals(asList(
+                tuple(1, null)),
+                Seq.<Object>of(1).partitionOuterJoin(Seq.of(), TRUE).toList());
+
+        //  Cases with some special matching conditions
+        //	-------------------------------------------
+        assertEquals(asList(
+                tuple(1, 1),
+                tuple(1, 2)),
+                Seq.<Object>of(1).partitionOuterJoin(Seq.of(1, 2), TRUE).toList());
+        assertEquals(asList(
+                tuple(1, 1),
+                tuple(1, 1),
+                tuple(2, 2),
+                tuple(2, 2),
+                tuple(3, null),
+                tuple(3, null)
+                ),
+                Seq.of(1, 2, 3, 1, 2, 3).partitionOuterJoin(Seq.of(1, 2), (t, u) -> t == u).toList());
+        assertEquals(asList(
+                tuple(1, 2),
+                tuple(1, 2),
+                tuple(2, 4),
+                tuple(2, 4),
+                tuple(3, null),
+                tuple(3, null)
+                ),
+                Seq.of(1, 2, 3, 1, 2, 3).partitionOuterJoin(Seq.of(2, 4), (t, u) -> t * 2 == u).toList());
+        assertEquals(asList(
+                tuple(1, null),
+                tuple(1, null),
+                tuple(2, 2),
+                tuple(2, 2),
+                tuple(3, null)
+        ), Seq.of(1, 3, 2, 2, 1).partitionOuterJoin(Seq.of(2).stream(), Integer::equals, comparingInt(o -> o)).toList());
+
+        //  Cases with multi-colunm Seq in more complex situations
+        //	------------------------------------------------------
+        assertEquals(asList(
+                tuple(tuple(1, 0), tuple(4, 1)),
+                tuple(tuple(1, 0), tuple(4, 1)),
+                tuple(tuple(3, 2), null),
+                tuple(tuple(2, 1), tuple(5, 2)),
+                tuple(tuple(2, 1), tuple(5, 2))
+        ), Seq.of(tuple(1, 0), tuple(3, 2), tuple(2, 1), tuple(1, 0), tuple(2, 1)).
+                partitionOuterJoin(Seq.of(tuple(4, 1), tuple(5, 2)), (t, u) -> t.v1.equals(u.v2)).toList());
+        assertEquals(asList(
+                tuple(tuple(1, 0), tuple(4, 1)),
+                tuple(tuple(1, 0), tuple(4, 1)),
+                tuple(tuple(2, 1), tuple(5, 2)),
+                tuple(tuple(2, 1), tuple(5, 2)),
+                tuple(tuple(3, 2), null)
+        ), Seq.of(tuple(1, 0), tuple(3, 2), tuple(2, 1), tuple(1, 0), tuple(2, 1))
+                .partitionOuterJoin(Seq.of(tuple(4, 1), tuple(5, 2)),
+                        (t, u) -> t.v1.equals(u.v2), comparingInt(o -> o.v1)).toList());
+        assertEquals(asList(
+                tuple(tuple(3, 1), null),
+                tuple(tuple(2, 2), tuple(5, 2)),
+                tuple(tuple(2, 2), tuple(5, 2)),
+                tuple(tuple(1, 3), tuple(4, 1)),
+                tuple(tuple(1, 3), tuple(4, 1))
+        ), Seq.of(tuple(1, 3), tuple(3, 1), tuple(2, 2), tuple(1, 3), tuple(2, 2))
+                .partitionOuterJoin(Seq.of(tuple(4, 1), tuple(5, 2)),
+                        (t, u) -> t.v1.equals(u.v2), comparingInt(o -> o.v2)).toList());
+
+        //  Test the validity of returned Seq
+        //	---------------------------------
+        verifyIteratorValidity(3, Seq.of(1, 2, 3), seq -> seq.partitionOuterJoin(Seq.of("A", "B"), TRUE));
+    }
+
+    @Test
+    public void testPartitionOuterSelfJoin() {
+        BiPredicate<Object, Object> TRUE = (t, u) -> true;
+
+        assertEquals(asList(),
+                Seq.of().fullOuterSelfJoin(TRUE).toList());
+
+        assertEquals(asList(
+                tuple(1, null),
+                tuple(1, null),
+                tuple(2, 1),
+                tuple(2, 1),
+                tuple(2, 1),
+                tuple(2, 1),
+                tuple(3, null)
+        ), Seq.of(1, 3, 2, 2, 1).partitionOuterSelfJoin((t, u) -> t == 2 * u, comparingInt(o -> o)).toList());
+
+        assertEquals(asList(
+                tuple(tuple(1, 0), tuple(2, 1)),
+                tuple(tuple(1, 0), tuple(2, 1)),
+                tuple(tuple(3, 2), null),
+                tuple(tuple(3, 2), null),
+                tuple(tuple(2, 1), tuple(3, 2)),
+                tuple(tuple(2, 1), tuple(3, 2))
+        ), Seq.of(tuple(1, 0), tuple(3, 2), tuple(2, 1), tuple(1, 0), tuple(3, 2))
+                .partitionOuterSelfJoin((t, u) -> t.v1.equals(u.v2)).toList());
+
+        assertEquals(asList(
+                tuple(tuple(1, 0), tuple(2, 1)),
+                tuple(tuple(1, 0), tuple(2, 1)),
+                tuple(tuple(2, 1), tuple(3, 2)),
+                tuple(tuple(2, 1), tuple(3, 2)),
+                tuple(tuple(3, 2), null),
+                tuple(tuple(3, 2), null)
+        ), Seq.of(tuple(1, 0), tuple(3, 2), tuple(2, 1), tuple(1, 0), tuple(3, 2))
+                .partitionOuterSelfJoin((t, u) -> t.v1.equals(u.v2), comparingInt(o -> o.v2)).toList());
+
+    }
+
+    @Test
     public void testOnEmpty() throws X {
         assertEquals(asList(1), Seq.of().onEmpty(1).toList());
         assertEquals(asList(1), Seq.of().onEmptyGet(() -> 1).toList());
