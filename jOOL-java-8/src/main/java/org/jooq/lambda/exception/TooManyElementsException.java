@@ -22,7 +22,7 @@ package org.jooq.lambda.exception;
  * @author Lukas
  */
 public class TooManyElementsException extends RuntimeException {
-
+    
     /**
      * Generated UID
      */

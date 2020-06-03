@@ -25,26 +25,26 @@ import org.jooq.lambda.tuple.Tuple2;
  * @author Lukas Eder
  */
 class Partition<T> {
-
+    
     final List<Tuple2<T, Long>> list;
     final Map<Object, Object>   cache;
-
+    
     Partition(Collection<Tuple2<T, Long>> list) {
         this.list = list instanceof ArrayList ? (List<Tuple2<T, Long>>) list : new ArrayList<>(list);
         this.cache = new HashMap<>();
     }
-
+    
     <R> R cacheIf(boolean condition, Object key, Supplier<? extends R> value) {
         return cacheIf(() -> condition, () -> key, value);
     }
-
+        
     <R> R cacheIf(boolean condition, Supplier<?> key, Supplier<? extends R> value) {
         if (condition)
             return cache(key, value);
         else
             return value.get();
     }
-
+    
     <R> R cacheIf(BooleanSupplier condition, Object key, Supplier<? extends R> value) {
         return cacheIf(condition, () -> key, value);
     }
@@ -55,12 +55,12 @@ class Partition<T> {
         else
             return value.get();
     }
-
+  
     @SuppressWarnings("unchecked")
     <R> R cache(Object key, Supplier<? extends R> value) {
         return cache(() -> key, value);
     }
-
+  
     @SuppressWarnings("unchecked")
     <R> R cache(Supplier<?> key, Supplier<? extends R> value) {
         return (R) cache.computeIfAbsent(key.get(), k -> value.get());

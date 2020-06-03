@@ -73,12 +73,12 @@ public class CheckedComparatorTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

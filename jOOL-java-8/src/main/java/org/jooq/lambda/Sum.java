@@ -24,12 +24,12 @@ import java.math.RoundingMode;
  */
 abstract class Sum<N> {
     long count;
-
+    
     void add(Sum<N> sum) {
         add0(sum.result());
         count += sum.count;
     }
-
+    
     void add(N value) {
         add0(value);
         count += 1;
@@ -38,7 +38,7 @@ abstract class Sum<N> {
     void and(Sum<N> sum) {
         and0(sum.result());
     }
-
+    
     void and(N value) {
         and0(value);
     }
@@ -46,21 +46,21 @@ abstract class Sum<N> {
     void or(Sum<N> sum) {
         or0(sum.result());
     }
-
+    
     void or(N value) {
         or0(value);
     }
-
+    
     abstract void add0(N value);
     abstract void and0(N value);
     abstract void or0(N value);
     abstract N result();
     abstract N avg();
-
+    
     @SuppressWarnings({ "unchecked", "rawtypes" })
     static <N> Sum<N> create(N value) {
         Sum<N> result;
-
+        
         if (value instanceof Byte)
             result = (Sum) new OfByte();
         else if (value instanceof Short)
@@ -79,11 +79,11 @@ abstract class Sum<N> {
             result = (Sum) new OfBigDecimal();
         else
             throw new IllegalArgumentException("Cannot calculate sums for value : " + value);
-
+        
         result.add(value);
         return result;
     }
-
+    
     static class OfByte extends Sum<Byte> {
         byte result;
 
@@ -162,7 +162,7 @@ abstract class Sum<N> {
         Integer result() {
             return sum;
         }
-
+         
         @Override
         Integer avg() {
             return (int) (sum / count);

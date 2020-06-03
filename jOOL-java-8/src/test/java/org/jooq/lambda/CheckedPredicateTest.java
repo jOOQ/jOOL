@@ -175,14 +175,14 @@ public class CheckedPredicateTest {
         try {
             test.test(null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("a", "b", "c").filter(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a");
         }
@@ -193,7 +193,7 @@ public class CheckedPredicateTest {
         try {
             test.test(0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
@@ -211,14 +211,14 @@ public class CheckedPredicateTest {
         try {
             test.test(0L);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).filter(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -229,7 +229,7 @@ public class CheckedPredicateTest {
         try {
             test.test(0.0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0.0");
         }
@@ -244,12 +244,12 @@ public class CheckedPredicateTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

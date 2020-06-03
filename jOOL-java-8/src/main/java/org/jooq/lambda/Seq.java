@@ -127,11 +127,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U> U transform(Function<? super Seq<T>, ? extends U> transformer) {
         return transformer.apply(this);
     }
-
+    
     /**
      * Cross apply a function to this stream.
      * <p>
-     * This works like {@link #flatMap(java.util.function.Function)}, except
+     * This works like {@link #flatMap(java.util.function.Function)}, except 
      * that the result retains the original <code>T</code> values.
      * <p>
      * // (tuple(1, 0), tuple(2, 0), tuple(2, 1))
@@ -141,11 +141,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U> Seq<Tuple2<T, U>> crossApply(Function<? super T, ? extends Iterable<? extends U>> function) {
         return crossApply(this, t -> seq(function.apply(t)));
     }
-
+    
     /**
      * Outer apply a function to this stream.
      * <p>
-     * This works like {@link #flatMap(java.util.function.Function)}, except
+     * This works like {@link #flatMap(java.util.function.Function)}, except 
      * that the result retains the original <code>T</code> values.
      * <p>
      * // (tuple(0, null), tuple(1, 0), tuple(2, 0), tuple(2, 1))
@@ -155,7 +155,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U> Seq<Tuple2<T, U>> outerApply(Function<? super T, ? extends Iterable<? extends U>> function) {
         return outerApply(this, t -> seq(function.apply(t)));
     }
-
+    
     /**
      * Cross join 2 streams into one.
      * <p>
@@ -491,7 +491,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default Seq<T> concat(T... other) {
         return concat(Seq.of(other));
     }
-
+    
     /**
      * Concatenate an optional value.
      * <p>
@@ -802,7 +802,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         else
             return skip(index).findFirst();
     }
-
+    
     /**
      * Get the single element from the stream, or throw an exception if the
      * stream holds more than one element.
@@ -816,24 +816,24 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         T result = it.next();
         if (!it.hasNext())
             return Optional.of(result);
-
+            
         throw new TooManyElementsException("Stream contained more than one element.");
     }
-
+    
     /**
      * Get the first element from the stream given a predicate.
      */
     default Optional<T> findFirst(Predicate<? super T> predicate) {
         return filter(predicate).findFirst();
     }
-
+    
     /**
      * Get the last element from the stream.
      */
     default Optional<T> findLast() {
         return reduce((a, b) -> b);
     }
-
+    
     /**
      * Get a last element from the stream given a predicate.
      */
@@ -979,17 +979,17 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default Seq<T> cycle() {
         return cycle(this);
     }
-
+    
     /**
      * Repeat a stream a certain amount of times.
      * <p>
      * <code><pre>
      * // ()
      * Seq.of(1, 2, 3).cycle(0);
-     *
+     * 
      * // (1, 2, 3)
      * Seq.of(1, 2, 3).cycle(1);
-     *
+     * 
      * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
      * Seq.of(1, 2, 3).cycle(3);
      * </pre></code>
@@ -2164,7 +2164,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T2> it2 = s2.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext();
@@ -2174,10 +2174,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             public R next() {
                 boolean b1 = it1.hasNext();
                 boolean b2 = it2.hasNext();
-
+                
                 if (!b1 && !b2)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2
@@ -2186,7 +2186,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2204,7 +2204,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T3> it3 = s3.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext();
@@ -2215,10 +2215,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b1 = it1.hasNext();
                 boolean b2 = it2.hasNext();
                 boolean b3 = it3.hasNext();
-
+                
                 if (!b1 && !b2 && !b3)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2228,7 +2228,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2247,7 +2247,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T4> it4 = s4.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext();
@@ -2259,10 +2259,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b2 = it2.hasNext();
                 boolean b3 = it3.hasNext();
                 boolean b4 = it4.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2273,7 +2273,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2293,7 +2293,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T5> it5 = s5.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext();
@@ -2306,10 +2306,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b3 = it3.hasNext();
                 boolean b4 = it4.hasNext();
                 boolean b5 = it5.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2321,7 +2321,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2342,7 +2342,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T6> it6 = s6.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext();
@@ -2356,10 +2356,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b4 = it4.hasNext();
                 boolean b5 = it5.hasNext();
                 boolean b6 = it6.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2372,7 +2372,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2394,7 +2394,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T7> it7 = s7.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext();
@@ -2409,10 +2409,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b5 = it5.hasNext();
                 boolean b6 = it6.hasNext();
                 boolean b7 = it7.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2426,7 +2426,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2449,7 +2449,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T8> it8 = s8.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext();
@@ -2465,10 +2465,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b6 = it6.hasNext();
                 boolean b7 = it7.hasNext();
                 boolean b8 = it8.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2483,7 +2483,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2507,7 +2507,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T9> it9 = s9.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext();
@@ -2524,10 +2524,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b7 = it7.hasNext();
                 boolean b8 = it8.hasNext();
                 boolean b9 = it9.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2543,7 +2543,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2568,7 +2568,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T10> it10 = s10.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext();
@@ -2586,10 +2586,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b8 = it8.hasNext();
                 boolean b9 = it9.hasNext();
                 boolean b10 = it10.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2606,7 +2606,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2632,7 +2632,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T11> it11 = s11.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext();
@@ -2651,10 +2651,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b9 = it9.hasNext();
                 boolean b10 = it10.hasNext();
                 boolean b11 = it11.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2672,7 +2672,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2699,7 +2699,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T12> it12 = s12.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext();
@@ -2719,10 +2719,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b10 = it10.hasNext();
                 boolean b11 = it11.hasNext();
                 boolean b12 = it12.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2741,7 +2741,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2769,7 +2769,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T13> it13 = s13.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext();
@@ -2790,10 +2790,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b11 = it11.hasNext();
                 boolean b12 = it12.hasNext();
                 boolean b13 = it13.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2813,7 +2813,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2842,7 +2842,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T14> it14 = s14.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext() || it14.hasNext();
@@ -2864,10 +2864,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b12 = it12.hasNext();
                 boolean b13 = it13.hasNext();
                 boolean b14 = it14.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13 && !b14)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2888,7 +2888,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2918,7 +2918,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T15> it15 = s15.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext() || it14.hasNext() || it15.hasNext();
@@ -2941,10 +2941,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b13 = it13.hasNext();
                 boolean b14 = it14.hasNext();
                 boolean b15 = it15.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13 && !b14 && !b15)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -2966,7 +2966,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15));
-    }
+    }            
 
     /**
      * Zip two streams into one using a {@link BiFunction} to produce resulting values,
@@ -2997,7 +2997,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final Iterator<? extends T16> it16 = s16.iterator();
 
         class ZipAll implements Iterator<R> {
-
+            
             @Override
             public boolean hasNext() {
                 return it1.hasNext() || it2.hasNext() || it3.hasNext() || it4.hasNext() || it5.hasNext() || it6.hasNext() || it7.hasNext() || it8.hasNext() || it9.hasNext() || it10.hasNext() || it11.hasNext() || it12.hasNext() || it13.hasNext() || it14.hasNext() || it15.hasNext() || it16.hasNext();
@@ -3021,10 +3021,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 boolean b14 = it14.hasNext();
                 boolean b15 = it15.hasNext();
                 boolean b16 = it16.hasNext();
-
+                
                 if (!b1 && !b2 && !b3 && !b4 && !b5 && !b6 && !b7 && !b8 && !b9 && !b10 && !b11 && !b12 && !b13 && !b14 && !b15 && !b16)
                     throw new NoSuchElementException("next on empty iterator");
-
+                
                 return zipper.apply(
                     b1 ? it1.next() : default1,
                     b2 ? it2.next() : default2,
@@ -3047,7 +3047,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         }
 
         return seq(new ZipAll()).onClose(SeqUtils.closeAll(s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16));
-    }
+    }            
 
 
 
@@ -3458,7 +3458,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default <U> Seq<U> cast(Class<? extends U> type) {
         return cast(this, type);
     }
-
+    
     /**
      * Map this stream to a stream containing a sliding window over the previous stream.
      * <p>
@@ -3479,10 +3479,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     default Seq<Seq<T>> sliding(long size) {
         if (size <= 0)
             throw new IllegalArgumentException("Size must be >= 1");
-
+        
         return window(0, size - 1).filter(w -> w.count() == size).map(w -> w.window());
     }
-
+    
     /**
      * Map this stream to a windowed stream using the default partition and order.
      * <p>
@@ -3490,11 +3490,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (0, 1, 2, 3, 4)
      * Seq.of(1, 2, 4, 2, 3).window().map(Window::rowNumber)
      * </pre></code>
-     */
+     */ 
     default Seq<Window<T>> window() {
         return window(Window.of()).map(t -> t.v1);
     }
-
+   
     /**
      * Map this stream to a windowed stream using the default partition and order with frame.
      * <p>
@@ -3502,11 +3502,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (2, 4, 4, 4, 3)
      * Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(Window::max)
      * </pre></code>
-     */
+     */ 
     default Seq<Window<T>> window(long lower, long upper) {
         return window(Window.of(lower, upper)).map(t -> t.v1);
     }
-
+   
     /**
      * Map this stream to a windowed stream using the default partition and a specific order.
      * <p>
@@ -3514,11 +3514,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (0, 1, 4, 2, 3)
      * Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::rowNumber)
      * </pre></code>
-     */
+     */ 
     default Seq<Window<T>> window(Comparator<? super T> orderBy) {
         return window(Window.of(orderBy)).map(t -> t.v1);
     }
-
+    
     /**
      * Map this stream to a windowed stream using the default partition and a specific order with frame.
      * <p>
@@ -3526,11 +3526,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (1, 1, 3, 2, 2)
      * Seq.of(1, 2, 4, 2, 3).window(naturalOrder(), -1, 1).map(Window::min)
      * </pre></code>
-     */
+     */ 
     default Seq<Window<T>> window(Comparator<? super T> orderBy, long lower, long upper) {
         return window(Window.of(orderBy, lower, upper)).map(t -> t.v1);
     }
-
+    
     /**
      * Map this stream to a windowed stream using a specific partition and the default order.
      * <p>
@@ -3538,11 +3538,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (1, 2, 2, 2, 1)
      * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(Window::min)
      * </pre></code>
-     */
+     */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy) {
         return window(Window.of(partitionBy)).map(t -> t.v1);
     }
-
+    
     /**
      * Map this stream to a windowed stream using a specific partition and the default order.
      * <p>
@@ -3550,11 +3550,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (3, 4, 4, 2, 3)
      * Seq.of(1, 4, 2, 2, 3).window(i -> i % 2, -1, 1).map(Window::max)
      * </pre></code>
-     */
+     */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
         return window(Window.of(partitionBy, lower, upper)).map(t -> t.v1);
     }
-
+    
     /**
      * Map this stream to a windowed stream using a specific partition and order.
      * <p>
@@ -3562,11 +3562,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (1, 2, 4, 4, 3)
      * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(Window::max)
      * </pre></code>
-     */
+     */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
         return window(Window.of(partitionBy, orderBy)).map(t -> t.v1);
     }
-
+    
     /**
      * Map this stream to a windowed stream using a specific partition and order with frame.
      * <p>
@@ -3574,7 +3574,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // (3, 2, 4, 4, 3)
      * Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder(), -1, 1).map(Window::max)
      * </pre></code>
-     */
+     */ 
     default <U> Seq<Window<T>> window(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
         return window(Window.of(partitionBy, orderBy, lower, upper)).map(t -> t.v1);
     }
@@ -4230,7 +4230,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
 
-
+    
     // Shortcuts to Collectors
     // -----------------------
 
@@ -4262,7 +4262,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining()}
      * collector.
-     *
+     * 
      * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
@@ -4276,7 +4276,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence)}
      * collector.
-     *
+     * 
      * @deprecated - Use {@link #toString(CharSequence)} instead. This method
      * will be removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
@@ -4290,7 +4290,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
      * collector.
-     *
+     * 
      * @deprecated - Use
      * {@link #toString(CharSequence, CharSequence, CharSequence)} instead. This
      * method will be removed in the future as it causes confusion with
@@ -4638,7 +4638,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Stream<? extends T> stream) {
         if (stream == null)
             return Seq.empty();
-
+        
         if (stream instanceof Seq)
             return (Seq<T>) stream;
 
@@ -4652,7 +4652,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Seq<? extends T> stream) {
         if (stream == null)
             return Seq.empty();
-
+        
         return (Seq<T>) stream;
     }
 
@@ -4662,7 +4662,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static Seq<Integer> seq(IntStream stream) {
         if (stream == null)
             return Seq.empty();
-
+        
         return new SeqImpl<>(stream.boxed());
     }
 
@@ -4672,7 +4672,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static Seq<Long> seq(LongStream stream) {
         if (stream == null)
             return Seq.empty();
-
+        
         return new SeqImpl<>(stream.boxed());
     }
 
@@ -4682,7 +4682,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static Seq<Double> seq(DoubleStream stream) {
         if (stream == null)
             return Seq.empty();
-
+        
         return new SeqImpl<>(stream.boxed());
     }
 
@@ -4692,7 +4692,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Iterable<? extends T> iterable) {
         if (iterable == null)
             return Seq.empty();
-
+        
         return seq(iterable.iterator());
     }
 
@@ -4702,7 +4702,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Iterator<? extends T> iterator) {
         if (iterator == null)
             return Seq.empty();
-
+        
         return seq(spliteratorUnknownSize(iterator, ORDERED));
     }
 
@@ -4712,7 +4712,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Enumeration<T> enumeration) {
         if (enumeration == null)
             return Seq.empty();
-
+        
         return Seq.seq(new Iterator<T>() {
             @Override
             public boolean hasNext() {
@@ -4732,7 +4732,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Spliterator<? extends T> spliterator) {
         if (spliterator == null)
             return Seq.empty();
-
+        
         return seq(StreamSupport.stream(spliterator, false));
     }
 
@@ -4742,7 +4742,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <K, V> Seq<Tuple2<K, V>> seq(Map<? extends K, ? extends V> map) {
         if (map == null)
             return Seq.empty();
-
+        
         return seq(map.entrySet()).map(e -> tuple(e.getKey(), e.getValue()));
     }
 
@@ -4750,11 +4750,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap an <code>Optional</code> into a <code>Seq</code>.
      */
     static <T> Seq<T> seq(Optional<? extends T> optional) {
-
+        
         // [#245] For the special kind of ugly client code...
         if (optional == null)
             return Seq.empty();
-
+        
         return optional.map(Seq::of).orElseGet(Seq::empty);
     }
 
@@ -4765,7 +4765,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <T> Seq<T> seq(Optional<? extends T>... optionals) {
         if (optionals == null)
             return Seq.empty();
-
+        
         return of(optionals).filter(Optional::isPresent).map(Optional::get);
     }
 
@@ -4786,7 +4786,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static Seq<Byte> seq(InputStream is) {
         if (is == null)
             return Seq.empty();
-
+        
         FunctionalSpliterator<Byte> spliterator = consumer -> {
             try {
                 int value = is.read();
@@ -4814,7 +4814,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static Seq<Character> seq(Reader reader) {
         if (reader == null)
             return Seq.empty();
-
+        
         FunctionalSpliterator<Character> spliterator = consumer -> {
             try {
                 int value = reader.read();
@@ -4874,10 +4874,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <code><pre>
      * // ()
      * Seq.of(1, 2, 3).cycle(0);
-     *
+     * 
      * // (1, 2, 3)
      * Seq.of(1, 2, 3).cycle(1);
-     *
+     * 
      * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
      * Seq.of(1, 2, 3).cycle(3);
      * </pre></code>
@@ -4894,10 +4894,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <code><pre>
      * // ()
      * Seq.of(1, 2, 3).cycle(0);
-     *
+     * 
      * // (1, 2, 3)
      * Seq.of(1, 2, 3).cycle(1);
-     *
+     * 
      * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
      * Seq.of(1, 2, 3).cycle(3);
      * </pre></code>
@@ -4914,10 +4914,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * <code><pre>
      * // ()
      * Seq.of(1, 2, 3).cycle(0);
-     *
+     * 
      * // (1, 2, 3)
      * Seq.of(1, 2, 3).cycle(1);
-     *
+     * 
      * // (1, 2, 3, 1, 2, 3, 1, 2, 3)
      * Seq.of(1, 2, 3).cycle(3);
      * </pre></code>
@@ -4930,11 +4930,11 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             return empty();
         if (times == 1)
             return (Seq<T>) stream;
-
+        
         List<T> list = new ArrayList<>();
         Spliterator<T>[] sp = new Spliterator[1];
         long[] remaining = new long[] { times };
-
+        
         return SeqUtils.transform(stream, (delegate, action) -> {
             if (sp[0] == null) {
                 if (delegate.tryAdvance(t -> {
@@ -4949,7 +4949,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
             if (!sp[0].tryAdvance(action)) {
                 if (times != -1 && (remaining[0] = remaining[0] - 1) == 1)
                     return false;
-
+                
                 sp[0] = list.spliterator();
 
                 if (!sp[0].tryAdvance(action))
@@ -4971,7 +4971,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     static <K, V> Tuple2<Seq<K>, Seq<V>> unzip(Map<? extends K, ? extends V> map) {
         return unzip(seq(map));
     }
-
+    
     /**
      * Unzip one Stream into two.
      * <p>
@@ -7015,12 +7015,12 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         return SeqUtils.<T, T>transform(stream, (delegate, action) -> {
             if (shuffled[0] == null) {
                 List<T> list = Seq.<T>seq(delegate).toList();
-
+                
                 if (random == null)
                     Collections.shuffle(list);
                 else
                     Collections.shuffle(list, random);
-
+                
                 shuffled[0] = list.spliterator();
             }
 
@@ -7736,7 +7736,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
 
-
+    
 
 
     /**
@@ -8445,7 +8445,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     }
 
 
-
+    
 
 
     /**
@@ -9327,7 +9327,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
                 }
                 while (test[1] && !test[0]);
             }
-
+            
             return test[0] && delegate.tryAdvance(action);
         });
     }
@@ -9690,8 +9690,8 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      */
     static <T> Tuple2<Optional<T>, Seq<T>> splitAtHead(Stream<T> stream) {
         Iterator<T> it = stream.iterator();
-        return tuple(it.hasNext() ?
-                Optional.of(it.next()) :
+        return tuple(it.hasNext() ? 
+                Optional.of(it.next()) : 
                 Optional.empty(), seq(it));
     }
 
@@ -9718,13 +9718,13 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * // ClassCastException
      * Seq.of(1, "a", 2, "b", 3).cast(Integer.class)
      * </pre></code>
-     *
+     * 
      * @see #ofType(Stream, Class) Seq.ofType(Stream, Class) If you want to filter and cast
      */
     static <T, U> Seq<U> cast(Stream<? extends T> stream, Class<? extends U> type) {
         return seq(stream).map(type::cast);
     }
-
+    
     // Shortcuts to Collectors
     // -----------------------
 
@@ -9756,7 +9756,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining()}
      * collector.
-     *
+     * 
      * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
@@ -9770,7 +9770,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence)}
      * collector.
-     *
+     * 
      * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
@@ -9784,7 +9784,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Shortcut for calling {@link Stream#collect(Collector)} with a
      * {@link Collectors#joining(CharSequence, CharSequence, CharSequence)}
      * collector.
-     *
+     * 
      * @deprecated - Use {@link Object#toString()} instead. This method will be
      * removed in the future as it causes confusion with
      * {@link #innerJoin(Seq, BiPredicate)}.
@@ -9907,7 +9907,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * is intended for debugging convenience only.
      */
     String format();
-
+    
     /**
      * Print contents of this stream to {@link System#out}.
      */

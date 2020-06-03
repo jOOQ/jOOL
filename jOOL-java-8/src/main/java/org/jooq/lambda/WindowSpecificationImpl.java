@@ -35,7 +35,7 @@ class WindowSpecificationImpl<T> implements WindowSpecification<T> {
         this.lower = lower;
         this.upper = upper;
     }
-
+    
     @Override
     public Function<? super T, ?> partition() {
         return partition;

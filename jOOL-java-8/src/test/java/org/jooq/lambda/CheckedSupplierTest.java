@@ -217,7 +217,7 @@ public class CheckedSupplierTest {
 
         try {
             Stream.generate(test).findFirst();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "object");
         }
@@ -228,14 +228,14 @@ public class CheckedSupplierTest {
         try {
             test.getAsInt();
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "int");
         }
 
         try {
             IntStream.generate(test).findFirst();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "int");
         }
@@ -246,14 +246,14 @@ public class CheckedSupplierTest {
         try {
             test.getAsLong();
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "long");
         }
 
         try {
             LongStream.generate(test).findFirst();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "long");
         }
@@ -282,7 +282,7 @@ public class CheckedSupplierTest {
         try {
             test.getAsBoolean();
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "boolean");
         }
@@ -290,12 +290,12 @@ public class CheckedSupplierTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

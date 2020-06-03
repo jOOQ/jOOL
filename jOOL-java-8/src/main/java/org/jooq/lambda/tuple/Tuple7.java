@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.jooq.lambda.Seq;
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function7;
 
@@ -432,16 +432,16 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
     }
 
     public final <K> Map<K, ?> toMap(
-        Supplier<? extends K> keySupplier1,
-        Supplier<? extends K> keySupplier2,
-        Supplier<? extends K> keySupplier3,
-        Supplier<? extends K> keySupplier4,
-        Supplier<? extends K> keySupplier5,
-        Supplier<? extends K> keySupplier6,
+        Supplier<? extends K> keySupplier1, 
+        Supplier<? extends K> keySupplier2, 
+        Supplier<? extends K> keySupplier3, 
+        Supplier<? extends K> keySupplier4, 
+        Supplier<? extends K> keySupplier5, 
+        Supplier<? extends K> keySupplier6, 
         Supplier<? extends K> keySupplier7
     ) {
         Map<K, Object> result = new LinkedHashMap<>();
-
+        
         result.put(keySupplier1.get(), v1);
         result.put(keySupplier2.get(), v2);
         result.put(keySupplier3.get(), v3);
@@ -449,21 +449,21 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         result.put(keySupplier5.get(), v5);
         result.put(keySupplier6.get(), v6);
         result.put(keySupplier7.get(), v7);
-
+        
         return result;
     }
 
     public final <K> Map<K, ?> toMap(
-        K key1,
-        K key2,
-        K key3,
-        K key4,
-        K key5,
-        K key6,
+        K key1, 
+        K key2, 
+        K key3, 
+        K key4, 
+        K key5, 
+        K key6, 
         K key7
     ) {
         Map<K, Object> result = new LinkedHashMap<>();
-
+        
         result.put(key1, v1);
         result.put(key2, v2);
         result.put(key3, v3);
@@ -471,7 +471,7 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Tuple, Comparable<Tup
         result.put(key5, v5);
         result.put(key6, v6);
         result.put(key7, v7);
-
+        
         return result;
     }
 

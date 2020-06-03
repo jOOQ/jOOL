@@ -171,11 +171,11 @@ public class CheckedBiConsumerTest {
 
     private <E extends Exception> void assertBiConsumer(BiConsumer<Object, Object> test, Class<E> type) {
         assertNotNull(test);
-
+        
         try {
             test.accept(null, null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:null");
         }
@@ -186,7 +186,7 @@ public class CheckedBiConsumerTest {
             map.put("b", 2);
             map.put("c", 3);
             map.forEach(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a:1");
         }
@@ -197,7 +197,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, 0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:0");
         }
@@ -208,7 +208,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, 0L);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:0");
         }
@@ -219,7 +219,7 @@ public class CheckedBiConsumerTest {
         try {
             test.accept(null, 0.0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:0.0");
         }
@@ -232,7 +232,7 @@ public class CheckedBiConsumerTest {
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

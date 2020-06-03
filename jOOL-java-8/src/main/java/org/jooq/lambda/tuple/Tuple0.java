@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.jooq.lambda.Seq;
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function0;
 
 /**

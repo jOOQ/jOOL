@@ -25,22 +25,22 @@ import java.util.function.Function;
  * @author Lukas Eder
  */
 public interface WindowSpecification<T> {
-
+      
     /**
      * The window partition function.
      */
     Function<? super T, ?> partition();
-
+    
     /**
      * The window order.
      */
     Optional<Comparator<? super T>> order();
-
+    
     /**
      * The window's lower frame bound.
      */
     long lower();
-
+    
     /**
      * The window's upper frame bound.
      */

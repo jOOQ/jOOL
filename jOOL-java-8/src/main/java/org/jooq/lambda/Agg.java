@@ -17,17 +17,23 @@ package org.jooq.lambda;
 
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.collectingAndThen;
-
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.TreeSet;
 import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
@@ -81,6 +87,53 @@ public class Agg {
     public static <T> Collector<T, ?, Optional<T>> last() {
         return Collectors.reducing((v1, v2) -> v2);
     }
+
+    /**
+     * Get a {@link Collector} that takes the first <code>n</code> elements
+     * from a collection.
+     */
+    public static <T> Collector<T, ?, Seq<T>> taking(long n) {
+        return Collector.of(
+            () -> new ArrayList<T>(),
+            (l, v) -> {
+                if (l.size() < n)
+                    l.add(v);
+            },
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            },
+            l -> Seq.seq(l)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that skip the first <code>n</code> elements of a
+     * collection.
+     */
+    public static <T> Collector<T, ?, Seq<T>> dropping(long n) {
+        class Accumulator {
+            List<T> list = new ArrayList<>();
+            long index;
+        }
+
+        return Collector.of(
+            Accumulator::new,
+            (a, v) -> {
+                if (a.index >= n)
+                    a.list.add(v);
+                else
+                    a.index++;
+            },
+            (a1, a2) -> {
+                a1.list.addAll(a2.list);
+                a1.index += a2.index;
+                return a1;
+            },
+            a -> Seq.seq(a.list)
+        );
+    }
+
 
     /**
      * Get a {@link Collector} that calculates the <code>COUNT(*)</code>

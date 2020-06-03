@@ -84,7 +84,7 @@ public class TupleTest {
         assertEquals(asList(1, "a", null), asList(tuple(1, "a", null).toArray()));
         assertEquals(asList(1, "a", null), tuple(1, "a", null).toList());
     }
-
+    
     @Test
     public void testToMap() {
         Map<String, Object> m1 = new LinkedHashMap<>();
@@ -98,7 +98,7 @@ public class TupleTest {
         m2.put(1, "a");
         m2.put(2, null);
         assertEquals(m2, tuple(1, "a", null).toMap(i -> i));
-
+        
         Map<String, Object> m3 = new LinkedHashMap<>();
         m3.put("A", 1);
         m3.put("B", "a");
@@ -106,7 +106,7 @@ public class TupleTest {
         assertEquals(m3, tuple(1, "a", null).toMap("A", "B", "C"));
         assertEquals(m3, tuple(1, "a", null).toMap(() -> "A", () -> "B", () -> "C"));
     }
-
+    
     @Test
     public void testToSeq() {
         assertEquals(asList(1, "a", null), tuple(1, "a", null).toSeq().toList());

@@ -344,7 +344,7 @@ public interface Collectable<T> {
      * Count the values in this collectable.
      */
     long count();
-
+    
     /**
      * Count the values in this collectable, for which a predicate evaluates to
      * true.
@@ -397,22 +397,22 @@ public interface Collectable<T> {
      * Get the sum of the elements in this collectable.
      */
     Optional<T> sum();
-
+    
     /**
      * Get the sum of the elements in this collectable.
      */
     <U> Optional<U> sum(Function<? super T, ? extends U> function);
-
+    
     /**
      * Get the sum of the elements in this collectable as <code>int</code>.
      */
     int sumInt(ToIntFunction<? super T> function);
-
+    
     /**
      * Get the sum of the elements in this collectable as <code>long</code>.
      */
     long sumLong(ToLongFunction<? super T> function);
-
+  
     /**
      * Get the sum of the elements in this collectable as <code>double</code>.
      */
@@ -422,27 +422,27 @@ public interface Collectable<T> {
      * Get the average of the elements in this collectable.
      */
     Optional<T> avg();
-
+ 
     /**
      * Get the average of the elements in this collectable.
      */
     <U> Optional<U> avg(Function<? super T, ? extends U> function);
-
+    
     /**
      * Get the average of the elements in this collectable as <code>int</code>.
      */
     double avgInt(ToIntFunction<? super T> function);
-
+    
     /**
      * Get the average of the elements in this collectable as <code>long</code>.
      */
     double avgLong(ToLongFunction<? super T> function);
-
+  
     /**
      * Get the average of the elements in this collectable as <code>double</code>.
      */
     double avgDouble(ToDoubleFunction<? super T> function);
-
+  
     /**
      * Get the minimum value.
      * <p>
@@ -450,22 +450,22 @@ public interface Collectable<T> {
      * <code>&lt;T extends Comparable&lt;? super T>></code>
      */
     Optional<T> min();
-
+    
     /**
      * Get the minimum value by a function.
      */
     Optional<T> min(Comparator<? super T> comparator);
-
+   
     /**
      * Get the minimum value by a function.
      */
     <U extends Comparable<? super U>> Optional<U> min(Function<? super T, ? extends U> function);
-
+   
     /**
      * Get the minimum value by a function.
      */
     <U> Optional<U> min(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
-
+ 
     /**
      * Get the minimum value by a function.
      */
@@ -475,7 +475,7 @@ public interface Collectable<T> {
      * Get the minimum value by a function.
      */
     <U> Optional<T> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
-
+  
     /**
      * Get the minimum values.
      * <p>
@@ -483,22 +483,22 @@ public interface Collectable<T> {
      * <code>&lt;T extends Comparable&lt;? super T>></code>
      */
     Seq<T> minAll();
-
+    
     /**
      * Get the minimum values by a function.
      */
     Seq<T> minAll(Comparator<? super T> comparator);
-
+   
     /**
      * Get the minimum values by a function.
      */
     <U extends Comparable<? super U>> Seq<U> minAll(Function<? super T, ? extends U> function);
-
+   
     /**
      * Get the minimum values by a function.
      */
     <U> Seq<U> minAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
-
+ 
     /**
      * Get the minimum values by a function.
      */
@@ -521,12 +521,12 @@ public interface Collectable<T> {
      * Get the maximum value by a function.
      */
     Optional<T> max(Comparator<? super T> comparator);
-
+   
     /**
      * Get the maximum value by a function.
      */
     <U extends Comparable<? super U>> Optional<U> max(Function<? super T, ? extends U> function);
-
+   
     /**
      * Get the maximum value by a function.
      */
@@ -554,12 +554,12 @@ public interface Collectable<T> {
      * Get the maximum values by a function.
      */
     Seq<T> maxAll(Comparator<? super T> comparator);
-
+   
     /**
      * Get the maximum values by a function.
      */
     <U extends Comparable<? super U>> Seq<U> maxAll(Function<? super T, ? extends U> function);
-
+   
     /**
      * Get the maximum values by a function.
      */
@@ -574,7 +574,7 @@ public interface Collectable<T> {
      * Get the maximum values by a function.
      */
     <U> Seq<T> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
-
+  
     /**
      * Get the median value.
      * <p>
@@ -597,7 +597,7 @@ public interface Collectable<T> {
      * Get the median value by a function.
      */
     <U> Optional<T> medianBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator);
-
+  
     /**
      * Get the discrete percentile value.
      * <p>
@@ -620,17 +620,17 @@ public interface Collectable<T> {
      * Get the discrete percentile value by a function.
      */
     <U> Optional<T> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator);
-
+    
     /**
      * Whether all elements in the collectable match a given predicate.
-     */
+     */ 
     boolean allMatch(Predicate<? super T> predicate);
-
+    
     /**
      * Whether any element in the collectable matches a given predicate.
      */
     boolean anyMatch(Predicate<? super T> predicate);
-
+    
     /**
      * Whether no element in the collectable matches a given predicate.
      */
@@ -638,74 +638,74 @@ public interface Collectable<T> {
 
     /**
      * Collect all bits in this stream into a single value by applying bitwise and.
-     */
+     */    
     Optional<T> bitAnd();
-
+    
     /**
      * Collect all bits in this stream into a single value by applying bitwise and.
-     */
+     */    
     <U> Optional<U> bitAnd(Function<? super T, ? extends U> function);
-
+    
     /**
      * Collect all bits in this stream into a single value by applying bitwise and.
-     */
+     */    
     int bitAndInt(ToIntFunction<? super T> function);
-
+    
     /**
      * Collect all bits in this stream into a single value by applying bitwise and.
-     */
+     */    
     long bitAndLong(ToLongFunction<? super T> function);
 
     /**
      * Collect all bits in this stream into a single value by applying bitwise or.
-     */
+     */    
     Optional<T> bitOr();
-
+    
     /**
      * Collect all bits in this stream into a single value by applying bitwise or.
-     */
+     */    
     <U> Optional<U> bitOr(Function<? super T, ? extends U> function);
-
+    
     /**
      * Collect all bits in this stream into a single value by applying bitwise or.
-     */
+     */    
     int bitOrInt(ToIntFunction<? super T> function);
-
+    
     /**
      * Collect all bits in this stream into a single value by applying bitwise or.
-     */
+     */    
     long bitOrLong(ToLongFunction<? super T> function);
-
+    
     /**
      * Collect the collectable into an {@link ArrayList}.
      */
     List<T> toList();
-
+    
     /**
      * Collect the collectable into a {@link List}.
      */
     <L extends List<T>> L toList(Supplier<L> factory);
-
+    
     /**
      * Collect the collectable into an unmodifiable {@link List}.
      */
     List<T> toUnmodifiableList();
-
+    
     /**
      * Collect the collectable into a {@link LinkedHashSet}.
      */
     Set<T> toSet();
-
+    
     /**
      * Collect the collectable into a {@link Set}.
      */
     <S extends Set<T>> S toSet(Supplier<S> factory);
-
+    
     /**
      * Collect the collectable into an unmodifiable {@link Set}.
      */
     Set<T> toUnmodifiableSet();
-
+    
     /**
      * Collect the collectable into a {@link Collection}.
      */
@@ -732,12 +732,12 @@ public interface Collectable<T> {
      * collector.
      */
     String toString(CharSequence delimiter, CharSequence prefix, CharSequence suffix);
-
+    
     /**
      * Get the common prefix of all strings (or to-stringed values) in this stream.
      */
     String commonPrefix();
-
+    
     /**
      * Get the common prefix of all strings (or to-stringed values) in this stream.
      */

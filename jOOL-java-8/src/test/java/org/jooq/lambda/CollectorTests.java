@@ -15,17 +15,31 @@
  */
 package org.jooq.lambda;
 
-import org.jooq.lambda.tuple.Tuple;
-import org.jooq.lambda.tuple.Tuple9;
-import org.junit.Test;
+import static org.jooq.lambda.Agg.allMatch;
+import static org.jooq.lambda.Agg.anyMatch;
+import static org.jooq.lambda.Agg.denseRank;
+import static org.jooq.lambda.Agg.denseRankBy;
+import static org.jooq.lambda.Agg.max;
+import static org.jooq.lambda.Agg.maxBy;
+import static org.jooq.lambda.Agg.median;
+import static org.jooq.lambda.Agg.min;
+import static org.jooq.lambda.Agg.minBy;
+import static org.jooq.lambda.Agg.noneMatch;
+import static org.jooq.lambda.Agg.percentRank;
+import static org.jooq.lambda.Agg.percentile;
+import static org.jooq.lambda.Agg.percentileBy;
+import static org.jooq.lambda.Agg.rank;
+import static org.jooq.lambda.Agg.rankBy;
+import static org.jooq.lambda.tuple.Tuple.tuple;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import static org.jooq.lambda.Agg.*;
-import static org.jooq.lambda.tuple.Tuple.tuple;
-import static org.junit.Assert.assertEquals;
+import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple9;
+import org.junit.Test;
 
 /**
  * @author Lukas Eder
@@ -955,5 +969,25 @@ public class CollectorTests {
         assertEquals(Optional.of(3), Seq.of(2, 3).collect(Agg.last()));
         assertEquals(Optional.of(4), Seq.of(null, 4).collect(Agg.last()));
         assertEquals(Optional.empty(), Seq.of(5, 6, null).collect(Agg.last()));
+    }
+
+    @Test
+    public void testTaking() {
+        assertEquals(Seq.of().toList(), Seq.of(1, 2, 3).collect(Agg.taking(0)).toList());
+        assertEquals(Seq.of().toList(), Seq.of(1, 2, 3).collect(Agg.taking(-1)).toList());
+        assertEquals(Seq.of(1).toList(), Seq.of(1, 2, 3).collect(Agg.taking(1)).toList());
+        assertEquals(Seq.of(1, 2, 3).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.taking(3)).toList());
+        assertEquals(Seq.of(1, 2, 3, 4, 5).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.taking(6)).toList());
+        assertEquals(Seq.of("a", "b").toList(), Seq.of("a", "b", "c", "d").collect(Agg.taking(2)).toList());
+    }
+
+    @Test
+    public void testDropping() {
+        assertEquals(Seq.of(1, 2, 3).toList(), Seq.of(1, 2, 3).collect(Agg.dropping(0)).toList());
+        assertEquals(Seq.of(1, 2, 3).toList(), Seq.of(1, 2, 3).collect(Agg.dropping(-1)).toList());
+        assertEquals(Seq.of(2, 3).toList(), Seq.of(1, 2, 3).collect(Agg.dropping(1)).toList());
+        assertEquals(Seq.of(4, 5).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(3)).toList());
+        assertEquals(Seq.of().toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(6)).toList());
+        assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
     }
 }

@@ -45,7 +45,7 @@ import org.jooq.lambda.tuple.Tuple2;
  * @author Lukas Eder
  */
 class WindowImpl<T> implements Window<T> {
-
+    
     final Tuple2<T, Long>       value;
     final int                   index;
     final Partition<T>          partition;
@@ -56,7 +56,7 @@ class WindowImpl<T> implements Window<T> {
     @SuppressWarnings({ "unchecked" })
     WindowImpl(
         Tuple2<T, Long> value,
-        Partition<T> partition,
+        Partition<T> partition, 
         WindowSpecification<T> specification
     ) {
         this.value = value;
@@ -64,7 +64,7 @@ class WindowImpl<T> implements Window<T> {
         this.order = specification.order().orElse((Comparator<? super T>) naturalOrder());
         this.lower = specification.lower();
         this.upper = specification.upper();
-
+        
         int i = specification.order().isPresent()
               ? binarySearch(partition.list, value, comparing((Tuple2<T, Long> t) -> t.v1, specification.order().get()).thenComparing(t -> t.v2))
               : binarySearch(partition.list, value, comparing(t -> t.v2));
@@ -73,12 +73,12 @@ class WindowImpl<T> implements Window<T> {
 
     // Accessor methods
     // -------------------------------------------------------------------------
-
+    
     @Override
     public T value() {
         return value.v1;
     }
-
+    
     @Override
     public Seq<T> window() {
         return Seq.seq(partition.list.subList(lower(), upper() + 1)).map(t -> t.v1);
@@ -86,34 +86,34 @@ class WindowImpl<T> implements Window<T> {
 
     // Utilities
     // -------------------------------------------------------------------------
-
+    
     private int lower() {
         // TODO: What about under/overflows?
         return lower == Long.MIN_VALUE ? 0 : (int) Math.max(0L, index + lower);
     }
-
+    
     private boolean lowerInPartition() {
         // TODO: What about under/overflows?
         return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.list.size());
     }
-
+    
     private int upper() {
         // TODO: What about under/overflows?
         return upper == Long.MAX_VALUE ? partition.list.size() - 1 : (int) Math.min(partition.list.size() - 1, (index + upper));
     }
-
+    
     private boolean upperInPartition() {
         // TODO: What about under/overflows?
         return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.list.size());
     }
-
+    
     private boolean completePartition() {
         return count() == partition.list.size();
     }
-
+    
     // Ranking functions
     // -------------------------------------------------------------------------
-
+    
     @Override
     public long rowNumber() {
         return (long) index;
@@ -207,10 +207,10 @@ class WindowImpl<T> implements Window<T> {
              ? Optional.of(function.apply(partition.list.get(lower() + (int) n).v1))
              : Optional.empty();
     }
-
+    
     // Aggregate functions
     // -------------------------------------------------------------------------
-
+    
     @Override
     public long count() {
         return 1 + upper() - lower();
@@ -541,7 +541,7 @@ class WindowImpl<T> implements Window<T> {
     public List<T> toList() {
         return partition.cacheIf(completePartition(), "toList", () -> window().toList());
     }
-
+    
     @Override
     public <L extends List<T>> L toList(Supplier<L> factory) {
         return partition.cacheIf(completePartition(), () -> tuple("toList", factory), () -> window().toList(factory));
@@ -551,7 +551,7 @@ class WindowImpl<T> implements Window<T> {
     public List<T> toUnmodifiableList() {
         return Collections.unmodifiableList(toList());
     }
-
+    
     @Override
     public Set<T> toSet() {
         return partition.cacheIf(completePartition(), "toSet", () -> window().toSet());
@@ -571,7 +571,7 @@ class WindowImpl<T> implements Window<T> {
     public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
         return partition.cacheIf(completePartition(), () -> tuple("toCollection", factory), () -> window().toCollection(factory));
     }
-
+    
     @Override
     public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
         return partition.cacheIf(completePartition(), () -> tuple("toMap", keyMapper, valueMapper), () -> window().toMap(keyMapper, valueMapper));
@@ -586,7 +586,7 @@ class WindowImpl<T> implements Window<T> {
     public String toString() {
         return partition.cacheIf(completePartition(), "toString", () -> window().toString());
     }
-
+    
     @Override
     public String toString(CharSequence delimiter) {
         return partition.cacheIf(completePartition(), () -> tuple("toString", delimiter), () -> Seq.toString(window(), delimiter));

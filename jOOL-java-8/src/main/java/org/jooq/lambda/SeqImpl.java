@@ -557,7 +557,7 @@ class SeqImpl<T> implements Seq<T> {
     public List<T> toList() {
         return Seq.toList(this);
     }
-
+    
     @Override
     public <L extends List<T>> L toList(Supplier<L> factory) {
         return Seq.toCollection(this, factory);
@@ -567,7 +567,7 @@ class SeqImpl<T> implements Seq<T> {
     public List<T> toUnmodifiableList() {
         return Collections.unmodifiableList(toList());
     }
-
+    
     @Override
     public Set<T> toSet() {
         return Seq.toSet(this);
@@ -582,12 +582,12 @@ class SeqImpl<T> implements Seq<T> {
     public Set<T> toUnmodifiableSet() {
         return Collections.unmodifiableSet(toSet());
     }
-
+    
     @Override
     public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
         return Seq.toCollection(this, factory);
     }
-
+    
     @Override
     public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
         return Seq.toMap(this, keyMapper, valueMapper);
@@ -603,7 +603,7 @@ class SeqImpl<T> implements Seq<T> {
         buffered = toArray();
         return Seq.toString(stream());
     }
-
+    
     @Override
     public String toString(CharSequence delimiter) {
         return Seq.toString(this, delimiter);
@@ -629,38 +629,38 @@ class SeqImpl<T> implements Seq<T> {
     public String format() {
         final List<String[]> strings = new ArrayList<>();
         Class<?>[] types0 = null;
-
+        
         for (T t : this) {
             Object[] array = t instanceof Tuple
                            ? ((Tuple) t).toArray()
                            : new Object[] { t };
-
-            if (types0 == null)
+            
+            if (types0 == null) 
                 types0 = new Class[array.length];
-
+            
             for (int i = 0; i < array.length; i++)
                 if (types0[i] == null && array[i] != null)
                     types0[i] = array[i].getClass();
-
+            
             strings.add(Seq
                 .of(array)
-                .map(o ->
+                .map(o -> 
                      o instanceof Optional
                    ? ((Optional) o).map(Objects::toString).orElse("{empty}")
                    : Objects.toString(o))
                 .toArray(String[]::new));
         }
-
+        
         if (strings.isEmpty())
             return "(empty seq)";
-
+        
         final Class<?>[] types = types0;
         final int length = types.length;
         final int[] maxLengths = new int[length];
         for (int s = 0; s < strings.size(); s++)
             for (int l = 0; l < length; l++)
                 maxLengths[l] = Math.max(2, Math.max(maxLengths[l], strings.get(s)[l].length()));
-
+        
         Function<String, String>[] pad = IntStream
             .range(0, length)
             .mapToObj(i -> (Function<String, String>) string -> {
@@ -668,42 +668,42 @@ class SeqImpl<T> implements Seq<T> {
                 return Seq.seq(Collections.nCopies(maxLengths[i] - string.length(), " ")).toString("", number ? "" : string, number ? string : "");
             })
             .toArray(Function[]::new);
-
+                
         StringBuilder separator = new StringBuilder("+-");
         for (int l = 0; l < length; l++) {
             if (l > 0)
                 separator.append("-+-");
-
+            
             for (int p = 0; p < maxLengths[l]; p++)
                 separator.append('-');
         }
         separator.append("-+\n");
-
+        
         StringBuilder result = new StringBuilder(separator).append("| ");
         for (int l = 0; l < length; l++) {
             String n = "v" + (l + 1);
-
+            
             if (l > 0)
                 result.append(" | ");
-
+            
             result.append(pad[l].apply(n));
         }
         result.append(" |\n").append(separator);
         for (int s = 0; s < strings.size(); s++) {
             result.append("| ");
-
+                    
             for (int l = 0; l < length; l++) {
                 String string = strings.get(s)[l];
-
+                
                 if (l > 0)
                     result.append(" | ");
-
+                
                 result.append(pad[l].apply(string));
             }
-
+            
             result.append(" |\n");
         }
-
+        
         return result.append(separator).toString();
     }
 }
