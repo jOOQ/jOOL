@@ -1122,6 +1122,16 @@ public class SeqTest {
     }
 
     @Test
+    public void testToMapWithMergeFunction() {
+        Map<String, Integer> expected = new HashMap<>();
+        expected.put("a", 1);
+        expected.put("b", 6);
+        expected.put("c", 3);
+
+        assertEquals(expected, Seq.of(tuple("a", 1), tuple("b", 2), tuple("c", 3), tuple("b", 4)).toMap(Tuple2::v1, Tuple2::v2, Integer::sum));
+    }
+
+    @Test
     public void testToIdentityMap() {
         LocalDate v1_0 = LocalDate.of(1996, 1, 23);
         LocalDate v1_1 = LocalDate.of(1997, 2, 19);

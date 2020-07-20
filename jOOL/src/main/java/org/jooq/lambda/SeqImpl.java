@@ -587,15 +587,27 @@ class SeqImpl<T> implements Seq<T> {
     public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
         return Seq.toCollection(this, factory);
     }
-    
-    @Override
-    public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
-        return Seq.toMap(this, keyMapper, valueMapper);
-    }
 
     @Override
     public <K> Map<K, T> toMap(Function<? super T, ? extends K> keyMapper) {
         return toMap(keyMapper, Function.identity());
+    }
+
+    @Override
+    public <K, V> Map<K, V> toMap(
+        Function<? super T, ? extends K> keyMapper,
+        Function<? super T, ? extends V> valueMapper
+    ) {
+        return Seq.toMap(this, keyMapper, valueMapper);
+    }
+
+    @Override
+    public <K, V> Map<K, V> toMap(
+        Function<? super T, ? extends K> keyMapper,
+        Function<? super T, ? extends V> valueMapper,
+        BinaryOperator<V> mergeFunction
+    ) {
+        return collect(Collectors.toMap(keyMapper, valueMapper, mergeFunction));
     }
 
     @Override

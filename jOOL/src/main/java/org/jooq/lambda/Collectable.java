@@ -23,12 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -712,14 +707,23 @@ public interface Collectable<T> {
     <C extends Collection<T>> C toCollection(Supplier<C> factory);
 
     /**
+     * Collect the collectable into a {@link Map} with the given keys and the self element as value.
+     */
+    <K> Map<K, T> toMap(Function<? super T, ? extends K> keyMapper);
+
+    /**
      * Collect the collectable into a {@link Map}.
      */
     <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper);
 
     /**
-     * Collect the collectable into a {@link Map} with the given keys and the self element as value.
+     * Collect the collectable into a {@link Map} using a merge function which merges values on key collisions.
      */
-    <K> Map<K, T> toMap(Function<? super T, ? extends K> keyMapper);
+    <K, V> Map<K, V> toMap(
+        Function<? super T, ? extends K> keyMapper,
+        Function<? super T, ? extends V> valueMapper,
+        BinaryOperator<V> mergeFunction
+    );
 
     /**
      * Consume a stream and concatenate all elements using a separator.
