@@ -170,7 +170,7 @@ public class CheckedBiFunctionTest {
 
     private <E extends Exception> void assertBiFunction(BiFunction<Object, Object, Object> test, Class<E> type) {
         assertNotNull(test);
-
+        
         try {
             test.apply(null, null);
             fail();
@@ -183,7 +183,7 @@ public class CheckedBiFunctionTest {
             Map<Object, Object> map = new LinkedHashMap<>();
             map.put("a", "b");
             map.computeIfPresent("a", test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a:b");
         }
@@ -194,7 +194,7 @@ public class CheckedBiFunctionTest {
         try {
             test.applyAsInt(null, null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:null");
         }
@@ -216,7 +216,7 @@ public class CheckedBiFunctionTest {
         try {
             test.applyAsDouble(null, null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:null");
         }
@@ -224,12 +224,12 @@ public class CheckedBiFunctionTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

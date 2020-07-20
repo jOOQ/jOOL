@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.jooq.lambda.Seq;
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function4;
 
@@ -348,34 +348,34 @@ public class Tuple4<T1, T2, T3, T4> implements Tuple, Comparable<Tuple4<T1, T2, 
     }
 
     public final <K> Map<K, ?> toMap(
-        Supplier<? extends K> keySupplier1,
-        Supplier<? extends K> keySupplier2,
-        Supplier<? extends K> keySupplier3,
+        Supplier<? extends K> keySupplier1, 
+        Supplier<? extends K> keySupplier2, 
+        Supplier<? extends K> keySupplier3, 
         Supplier<? extends K> keySupplier4
     ) {
         Map<K, Object> result = new LinkedHashMap<>();
-
+        
         result.put(keySupplier1.get(), v1);
         result.put(keySupplier2.get(), v2);
         result.put(keySupplier3.get(), v3);
         result.put(keySupplier4.get(), v4);
-
+        
         return result;
     }
 
     public final <K> Map<K, ?> toMap(
-        K key1,
-        K key2,
-        K key3,
+        K key1, 
+        K key2, 
+        K key3, 
         K key4
     ) {
         Map<K, Object> result = new LinkedHashMap<>();
-
+        
         result.put(key1, v1);
         result.put(key2, v2);
         result.put(key3, v3);
         result.put(key4, v4);
-
+        
         return result;
     }
 

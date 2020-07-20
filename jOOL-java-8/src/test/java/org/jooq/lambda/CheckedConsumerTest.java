@@ -171,7 +171,7 @@ public class CheckedConsumerTest {
         try {
             test.accept(null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null");
         }
@@ -189,14 +189,14 @@ public class CheckedConsumerTest {
         try {
             test.accept(0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             Arrays.stream(new int[]{1, 2, 3}).forEach(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -207,14 +207,14 @@ public class CheckedConsumerTest {
         try {
             test.accept(0L);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             Arrays.stream(new long[]{1L, 2L, 3L}).forEach(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -225,14 +225,14 @@ public class CheckedConsumerTest {
         try {
             test.accept(0.0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             Arrays.stream(new double[]{1.0, 2.0, 3.0}).forEach(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1.0");
         }
@@ -240,12 +240,12 @@ public class CheckedConsumerTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

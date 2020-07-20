@@ -47,8 +47,8 @@ public class Example {
                .format()
         );
         System.out.println();
-
-
+        
+        
         System.out.println(
             Seq.of("a", "a", "a", "b", "c", "c", "d", "e")
                .window(naturalOrder())
@@ -63,10 +63,10 @@ public class Example {
                .format()
         );
         System.out.println();
-
-
+        
+        
         BigDecimal currentBalance = new BigDecimal("19985.81");
-
+        
         System.out.println(
             Seq.of(
                     tuple(9997, "2014-03-18", new BigDecimal("99.17")),
@@ -81,12 +81,12 @@ public class Example {
                .format()
         );
         System.out.println();
-
+        
         System.out.println(
         Seq.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
             .window(i -> i % 2, -1, 1)
             .map(w -> tuple(w.value(), w.sum()))
-
+                
             .format());
     }
 }

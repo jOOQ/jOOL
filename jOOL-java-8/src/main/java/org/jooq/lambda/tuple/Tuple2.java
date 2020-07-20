@@ -27,7 +27,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.jooq.lambda.Seq;
+import org.jooq.lambda.Seq;                
 import org.jooq.lambda.function.Function1;
 import org.jooq.lambda.function.Function2;
 
@@ -343,26 +343,26 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     }
 
     public final <K> Map<K, ?> toMap(
-        Supplier<? extends K> keySupplier1,
+        Supplier<? extends K> keySupplier1, 
         Supplier<? extends K> keySupplier2
     ) {
         Map<K, Object> result = new LinkedHashMap<>();
-
+        
         result.put(keySupplier1.get(), v1);
         result.put(keySupplier2.get(), v2);
-
+        
         return result;
     }
 
     public final <K> Map<K, ?> toMap(
-        K key1,
+        K key1, 
         K key2
     ) {
         Map<K, Object> result = new LinkedHashMap<>();
-
+        
         result.put(key1, v1);
         result.put(key2, v2);
-
+        
         return result;
     }
 

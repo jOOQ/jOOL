@@ -683,7 +683,7 @@ public class CollectorTests {
         assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21).collect(denseRankBy("u", i -> strings[i])));
         assertEquals(Optional.of(6L), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(denseRankBy("u", i -> strings[i])));
     }
-
+    
     @Test
     public void testPercentRank() {
 
@@ -848,10 +848,10 @@ public class CollectorTests {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(minBy(i -> -i)));
         assertEquals(Optional.of(1), Seq.of(1, 2, 3).collect(maxBy(i -> -i)));
     }
-
+    
     @Test
     public void testAllAnyNone() {
-
+        
         // jOOL API with explicit collectors
         // ---------------------------------
         assertEquals(true, Seq.<Integer>of().collect(allMatch(i -> i % 3 == 0)));
@@ -859,20 +859,20 @@ public class CollectorTests {
         assertEquals(true, Seq.of(0, 3).collect(allMatch(i -> i % 3 == 0)));
         assertEquals(false, Seq.of(0, 3, 4).collect(allMatch(i -> i % 3 == 0)));
         assertEquals(false, Seq.of(0, 3, 4, 5).collect(allMatch(i -> i % 3 == 0)));
-
+        
         assertEquals(false, Seq.<Integer>of().collect(anyMatch(i -> i % 3 == 0)));
         assertEquals(false, Seq.of(1, 2).collect(anyMatch(i -> i % 3 == 0)));
         assertEquals(true, Seq.of(1, 2, 3).collect(anyMatch(i -> i % 3 == 0)));
         assertEquals(true, Seq.of(1, 2, 3, 4).collect(anyMatch(i -> i % 3 == 0)));
         assertEquals(true, Seq.of(1, 2, 3, 4, 5).collect(anyMatch(i -> i % 3 == 0)));
-
+        
         assertEquals(true, Seq.<Integer>of().collect(noneMatch(i -> i % 3 == 0)));
         assertEquals(true, Seq.of(1).collect(noneMatch(i -> i % 3 == 0)));
         assertEquals(true, Seq.of(1, 2).collect(noneMatch(i -> i % 3 == 0)));
         assertEquals(false, Seq.of(1, 2, 3, 4).collect(noneMatch(i -> i % 3 == 0)));
         assertEquals(false, Seq.of(1, 2, 3, 4, 5).collect(noneMatch(i -> i % 3 == 0)));
-
-
+        
+        
         // Stream API with implicit collectors
         // -----------------------------------
         assertEquals(true, Seq.<Integer>of().allMatch(i -> i % 3 == 0));
@@ -880,20 +880,20 @@ public class CollectorTests {
         assertEquals(true, Seq.of(0, 3).allMatch(i -> i % 3 == 0));
         assertEquals(false, Seq.of(0, 3, 4).allMatch(i -> i % 3 == 0));
         assertEquals(false, Seq.of(0, 3, 4, 5).allMatch(i -> i % 3 == 0));
-
+        
         assertEquals(false, Seq.<Integer>of().anyMatch(i -> i % 3 == 0));
         assertEquals(false, Seq.of(1, 2).anyMatch(i -> i % 3 == 0));
         assertEquals(true, Seq.of(1, 2, 3).anyMatch(i -> i % 3 == 0));
         assertEquals(true, Seq.of(1, 2, 3, 4).anyMatch(i -> i % 3 == 0));
         assertEquals(true, Seq.of(1, 2, 3, 4, 5).anyMatch(i -> i % 3 == 0));
-
+        
         assertEquals(true, Seq.<Integer>of().noneMatch(i -> i % 3 == 0));
         assertEquals(true, Seq.of(1).noneMatch(i -> i % 3 == 0));
         assertEquals(true, Seq.of(1, 2).noneMatch(i -> i % 3 == 0));
         assertEquals(false, Seq.of(1, 2, 3, 4).noneMatch(i -> i % 3 == 0));
         assertEquals(false, Seq.of(1, 2, 3, 4, 5).noneMatch(i -> i % 3 == 0));
     }
-
+    
     @Test
     public void testCommonPrefix() {
         assertEquals("", Seq.<String>of().collect(Agg.commonPrefix()));
@@ -906,7 +906,7 @@ public class CollectorTests {
         assertEquals("AB", Seq.of("ABC", "ABCD", "ABD").collect(Agg.commonPrefix()));
         assertEquals("AABB", Seq.of("AABBCC", "AABBDD", "AABBE").collect(Agg.commonPrefix()));
     }
-
+    
     @Test
     public void testCommonSuffix() {
         assertEquals("", Seq.<String>of().collect(Agg.commonSuffix()));
@@ -923,7 +923,7 @@ public class CollectorTests {
         assertEquals("BA", Seq.of("CBA", "DCBA", "DBA").collect(Agg.commonSuffix()));
         assertEquals("BBAA", Seq.of("CCBBAA", "DDBBAA", "EBBAA").collect(Agg.commonSuffix()));
     }
-
+    
     @Test
     public void testFilter() {
         assertEquals(0L, (long) Seq.<Integer>of().collect(Agg.filter(t -> false, Agg.count())));

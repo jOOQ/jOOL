@@ -172,18 +172,18 @@ public class CheckedBinaryOperatorTest {
 
     private <E extends Exception> void assertBinaryOperator(BinaryOperator<Object> test, Class<E> type) {
         assertNotNull(test);
-
+        
         try {
             test.apply(null, null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null:null");
         }
 
         try {
             Stream.of((Object) "a", "b", "c").reduce(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a:b");
         }
@@ -194,7 +194,7 @@ public class CheckedBinaryOperatorTest {
         try {
             test.applyAsInt(0, 0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0:0");
         }
@@ -211,7 +211,7 @@ public class CheckedBinaryOperatorTest {
         try {
             test.applyAsLong(0L, 0L);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0:0");
         }
@@ -228,14 +228,14 @@ public class CheckedBinaryOperatorTest {
         try {
             test.applyAsDouble(0.0, 0.0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0.0:0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).reduce(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1.0:2.0");
         }
@@ -243,12 +243,12 @@ public class CheckedBinaryOperatorTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

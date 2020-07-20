@@ -94,7 +94,7 @@ public interface Window<T> extends Collectable<T> {
     static <T> WindowSpecification<T> of() {
         return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, null, Long.MIN_VALUE, Long.MAX_VALUE);
     }
-
+        
     static <T> WindowSpecification<T> of(long lower, long upper) {
         return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, null, lower, upper);
     }
@@ -102,15 +102,15 @@ public interface Window<T> extends Collectable<T> {
     static <T> WindowSpecification<T> of(Comparator<? super T> orderBy) {
         return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, orderBy, Long.MIN_VALUE, 0);
     }
-
+    
     static <T> WindowSpecification<T> of(Comparator<? super T> orderBy, long lower, long upper) {
         return new WindowSpecificationImpl<>(t -> SeqImpl.NULL, orderBy, lower, upper);
     }
-
+    
     static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy) {
         return new WindowSpecificationImpl<>(partitionBy, null, Long.MIN_VALUE, Long.MAX_VALUE);
     }
-
+        
     static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, long lower, long upper) {
         return new WindowSpecificationImpl<>(partitionBy, null, lower, upper);
     }
@@ -118,21 +118,21 @@ public interface Window<T> extends Collectable<T> {
     static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy) {
         return new WindowSpecificationImpl<>(partitionBy, orderBy, Long.MIN_VALUE, 0);
     }
-
+    
     static <T, U> WindowSpecification<T> of(Function<? super T, ? extends U> partitionBy, Comparator<? super T> orderBy, long lower, long upper) {
         return new WindowSpecificationImpl<>(partitionBy, orderBy, lower, upper);
     }
-
+  
     /**
      * The value of the current row in the window.
      */
     T value();
-
+    
     /**
      * Stream all elements in the window.
      */
     Seq<T> window();
-
+    
     /**
      * The row number of the current row within the partition.
      * <p>
@@ -142,7 +142,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     long rowNumber();
-
+    
     /**
      * The rank of the current row within the partition.
      * <p>
@@ -152,7 +152,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     long rank();
-
+    
     /**
      * The dense rank of the current row within the partition.
      * <p>
@@ -162,7 +162,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     long denseRank();
-
+    
     /**
      * The precent rank of the current row within the partition.
      * <p>
@@ -172,7 +172,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     double percentRank();
-
+    
     /**
      * The bucket number ("ntile") of the current row within the partition.
      * <p>
@@ -182,7 +182,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     long ntile(long buckets);
-
+    
     /**
      * The next value in the window.
      * <p>
@@ -194,7 +194,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     Optional<T> lead();
-
+    
     /**
      * The next value by <code>lead</code> in the window.
      * <p>
@@ -204,7 +204,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     Optional<T> lead(long lead);
-
+    
     /**
      * The previous value in the window.
      * <p>
@@ -216,7 +216,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     Optional<T> lag();
-
+    
     /**
      * The previous value by <code>lag</code> in the window.
      * <p>
@@ -226,7 +226,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     Optional<T> lag(long lag);
-
+    
     /**
      * The first value in the window.
      * <p>
@@ -246,7 +246,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     <U> Optional<U> firstValue(Function<? super T, ? extends U> function);
-
+    
     /**
      * The last value in the window.
      * <p>
@@ -256,7 +256,7 @@ public interface Window<T> extends Collectable<T> {
      * </code></pre>
      */
     Optional<T> lastValue();
-
+    
     /**
      * The last value in the window.
      * <p>

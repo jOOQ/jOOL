@@ -5,9 +5,9 @@ import java.util.concurrent.ThreadFactory;
 
 final class ThreadFactories {
     private ThreadFactories() {
-
+    
     }
-
+    
     public static ThreadFactory daemon() {
         return new ThreadFactory() {
             @Override

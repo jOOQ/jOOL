@@ -57,7 +57,7 @@ public class PartialApplicationTest {
     }
 
     int result;
-
+    
     private <A, B, C, D, E> Consumer5<A, B, C, D, E> lift(Consumer5<A, B, C, D, E> func) {
         return func;
     }
@@ -65,7 +65,7 @@ public class PartialApplicationTest {
     private void fiveArgConsumer(int a, int b, int c, int d, int e) {
         result = a + b * c / d - e;
     }
-
+    
     @Test
     public void testConsumer5to3() {
         Tuple2<Integer, Integer> t1 = tuple(4, 4);

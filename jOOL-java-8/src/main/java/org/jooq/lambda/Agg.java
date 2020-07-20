@@ -50,7 +50,7 @@ public class Agg {
             (c, t) -> {
                 if (predicate.test(t))
                     downstream.accumulator().accept(c, t);
-            },
+            }, 
             downstream.combiner(),
             downstream.finisher()
         );
@@ -59,10 +59,10 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>FIRST</code> function.
      * <p>
-     * Note that unlike in (Oracle) SQL, where the <code>FIRST</code> function
+     * Note that unlike in (Oracle) SQL, where the <code>FIRST</code> function 
      * is an ordered set aggregate function that produces a set of results, this
      * collector just produces the first value in the order of stream traversal.
-     * For matching behaviour to Oracle's [ aggregate function ] KEEP
+     * For matching behaviour to Oracle's [ aggregate function ] KEEP 
      * (DENSE_RANK FIRST ORDER BY ... ), use {@link #maxAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> first() {
@@ -72,10 +72,10 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>LAST</code> function.
      * <p>
-     * Note that unlike in (Oracle) SQL, where the <code>FIRST</code> function
+     * Note that unlike in (Oracle) SQL, where the <code>FIRST</code> function 
      * is an ordered set aggregate function that produces a set of results, this
      * collector just produces the first value in the order of stream traversal.
-     * For matching behaviour to Oracle's [ aggregate function ] KEEP
+     * For matching behaviour to Oracle's [ aggregate function ] KEEP 
      * (DENSE_RANK LAST ORDER BY ... ), use {@link #minAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> last() {
@@ -113,7 +113,7 @@ public class Agg {
             s -> (long) s.size()
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>SUM()</code> for any
      * type of {@link Number}.
@@ -121,7 +121,7 @@ public class Agg {
     public static <T> Collector<T, ?, Optional<T>> sum() {
         return sum(t -> t);
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>SUM()</code> for any
      * type of {@link Number}.
@@ -129,10 +129,10 @@ public class Agg {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> sum(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
-            (s, v) -> {
+            (s, v) -> { 
                 if (s[0] == null)
                     s[0] = Sum.create(function.apply(v));
-                else
+                else 
                     s[0].add(function.apply(v));
             },
             (s1, s2) -> {
@@ -142,7 +142,7 @@ public class Agg {
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>AVG()</code> for any
      * type of {@link Number}.
@@ -150,7 +150,7 @@ public class Agg {
     public static <T> Collector<T, ?, Optional<T>> avg() {
         return avg(t -> t);
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>AVG()</code> for any
      * type of {@link Number}.
@@ -159,7 +159,7 @@ public class Agg {
     public static <T, U> Collector<T, ?, Optional<U>> avg(Function<? super T, ? extends U> function) {
         return Collector.of(
             () -> (Sum<U>[]) new Sum[1],
-            (s, v) -> {
+            (s, v) -> { 
                 if (s[0] == null)
                     s[0] = Sum.create(function.apply(v));
                 else
@@ -214,7 +214,7 @@ public class Agg {
     public static <T, U> Collector<T, ?, Optional<T>> minBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return maxBy(function, comparator.reversed());
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>MIN()</code> function, producing multiple results.
      */
@@ -298,31 +298,31 @@ public class Agg {
     public static <T, U> Collector<T, ?, Optional<T>> maxBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         class Accumulator {
             T t;
-            U u;
+            U u;    
         }
-
+        
         return Collector.of(
             () -> new Accumulator(),
             (a, t) -> {
                 U u = function.apply(t);
-
+                
                 if (a.u == null || comparator.compare(a.u, u) < 0) {
                     a.t = t;
                     a.u = u;
                 }
             },
-            (a1, a2) ->
+            (a1, a2) -> 
                   a1.u == null
                 ? a2
                 : a2.u == null
                 ? a1
-                : comparator.compare(a1.u, a2.u) < 0
-                ? a2
+                : comparator.compare(a1.u, a2.u) < 0 
+                ? a2 
                 : a1,
             a -> Optional.ofNullable(a.t)
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>MAX()</code> function, producing multiple results.
      */
@@ -371,7 +371,7 @@ public class Agg {
                 this.u = u;
             }
         }
-
+        
         return Collector.of(
             () -> new Accumulator(),
             (a, t) -> {
@@ -381,8 +381,8 @@ public class Agg {
                 }
                 else {
                     int compare = comparator.compare(a.u, u);
-
-                    if (compare < 0)
+                    
+                    if (compare < 0) 
                         a.set(t, u);
                     else if (compare == 0)
                         a.t.add(t);
@@ -393,14 +393,14 @@ public class Agg {
                     return a2;
                 if (a2.u == null)
                     return a1;
-
+                
                 int compare = comparator.compare(a1.u, a2.u);
-
+                
                 if (compare < 0)
                     return a1;
                 else if (compare > 0)
                     return a2;
-
+                
                 a1.t.addAll(a2.t);
                 return a1;
             },
@@ -455,7 +455,7 @@ public class Agg {
     public static Collector<Boolean, ?, Boolean> noneMatch() {
         return noneMatch(t -> t);
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>NONE()</code> function.
      */
@@ -470,7 +470,7 @@ public class Agg {
     public static <T> Collector<T, ?, Optional<T>> bitAnd() {
         return bitAnd(t -> t);
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
@@ -478,10 +478,10 @@ public class Agg {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitAnd(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
-            (s, v) -> {
+            (s, v) -> { 
                 if (s[0] == null)
                     s[0] = Sum.create(function.apply(v));
-                else
+                else 
                     s[0].and(function.apply(v));
             },
             (s1, s2) -> {
@@ -491,14 +491,14 @@ public class Agg {
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
     public static <T, U> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[] { Integer.MAX_VALUE },
-            (s, v) -> {
+            (s, v) -> { 
                 s[0] = s[0] & function.applyAsInt(v);
             },
             (s1, s2) -> {
@@ -508,14 +508,14 @@ public class Agg {
             s -> s[0]
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
     public static <T, U> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[] { Long.MAX_VALUE },
-            (s, v) -> {
+            (s, v) -> { 
                 s[0] = s[0] & function.applyAsLong(v);
             },
             (s1, s2) -> {
@@ -533,7 +533,7 @@ public class Agg {
     public static <T> Collector<T, ?, Optional<T>> bitOr() {
         return bitOr(t -> t);
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
@@ -541,10 +541,10 @@ public class Agg {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitOr(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
-            (s, v) -> {
+            (s, v) -> { 
                 if (s[0] == null)
                     s[0] = Sum.create(function.apply(v));
-                else
+                else 
                     s[0].or(function.apply(v));
             },
             (s1, s2) -> {
@@ -554,14 +554,14 @@ public class Agg {
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
     public static <T, U> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[1],
-            (s, v) -> {
+            (s, v) -> { 
                 s[0] = s[0] | function.applyAsInt(v);
             },
             (s1, s2) -> {
@@ -571,14 +571,14 @@ public class Agg {
             s -> s[0]
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
     public static <T, U> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[1],
-            (s, v) -> {
+            (s, v) -> { 
                 s[0] = s[0] | function.applyAsLong(v);
             },
             (s1, s2) -> {
@@ -602,7 +602,7 @@ public class Agg {
     public static <T> Collector<T, ?, Seq<T>> modeAll() {
         return mode0(seq -> seq.maxAllBy(t -> t.v2).map(t -> t.v1));
     }
-
+    
     private static <T, X> Collector<T, ?, X> mode0(Function<? super Seq<Tuple2<T, Long>>, ? extends X> transformer) {
         return Collector.of(
             () -> new LinkedHashMap<T, Long>(),
@@ -636,7 +636,7 @@ public class Agg {
             (m1, m2) -> {
                 for (Entry<U, List<T>> e : m2.entrySet()) {
                     List<T> l = m1.get(e.getKey());
-
+                    
                     if (l == null)
                         m1.put(e.getKey(), e.getValue());
                     else
@@ -676,17 +676,17 @@ public class Agg {
     public static <T, U> Collector<T, ?, Optional<Long>> rankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return Collector.of(
             () -> new long[] { -1L },
-            (l, v) -> {
+            (l, v) -> { 
                 if (l[0] == -1L)
                     l[0] = 0L;
-
+                
                 if (comparator.compare(value, function.apply(v)) > 0)
                     l[0] = l[0] + 1L;
             },
             (l1, l2) -> {
-                l1[0] = (l1[0] == -1 ? 0L : l1[0]) +
+                l1[0] = (l1[0] == -1 ? 0L : l1[0]) + 
                         (l2[0] == -1 ? 0L : l2[0]);
-
+                
                 return l1;
             },
             l -> l[0] == -1 ? Optional.empty() : Optional.of((long) l[0])
@@ -723,7 +723,7 @@ public class Agg {
             (l, v) -> {
                 if (l[0] == null)
                     l[0] = new TreeSet<>(comparator);
-
+                
                 U u = function.apply(v);
                 if (comparator.compare(value, u) > 0)
                     l[0].add(u);
@@ -733,7 +733,7 @@ public class Agg {
                     return l1;
                 else if (l1[0] == null)
                     return l2;
-
+                
                 l1[0].addAll(l2[0]);
                 return l1;
             },
@@ -886,7 +886,7 @@ public class Agg {
             }
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the common prefix of a set of strings.
      */
@@ -905,7 +905,7 @@ public class Agg {
             s -> s.map(Objects::toString).orElse("")
         );
     }
-
+    
     /**
      * Get a {@link Collector} that calculates the common suffix of a set of strings.
      */

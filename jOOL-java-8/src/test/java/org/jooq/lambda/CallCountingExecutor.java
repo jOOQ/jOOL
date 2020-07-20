@@ -10,7 +10,7 @@ final class CallCountingExecutor implements Executor {
     public static CallCountingExecutor wrap(Executor delegate) {
         return new CallCountingExecutor(new AtomicInteger(0), delegate);
     }
-
+    
     CallCountingExecutor(AtomicInteger counter, Executor delegate) {
         this.counter = counter;
         this.delegate = delegate;

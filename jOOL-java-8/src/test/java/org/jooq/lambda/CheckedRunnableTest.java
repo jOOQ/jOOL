@@ -65,7 +65,7 @@ public class CheckedRunnableTest {
         try {
             test.run();
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "runnable");
         }
@@ -73,12 +73,12 @@ public class CheckedRunnableTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());
@@ -98,7 +98,7 @@ public class CheckedRunnableTest {
         try {
             test.run();
             fail();
-        }
+        } 
         catch (Throwable e) {
             assertEquals("runnable", e.getMessage());
         }

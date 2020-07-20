@@ -492,7 +492,7 @@ public class CheckedFunctionTest {
         try {
             test.apply(null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null");
         }
@@ -500,7 +500,7 @@ public class CheckedFunctionTest {
         try {
             Map<Object, Object> map = new LinkedHashMap<>();
             map.computeIfAbsent("a", test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a");
         }
@@ -511,7 +511,7 @@ public class CheckedFunctionTest {
         try {
             test.applyAsInt(null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null");
         }
@@ -536,7 +536,7 @@ public class CheckedFunctionTest {
 
         try {
             Stream.of("1", "2", "3").mapToLong(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a");
         }
@@ -547,14 +547,14 @@ public class CheckedFunctionTest {
         try {
             test.applyAsDouble(null);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "null");
         }
 
         try {
             Stream.of("1", "2", "3").mapToDouble(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "a");
         }
@@ -572,7 +572,7 @@ public class CheckedFunctionTest {
 
         try {
             IntStream.of(1, 2, 3).mapToObj(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -583,14 +583,14 @@ public class CheckedFunctionTest {
         try {
             test.applyAsLong(0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).mapToLong(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -601,14 +601,14 @@ public class CheckedFunctionTest {
         try {
             test.applyAsDouble(0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             IntStream.of(1, 2, 3).mapToDouble(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -619,14 +619,14 @@ public class CheckedFunctionTest {
         try {
             test.apply(0L);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).mapToObj(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -637,14 +637,14 @@ public class CheckedFunctionTest {
         try {
             test.applyAsInt(0L);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0");
         }
 
         try {
             LongStream.of(1L, 2L, 3L).mapToInt(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -662,7 +662,7 @@ public class CheckedFunctionTest {
 
         try {
             LongStream.of(1L, 2L, 3L).mapToDouble(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1");
         }
@@ -673,7 +673,7 @@ public class CheckedFunctionTest {
         try {
             test.apply(0.0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0.0");
         }
@@ -691,14 +691,14 @@ public class CheckedFunctionTest {
         try {
             test.applyAsInt(0.0);
             fail();
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "0.0");
         }
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).mapToInt(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1.0");
         }
@@ -716,7 +716,7 @@ public class CheckedFunctionTest {
 
         try {
             DoubleStream.of(1.0, 2.0, 3.0).mapToLong(test);
-        }
+        } 
         catch (Exception e) {
             assertException(type, e, "1.0");
         }
@@ -724,12 +724,12 @@ public class CheckedFunctionTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());

@@ -72,13 +72,13 @@ class SeqUtils {
             public int characteristics() {
                 return delegate.characteristics() & Spliterator.ORDERED;
             }
-
+            
             @Override
             @SuppressWarnings("unchecked")
             public Comparator<? super U> getComparator() {
-
+                
                 // This implementation works with the JDK 8, as the information
-                // is really only used in
+                // is really only used in 
                 // java.util.stream.StreamOpFlag.fromCharacteristics(Spliterator<?> spliterator)
                 // Currently, the point of this method is only to be used for
                 // optimisations (e.g. to avoid sorting a stream twice in a row)
@@ -86,10 +86,10 @@ class SeqUtils {
             }
         }).onClose(() -> stream.close());
     }
-
+    
     static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
         return seq(input).groupBy(
-            window.partition().compose(t -> t.v1),
+            window.partition().compose(t -> t.v1), 
             Collector.<
                 Tuple2<T, Long>,
                 Collection<Tuple2<T, Long>>,
@@ -112,7 +112,7 @@ class SeqUtils {
 
         return OptionalLong.empty();
     }
-
+    
     /**
      * Sneaky throw any type of Throwable.
      */
@@ -132,11 +132,11 @@ class SeqUtils {
     interface DelegatingSpliterator<T, U> {
         boolean tryAdvance(Spliterator<? extends T> delegate, Consumer<? super U> action);
     }
-
+    
     static Runnable closeAll(AutoCloseable... closeables) {
         return () -> {
             Throwable t = null;
-
+            
             for (AutoCloseable closeable : closeables) {
                 try {
                     closeable.close();
@@ -148,7 +148,7 @@ class SeqUtils {
                         t.addSuppressed(t1);
                 }
             }
-
+            
             if (t != null)
                 sneakyThrow(t);
         };

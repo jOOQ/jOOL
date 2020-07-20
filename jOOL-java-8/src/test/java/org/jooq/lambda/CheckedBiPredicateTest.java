@@ -63,7 +63,7 @@ public class CheckedBiPredicateTest {
 
     private <E extends Exception> void assertBiPredicate(BiPredicate<Object, Object> test, Class<E> type) {
         assertNotNull(test);
-
+        
         try {
             test.test(null, null);
             fail();
@@ -75,12 +75,12 @@ public class CheckedBiPredicateTest {
 
     private <E extends Exception> void assertException(Class<E> type, Exception e, String message) {
         assertEquals(type, e.getClass());
-
+        
         // Sneaky
         if (e.getCause() == null) {
             assertEquals(message, e.getMessage());
         }
-
+        
         // Unchecked
         else {
             assertEquals(Exception.class, e.getCause().getClass());
