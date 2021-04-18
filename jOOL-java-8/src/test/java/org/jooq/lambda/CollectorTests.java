@@ -34,6 +34,7 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -306,6 +307,79 @@ public class CollectorTests {
         // Illegal args
         Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(-1, String::length)));
         Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(2, String::length)));
+    }
+
+    @Test
+    public void testPercentileWithStringsAndFunctionWithDifferentValues() {
+
+        // In the test testPercentileWithStringsAndFunction, the values (length) of the items are all the same,
+        // The function used in this test will take the first character of each string to be compared.
+        Function<String, Character> getFirstLetter = s -> s.length() == 0 ? 0 : s.charAt(0);
+
+        // Min
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.0, getFirstLetter)));
+
+        // 0.25 percentile
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.25, getFirstLetter)));
+
+        // Median
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.5, getFirstLetter)));
+
+        // 0.75 percentile
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.75, getFirstLetter)));
+
+        // Max
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, getFirstLetter)));
     }
 
     @Test

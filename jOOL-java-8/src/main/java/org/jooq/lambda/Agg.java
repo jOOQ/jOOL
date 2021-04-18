@@ -911,6 +911,17 @@ public class Agg {
         if (percentile < 0.0 || percentile > 1.0)
             throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
 
+        if (percentile == 0.0)
+            // If percentile is 0, this is the same as taking the item with the minimum value.
+            return minBy(function, comparator);
+        else if (percentile == 1.0)
+            // If percentile is 1, this is the same as taking the item with the maximum value,
+            // If there are multiple maxima, take the last one.
+            return maxBy(function, (o1, o2) -> {
+                int compareResult = comparator.compare(o1, o2);
+                return compareResult == 0 ? -1 : compareResult;
+            });
+
         // At a later stage, we'll optimise this implementation in case that function is the identity function
         return Collector.of(
             () -> new ArrayList<Tuple2<T, U>>(),
@@ -928,11 +939,6 @@ public class Agg {
                     return Optional.of(l.get(0).v1);
 
                 l.sort(Comparator.comparing(t -> t.v2, comparator));
-
-                if (percentile == 0.0)
-                    return Optional.of(l.get(0).v1);
-                else if (percentile == 1.0)
-                    return Optional.of(l.get(size - 1).v1);
 
                 // x.5 should be rounded down
                 return Optional.of(l.get((int) -Math.round(-(size * percentile + 0.5)) - 1).v1);
