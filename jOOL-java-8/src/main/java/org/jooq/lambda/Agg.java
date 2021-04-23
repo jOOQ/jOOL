@@ -905,7 +905,7 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering.
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering or the ordering of the index.
      */
     public static <T, U> Collector<T, ?, Optional<T>> percentileBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         if (percentile < 0.0 || percentile > 1.0)
