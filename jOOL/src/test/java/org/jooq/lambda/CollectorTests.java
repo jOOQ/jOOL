@@ -36,6 +36,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
+import java.util.function.Function;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple9;
