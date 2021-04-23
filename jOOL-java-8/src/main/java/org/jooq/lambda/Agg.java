@@ -911,6 +911,7 @@ public class Agg {
         if (percentile < 0.0 || percentile > 1.0)
             throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
 
+        // CS304 Issue link: https://github.com/jOOQ/jOOL/issues/376
         if (percentile == 0.0)
             // If percentile is 0, this is the same as taking the item with the minimum value.
             return minBy(function, comparator);
