@@ -42,7 +42,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
     public final T1 v1;
     public final T2 v2;
-    public static boolean swap;
+    public boolean swap;
 
     public T1 v1() {
         return v1;
