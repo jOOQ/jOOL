@@ -250,6 +250,31 @@ public class TupleTest {
         assertEquals(range(1, 3), range(3, 1));
     }
 
+    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/352
+    @Test
+    public void testRangeNotSwapByDefault(){
+        assertFalse(range(1, 3, false).equals(range(3, 1, false)));
+        assertEquals(Optional.empty(), range(3, 1, false).intersect(range(4, 2, false)));
+    }
+
+    @Test
+    public void testRangeNotSwapFunctions(){
+        /* contains */
+        assertFalse(range(3, 1,false).contains(2));
+        assertFalse(range(3, 1,false).contains(range(1, 1)));
+        assertTrue(range(1, 1).contains(range(3, 1,false)));
+
+        /* intersect */
+        assertEquals(Optional.empty(), range(3, 1, false).intersect(range(2, 4)));
+        assertEquals(Optional.empty(), range(2, 4).intersect(range(3, 1, false)));
+
+        /* overlap */
+        assertFalse(range(3, 5).overlaps(range(4, 1,false)));
+        assertFalse(range(4, 1,false).overlaps(range(3, 5)));
+
+    }
+
+
     @Test
     public void testRangeContainsValue() {
         assertFalse(range(1, 3).contains((Integer) null));
