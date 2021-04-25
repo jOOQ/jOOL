@@ -42,6 +42,7 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
 
     public final T1 v1;
     public final T2 v2;
+    public static boolean swap;
 
     public T1 v1() {
         return v1;
@@ -56,9 +57,30 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
         this.v2 = tuple.v2;
     }
 
+    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/352
+    /**
+     * Instantiates a new Tuple 2.
+     *
+     * @param v1 the v 1
+     * @param v2 the v 2
+     */
     public Tuple2(T1 v1, T2 v2) {
         this.v1 = v1;
         this.v2 = v2;
+        swap=true;
+    }
+
+    /**
+     * Instantiates a new Tuple 2.
+     *
+     * @param v1   the v 1
+     * @param v2   the v 2
+     * @param swap the swap
+     */
+    public Tuple2(T1 v1, T2 v2, boolean swap) {
+        this.v1 = v1;
+        this.v2 = v2;
+        this.swap=swap;
     }
 
     /**

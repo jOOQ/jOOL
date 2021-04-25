@@ -1379,8 +1379,24 @@ public interface Tuple extends Iterable<Object> {
     /**
      * Create a new range with inclusive bounds.
      */
+    //Swap by default.
     static <T extends Comparable<T>> Range<T> range(T lowerInclusive, T upperInclusive) {
         return new Range<>(lowerInclusive, upperInclusive);
+    }
+
+    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/352
+    /**
+     * Range range.
+     *
+     * @param <T>            the type parameter
+     * @param lowerInclusive the lower inclusive
+     * @param upperInclusive the upper inclusive
+     * @param swap           the swap
+     * @return the range
+     */
+    //Choose whether to swap.
+    static <T extends Comparable<T>> Range<T> range(T lowerInclusive, T upperInclusive, boolean swap) {
+        return new Range<>(lowerInclusive, upperInclusive, swap);
     }
 
     /**

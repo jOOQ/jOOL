@@ -32,20 +32,61 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
 
     private static final long serialVersionUID = 1L;
 
+    public static boolean swap;
+
+    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/352
+    /**
+     * Instantiates a new Range.
+     *
+     * @param lowerInclusive the lower inclusive
+     * @param upperInclusive the upper inclusive
+     */
+    //Swap by default.
     public Range(T lowerInclusive, T upperInclusive) {
-        super(r(lowerInclusive, upperInclusive));
+        super(r(lowerInclusive, upperInclusive, true));
     }
 
+    /**
+     * Instantiates a new Range.
+     *
+     * @param lowerInclusive the lower inclusive
+     * @param upperInclusive the upper inclusive
+     * @param swap           the swap
+     */
+    //Choose whether to swap.
+    public Range(T lowerInclusive, T upperInclusive, boolean swap) {
+        super(r(lowerInclusive, upperInclusive, swap));
+    }
+
+    /**
+     * Instantiates a new Range.
+     *
+     * @param tuple the tuple
+     */
     public Range(Tuple2<T, T> tuple) {
-        this(tuple.v1, tuple.v2);
+        this(tuple.v1, tuple.v2, tuple.swap);
     }
 
-    private static <T extends Comparable<T>> Tuple2<T, T> r(T t1, T t2) {
-        if (t1 != null && t2 != null)
+    private static <T extends Comparable<T>> Tuple2<T, T> r (T t1, T t2, boolean swap) {
+        if (t1 != null && t2 != null && swap)
             return t1.compareTo(t2) <= 0 ? new Tuple2<>(t1, t2) : new Tuple2<>(t2, t1);
         else
-            return new Tuple2<>(t1, t2);
+            return new Tuple2<>(t1, t2, swap);
     }
+
+    /**
+     * Is empty boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isEmpty(){
+        if(v1!=null&&v2!=null){
+            return v1.compareTo(v2)>0;
+        }
+        return false;
+    }
+
+
 
     /**
      * Whether two ranges overlap.
@@ -77,6 +118,9 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * </pre></code>
      */
     public boolean overlaps(Range<T> other) {
+        if(isEmpty()||other.isEmpty()){
+            return false;
+        }
         return (v1 == null
             ||  other.v2 == null
             ||  v1.compareTo(other.v2) <= 0)
@@ -176,6 +220,9 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * </pre></code>
      */
     public boolean contains(T t) {
+        if(isEmpty()){
+            return false;
+        }
         return t != null
             && (v1 == null || v1.compareTo(t) <= 0)
             && (v2 == null || v2.compareTo(t) >= 0);
@@ -193,6 +240,12 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
      * </pre></code>
      */
     public boolean contains(Range<T> other) {
+        if(other.isEmpty()){
+            return true;
+        }
+        if(isEmpty()){
+            return false;
+        }
         return (other.v1 == null && v1 == null || contains(other.v1))
             && (other.v2 == null && v2 == null || contains(other.v2));
     }
