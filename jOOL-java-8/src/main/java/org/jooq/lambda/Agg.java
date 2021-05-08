@@ -941,6 +941,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> percentileAll(double percentile) {
@@ -948,6 +949,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T> Collector<T, ?, Seq<T>> percentileAll(double percentile, Comparator<? super T> comparator) {
@@ -955,6 +957,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function) {
@@ -962,6 +965,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T, U> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
@@ -992,7 +996,9 @@ public class Agg {
 
                     l.sort(Comparator.comparing(t -> t.v2, comparator));
 
-                    int left = 0, right = (int) -Math.round(-(size * percentile + 0.5)) - 1, mid;
+                    int left = 0;
+                    int right = (int) -Math.round(-(size * percentile + 0.5)) - 1;
+                    int mid;
 
                     List<T> result = new ArrayList<>();
                     U value = l.get(right).v2;
@@ -1005,7 +1011,7 @@ public class Agg {
                             right = mid;
                     }
 
-                    for (left++; left < size && comparator.compare(l.get(left).v2, value) == 0; left++)
+                    for (; left < size && comparator.compare(l.get(left).v2, value) == 0; left++)
                         result.add(l.get(left).v1);
                     return Seq.seq(result);
                 }
@@ -1013,6 +1019,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
@@ -1020,6 +1027,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
@@ -1027,6 +1035,7 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function) {
@@ -1034,15 +1043,16 @@ public class Agg {
     }
 
     /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given natural ordering, producing multiple results.
      */
     public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return percentileAllBy(0.5, function, comparator);
     }
 
-        /**
-         * Get a {@link Collector} that calculates the common prefix of a set of strings.
-         */
+    /**
+    * Get a {@link Collector} that calculates the common prefix of a set of strings.
+    */
     public static Collector<CharSequence, ?, String> commonPrefix() {
         return Collectors.collectingAndThen(
             Collectors.reducing((CharSequence s1, CharSequence s2) -> {
