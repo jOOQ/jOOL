@@ -15,25 +15,16 @@
  */
 package org.jooq.lambda;
 
-import static org.jooq.lambda.Agg.allMatch;
-import static org.jooq.lambda.Agg.anyMatch;
-import static org.jooq.lambda.Agg.denseRank;
-import static org.jooq.lambda.Agg.denseRankBy;
-import static org.jooq.lambda.Agg.max;
-import static org.jooq.lambda.Agg.maxBy;
-import static org.jooq.lambda.Agg.median;
-import static org.jooq.lambda.Agg.min;
-import static org.jooq.lambda.Agg.minBy;
-import static org.jooq.lambda.Agg.noneMatch;
-import static org.jooq.lambda.Agg.percentRank;
-import static org.jooq.lambda.Agg.percentile;
-import static org.jooq.lambda.Agg.percentileBy;
-import static org.jooq.lambda.Agg.rank;
-import static org.jooq.lambda.Agg.rankBy;
+import static java.util.Arrays.asList;
+import static java.util.Comparator.comparingInt;
+import static org.jooq.lambda.Agg.*;
+import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import java.util.function.Function;
@@ -141,8 +132,8 @@ public class CollectorTests {
         assertEquals(Optional.of(22), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(1.0)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(-1)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(2)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(-1)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(2)));
     }
 
     @Test
@@ -223,8 +214,8 @@ public class CollectorTests {
         assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(1.0)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(-1)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(2)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(-1)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(2)));
     }
 
     @Test
@@ -305,8 +296,8 @@ public class CollectorTests {
         assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, String::length)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(-1, String::length)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(2, String::length)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(-1, String::length)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(2, String::length)));
     }
 	
     @Test
@@ -454,6 +445,186 @@ public class CollectorTests {
         assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
         assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
         assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+    }
+
+    @Test
+    public void testPercentileAllByWithComparator() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(0.25, String::length, comparingInt(o -> -o))).toList());
+        assertEquals(asList("mm1", "mm2", "mm3"), s.get().collect(percentileAllBy(0.5, String::length, comparingInt(o -> -o))).toList());
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(0.75, String::length, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllByWithComparatorInBoundaryConditions() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(-1, String::length, comparingInt(o -> -o))));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(2, String::length, comparingInt(o -> -o))));
+
+        // MaxAllBy
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(1.0, String::length, comparingInt(o -> -o))).toList());
+        // MinAllBy
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(0.0, String::length, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllByWithoutComparator() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(0.25, String::length)).toList());
+        assertEquals(asList("mm1", "mm2", "mm3"), s.get().collect(percentileAllBy(0.5, String::length)).toList());
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(0.75, String::length)).toList());
+    }
+
+    @Test
+    public void testPercentileAllByWithoutComparatorInBoundaryConditions() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(-1, String::length)));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(2, String::length)));
+
+        // MaxAllBy
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(1.0, String::length)).toList());
+        // MinAllBy
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(0.0, String::length)).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithComparator() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.25, comparingInt(o -> -o))).toList());
+        assertEquals(asList(2, 2, 2, 2), s.get().collect(percentileAll(0.5, comparingInt(o -> -o))).toList());
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.75, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithComparatorInBoundaryConditions() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(-1, comparingInt(o -> -o))));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(2, comparingInt(o -> -o))));
+
+        // MaxAllBy
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(1.0, comparingInt(o -> -o))).toList());
+        // MinAllBy
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.0, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithoutComparator() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.25)).toList());
+        assertEquals(asList(2, 2, 2, 2), s.get().collect(percentileAll(0.5)).toList());
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.75)).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithoutComparatorInBoundaryConditions() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(-1)));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(2)));
+
+        // MaxAllBy
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(1.0)).toList());
+        // MinAllBy
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.0)).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithComparator() {
+        assertEquals(asList("mm1", "mm2", "mm3"), Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4").collect(medianAllBy(String::length, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithComparator2() {
+        class Item {
+            final int val;
+            Item(int val) {
+                this.val = val;
+            }
+        }
+
+        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAllBy(item -> item.val, comparingInt(val -> -val))).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithoutComparator() {
+        assertEquals(asList("mm1", "mm2", "mm3"), Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4").collect(medianAllBy(String::length)).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithoutComparator2() {
+        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(h, g, f), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAllBy(item -> item.val)).toList());
+    }
+
+    @Test
+    public void testMedianAllWithComparator() {
+        assertEquals(asList(2, 2, 2, 2), Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2).collect(medianAll(comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testMedianAllWithComparator2() {
+        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll(Comparator.comparing(Item::reverse))).toList());
+    }
+
+    @Test
+    public void testMedianAllWithoutComparator() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.25)).toList());
+        assertEquals(asList(2, 2, 2, 2), s.get().collect(percentileAll(0.5)).toList());
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.75)).toList());
+    }
+
+    @Test
+    public void testMedianAllWithoutComparator2() {
+        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(h, g, f), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll()).toList());
+    }
+
+    static class Item implements Comparable<Item>{
+        final int val;
+
+        Item(int val) {
+            this.val = val;
+        }
+
+        @Override
+        public int compareTo(Item o) {
+            return this.val - o.val;
+        }
+
+        Item reverse() {
+            return new Item(-this.val);
+        }
     }
 
     @Test

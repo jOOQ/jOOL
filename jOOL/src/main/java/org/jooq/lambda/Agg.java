@@ -19,19 +19,9 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.collectingAndThen;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.TreeSet;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -916,32 +906,152 @@ public class Agg {
         else if (percentile == 1.0)
             return collectingAndThen(maxAllBy(function, comparator), s -> s.findLast());
         else
-            return Collector.of(
-                () -> new ArrayList<Tuple2<T, U>>(),
-                (l, v) -> l.add(tuple(v, function.apply(v))),
-                (l1, l2) -> {
-                    l1.addAll(l2);
-                    return l1;
-                },
-                l -> {
-                    int size = l.size();
-
-                    if (size == 0)
-                        return Optional.empty();
-                    else if (size == 1)
-                        return Optional.of(l.get(0).v1);
-
-                    l.sort(Comparator.comparing(t -> t.v2, comparator));
-
-                    // x.5 should be rounded down
-                    return Optional.of(l.get((int) -Math.round(-(size * percentile + 0.5)) - 1).v1);
-                }
+            return percentileCollector(
+                function,
+                comparator,
+                Optional::empty,
+                Optional::of,
+                l -> Optional.of(l.get(percentileIndex(percentile, l.size())).v1)
             );
     }
 
     /**
-     * Get a {@link Collector} that calculates the common prefix of a set of strings.
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> percentileAll(double percentile) {
+        return percentileAllBy(percentile, t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> percentileAll(double percentile, Comparator<? super T> comparator) {
+        return percentileAllBy(percentile, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function) {
+        return percentileAllBy(percentile, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        if (percentile < 0.0 || percentile > 1.0)
+            throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
+
+        if (percentile == 0.0)
+            return minAllBy(function, comparator);
+        else if (percentile == 1.0)
+            return maxAllBy(function, comparator);
+        else
+            return percentileCollector(
+                function,
+                comparator,
+                Seq::empty,
+                Seq::of,
+                l -> {
+                    int left = 0;
+                    int right = percentileIndex(percentile, l.size());
+                    int mid;
+
+                    U value = l.get(right).v2;
+
+                    // Search the first value equal to the value at the position of PERCENTILE by binary search
+                    while (left < right) {
+                        mid = left + (right - left) / 2;
+
+                        if (comparator.compare(l.get(mid).v2, value) < 0)
+                            left = mid + 1;
+                        else
+                            right = mid;
+                    }
+
+                    // We could use Seq.seq(l).skip(left).filter(<comparison>) to prevent the additional allocation
+                    // but it is very likely that l is quite large and result is quite small. So let's not keep an
+                    // unnecessary reference to a possibly large list.
+                    List<T> result = new ArrayList<>();
+
+                    for (; left < l.size() && comparator.compare(l.get(left).v2, value) == 0; left++)
+                        result.add(l.get(left).v1);
+
+                    return Seq.seq(result);
+                }
+            );
+    }
+
+    private static <T, U, R> Collector<T, List<Tuple2<T, U>>, R> percentileCollector(
+        Function<? super T, ? extends U> function,
+        Comparator<? super U> comparator,
+        Supplier<R> onEmpty,
+        Function<T, R> onSingle,
+        Function<List<Tuple2<T, U>>, R> finisher
+    ) {
+        return Collector.of(
+            () -> new ArrayList<>(),
+            (l, v) -> l.add(tuple(v, function.apply(v))),
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            },
+            l -> {
+                int size = l.size();
+
+                if (size == 0)
+                    return onEmpty.get();
+                else if (size == 1)
+                    return onSingle.apply(l.get(0).v1);
+
+                l.sort(Comparator.comparing(t -> t.v2, comparator));
+                return finisher.apply(l);
+            }
+        );
+    }
+
+    private static int percentileIndex(double percentile, int size) {
+
+        // x.5 should be rounded down
+        return (int) -Math.round(-(size * percentile + 0.5)) - 1;
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
+        return medianAllBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
+        return medianAllBy(t -> t, comparator);
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function) {
+        return medianAllBy(function, naturalOrder());
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given natural ordering, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return percentileAllBy(0.5, function, comparator);
+    }
+
+    /**
+    * Get a {@link Collector} that calculates the common prefix of a set of strings.
+    */
     public static Collector<CharSequence, ?, String> commonPrefix() {
         return Collectors.collectingAndThen(
             Collectors.reducing((CharSequence s1, CharSequence s2) -> {
