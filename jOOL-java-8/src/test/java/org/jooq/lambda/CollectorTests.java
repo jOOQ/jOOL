@@ -15,27 +15,17 @@
  */
 package org.jooq.lambda;
 
-import static org.jooq.lambda.Agg.allMatch;
-import static org.jooq.lambda.Agg.anyMatch;
-import static org.jooq.lambda.Agg.denseRank;
-import static org.jooq.lambda.Agg.denseRankBy;
-import static org.jooq.lambda.Agg.max;
-import static org.jooq.lambda.Agg.maxBy;
-import static org.jooq.lambda.Agg.median;
-import static org.jooq.lambda.Agg.min;
-import static org.jooq.lambda.Agg.minBy;
-import static org.jooq.lambda.Agg.noneMatch;
-import static org.jooq.lambda.Agg.percentRank;
-import static org.jooq.lambda.Agg.percentile;
-import static org.jooq.lambda.Agg.percentileBy;
-import static org.jooq.lambda.Agg.rank;
-import static org.jooq.lambda.Agg.rankBy;
+import static java.util.Arrays.asList;
+import static java.util.Comparator.comparingInt;
+import static org.jooq.lambda.Agg.*;
+import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
-import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.Comparator;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -143,8 +133,8 @@ public class CollectorTests {
         assertEquals(Optional.of(22), Stream.of(1, 2, 3, 4, 10, 9, 3, 3, 20, 21, 22).collect(percentile(1.0)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(-1)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(2)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(-1)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of(1).collect(percentile(2)));
     }
 
     @Test
@@ -225,8 +215,8 @@ public class CollectorTests {
         assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentile(1.0)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(-1)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(2)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(-1)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentile(2)));
     }
 
     @Test
@@ -307,8 +297,335 @@ public class CollectorTests {
         assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, String::length)));
 
         // Illegal args
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(-1, String::length)));
-        Utils.assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(2, String::length)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(-1, String::length)));
+        assertThrows(IllegalArgumentException.class, () -> Stream.of("a").collect(percentileBy(2, String::length)));
+    }
+	
+    @Test
+    public void testPercentileWithStringsAndFunctionWithDifferentValues() {
+
+        // CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/376
+        // In the test testPercentileWithStringsAndFunction, the values (length) of the items are all the same,
+        // The function used in this test will take the first character of each string to be compared.
+        Function<String, Character> getFirstLetter = s -> s.length() == 0 ? 0 : s.charAt(0);
+
+        // Min
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.0, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.0, getFirstLetter)));
+
+        // 0.25 percentile
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.25, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.25, getFirstLetter)));
+
+        // Median
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.5, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.5, getFirstLetter)));
+
+        // 0.75 percentile
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.75, getFirstLetter)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.75, getFirstLetter)));
+
+        // Max
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(1.0, getFirstLetter)));
+        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, getFirstLetter)));
+    }
+
+    @Test
+    public void testPercentileWithStringsAndFunctionWithDifferentValues2() {
+
+        // CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/376
+        // The function used in this test will take the minus value of the first character of each string to be compared.
+        Function<String, Integer> getMinusValueOfFirstLetter = s -> s.length() == 0 ? 0 : (int) -s.charAt(0);
+
+        // Min
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("u"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("v"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.0, getMinusValueOfFirstLetter)));
+
+        // 0.25
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("i"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("j"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("t"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.25, getMinusValueOfFirstLetter)));
+
+        // 0.5
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("d"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.5, getMinusValueOfFirstLetter)));
+
+        // 0.75
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("b"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("c"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(0.75, getMinusValueOfFirstLetter)));
+
+        // Max
+        assertEquals(Optional.of("a"), Stream.of("a").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+        assertEquals(Optional.of("a"), Stream.of("a", "b", "c", "d", "j", "i", "c", "c", "t", "u", "v").collect(percentileBy(1.0, getMinusValueOfFirstLetter)));
+    }
+
+    @Test
+    public void testPercentileAllByWithComparator() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(0.25, String::length, comparingInt(o -> -o))).toList());
+        assertEquals(asList("mm1", "mm2", "mm3"), s.get().collect(percentileAllBy(0.5, String::length, comparingInt(o -> -o))).toList());
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(0.75, String::length, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllByWithComparatorInBoundaryConditions() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(-1, String::length, comparingInt(o -> -o))));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(2, String::length, comparingInt(o -> -o))));
+
+        // MaxAllBy
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(1.0, String::length, comparingInt(o -> -o))).toList());
+        // MinAllBy
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(0.0, String::length, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllByWithoutComparator() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(0.25, String::length)).toList());
+        assertEquals(asList("mm1", "mm2", "mm3"), s.get().collect(percentileAllBy(0.5, String::length)).toList());
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(0.75, String::length)).toList());
+    }
+
+    @Test
+    public void testPercentileAllByWithoutComparatorInBoundaryConditions() {
+        Supplier<Seq<String>> s = () -> Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4");
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(-1, String::length)));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAllBy(2, String::length)));
+
+        // MaxAllBy
+        assertEquals(asList("lll1", "lll2", "lll3", "lll4"), s.get().collect(percentileAllBy(1.0, String::length)).toList());
+        // MinAllBy
+        assertEquals(asList("s1", "s2", "s3"), s.get().collect(percentileAllBy(0.0, String::length)).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithComparator() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.25, comparingInt(o -> -o))).toList());
+        assertEquals(asList(2, 2, 2, 2), s.get().collect(percentileAll(0.5, comparingInt(o -> -o))).toList());
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.75, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithComparatorInBoundaryConditions() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(-1, comparingInt(o -> -o))));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(2, comparingInt(o -> -o))));
+
+        // MaxAllBy
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(1.0, comparingInt(o -> -o))).toList());
+        // MinAllBy
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.0, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithoutComparator() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.25)).toList());
+        assertEquals(asList(2, 2, 2, 2), s.get().collect(percentileAll(0.5)).toList());
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.75)).toList());
+    }
+
+    @Test
+    public void testPercentileAllWithoutComparatorInBoundaryConditions() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        // Illegal args
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(-1)));
+        assertThrows(IllegalArgumentException.class, () -> s.get().collect(percentileAll(2)));
+
+        // MaxAllBy
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(1.0)).toList());
+        // MinAllBy
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.0)).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithComparator() {
+        assertEquals(asList("mm1", "mm2", "mm3"), Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4").collect(medianAllBy(String::length, comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithComparator2() {
+        class Item {
+            final int val;
+            Item(int val) {
+                this.val = val;
+            }
+        }
+
+        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAllBy(item -> item.val, comparingInt(val -> -val))).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithoutComparator() {
+        assertEquals(asList("mm1", "mm2", "mm3"), Seq.of("lll1", "s1", "lll2", "mm1", "mm2", "lll3", "s2", "mm3", "s3", "lll4").collect(medianAllBy(String::length)).toList());
+    }
+
+    @Test
+    public void testMedianAllByWithoutComparator2() {
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(h, g, f), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAllBy(item -> item.val)).toList());
+    }
+
+    @Test
+    public void testMedianAllWithComparator() {
+        assertEquals(asList(2, 2, 2, 2), Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2).collect(medianAll(comparingInt(o -> -o))).toList());
+    }
+
+    @Test
+    public void testMedianAllWithComparator2() {
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll(Comparator.comparing(CollectorTests.Item::reverse))).toList());
+    }
+
+    @Test
+    public void testMedianAllWithoutComparator() {
+        Supplier<Seq<Integer>> s = () -> Seq.of(1, 3, 2, 1, 2, 1, 2, 3, 3, 2);
+
+        assertEquals(asList(1, 1, 1), s.get().collect(percentileAll(0.25)).toList());
+        assertEquals(asList(2, 2, 2, 2), s.get().collect(percentileAll(0.5)).toList());
+        assertEquals(asList(3, 3, 3), s.get().collect(percentileAll(0.75)).toList());
+    }
+
+    @Test
+    public void testMedianAllWithoutComparator2() {
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+                e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
+                i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
+                m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
+
+        assertEquals(asList(h, g, f), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll()).toList());
+    }
+
+    static class Item implements Comparable<Item>{
+        final int val;
+
+        Item(int val) {
+            this.val = val;
+        }
+
+        @Override
+        public int compareTo(Item o) {
+            return this.val - o.val;
+        }
+
+        Item reverse() {
+            return new Item(-this.val);
+        }
     }
 
     @Test
@@ -994,512 +1311,91 @@ public class CollectorTests {
         assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
     }
 
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with numbers.
-     *
-     * @result The result will be the slope of the linear regression.
-     */
     @Test
-    public void testRegrSlopeByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.empty(), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.of(1.6), Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSlopeBy(functionX, functionY)));
-
-
+    public void testStddevAndVarianceWithNumber() {
+        assertEquals(Optional.empty(), Seq.<Double>of().collect(Agg.varianceDouble()));
+        assertEquals(Optional.empty(), Seq.<Double>of().collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0, 1.0, 1.0, 1.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0, 1.0, 1.0, 1.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(1.0, 1.0, 3.0, 3.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(1.0, 1.0, 3.0, 3.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(1.250), Seq.of(1.0, 2.0, 3.0, 4.0).collect(Agg.varianceDouble()));
     }
 
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the slope of the linear regression.
-     */
     @Test
-    public void testRegrSlopeByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.empty(), Seq.of(new Node(0, 0)).collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSlopeBy(functionX, functionY)));
-        assertEquals(Optional.of(1.6), Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSlopeBy(functionX, functionY)));
-
-
+    public void testStddevAndVarianceWithObject() {
+        assertEquals(Optional.empty(), Seq.<Item>of().collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.empty(), Seq.<Item>of().collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1), new Item(1), new Item(1), new Item(1)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1), new Item(1), new Item(1), new Item(1)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.250), Seq.of(new Item(1), new Item(2), new Item(3), new Item(4)).collect(Agg.varianceDouble(e -> (double) e.val)));
     }
 
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the intercept of linear regression.
-     */
     @Test
-    public void testRegrInterceptByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
+    public void testCovarianceWithNumbers() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.covarianceDouble()));
 
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble()));
 
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.empty(), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.of(8.0), Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrInterceptBy(functionX, functionY)));
-
+        assertEquals(Optional.of(0.25), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.covarianceDouble()));
     }
 
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the intercept of linear regression.
-     */
     @Test
-    public void testRegrInterceptByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
+    public void testCovarianceWithObjects() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
 
-        class Node {
-            int v1;
-            int v2;
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
 
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.empty(), Seq.of(new Node(0, 0)).collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrInterceptBy(functionX, functionY)));
-        assertEquals(Optional.of(8.0), Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrInterceptBy(functionX, functionY)));
-
+        assertEquals(Optional.of(0.25), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
     }
 
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the R2 score of linear regression.
-     */
     @Test
-    public void testR2ByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
+    public void testCorrelationWithNumbers() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.correlationDouble()));
 
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble()));
 
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.empty(), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.of(0.800), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrR2By(functionX, functionY)).get()))));
-
-
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.of(-1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 0.0)).collect(Agg.correlationDouble()));
     }
 
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objectss.
-     *
-     * @result The result will be the R2 score of linear regression.
-     */
     @Test
-    public void testR2ByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
+    public void testCorrelationWithObjects() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
 
-        class Node {
-            int v1;
-            int v2;
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
 
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.empty(), Seq.of(new Node(0, 0)).collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrR2By(functionX, functionY)));
-        assertEquals(Optional.of(0.800), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrR2By(functionX, functionY)).get()))));
-
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(-1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 0.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
     }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the number of tuples.
-     */
-    @Test
-    public void testCountByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.of(0.0), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(2.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(2.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(4.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrCountBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the number of objects.
-     */
-    @Test
-    public void testCountByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.of(0.0), Seq.<Node>of().collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(0, 0)).collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(2.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(2.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrCountBy(functionX, functionY)));
-        assertEquals(Optional.of(4.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrCountBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the average of x.
-     */
-    @Test
-    public void testAvgXByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(1.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(2.5), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrAvgXBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the average of x.
-     */
-    @Test
-    public void testAvgXByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(1.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrAvgXBy(functionX, functionY)));
-        assertEquals(Optional.of(2.5), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrAvgXBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the average of y.
-     */
-    @Test
-    public void testAvgYByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(1.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(12.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrAvgYBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the average of y.
-     */
-    @Test
-    public void testAvgYByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(1.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrAvgYBy(functionX, functionY)));
-        assertEquals(Optional.of(12.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrAvgYBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the SXX of linear regression.
-     */
-    @Test
-    public void testSxxByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(0.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(2.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(5.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSxxBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the SXX of linear regression.
-     */
-    @Test
-    public void testSxxByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(0.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(2.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSxxBy(functionX, functionY)));
-        assertEquals(Optional.of(5.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSxxBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the SXY of linear regression.
-     */
-    @Test
-    public void testSxyByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(8.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSxyBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the SXY of linear regression.
-     */
-    @Test
-    public void testSxyByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSxyBy(functionX, functionY)));
-        assertEquals(Optional.of(8.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSxyBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with tuples.
-     *
-     * @result The result will be the SYY of linear regression.
-     */
-    @Test
-    public void testSyyByWithTuple() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(16.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSyyBy(functionX, functionY)).get()))));
-
-    }
-
-
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Test the Seq with objects.
-     *
-     * @result The result will be the SYY of linear regression.
-     */
-    @Test
-    public void testSyyByWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            int v1;
-            int v2;
-
-            Node(int v1, int v2) {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-        }
-
-        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
-        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSyyBy(functionX, functionY)));
-        assertEquals(Optional.of(16.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSyyBy(functionX, functionY)).get()))));
-
-    }
-
-
-
 }

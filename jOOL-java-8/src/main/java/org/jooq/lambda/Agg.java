@@ -15,27 +15,22 @@
  */
 package org.jooq.lambda;
 
+import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
-import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.*;
+import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 /**
@@ -44,6 +39,7 @@ import org.jooq.lambda.tuple.Tuple2;
  * The class name isn't set in stone and will change.
  *
  * @author Lukas Eder
+ * @author Jichen Lu
  */
 public class Agg {
 
@@ -72,7 +68,7 @@ public class Agg {
      * (DENSE_RANK FIRST ORDER BY ... ), use {@link #maxAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> first() {
-        return Collectors.reducing((v1, v2) -> v1);
+        return reducing((v1, v2) -> v1);
     }
 
     /**
@@ -85,7 +81,7 @@ public class Agg {
      * (DENSE_RANK LAST ORDER BY ... ), use {@link #minAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> last() {
-        return Collectors.reducing((v1, v2) -> v2);
+        return reducing((v1, v2) -> v2);
     }
 
     /**
@@ -103,7 +99,7 @@ public class Agg {
                 l1.addAll(l2);
                 return l1;
             },
-            l -> Seq.seq(l)
+            Seq::seq
         );
     }
 
@@ -140,7 +136,7 @@ public class Agg {
      * function.
      */
     public static <T> Collector<T, ?, Long> count() {
-        return Collectors.counting();
+        return counting();
     }
 
     /**
@@ -179,7 +175,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>SUM()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> sum(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> {
@@ -208,7 +204,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>AVG()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> avg(Function<? super T, ? extends U> function) {
         return Collector.of(
             () -> (Sum<U>[]) new Sum[1],
@@ -355,7 +351,7 @@ public class Agg {
         }
 
         return Collector.of(
-            () -> new Accumulator(),
+            Accumulator::new,
             (a, t) -> {
                 U u = function.apply(t);
 
@@ -426,7 +422,7 @@ public class Agg {
         }
 
         return Collector.of(
-            () -> new Accumulator(),
+            Accumulator::new,
             (a, t) -> {
                 U u = function.apply(t);
                 if (a.u == null) {
@@ -528,7 +524,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitAnd(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> {
@@ -551,9 +547,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[] { Integer.MAX_VALUE },
-            (s, v) -> {
-                s[0] = s[0] & function.applyAsInt(v);
-            },
+            (s, v) -> s[0] = s[0] & function.applyAsInt(v),
             (s1, s2) -> {
                 s1[0] = s1[0] & s2[0];
                 return s1;
@@ -568,9 +562,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[] { Long.MAX_VALUE },
-            (s, v) -> {
-                s[0] = s[0] & function.applyAsLong(v);
-            },
+            (s, v) -> s[0] = s[0] & function.applyAsLong(v),
             (s1, s2) -> {
                 s1[0] = s1[0] & s2[0];
                 return s1;
@@ -591,7 +583,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitOr(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> {
@@ -614,9 +606,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[1],
-            (s, v) -> {
-                s[0] = s[0] | function.applyAsInt(v);
-            },
+            (s, v) -> s[0] = s[0] | function.applyAsInt(v),
             (s1, s2) -> {
                 s1[0] = s1[0] | s2[0];
                 return s1;
@@ -631,9 +621,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[1],
-            (s, v) -> {
-                s[0] = s[0] | function.applyAsLong(v);
-            },
+            (s, v) -> s[0] = s[0] | function.applyAsLong(v),
             (s1, s2) -> {
                 s1[0] = s1[0] | s2[0];
                 return s1;
@@ -672,7 +660,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MODE()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<T>> modeBy(Function<? super T, ? extends U> function) {
-        return Collectors.collectingAndThen(modeAllBy(function), s -> s.findFirst());
+        return collectingAndThen(modeAllBy(function), Stream::findFirst);
     }
 
     /**
@@ -820,9 +808,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Optional<Double>> percentRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return collectingAndThen(
-            Tuple.collectors(
-                rankBy(value, function, comparator),
-                count()),
+            collectors(rankBy(value, function, comparator), count()),
             t -> t.map((rank, count) -> rank.map(r -> (double) r / count))
         );
     }
@@ -911,9 +897,97 @@ public class Agg {
         if (percentile < 0.0 || percentile > 1.0)
             throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
 
-        // At a later stage, we'll optimise this implementation in case that function is the identity function
+        if (percentile == 0.0)
+            return minBy(function, comparator);
+        else if (percentile == 1.0)
+            return collectingAndThen(maxAllBy(function, comparator), Seq::findLast);
+        else
+            return percentileCollector(
+                function,
+                comparator,
+                Optional::empty,
+                Optional::of,
+                l -> Optional.of(l.get(percentileIndex(percentile, l.size())).v1)
+            );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> percentileAll(double percentile) {
+        return percentileAllBy(percentile, t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> percentileAll(double percentile, Comparator<? super T> comparator) {
+        return percentileAllBy(percentile, t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function) {
+        return percentileAllBy(percentile, function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        if (percentile < 0.0 || percentile > 1.0)
+            throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
+
+        if (percentile == 0.0)
+            return minAllBy(function, comparator);
+        else if (percentile == 1.0)
+            return maxAllBy(function, comparator);
+        else
+            return percentileCollector(
+                function,
+                comparator,
+                Seq::empty,
+                Seq::of,
+                l -> {
+                    int left = 0;
+                    int right = percentileIndex(percentile, l.size());
+                    int mid;
+
+                    U value = l.get(right).v2;
+
+                    // Search the first value equal to the value at the position of PERCENTILE by binary search
+                    while (left < right) {
+                        mid = left + (right - left) / 2;
+
+                        if (comparator.compare(l.get(mid).v2, value) < 0)
+                            left = mid + 1;
+                        else
+                            right = mid;
+                    }
+
+                    // We could use Seq.seq(l).skip(left).filter(<comparison>) to prevent the additional allocation
+                    // but it is very likely that l is quite large and result is quite small. So let's not keep an
+                    // unnecessary reference to a possibly large list.
+                    List<T> result = new ArrayList<>();
+
+                    for (; left < l.size() && comparator.compare(l.get(left).v2, value) == 0; left++)
+                        result.add(l.get(left).v1);
+
+                    return Seq.seq(result);
+                }
+            );
+    }
+
+    private static <T, U, R> Collector<T, List<Tuple2<T, U>>, R> percentileCollector(
+        Function<? super T, ? extends U> function,
+        Comparator<? super U> comparator,
+        Supplier<R> onEmpty,
+        Function<T, R> onSingle,
+        Function<List<Tuple2<T, U>>, R> finisher
+    ) {
         return Collector.of(
-            () -> new ArrayList<Tuple2<T, U>>(),
+            ArrayList::new,
             (l, v) -> l.add(tuple(v, function.apply(v))),
             (l1, l2) -> {
                 l1.addAll(l2);
@@ -923,29 +997,140 @@ public class Agg {
                 int size = l.size();
 
                 if (size == 0)
-                    return Optional.empty();
+                    return onEmpty.get();
                 else if (size == 1)
-                    return Optional.of(l.get(0).v1);
+                    return onSingle.apply(l.get(0).v1);
 
-                l.sort(Comparator.comparing(t -> t.v2, comparator));
-
-                if (percentile == 0.0)
-                    return Optional.of(l.get(0).v1);
-                else if (percentile == 1.0)
-                    return Optional.of(l.get(size - 1).v1);
-
-                // x.5 should be rounded down
-                return Optional.of(l.get((int) -Math.round(-(size * percentile + 0.5)) - 1).v1);
+                l.sort(comparing(t -> t.v2, comparator));
+                return finisher.apply(l);
             }
         );
     }
 
+    private static int percentileIndex(double percentile, int size) {
+
+        // x.5 should be rounded down
+        return (int) -Math.round(-(size * percentile + 0.5)) - 1;
+    }
+
     /**
-     * Get a {@link Collector} that calculates the common prefix of a set of strings.
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
+        return medianAllBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
+        return medianAllBy(t -> t, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function) {
+        return medianAllBy(function, naturalOrder());
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given natural ordering, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return percentileAllBy(0.5, function, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
+     */
+    public static <T> Collector<Double, ?, Optional<Double>> stddevDouble() {
+        return stddevDouble(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<Double>> stddevDouble(ToDoubleFunction<? super T> function) {
+        return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(Math.sqrt(variance0(l, function))));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>VAR_POP()</code> function.
+     */
+    public static Collector<Double, ?, Optional<Double>> varianceDouble() {
+        return varianceDouble(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>VAR_POP()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> varianceDouble(ToDoubleFunction<? super T> function) {
+        return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(variance0(l, function)));
+    }
+
+    private static <T> double variance0(List<T> l, ToDoubleFunction<? super T> function) {
+        double average = avg0(l, function);
+        return avg0(l, t -> Math.pow(function.applyAsDouble(t) - average, 2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>COVAR_POP()</code> function.
+     */
+    public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> covarianceDouble() {
+        return covarianceDouble(t -> t.v1, t -> t.v2);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>COVAR_POP()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> covarianceDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(toList(), l -> {
+            if (l.isEmpty())
+                return Optional.empty();
+            else if (l.size() == 1)
+                return Optional.of(0.0);
+
+            double avgX = avg0(l, functionX);
+            double avgY = avg0(l, functionY);
+            return Optional.of(avg0(l, t -> (functionX.applyAsDouble(t) - avgX) * (functionY.applyAsDouble(t) - avgY)));
+        });
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>CORR()</code> function.
+     */
+    public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> correlationDouble() {
+        return correlationDouble(t -> t.v1, t -> t.v2);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>CORR()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> correlationDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(covarianceDouble(functionX, functionY),
+            stddevDouble(functionX),
+            stddevDouble(functionY)),
+            t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 || t.v3.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / (t.v2.get() * t.v3.get()))
+        );
+    }
+
+    private static <T> double avg0(List<T> list, ToDoubleFunction<? super T> function) {
+        double result = 0.0;
+
+        for (T t : list)
+            result += function.applyAsDouble(t);
+
+        return result / list.size();
+    }
+
+    /**
+    * Get a {@link Collector} that calculates the common prefix of a set of strings.
+    */
     public static Collector<CharSequence, ?, String> commonPrefix() {
-        return Collectors.collectingAndThen(
-            Collectors.reducing((CharSequence s1, CharSequence s2) -> {
+        return collectingAndThen(
+            reducing((CharSequence s1, CharSequence s2) -> {
                 if (s1 == null || s2 == null)
                     return "";
 
@@ -963,8 +1148,8 @@ public class Agg {
      * Get a {@link Collector} that calculates the common suffix of a set of strings.
      */
     public static Collector<CharSequence, ?, String> commonSuffix() {
-        return Collectors.collectingAndThen(
-            Collectors.reducing((CharSequence s1, CharSequence s2) -> {
+        return collectingAndThen(
+            reducing((CharSequence s1, CharSequence s2) -> {
                 if (s1 == null || s2 == null)
                     return "";
 
@@ -980,690 +1165,89 @@ public class Agg {
         );
     }
 
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
 
-    /**
-     * Calculate the linear regression function Slope of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrSlopeBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrSlopeBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrSlopeBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the Slope value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrSlopeBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumXY = 0.0;
-            Double sumXX = 0.0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-        }
 
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.n++;
-                        a.sumXY += x * y;
-                        a.sumXX += x * x;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    a1.sumXX += a2.sumXX;
-                    a1.sumXY += a2.sumXY;
-                    return a1;
-                },
-                a -> {
-                    if (a.n == 0 || a.n == 1) {
-                        return Optional.empty();
-                    }
-                    if ((a.sumXX - a.sumX * a.sumX / a.n) == 0.0) {
-//                        if (a.sumX==0){
-//                            if (a.sumY==0){
-//                                return Optional.of(0.0);
-//                            }else {
-//                                return Optional.of(Double.MAX_VALUE);
-//                            }
-//                        }
-//                        return Optional.of(a.sumY/a.sumX);
-                        return Optional.of(0.0);
-                    }
-                    return Optional.of((a.sumXY - a.sumX * a.sumY / a.n) / (a.sumXX - a.sumX * a.sumX / a.n));
 
-                }
-        );
+
+    public static <T> Collector<T, ?, Optional<Long>> regrCountBy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(toList(), l -> {
+            if (l.isEmpty())
+                return Optional.empty();
+            long result = 0;
+            for (T t : l)
+                result += t==null ? 0:1;
+            return Optional.of(result);
+        });
+    }
+
+    public static <T> Collector<T, ?, Optional<Double>> RegrAvgX(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(toList(), l -> {
+            if (l.isEmpty())
+                return Optional.empty();
+            else if (l.size() == 1)
+                return Optional.of(0.0);
+            return Optional.of(avg0(l,functionX));
+        });
     }
 
 
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
+    public static <T> Collector<T, ?, Optional<Double>> RegrAvgY(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(toList(), l -> {
+            if (l.isEmpty())
+                return Optional.empty();
+            else if (l.size() == 1)
+                return Optional.of(0.0);
+            return Optional.of(avg0(l,functionY));
+        });
+    }
 
-    /**
-     * Calculate the linear regression function Intercept of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrInterceptBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrInterceptBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrInterceptBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the Intercept value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrInterceptBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumXY = 0.0;
-            Double sumXX = 0.0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.n++;
-                        a.sumXY += x * y;
-                        a.sumXX += x * x;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    a1.sumXX += a2.sumXX;
-                    a1.sumXY += a2.sumXY;
-                    return a1;
-                },
-                a -> {
-                    if (a.n == 0 || a.n == 1) {
-                        return Optional.empty();
-                    }
-                    if ((a.sumXX - a.sumX * a.sumX / a.n) == 0.0) {
-//                        return Optional.of(0.0);
-                        return Optional.of(a.sumY / a.n);
-                    }
-                    return Optional.of(a.sumY / a.n - (a.sumXY - a.sumX * a.sumY / a.n) / (a.sumXX - a.sumX * a.sumX / a.n) * a.sumX / a.n);
-
-                }
+    public static <T> Collector<T, ?, Optional<Double>> RegrSxx(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+                collectors(covarianceDouble(functionX, functionX),
+                        count()),
+                t -> !t.v1.isPresent() || t.v2==0 ? Optional.empty() : Optional.of(t.v1.get() * t.v2 )
         );
     }
 
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function R2 of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrR2By():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrR2By(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrR2By(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the R2 value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrR2By(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumXY = 0.0;
-            Double sumXX = 0.0;
-            Double sumYY = 0.0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-
-            ArrayList<Double> listX = new ArrayList<>();
-            ArrayList<Double> listY = new ArrayList<>();
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.listX.add(x);
-                        a.listY.add(y);
-                        a.n++;
-                        a.sumXY += x * y;
-                        a.sumXX += x * x;
-                        a.sumYY += y * y;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.listX.addAll(a2.listX);
-                    a1.listY.addAll(a2.listY);
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    a1.sumXX += a2.sumXX;
-                    a1.sumYY += a2.sumYY;
-                    a1.sumXY += a2.sumXY;
-                    return a1;
-                },
-                a -> {
-
-                    if (a.n == 0 || a.n == 1) {
-                        return Optional.empty();
-                    }
-
-
-                    Double slope = 0.0;
-                    Double intercept = 0.0;
-                    if ((a.sumXX - a.sumX * a.sumX / a.n) == 0.0) {
-                        intercept = a.sumY / a.n;
-                        slope = 0.0;
-                    } else {
-                        slope = ((a.sumXY - a.sumX * a.sumY / a.n) / (a.sumXX - a.sumX * a.sumX / a.n));
-                        intercept = a.sumY / a.n - (a.sumXY - a.sumX * a.sumY / a.n) / (a.sumXX - a.sumX * a.sumX / a.n) * a.sumX / a.n;
-                    }
-
-                    Double avgY = a.sumY / a.n;
-                    Double sstot = 0.0;
-                    Double ssreg = 0.0;
-                    for (int i = 0; i < a.listY.size(); i++) {
-                        sstot += Math.pow((a.listY.get(i) - avgY), 2);
-                        ssreg += Math.pow(slope * a.listX.get(i) + intercept - a.listY.get(i), 2);
-                    }
-                    if (sstot == 0.0) {
-                        return Optional.of(1.0);
-                    } else {
-                        return Optional.of(1 - ssreg / sstot);
-                    }
-
-                }
+    public static <T> Collector<T, ?, Optional<Double>> RegrSyy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+                collectors(covarianceDouble(functionY, functionY),
+                        count()),
+                t -> !t.v1.isPresent() || t.v2==0 ? Optional.empty() : Optional.of(t.v1.get() * t.v2 )
         );
     }
 
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function Count of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrCountBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrCountBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrCountBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the Count value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrCountBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.n++;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    return a1;
-                },
-                a -> {
-                    return Optional.of(Double.valueOf(a.n));
-                }
+    public static <T> Collector<T, ?, Optional<Double>> RegrSxy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+                collectors(covarianceDouble(functionX, functionY),
+                        count()),
+                t -> !t.v1.isPresent() || t.v2==0 ? Optional.empty() : Optional.of(t.v1.get() * t.v2 )
         );
     }
 
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function AvgX of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrAvgXBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrAvgXBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrAvgXBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the AvgX value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrAvgXBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.n++;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    return a1;
-                },
-                a -> {
-                    if (a.n == 0) {
-                        return Optional.empty();
-                    }
-                    return Optional.of(a.sumX / a.n);
-                }
+    public static <T> Collector<T, ?, Optional<Double>> RegrSlope(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+                collectors(covarianceDouble(functionX, functionY),
+                        varianceDouble(functionY)),
+                t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / t.v2.get() )
         );
     }
 
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function AvgY of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrAvgYBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrAvgYBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrAvgYBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the AvgY value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrAvgYBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.n++;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    return a1;
-                },
-                a -> {
-                    if (a.n == 0) {
-                        return Optional.empty();
-                    }
-                    return Optional.of(a.sumY / a.n);
-                }
+    public static <T> Collector<T, ?, Optional<Double>> RegrIntercept(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+                collectors(RegrAvgX(functionX,functionY),
+                        RegrSlope(functionX, functionY),
+                        RegrAvgY(functionX,functionY)),
+                t -> !t.v1.isPresent() || !t.v2.isPresent() || t.v3.isPresent() ? Optional.empty() : Optional.of(t.v1.get() - (t.v2.get() * t.v3.get()) )
         );
     }
 
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function SXX of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrSxxBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrSxxBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrSxxBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the SXX value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrSxxBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumXY = 0.0;
-            Double sumXX = 0.0;
-            Double sumYY = 0.0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-
-            ArrayList<Double> listX = new ArrayList<>();
-            ArrayList<Double> listY = new ArrayList<>();
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.listX.add(x);
-                        a.listY.add(y);
-                        a.n++;
-                        a.sumXY += x * y;
-                        a.sumXX += x * x;
-                        a.sumYY += y * y;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.listX.addAll(a2.listX);
-                    a1.listY.addAll(a2.listY);
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    a1.sumXX += a2.sumXX;
-                    a1.sumYY += a2.sumYY;
-                    a1.sumXY += a2.sumXY;
-                    return a1;
-                },
-                a -> {
-
-                    if (a.n == 0) {
-                        return Optional.empty();
-                    }
-
-                    return Optional.of(a.sumXX - a.sumX * a.sumX / a.n);
-
-
-                }
-        );
-    }
-
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function SXY of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrSxyBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrSxyBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrSxyBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the SXY value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrSxyBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumXY = 0.0;
-            Double sumXX = 0.0;
-            Double sumYY = 0.0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-
-            ArrayList<Double> listX = new ArrayList<>();
-            ArrayList<Double> listY = new ArrayList<>();
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.listX.add(x);
-                        a.listY.add(y);
-                        a.n++;
-                        a.sumXY += x * y;
-                        a.sumXX += x * x;
-                        a.sumYY += y * y;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.listX.addAll(a2.listX);
-                    a1.listY.addAll(a2.listY);
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    a1.sumXX += a2.sumXX;
-                    a1.sumYY += a2.sumYY;
-                    a1.sumXY += a2.sumXY;
-                    return a1;
-                },
-                a -> {
-
-                    if (a.n == 0) {
-                        return Optional.empty();
-                    }
-
-                    return Optional.of(a.sumXY - a.sumX * a.sumY / a.n);
-
-
-                }
-        );
-    }
-
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/151
-
-    /**
-     * Calculate the linear regression function SYY of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function regrSyyBy():
-     * The mapping functions functionX and functionY are functions mapping the objects to double values X and Y, for instance:
-     * {@code
-     * FunctionX<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v1);
-     * FunctionY<Tuple2<Integer,Integer>, Double> mapping = e -> Double.valueOf(e.v2);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(new Tuple2<Integer,Integer>(1,1),new Tuple2<Integer,Integer>(2,2)).collect(Agg.regrSyyBy(functionX,functionY));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(-1,1),new Node(1,1)).collect(Agg.regrSyyBy(functionX,functionY));
-     * }
-     * </pre>
-     *
-     * @param functionX mapping function from object to double value representing x
-     * @param functionY mapping function from object to double value representing y
-     * @return the SYY value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-05-17
-     */
-    public static <T> Collector<T, ?, Optional<Double>> regrSyyBy(Function<? super T, ? extends Number> functionX, Function<? super T, ? extends Number> functionY) {
-        class Accumulator {
-            Integer n = 0;
-            Double sumXY = 0.0;
-            Double sumXX = 0.0;
-            Double sumYY = 0.0;
-            Double sumX = 0.0;
-            Double sumY = 0.0;
-
-            ArrayList<Double> listX = new ArrayList<>();
-            ArrayList<Double> listY = new ArrayList<>();
-        }
-
-        return Collector.of(
-                () -> new Accumulator(),
-                (a, t) -> {
-                    Double x = (Double) functionX.apply(t);
-                    Double y = (Double) functionY.apply(t);
-                    if (x != null && y != null) {
-                        a.listX.add(x);
-                        a.listY.add(y);
-                        a.n++;
-                        a.sumXY += x * y;
-                        a.sumXX += x * x;
-                        a.sumYY += y * y;
-                        a.sumX += x;
-                        a.sumY += y;
-                    }
-                },
-                (a1, a2) -> {
-                    a1.n += a2.n;
-                    a1.listX.addAll(a2.listX);
-                    a1.listY.addAll(a2.listY);
-                    a1.sumX += a2.sumX;
-                    a1.sumY += a2.sumY;
-                    a1.sumXX += a2.sumXX;
-                    a1.sumYY += a2.sumYY;
-                    a1.sumXY += a2.sumXY;
-                    return a1;
-                },
-                a -> {
-
-                    if (a.n == 0) {
-                        return Optional.empty();
-                    }
-
-                    return Optional.of(a.sumYY - a.sumY * a.sumY / a.n);
-
-
-                }
+    public static <T> Collector<T, ?, Optional<Double>> RegrR2(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+                collectors(varianceDouble(functionX),
+                        varianceDouble(functionY),
+                        correlationDouble(functionX,functionY)),
+                t -> t.v2.get()==0.0  ? Optional.of(0.0) : (t.v1.get()!=0.0 ? Optional.of(1.0) : Optional.of(Math.pow(t.v3.get(),2)))
         );
     }
 
