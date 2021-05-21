@@ -1010,7 +1010,6 @@ public class Agg {
     }
 
     /**
-     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
@@ -1018,7 +1017,6 @@ public class Agg {
     }
 
     /**
-     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
@@ -1026,7 +1024,6 @@ public class Agg {
     }
 
     /**
-     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function) {
@@ -1034,7 +1031,6 @@ public class Agg {
     }
 
     /**
-     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
      * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given natural ordering, producing multiple results.
      */
     public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
