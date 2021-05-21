@@ -91,7 +91,7 @@ public final class Blocking {
     }
     
     public static BooleanSupplier booleanSupplier(BooleanSupplier booleanSupplier) {
-        return () -> supplier(() -> booleanSupplier.getAsBoolean()).get();
+        return () -> supplier(booleanSupplier::getAsBoolean).get();
     }
     
     public static <T> Consumer<T> consumer(Consumer<? super T> consumer) {
@@ -115,7 +115,7 @@ public final class Blocking {
     }
     
     public static DoubleSupplier doubleSupplier(DoubleSupplier doubleSupplier) {
-        return () -> supplier(() -> doubleSupplier.getAsDouble()).get();
+        return () -> supplier(doubleSupplier::getAsDouble).get();
     }
     
     public static DoubleToIntFunction doubleToIntFunction(DoubleToIntFunction doubleToIntFunction) {
@@ -151,7 +151,7 @@ public final class Blocking {
     }
     
     public static IntSupplier intSupplier(IntSupplier intSupplier) {
-        return () -> supplier(() -> intSupplier.getAsInt()).get();
+        return () -> supplier(intSupplier::getAsInt).get();
     }
     
     public static IntToDoubleFunction intToDoubleFunction(IntToDoubleFunction intToDoubleFunction) {
@@ -183,7 +183,7 @@ public final class Blocking {
     }
     
     public static LongSupplier longSupplier(LongSupplier longSupplier) {
-        return () -> supplier(() -> longSupplier.getAsLong()).get();
+        return () -> supplier(longSupplier::getAsLong).get();
     }
     
     public static LongToDoubleFunction longToDoubleFunction(LongToDoubleFunction longToDoubleFunction) {

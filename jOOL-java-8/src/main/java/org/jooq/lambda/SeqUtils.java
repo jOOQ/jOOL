@@ -84,7 +84,7 @@ class SeqUtils {
                 // optimisations (e.g. to avoid sorting a stream twice in a row)
                 return (Comparator) delegate.getComparator();
             }
-        }).onClose(() -> stream.close());
+        }).onClose(stream::close);
     }
     
     static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
@@ -98,7 +98,7 @@ class SeqUtils {
                 () -> window.order().isPresent()
                     ? new TreeSet<>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
                     : new ArrayList<>(),
-                (s, t) -> s.add(t),
+                Collection::add,
                 (s1, s2) -> { s1.addAll(s2); return s1; },
                 Partition::new
             )
