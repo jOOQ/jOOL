@@ -1366,4 +1366,36 @@ public class CollectorTests {
         assertEquals(Optional.of(0.25), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
         assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
     }
+
+    @Test
+    public void testCorrelationWithNumbers() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.correlationDouble()));
+
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble()));
+
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.correlationDouble()));
+        assertEquals(Optional.of(-1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 0.0)).collect(Agg.correlationDouble()));
+    }
+
+    @Test
+    public void testCorrelationWithObjects() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(-1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 0.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
+    }
 }

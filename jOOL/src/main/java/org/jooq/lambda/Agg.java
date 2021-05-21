@@ -1096,6 +1096,25 @@ public class Agg {
         });
     }
 
+    /**
+     * Get a {@link Collector} that calculates the <code>CORR()</code> function.
+     */
+    public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> correlationDouble() {
+        return correlationDouble(t -> t.v1, t -> t.v2);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>CORR()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> correlationDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(covarianceDouble(functionX, functionY),
+            stddevDouble(functionX),
+            stddevDouble(functionY)),
+            t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 || t.v3.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / (t.v2.get() * t.v3.get()))
+        );
+    }
+
     private static <T> double avg0(List<T> list, ToDoubleFunction<? super T> function) {
         double result = 0.0;
 
