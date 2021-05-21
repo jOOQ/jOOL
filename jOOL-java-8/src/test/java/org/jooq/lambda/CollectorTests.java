@@ -33,11 +33,14 @@ import static org.jooq.lambda.Agg.rankBy;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
+import java.text.DecimalFormat;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple9;
 import org.junit.Test;
 
@@ -990,4 +993,513 @@ public class CollectorTests {
         assertEquals(Seq.of().toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(6)).toList());
         assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
     }
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with numbers.
+     *
+     * @result The result will be the slope of the linear regression.
+     */
+    @Test
+    public void testRegrSlopeByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.empty(), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.of(1.6), Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSlopeBy(functionX, functionY)));
+
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the slope of the linear regression.
+     */
+    @Test
+    public void testRegrSlopeByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.empty(), Seq.of(new Node(0, 0)).collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSlopeBy(functionX, functionY)));
+        assertEquals(Optional.of(1.6), Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSlopeBy(functionX, functionY)));
+
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the intercept of linear regression.
+     */
+    @Test
+    public void testRegrInterceptByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.empty(), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.of(8.0), Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrInterceptBy(functionX, functionY)));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the intercept of linear regression.
+     */
+    @Test
+    public void testRegrInterceptByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.empty(), Seq.of(new Node(0, 0)).collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrInterceptBy(functionX, functionY)));
+        assertEquals(Optional.of(8.0), Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrInterceptBy(functionX, functionY)));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the R2 score of linear regression.
+     */
+    @Test
+    public void testR2ByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.empty(), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.of(0.800), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrR2By(functionX, functionY)).get()))));
+
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objectss.
+     *
+     * @result The result will be the R2 score of linear regression.
+     */
+    @Test
+    public void testR2ByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.empty(), Seq.of(new Node(0, 0)).collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrR2By(functionX, functionY)));
+        assertEquals(Optional.of(0.800), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrR2By(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the number of tuples.
+     */
+    @Test
+    public void testCountByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.of(0.0), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(2.0), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(2.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(4.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrCountBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the number of objects.
+     */
+    @Test
+    public void testCountByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.of(0.0), Seq.<Node>of().collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(0, 0)).collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(2.0), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(2.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrCountBy(functionX, functionY)));
+        assertEquals(Optional.of(4.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrCountBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the average of x.
+     */
+    @Test
+    public void testAvgXByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(1.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(2.5), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrAvgXBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the average of x.
+     */
+    @Test
+    public void testAvgXByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(1.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrAvgXBy(functionX, functionY)));
+        assertEquals(Optional.of(2.5), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrAvgXBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the average of y.
+     */
+    @Test
+    public void testAvgYByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(1.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(12.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrAvgYBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the average of y.
+     */
+    @Test
+    public void testAvgYByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(1.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrAvgYBy(functionX, functionY)));
+        assertEquals(Optional.of(12.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrAvgYBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the SXX of linear regression.
+     */
+    @Test
+    public void testSxxByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(0.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(2.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(5.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSxxBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the SXX of linear regression.
+     */
+    @Test
+    public void testSxxByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(0.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(2.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSxxBy(functionX, functionY)));
+        assertEquals(Optional.of(5.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSxxBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the SXY of linear regression.
+     */
+    @Test
+    public void testSxyByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(8.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSxyBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the SXY of linear regression.
+     */
+    @Test
+    public void testSxyByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSxyBy(functionX, functionY)));
+        assertEquals(Optional.of(8.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSxyBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with tuples.
+     *
+     * @result The result will be the SYY of linear regression.
+     */
+    @Test
+    public void testSyyByWithTuple() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Tuple2<Integer, Integer>, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Tuple2<Integer, Integer>, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Tuple2<Integer, Integer>>of().collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(0, 0)).collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.5), Seq.of(new Tuple2<Integer, Integer>(1, 1), new Tuple2<Integer, Integer>(2, 2)).collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Tuple2<Integer, Integer>(-1, 1), new Tuple2<Integer, Integer>(1, 1)).collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(16.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Tuple2<Integer, Integer>(1, 10), new Tuple2<Integer, Integer>(2, 10), new Tuple2<Integer, Integer>(3, 14), new Tuple2<Integer, Integer>(4, 14)).collect(Agg.regrSyyBy(functionX, functionY)).get()))));
+
+    }
+
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/151
+
+    /**
+     * Test the Seq with objects.
+     *
+     * @result The result will be the SYY of linear regression.
+     */
+    @Test
+    public void testSyyByWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            int v1;
+            int v2;
+
+            Node(int v1, int v2) {
+                this.v1 = v1;
+                this.v2 = v2;
+            }
+        }
+
+        Function<Node, Double> functionX = e -> Double.valueOf(e.v1);
+        Function<Node, Double> functionY = e -> Double.valueOf(e.v2);
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(0, 0)).collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.5), Seq.of(new Node(1, 1), new Node(2, 2)).collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(-1, 1), new Node(1, 1)).collect(Agg.regrSyyBy(functionX, functionY)));
+        assertEquals(Optional.of(16.0), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1, 10), new Node(2, 10), new Node(3, 14), new Node(4, 14)).collect(Agg.regrSyyBy(functionX, functionY)).get()))));
+
+    }
+
+
+
 }
