@@ -1069,18 +1069,40 @@ public class Agg {
     }
 
     private static <T> double variance0(List<T> l, ToDoubleFunction<? super T> function) {
-        double sum = 0.0;
-        double sumVariance = 0.0;
+        double average = avg0(l, function);
+        return avg0(l, t -> Math.pow(function.applyAsDouble(t) - average, 2));
+    }
 
-        for (T o : l)
-            sum += function.applyAsDouble(o);
+    /**
+     * Get a {@link Collector} that calculates the <code>COVAR_POP()</code> function.
+     */
+    public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> covarianceDouble() {
+        return covarianceDouble(t -> t.v1, t -> t.v2);
+    }
 
-        double average = sum / l.size();
+    /**
+     * Get a {@link Collector} that calculates the <code>COVAR_POP()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> covarianceDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(toList(), l -> {
+            if (l.isEmpty())
+                return Optional.empty();
+            else if (l.size() == 1)
+                return Optional.of(0.0);
 
-        for (T o : l)
-            sumVariance += Math.pow(function.applyAsDouble(o) - average, 2);
+            double avgX = avg0(l, functionX);
+            double avgY = avg0(l, functionY);
+            return Optional.of(avg0(l, t -> (functionX.applyAsDouble(t) - avgX) * (functionY.applyAsDouble(t) - avgY)));
+        });
+    }
 
-        return sumVariance / l.size();
+    private static <T> double avg0(List<T> list, ToDoubleFunction<? super T> function) {
+        double result = 0.0;
+
+        for (T t : list)
+            result += function.applyAsDouble(t);
+
+        return result / list.size();
     }
 
     /**

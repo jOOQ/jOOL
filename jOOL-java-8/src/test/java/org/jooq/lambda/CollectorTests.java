@@ -30,6 +30,7 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple9;
 import org.junit.Test;
 
@@ -1334,5 +1335,35 @@ public class CollectorTests {
         assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.varianceDouble(e -> (double) e.val)));
         assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.stddevDouble(e -> (double) e.val)));
         assertEquals(Optional.of(1.250), Seq.of(new Item(1), new Item(2), new Item(3), new Item(4)).collect(Agg.varianceDouble(e -> (double) e.val)));
+    }
+
+    @Test
+    public void testCovarianceWithNumbers() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.covarianceDouble()));
+
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble()));
+
+        assertEquals(Optional.of(0.25), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.covarianceDouble()));
+        assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.covarianceDouble()));
+    }
+
+    @Test
+    public void testCovarianceWithObjects() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+
+        assertEquals(Optional.of(0.25), Seq.of(tuple(1.0, 1.0), tuple(2.0, 2.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
+        assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.covarianceDouble(Tuple2::v1, Tuple2::v2)));
     }
 }
