@@ -1171,62 +1171,50 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>regrCountLong()</code> function.
      */
-    public static  Collector<Tuple2<Double,Double>, ?, Optional<Long>> regrCountLong() {
+    public static  Collector<Tuple2<Double,Double>, ?, Optional<Double>> regrCountLong() {
         return regrCountLong(t -> t.v1, t -> t.v2);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>regrCountLong()</code> function.
      */
-    public static <T> Collector<T, ?, Optional<Long>> regrCountLong(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    public static <T> Collector<T, ?, Optional<Double>> regrCountLong(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(toList(), l -> {
             if (l.isEmpty())
                 return Optional.empty();
             long result = 0;
             for (T t : l)
                 result += t==null ? 0:1;
-            return Optional.of(result);
+            return Optional.of((double)result);
         });
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>regrAvgXDouble()</code> function.
      */
-    public static  Collector<Tuple2<Double,Double>, ?, Optional<Double>> regrAvgXDouble() {
-        return regrAvgXDouble(t -> t.v1, t -> t.v2);
+    public static  Collector<Tuple2<Double,Double>, ?, Double> regrAvgXDouble() {
+        return regrAvgXDouble(t -> t.v1);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>regrAvgXDouble()</code> function.
      */
-    public static <T> Collector<T, ?, Optional<Double>> regrAvgXDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
-        return collectingAndThen(toList(), l -> {
-            if (l.isEmpty())
-                return Optional.empty();
-            else if (l.size() == 1)
-                return Optional.of(0.0);
-            return Optional.of(avg0(l,functionX));
-        });
+    public static <T> Collector<T, ?, Double> regrAvgXDouble(ToDoubleFunction<? super T> functionX) {
+        return filter(a-> a!=null,averagingDouble(functionX));
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>regrAvgYDouble()</code> function.
      */
-    public static  Collector<Tuple2<Double,Double>, ?, Optional<Double>> regrAvgYDouble() {
-        return regrAvgYDouble(t -> t.v1, t -> t.v2);
+    public static  Collector<Tuple2<Double,Double>, ?, Double> regrAvgYDouble() {
+        return regrAvgYDouble(t -> t.v2);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>regrAvgYDouble()</code> function.
      */
-    public static <T> Collector<T, ?, Optional<Double>> regrAvgYDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
-        return collectingAndThen(toList(), l -> {
-            if (l.isEmpty())
-                return Optional.empty();
-            else if (l.size() == 1)
-                return Optional.of(0.0);
-            return Optional.of(avg0(l,functionY));
-        });
+    public static <T> Collector<T, ?, Double> regrAvgYDouble(ToDoubleFunction<? super T> functionY) {
+        return regrAvgXDouble(functionY);
     }
 
     /**
@@ -1313,10 +1301,10 @@ public class Agg {
      */
     public static <T> Collector<T, ?, Optional<Double>> regrInterceptDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
-                collectors(regrAvgXDouble(functionX,functionY),
+                collectors(regrAvgXDouble(functionX),
                         regrSlopeDouble(functionX, functionY),
-                        regrAvgYDouble(functionX,functionY)),
-                t -> !t.v1.isPresent() || !t.v2.isPresent() || t.v3.isPresent() ? Optional.empty() : Optional.of(t.v1.get() - (t.v2.get() * t.v3.get()) )
+                        regrAvgYDouble(functionY)),
+                t -> t.v1==0.0 || !t.v2.isPresent() || t.v3==0.0 ? Optional.empty() : Optional.of(t.v1 - (t.v2.get() * t.v3) )
         );
     }
 
