@@ -28,7 +28,6 @@ import java.util.Optional;
 import java.util.TreeSet;
 import java.util.function.*;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
@@ -1165,11 +1164,14 @@ public class Agg {
         );
     }
 
+    /**
+     * Realize of linear regression functions.
+     */
 
-
-
-
-    public static <T> Collector<T, ?, Optional<Long>> regrCountBy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrCount()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Long>> regrCount(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(toList(), l -> {
             if (l.isEmpty())
                 return Optional.empty();
@@ -1180,7 +1182,10 @@ public class Agg {
         });
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrAvgX(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrAvgX()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrAvgX(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(toList(), l -> {
             if (l.isEmpty())
                 return Optional.empty();
@@ -1190,8 +1195,10 @@ public class Agg {
         });
     }
 
-
-    public static <T> Collector<T, ?, Optional<Double>> RegrAvgY(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrAvgY()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrAvgY(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(toList(), l -> {
             if (l.isEmpty())
                 return Optional.empty();
@@ -1201,7 +1208,10 @@ public class Agg {
         });
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrSxx(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrSxx()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSxx(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
                 collectors(covarianceDouble(functionX, functionX),
                         count()),
@@ -1209,7 +1219,10 @@ public class Agg {
         );
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrSyy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrSyy()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSyy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
                 collectors(covarianceDouble(functionY, functionY),
                         count()),
@@ -1217,7 +1230,10 @@ public class Agg {
         );
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrSxy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrSxy()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSxy(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
                 collectors(covarianceDouble(functionX, functionY),
                         count()),
@@ -1225,7 +1241,10 @@ public class Agg {
         );
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrSlope(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrSlope()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSlope(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
                 collectors(covarianceDouble(functionX, functionY),
                         varianceDouble(functionY)),
@@ -1233,16 +1252,22 @@ public class Agg {
         );
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrIntercept(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrIntercept()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrIntercept(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
-                collectors(RegrAvgX(functionX,functionY),
-                        RegrSlope(functionX, functionY),
-                        RegrAvgY(functionX,functionY)),
+                collectors(regrAvgX(functionX,functionY),
+                        regrSlope(functionX, functionY),
+                        regrAvgY(functionX,functionY)),
                 t -> !t.v1.isPresent() || !t.v2.isPresent() || t.v3.isPresent() ? Optional.empty() : Optional.of(t.v1.get() - (t.v2.get() * t.v3.get()) )
         );
     }
 
-    public static <T> Collector<T, ?, Optional<Double>> RegrR2(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+    /**
+     * Get a {@link Collector} that calculates the <code>regrR2()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrR2(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
                 collectors(varianceDouble(functionX),
                         varianceDouble(functionY),
@@ -1250,7 +1275,5 @@ public class Agg {
                 t -> t.v2.get()==0.0  ? Optional.of(0.0) : (t.v1.get()!=0.0 ? Optional.of(1.0) : Optional.of(Math.pow(t.v3.get(),2)))
         );
     }
-
-
 
 }
