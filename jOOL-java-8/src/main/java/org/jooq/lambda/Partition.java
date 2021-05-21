@@ -56,7 +56,6 @@ class Partition<T> {
             return value.get();
     }
   
-    @SuppressWarnings("unchecked")
     <R> R cache(Object key, Supplier<? extends R> value) {
         return cache(() -> key, value);
     }

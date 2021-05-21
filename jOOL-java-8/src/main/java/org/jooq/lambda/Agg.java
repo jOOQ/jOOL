@@ -15,15 +15,17 @@
  */
 package org.jooq.lambda;
 
+import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
-import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.*;
+import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.*;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
@@ -62,7 +64,7 @@ public class Agg {
      * (DENSE_RANK FIRST ORDER BY ... ), use {@link #maxAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> first() {
-        return Collectors.reducing((v1, v2) -> v1);
+        return reducing((v1, v2) -> v1);
     }
 
     /**
@@ -75,7 +77,7 @@ public class Agg {
      * (DENSE_RANK LAST ORDER BY ... ), use {@link #minAll(Comparator)} instead.
      */
     public static <T> Collector<T, ?, Optional<T>> last() {
-        return Collectors.reducing((v1, v2) -> v2);
+        return reducing((v1, v2) -> v2);
     }
 
     /**
@@ -93,7 +95,7 @@ public class Agg {
                 l1.addAll(l2);
                 return l1;
             },
-            l -> Seq.seq(l)
+            Seq::seq
         );
     }
 
@@ -130,7 +132,7 @@ public class Agg {
      * function.
      */
     public static <T> Collector<T, ?, Long> count() {
-        return Collectors.counting();
+        return counting();
     }
 
     /**
@@ -169,7 +171,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>SUM()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> sum(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> {
@@ -198,7 +200,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>AVG()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> avg(Function<? super T, ? extends U> function) {
         return Collector.of(
             () -> (Sum<U>[]) new Sum[1],
@@ -345,7 +347,7 @@ public class Agg {
         }
 
         return Collector.of(
-            () -> new Accumulator(),
+            Accumulator::new,
             (a, t) -> {
                 U u = function.apply(t);
 
@@ -416,7 +418,7 @@ public class Agg {
         }
 
         return Collector.of(
-            () -> new Accumulator(),
+            Accumulator::new,
             (a, t) -> {
                 U u = function.apply(t);
                 if (a.u == null) {
@@ -518,7 +520,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitAnd(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> {
@@ -541,9 +543,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[] { Integer.MAX_VALUE },
-            (s, v) -> {
-                s[0] = s[0] & function.applyAsInt(v);
-            },
+            (s, v) -> s[0] = s[0] & function.applyAsInt(v),
             (s1, s2) -> {
                 s1[0] = s1[0] & s2[0];
                 return s1;
@@ -558,9 +558,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[] { Long.MAX_VALUE },
-            (s, v) -> {
-                s[0] = s[0] & function.applyAsLong(v);
-            },
+            (s, v) -> s[0] = s[0] & function.applyAsLong(v),
             (s1, s2) -> {
                 s1[0] = s1[0] & s2[0];
                 return s1;
@@ -581,7 +579,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public static <T, U> Collector<T, ?, Optional<U>> bitOr(Function<? super T, ? extends U> function) {
         return Collector.of(() -> (Sum<U>[]) new Sum[1],
             (s, v) -> {
@@ -604,9 +602,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[1],
-            (s, v) -> {
-                s[0] = s[0] | function.applyAsInt(v);
-            },
+            (s, v) -> s[0] = s[0] | function.applyAsInt(v),
             (s1, s2) -> {
                 s1[0] = s1[0] | s2[0];
                 return s1;
@@ -621,9 +617,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[1],
-            (s, v) -> {
-                s[0] = s[0] | function.applyAsLong(v);
-            },
+            (s, v) -> s[0] = s[0] | function.applyAsLong(v),
             (s1, s2) -> {
                 s1[0] = s1[0] | s2[0];
                 return s1;
@@ -662,7 +656,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>MODE()</code> function.
      */
     public static <T, U> Collector<T, ?, Optional<T>> modeBy(Function<? super T, ? extends U> function) {
-        return Collectors.collectingAndThen(modeAllBy(function), s -> s.findFirst());
+        return collectingAndThen(modeAllBy(function), Stream::findFirst);
     }
 
     /**
@@ -810,9 +804,7 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Optional<Double>> percentRankBy(U value, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return collectingAndThen(
-            Tuple.collectors(
-                rankBy(value, function, comparator),
-                count()),
+            collectors(rankBy(value, function, comparator), count()),
             t -> t.map((rank, count) -> rank.map(r -> (double) r / count))
         );
     }
@@ -904,7 +896,7 @@ public class Agg {
         if (percentile == 0.0)
             return minBy(function, comparator);
         else if (percentile == 1.0)
-            return collectingAndThen(maxAllBy(function, comparator), s -> s.findLast());
+            return collectingAndThen(maxAllBy(function, comparator), Seq::findLast);
         else
             return percentileCollector(
                 function,
@@ -991,7 +983,7 @@ public class Agg {
         Function<List<Tuple2<T, U>>, R> finisher
     ) {
         return Collector.of(
-            () -> new ArrayList<>(),
+            ArrayList::new,
             (l, v) -> l.add(tuple(v, function.apply(v))),
             (l1, l2) -> {
                 l1.addAll(l2);
@@ -1005,7 +997,7 @@ public class Agg {
                 else if (size == 1)
                     return onSingle.apply(l.get(0).v1);
 
-                l.sort(Comparator.comparing(t -> t.v2, comparator));
+                l.sort(comparing(t -> t.v2, comparator));
                 return finisher.apply(l);
             }
         );
@@ -1053,8 +1045,8 @@ public class Agg {
     * Get a {@link Collector} that calculates the common prefix of a set of strings.
     */
     public static Collector<CharSequence, ?, String> commonPrefix() {
-        return Collectors.collectingAndThen(
-            Collectors.reducing((CharSequence s1, CharSequence s2) -> {
+        return collectingAndThen(
+            reducing((CharSequence s1, CharSequence s2) -> {
                 if (s1 == null || s2 == null)
                     return "";
 
@@ -1072,8 +1064,8 @@ public class Agg {
      * Get a {@link Collector} that calculates the common suffix of a set of strings.
      */
     public static Collector<CharSequence, ?, String> commonSuffix() {
-        return Collectors.collectingAndThen(
-            Collectors.reducing((CharSequence s1, CharSequence s2) -> {
+        return collectingAndThen(
+            reducing((CharSequence s1, CharSequence s2) -> {
                 if (s1 == null || s2 == null)
                     return "";
 

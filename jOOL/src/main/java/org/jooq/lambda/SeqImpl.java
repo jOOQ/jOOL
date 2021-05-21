@@ -16,6 +16,7 @@
 package org.jooq.lambda;
 
 import static java.util.Comparator.naturalOrder;
+import static java.util.stream.Collectors.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -232,17 +233,17 @@ class SeqImpl<T> implements Seq<T> {
 
     @Override
     public int sumInt(ToIntFunction<? super T> function) {
-        return collect(Collectors.summingInt(function));
+        return collect(summingInt(function));
     }
 
     @Override
     public long sumLong(ToLongFunction<? super T> function) {
-        return collect(Collectors.summingLong(function));
+        return collect(summingLong(function));
     }
 
     @Override
     public double sumDouble(ToDoubleFunction<? super T> function) {
-        return collect(Collectors.summingDouble(function));
+        return collect(summingDouble(function));
     }
 
     @Override
