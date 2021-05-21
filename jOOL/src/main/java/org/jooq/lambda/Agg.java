@@ -23,11 +23,13 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.TreeSet;
 import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 /**
@@ -36,6 +38,7 @@ import org.jooq.lambda.tuple.Tuple2;
  * The class name isn't set in stone and will change.
  *
  * @author Lukas Eder
+ * @author Jichen Lu
  */
 public class Agg {
 
@@ -1010,14 +1013,14 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
         return medianAllBy(t -> t, naturalOrder());
     }
 
     /**
-     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
         return medianAllBy(t -> t, comparator);
@@ -1035,6 +1038,49 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return percentileAllBy(0.5, function, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
+     */
+    public static <T> Collector<Double, ?, Optional<Double>> stddevDouble() {
+        return stddevDouble(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<Double>> stddevDouble(ToDoubleFunction<? super T> function) {
+        return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(Math.sqrt(variance0(l, function))));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>VAR_POP()</code> function.
+     */
+    public static Collector<Double, ?, Optional<Double>> varianceDouble() {
+        return varianceDouble(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>VAR_POP()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> varianceDouble(ToDoubleFunction<? super T> function) {
+        return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(variance0(l, function)));
+    }
+
+    private static <T> double variance0(List<T> l, ToDoubleFunction<? super T> function) {
+        double sum = 0.0;
+        double sumVariance = 0.0;
+
+        for (T o : l)
+            sum += function.applyAsDouble(o);
+
+        double average = sum / l.size();
+
+        for (T o : l)
+            sumVariance += Math.pow(function.applyAsDouble(o) - average, 2);
+
+        return sumVariance / l.size();
     }
 
     /**

@@ -22,15 +22,12 @@ import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
-import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import java.util.function.Function;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple9;
@@ -571,7 +568,7 @@ public class CollectorTests {
 
     @Test
     public void testMedianAllByWithoutComparator2() {
-        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
                 e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
                 i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
                 m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
@@ -586,12 +583,12 @@ public class CollectorTests {
 
     @Test
     public void testMedianAllWithComparator2() {
-        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
                 e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
                 i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
                 m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
 
-        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll(Comparator.comparing(Item::reverse))).toList());
+        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll(Comparator.comparing(CollectorTests.Item::reverse))).toList());
     }
 
     @Test
@@ -605,7 +602,7 @@ public class CollectorTests {
 
     @Test
     public void testMedianAllWithoutComparator2() {
-        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
                 e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
                 i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
                 m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
@@ -1313,73 +1310,29 @@ public class CollectorTests {
         assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
     }
 
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/360
-
-    /**
-     * Test the Seq with numbers.
-     *
-     * @result The result will be the standard deviation and variance.
-     */
     @Test
     public void testStddevAndVarianceWithNumber() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        Function<Integer, Double> mapping = Double::valueOf;
-
-        assertEquals(Optional.empty(), Seq.<Integer>of().collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.empty(), Seq.<Integer>of().collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(1).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(1).collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(1, 1, 1, 1).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(1, 1, 1, 1).collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(1.0), Seq.of(1, 1, 3, 3).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(1.0), Seq.of(1, 1, 3, 3).collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(1.250), Seq.of(1, 2, 3, 4).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(1.118), Optional.of(Double.parseDouble(df.format(Seq.of(1, 2, 3, 4).collect(Agg.stddevBy(mapping)).get()))));
-
-
+        assertEquals(Optional.empty(), Seq.<Double>of().collect(Agg.varianceDouble()));
+        assertEquals(Optional.empty(), Seq.<Double>of().collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0, 1.0, 1.0, 1.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0, 1.0, 1.0, 1.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(1.0, 1.0, 3.0, 3.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(1.0, 1.0, 3.0, 3.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(1.250), Seq.of(1.0, 2.0, 3.0, 4.0).collect(Agg.varianceDouble()));
     }
 
-    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/360
-
-    /**
-     * Test the Seq with numbers.
-     *
-     * @result The result will be the standard deviation and variance.
-     */
     @Test
     public void testStddevAndVarianceWithObject() {
-        DecimalFormat df = new java.text.DecimalFormat("#.000");
-
-        class Node {
-            final int value;
-
-            Node(int value) {
-                this.value = value;
-            }
-
-            public Double function() {
-                return (double) value;
-            }
-
-            public int getValue() {
-                return this.value;
-            }
-        }
-        Function<Node, Double> mapping = e -> (double) e.getValue();
-
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(1)).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(1)).collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(1), new Node(1), new Node(1), new Node(1)).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(0.0), Seq.of(new Node(1), new Node(1), new Node(1), new Node(1)).collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(1), new Node(1), new Node(3), new Node(3)).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(1.0), Seq.of(new Node(1), new Node(1), new Node(3), new Node(3)).collect(Agg.stddevBy(mapping)));
-        assertEquals(Optional.of(1.250), Seq.of(new Node(1), new Node(2), new Node(3), new Node(4)).collect(Agg.varianceBy(mapping)));
-        assertEquals(Optional.of(1.118), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1), new Node(2), new Node(3), new Node(4)).collect(Agg.stddevBy(mapping)).get()))));
-
+        assertEquals(Optional.empty(), Seq.<Item>of().collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.empty(), Seq.<Item>of().collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1), new Item(1), new Item(1), new Item(1)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1), new Item(1), new Item(1), new Item(1)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.250), Seq.of(new Item(1), new Item(2), new Item(3), new Item(4)).collect(Agg.varianceDouble(e -> (double) e.val)));
     }
-
-
 }

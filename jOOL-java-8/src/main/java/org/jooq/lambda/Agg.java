@@ -30,7 +30,6 @@ import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple2;
 
 /**
@@ -39,6 +38,7 @@ import org.jooq.lambda.tuple.Tuple2;
  * The class name isn't set in stone and will change.
  *
  * @author Lukas Eder
+ * @author Jichen Lu
  */
 public class Agg {
 
@@ -1013,14 +1013,14 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
         return medianAllBy(t -> t, naturalOrder());
     }
 
     /**
-     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     * Get a {@link Collector} that calculates the <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
     public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
         return medianAllBy(t -> t, comparator);
@@ -1038,6 +1038,49 @@ public class Agg {
      */
     public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
         return percentileAllBy(0.5, function, comparator);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
+     */
+    public static <T> Collector<Double, ?, Optional<Double>> stddevDouble() {
+        return stddevDouble(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
+     */
+    public static <T, U> Collector<T, ?, Optional<Double>> stddevDouble(ToDoubleFunction<? super T> function) {
+        return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(Math.sqrt(variance0(l, function))));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>VAR_POP()</code> function.
+     */
+    public static Collector<Double, ?, Optional<Double>> varianceDouble() {
+        return varianceDouble(t -> t);
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>VAR_POP()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> varianceDouble(ToDoubleFunction<? super T> function) {
+        return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(variance0(l, function)));
+    }
+
+    private static <T> double variance0(List<T> l, ToDoubleFunction<? super T> function) {
+        double sum = 0.0;
+        double sumVariance = 0.0;
+
+        for (T o : l)
+            sum += function.applyAsDouble(o);
+
+        double average = sum / l.size();
+
+        for (T o : l)
+            sumVariance += Math.pow(function.applyAsDouble(o) - average, 2);
+
+        return sumVariance / l.size();
     }
 
     /**
@@ -1077,151 +1120,6 @@ public class Agg {
                 return s1.subSequence(l1 - i, l1);
             }),
             s -> s.map(Objects::toString).orElse("")
-        );
-    }
-
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/360
-
-    /**
-     * Calculate the variance of objects with mapping function from object to double value,
-     * with given list, size and mapping function.
-     *
-     * <p><pre>
-     *     This function is based on the definition of standard deviation:
-     *     First, calculate the sum of value of all objects and the average value;
-     *     Second, calculate the sum of square of difference between each objects and average;
-     *     Third, use sum of variance divide size to obtain variance of all objects.
-     * </pre>
-     *
-     * @param function mapping function from object to double value
-     * @param l        a list containing all the objects
-     * @param size     the size of the list in collector
-     * @return the variance value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-04-25
-     */
-    private static <T> double getVariance(
-            Function<? super T, Double> function,
-            ArrayList<T> l, int size) {
-        double sum = 0.0;
-        double average;
-        double sumVariance = 0.0;
-        double variance;
-        for (T o : l) {
-            double temp = function.apply(o);
-            sum += temp;
-        }
-        average = sum / size;
-        for (T o : l) {
-            double temp = Math.pow(function.apply(o) - average, 2);
-            sumVariance += temp;
-        }
-        variance = sumVariance / size;
-        return variance;
-    }
-
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/360
-
-    /**
-     * Calculate the variance of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function stddevBy():
-     * The mapping function is a function mapping the objects to a double value, for instance:
-     * {@code
-     * Function<Integer, Double> mapping = e -> Double.valueOf(e);
-     * }
-     * The specific usage of stddevBy is like:
-     * {@code
-     * Seq.of(1, 1, 1, 1).collect(Agg.stddevBy(mapping));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(1), new Node(1), new Node(1), new Node(1)).collect(Agg.stddevBy(mapping1));
-     * }
-     * </pre>
-     *
-     * @param function mapping function from object to double value
-     * @return the stddev value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-04-25
-     */
-    public static <T> Collector<T, ?, Optional<Double>> stddevBy(
-            Function<? super T,
-                    Double> function) {
-        return Collector.of(
-                (Supplier<ArrayList<T>>) ArrayList::new,
-                ArrayList::add,
-                (l1, l2) -> {
-                    l1.addAll(l2);
-                    return l1;
-                },
-                l -> {
-                    int size = l.size();
-                    if (size == 0) {
-                        return Optional.empty();
-                    }
-                    double variance = getVariance(function, l, size);
-                    double stddev;
-
-
-                    stddev = Math.sqrt(variance);
-
-                    return Optional.of(stddev);
-                }
-        );
-    }
-
-
-    //CS304 Issue link: https://github.com/jOOQ/jOOL/issues/360
-
-    /**
-     * Calculate the variance of the given object collectors,
-     * based on the mapping function from object to double number.
-     *
-     * <p><pre> Usage of aggregation function varianceBy():
-     * The mapping function is a function mapping the objects to a double value, for instance:
-     * {@code
-     * Function<Integer, Double> mapping = e -> Double.valueOf(e);
-     * }
-     * The specific usage of varianceBy is like:
-     * {@code
-     * Seq.of(1, 1, 1, 1).collect(Agg.varianceBy(mapping));
-     * }
-     * Besides, self defined class is also allowed with mapping function:
-     * {@code
-     * Seq.of(new Node(1), new Node(1), new Node(1), new Node(1)).collect(Agg.varianceBy(mapping1));
-     * }
-     * </pre>
-     *
-     * @param function mapping function from object to double value
-     * @return the stddev value
-     * @version 1.0
-     * @author Jichen Lu
-     * @date 2021-04-25
-     */
-    public static <T> Collector<T, ?, Optional<Double>> varianceBy(
-            Function<? super T,
-                    Double> function) {
-        return Collector.of(
-                (Supplier<ArrayList<T>>) ArrayList::new,
-                ArrayList::add,
-                (l1, l2) -> {
-                    l1.addAll(l2);
-                    return l1;
-                },
-                l -> {
-                    int size = l.size();
-                    if (size == 0) {
-                        return Optional.empty();
-                    }
-                    double variance = getVariance(function, l, size);
-                    return Optional.of(variance);
-                }
         );
     }
 }

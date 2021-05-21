@@ -22,12 +22,12 @@ import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.Comparator;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import java.util.function.Function;
 
 import org.jooq.lambda.tuple.Tuple;
 import org.jooq.lambda.tuple.Tuple9;
@@ -568,7 +568,7 @@ public class CollectorTests {
 
     @Test
     public void testMedianAllByWithoutComparator2() {
-        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
                 e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
                 i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
                 m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
@@ -583,12 +583,12 @@ public class CollectorTests {
 
     @Test
     public void testMedianAllWithComparator2() {
-        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
                 e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
                 i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
                 m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
 
-        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll(Comparator.comparing(Item::reverse))).toList());
+        assertEquals(asList(j, i), Seq.of(c, j, n, d, e, o, l, p, a, m, h, b, k, g, f, i).collect(medianAll(Comparator.comparing(CollectorTests.Item::reverse))).toList());
     }
 
     @Test
@@ -602,7 +602,7 @@ public class CollectorTests {
 
     @Test
     public void testMedianAllWithoutComparator2() {
-        Item    a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
+        Item a = new Item(1), b = new Item(1), c = new Item(2), d = new Item(2),
                 e = new Item(2), f = new Item(3), g = new Item(3), h = new Item(3),
                 i = new Item(4), j = new Item(4), k = new Item(5), l = new Item(6),
                 m = new Item(7), n = new Item(7), o = new Item(7), p = new Item(7);
@@ -1308,5 +1308,31 @@ public class CollectorTests {
         assertEquals(Seq.of(4, 5).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(3)).toList());
         assertEquals(Seq.of().toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(6)).toList());
         assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
+    }
+
+    @Test
+    public void testStddevAndVarianceWithNumber() {
+        assertEquals(Optional.empty(), Seq.<Double>of().collect(Agg.varianceDouble()));
+        assertEquals(Optional.empty(), Seq.<Double>of().collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0, 1.0, 1.0, 1.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(1.0, 1.0, 1.0, 1.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(1.0, 1.0, 3.0, 3.0).collect(Agg.varianceDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(1.0, 1.0, 3.0, 3.0).collect(Agg.stddevDouble()));
+        assertEquals(Optional.of(1.250), Seq.of(1.0, 2.0, 3.0, 4.0).collect(Agg.varianceDouble()));
+    }
+
+    @Test
+    public void testStddevAndVarianceWithObject() {
+        assertEquals(Optional.empty(), Seq.<Item>of().collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.empty(), Seq.<Item>of().collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1), new Item(1), new Item(1), new Item(1)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(0.0), Seq.of(new Item(1), new Item(1), new Item(1), new Item(1)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.varianceDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.0), Seq.of(new Item(1), new Item(1), new Item(3), new Item(3)).collect(Agg.stddevDouble(e -> (double) e.val)));
+        assertEquals(Optional.of(1.250), Seq.of(new Item(1), new Item(2), new Item(3), new Item(4)).collect(Agg.varianceDouble(e -> (double) e.val)));
     }
 }
