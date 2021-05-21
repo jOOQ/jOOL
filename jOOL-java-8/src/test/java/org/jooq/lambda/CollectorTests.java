@@ -22,6 +22,9 @@ import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
+import java.text.DecimalFormat;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -1309,4 +1312,74 @@ public class CollectorTests {
         assertEquals(Seq.of().toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(6)).toList());
         assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
     }
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/360
+
+    /**
+     * Test the Seq with numbers.
+     *
+     * @result The result will be the standard deviation and variance.
+     */
+    @Test
+    public void testStddevAndVarianceWithNumber() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        Function<Integer, Double> mapping = Double::valueOf;
+
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.empty(), Seq.<Integer>of().collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(1).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(1).collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(1, 1, 1, 1).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(1, 1, 1, 1).collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(1.0), Seq.of(1, 1, 3, 3).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(1.0), Seq.of(1, 1, 3, 3).collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(1.250), Seq.of(1, 2, 3, 4).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(1.118), Optional.of(Double.parseDouble(df.format(Seq.of(1, 2, 3, 4).collect(Agg.stddevBy(mapping)).get()))));
+
+
+    }
+
+    //CS304 (manually written) Issue link: https://github.com/jOOQ/jOOL/issues/360
+
+    /**
+     * Test the Seq with numbers.
+     *
+     * @result The result will be the standard deviation and variance.
+     */
+    @Test
+    public void testStddevAndVarianceWithObject() {
+        DecimalFormat df = new java.text.DecimalFormat("#.000");
+
+        class Node {
+            final int value;
+
+            Node(int value) {
+                this.value = value;
+            }
+
+            public Double function() {
+                return (double) value;
+            }
+
+            public int getValue() {
+                return this.value;
+            }
+        }
+        Function<Node, Double> mapping = e -> (double) e.getValue();
+
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.empty(), Seq.<Node>of().collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(1)).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(1)).collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(1), new Node(1), new Node(1), new Node(1)).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(0.0), Seq.of(new Node(1), new Node(1), new Node(1), new Node(1)).collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(1), new Node(1), new Node(3), new Node(3)).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(1.0), Seq.of(new Node(1), new Node(1), new Node(3), new Node(3)).collect(Agg.stddevBy(mapping)));
+        assertEquals(Optional.of(1.250), Seq.of(new Node(1), new Node(2), new Node(3), new Node(4)).collect(Agg.varianceBy(mapping)));
+        assertEquals(Optional.of(1.118), Optional.of(Double.parseDouble(df.format(Seq.of(new Node(1), new Node(2), new Node(3), new Node(4)).collect(Agg.stddevBy(mapping)).get()))));
+
+    }
+
+
 }
