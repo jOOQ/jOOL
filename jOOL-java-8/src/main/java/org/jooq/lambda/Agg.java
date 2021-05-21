@@ -940,8 +940,118 @@ public class Agg {
     }
 
     /**
-     * Get a {@link Collector} that calculates the common prefix of a set of strings.
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
      */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> percentileAll(double percentile) {
+        return percentileAllBy(percentile, t -> t, naturalOrder());
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> percentileAll(double percentile, Comparator<? super T> comparator) {
+        return percentileAllBy(percentile, t -> t, comparator);
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function) {
+        return percentileAllBy(percentile, function, naturalOrder());
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> percentileAllBy(double percentile, Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        if (percentile < 0.0 || percentile > 1.0)
+            throw new IllegalArgumentException("Percentile must be between 0.0 and 1.0");
+
+        if (percentile == 0.0)
+            // If percentile is 0, this is the same as taking the items with the minimum value.
+            return minAllBy(function, comparator);
+        else if (percentile == 1.0)
+            // If percentile is 1, this is the same as taking the items with the maximum value.
+            return maxAllBy(function, comparator);
+
+        return Collector.of(
+                () -> new ArrayList<Tuple2<? extends T, U>>(),
+                (l, v) -> l.add(tuple(v, function.apply(v))),
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                },
+                l -> {
+                    int size = l.size();
+
+                    if (size == 0)
+                        return Seq.empty();
+                    else if (size == 1)
+                        return Seq.of(l.get(0).v1);
+
+                    l.sort(Comparator.comparing(t -> t.v2, comparator));
+
+                    int left = 0;
+                    int right = (int) -Math.round(-(size * percentile + 0.5)) - 1;
+                    int mid;
+
+                    List<T> result = new ArrayList<>();
+                    U value = l.get(right).v2;
+                    // Search the first value equal to the value at the position of PERCENTILE by binary search
+                    while (left < right) {
+                        mid = left + (right - left) / 2;
+                        if (comparator.compare(l.get(mid).v2, value) < 0)
+                            left = mid + 1;
+                        else
+                            right = mid;
+                    }
+
+                    for (; left < size && comparator.compare(l.get(left).v2, value) == 0; left++)
+                        result.add(l.get(left).v1);
+                    return Seq.seq(result);
+                }
+        );
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T extends Comparable<? super T>> Collector<T, ?, Seq<T>> medianAll() {
+        return medianAllBy(t -> t, naturalOrder());
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T> Collector<T, ?, Seq<T>> medianAll(Comparator<? super T> comparator) {
+        return medianAllBy(t -> t, comparator);
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>PERCENTILE_DISC(percentile)</code> function given a specific ordering, producing multiple results.
+     */
+    public static <T, U extends Comparable<? super U>> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function) {
+        return medianAllBy(function, naturalOrder());
+    }
+
+    /**
+     * CS304 Issue link: https://github.com/jOOQ/jOOL/issues/221
+     * Get a {@link Collector} that calculates the derived <code>MEDIAN()</code> function given natural ordering, producing multiple results.
+     */
+    public static <T, U> Collector<T, ?, Seq<T>> medianAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
+        return percentileAllBy(0.5, function, comparator);
+    }
+
+    /**
+    * Get a {@link Collector} that calculates the common prefix of a set of strings.
+    */
     public static Collector<CharSequence, ?, String> commonPrefix() {
         return Collectors.collectingAndThen(
             Collectors.reducing((CharSequence s1, CharSequence s2) -> {
