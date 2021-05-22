@@ -1398,4 +1398,139 @@ public class CollectorTests {
         assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 3.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
         assertEquals(Optional.of(-1.0), Seq.of(tuple(1.0, 1.0), tuple(2.0, 0.0)).collect(Agg.correlationDouble(Tuple2::v1, Tuple2::v2)));
     }
+
+    @Test
+    public void testRegrAvgX() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrAvgXDouble()));
+
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(1.5), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrAvgXDouble()));
+        assertEquals(Optional.of(1.5), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrAvgXDouble()));
+    }
+
+    @Test
+    public void testRegrAvgY() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(2.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrAvgYDouble()));
+
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrAvgYDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrAvgYDouble()));
+    }
+
+    @Test
+    public void testRegrCount() {
+        assertEquals(0L, (long) Seq.<Tuple2<Double, Double>>of().collect(Agg.regrCount()));
+        assertEquals(1L, (long) Seq.of(tuple(1.0, 1.0)).collect(Agg.regrCount()));
+        assertEquals(1L, (long) Seq.of(tuple(2.0, 2.0)).collect(Agg.regrCount()));
+        assertEquals(1L, (long) Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrCount()));
+        assertEquals(1L, (long) Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrCount()));
+        assertEquals(1L, (long) Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrCount()));
+
+        assertEquals(2L, (long) Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrCount()));
+        assertEquals(2L, (long) Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrCount()));
+        assertEquals(2L, (long) Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrCount()));
+        assertEquals(2L, (long) Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrCount()));
+    }
+
+    @Test
+    public void testRegrIntercept() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrInterceptDouble()));
+
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrInterceptDouble()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrInterceptDouble()));
+    }
+
+    @Test
+    public void testRegrR2() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrR2Double()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrR2Double()));
+
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrR2Double()));
+        assertEquals(Optional.of(1.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrR2Double()));
+    }
+
+    @Test
+    public void testRegrSlope() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrSlopeDouble()));
+
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.empty(), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrSlopeDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrSlopeDouble()));
+    }
+
+    @Test
+    public void testRegrSXX() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrSxxDouble()));
+
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrSxxDouble()));
+        assertEquals(Optional.of(0.5), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrSxxDouble()));
+    }
+
+    @Test
+    public void testRegrSXY() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrSxyDouble()));
+
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrSxyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrSxyDouble()));
+    }
+
+    @Test
+    public void testRegrSYY() {
+        assertEquals(Optional.empty(), Seq.<Tuple2<Double, Double>>of().collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple(2.0, (Double) null)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, 2.0)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(2.0, 2.0), tuple((Double) null, (Double) null)).collect(Agg.regrSyyDouble()));
+
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 1.0)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 1.0), tuple(1.0, 2.0)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 2.0)).collect(Agg.regrSyyDouble()));
+        assertEquals(Optional.of(0.0), Seq.of(tuple(1.0, 2.0), tuple(1.0, 1.0)).collect(Agg.regrSyyDouble()));
+    }
 }

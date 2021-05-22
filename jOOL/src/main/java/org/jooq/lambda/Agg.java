@@ -1077,7 +1077,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>COVAR_POP()</code> function.
      */
     public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> covarianceDouble() {
-        return covarianceDouble(t -> t.v1, t -> t.v2);
+        return filter(t -> t.v1 != null && t.v2 != null, covarianceDouble(t -> t.v1, t -> t.v2));
     }
 
     /**
@@ -1100,7 +1100,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>CORR()</code> function.
      */
     public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> correlationDouble() {
-        return correlationDouble(t -> t.v1, t -> t.v2);
+        return filter(t -> t.v1 != null && t.v2 != null, correlationDouble(t -> t.v1, t -> t.v2));
     }
 
     /**
@@ -1108,10 +1108,188 @@ public class Agg {
      */
     public static <T> Collector<T, ?, Optional<Double>> correlationDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
         return collectingAndThen(
-            collectors(covarianceDouble(functionX, functionY),
-            stddevDouble(functionX),
-            stddevDouble(functionY)),
+            collectors(
+                covarianceDouble(functionX, functionY),
+                stddevDouble(functionX),
+                stddevDouble(functionY)
+            ),
             t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 || t.v3.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / (t.v2.get() * t.v3.get()))
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_COUNT()</code> function.
+     */
+    public static  Collector<Tuple2<Double, Double>, ?, Long> regrCount() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrCount(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_COUNT()</code> function.
+     */
+    public static <T> Collector<T, ?, Long> regrCount(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return count();
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_AVGX()</code> function.
+     */
+    public static  Collector<Tuple2<Double, Double>, ?, Optional<Double>> regrAvgXDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrAvgXDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_AVGX()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrAvgXDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(summingDouble(functionY), count()),
+            t -> t.v2 == 0 ? Optional.empty() : Optional.of(t.v1 / t.v2)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_AVGY()</code> function.
+     */
+    public static  Collector<Tuple2<Double, Double>, ?, Optional<Double>> regrAvgYDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrAvgYDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_AVGY()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrAvgYDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(summingDouble(functionX), count()),
+            t -> t.v2 == 0 ? Optional.empty() : Optional.of(t.v1 / t.v2)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SXX()</code> function.
+     */
+    public static  Collector<Tuple2<Double, Double>, ?, Optional<Double>> regrSxxDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrSxxDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SXX()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSxxDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(
+                regrCount(functionX, functionY),
+                varianceDouble(functionY)
+            ),
+            t -> t.v2.map(v2 -> t.v1 * v2)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SXY()</code> function.
+     */
+    public static  Collector<Tuple2<Double,Double>, ?, Optional<Double>> regrSxyDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrSxyDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SXY()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSxyDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(
+                regrCount(functionX, functionY),
+                covarianceDouble(functionX, functionY)
+            ),
+            t -> t.v2.map(v2 -> t.v1 * v2)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SYY()</code> function.
+     */
+    public static  Collector<Tuple2<Double,Double>, ?, Optional<Double>> regrSyyDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrSyyDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SYY()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSyyDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(
+                regrCount(functionX, functionY),
+                varianceDouble(functionX)
+            ),
+            t -> t.v2.map(v2 -> t.v1 * v2)
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SLOPE()</code> function.
+     */
+    public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> regrSlopeDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrSlopeDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_SLOPE()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrSlopeDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(
+                covarianceDouble(functionX, functionY),
+                varianceDouble(functionY)
+            ),
+            t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / t.v2.get())
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_INTERCEPT()</code> function.
+     */
+    public static Collector<Tuple2<Double, Double>, ?, Optional<Double>> regrInterceptDouble() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrInterceptDouble(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>REGR_INTERCEPT()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrInterceptDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(
+                regrAvgYDouble(functionX, functionY),
+                regrSlopeDouble(functionX, functionY),
+                regrAvgXDouble(functionX, functionY)
+            ),
+            t -> !t.v1.isPresent() || !t.v2.isPresent() || !t.v3.isPresent() ? Optional.empty() : Optional.of(t.v1.get() - t.v2.get() * t.v3.get())
+        );
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>regrR2Double()</code> function.
+     */
+    public static Collector<Tuple2<Double,Double>, ?, Optional<Double>> regrR2Double() {
+        return filter(t -> t.v1 != null && t.v2 != null, regrR2Double(t -> t.v1, t -> t.v2));
+    }
+
+    /**
+     * Get a {@link Collector} that calculates the <code>regrR2Double()</code> function.
+     */
+    public static <T> Collector<T, ?, Optional<Double>> regrR2Double(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
+        return collectingAndThen(
+            collectors(
+                varianceDouble(functionY),
+                varianceDouble(functionX),
+                correlationDouble(functionX, functionY)
+            ),
+            t -> !t.v1.isPresent() || !t.v2.isPresent()
+                 ? Optional.empty()
+                 : t.v1.get() == 0.0
+                 ? Optional.empty()
+                 : t.v2.get() == 0.0
+                 ? Optional.of(1.0)
+                 : t.v3.map(v3 -> Math.pow(v3, 2))
         );
     }
 
