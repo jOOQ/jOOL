@@ -30,7 +30,10 @@ import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
+import org.jooq.lambda.function.Function2;
+import org.jooq.lambda.function.Function3;
 import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple3;
 
 /**
  * A set of additional {@link Collector} implementations.
@@ -1084,7 +1087,15 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>COVAR_POP()</code> function.
      */
     public static <T> Collector<T, ?, Optional<Double>> covarianceDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
-        return collectingAndThen(toList(), l -> {
+        return collectingAndThen(toList(), covarianceFinisher(functionX, functionY, Agg::avg0));
+    }
+
+    private static <T> Function<List<T>, Optional<Double>> covarianceFinisher(
+        ToDoubleFunction<? super T> functionX,
+        ToDoubleFunction<? super T> functionY,
+        BiFunction<List<T>, ToDoubleFunction<? super T>, Double> sumOrAvg
+    ) {
+        return l -> {
             if (l.isEmpty())
                 return Optional.empty();
             else if (l.size() == 1)
@@ -1092,8 +1103,8 @@ public class Agg {
 
             double avgX = avg0(l, functionX);
             double avgY = avg0(l, functionY);
-            return Optional.of(avg0(l, t -> (functionX.applyAsDouble(t) - avgX) * (functionY.applyAsDouble(t) - avgY)));
-        });
+            return Optional.of(sumOrAvg.apply(l, t -> (functionX.applyAsDouble(t) - avgX) * (functionY.applyAsDouble(t) - avgY)));
+        };
     }
 
     /**
@@ -1113,7 +1124,7 @@ public class Agg {
                 stddevDouble(functionX),
                 stddevDouble(functionY)
             ),
-            t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 || t.v3.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / (t.v2.get() * t.v3.get()))
+            t -> mapAll(t, (v1, v2, v3) -> v2 == 0.0 || v3 == 0.0 ? null : v1 / (v2 * v3))
         );
     }
 
@@ -1196,13 +1207,8 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>REGR_SXY()</code> function.
      */
     public static <T> Collector<T, ?, Optional<Double>> regrSxyDouble(ToDoubleFunction<? super T> functionX, ToDoubleFunction<? super T> functionY) {
-        return collectingAndThen(
-            collectors(
-                regrCount(functionX, functionY),
-                covarianceDouble(functionX, functionY)
-            ),
-            t -> t.v2.map(v2 -> t.v1 * v2)
-        );
+        // REGR_SXY() is like COVAR_POP(), but using SUM() instead of AVG() at the end
+        return collectingAndThen(toList(), covarianceFinisher(functionX, functionY, Agg::sum0));
     }
 
     /**
@@ -1241,7 +1247,7 @@ public class Agg {
                 covarianceDouble(functionX, functionY),
                 varianceDouble(functionY)
             ),
-            t -> !t.v1.isPresent() || t.v2.orElse(0.0) == 0.0 ? Optional.empty() : Optional.of(t.v1.get() / t.v2.get())
+            t -> mapAll(t, (v1, v2) -> v2 == 0.0 ? null : v1 / v2)
         );
     }
 
@@ -1262,7 +1268,7 @@ public class Agg {
                 regrSlopeDouble(functionX, functionY),
                 regrAvgXDouble(functionX, functionY)
             ),
-            t -> !t.v1.isPresent() || !t.v2.isPresent() || !t.v3.isPresent() ? Optional.empty() : Optional.of(t.v1.get() - t.v2.get() * t.v3.get())
+            t -> mapAll(t, (v1, v2, v3) -> v1 - v2 * v3)
         );
     }
 
@@ -1283,23 +1289,21 @@ public class Agg {
                 varianceDouble(functionX),
                 correlationDouble(functionX, functionY)
             ),
-            t -> !t.v1.isPresent() || !t.v2.isPresent()
-                 ? Optional.empty()
-                 : t.v1.get() == 0.0
-                 ? Optional.empty()
-                 : t.v2.get() == 0.0
-                 ? Optional.of(1.0)
-                 : t.v3.map(v3 -> Math.pow(v3, 2))
+            t -> mapAll(t, (v1, v2, v3) -> v1 == 0.0 ? null : v2 == 0.0 ? 1.0 : Math.pow(v3, 2))
         );
     }
 
-    private static <T> double avg0(List<T> list, ToDoubleFunction<? super T> function) {
+    private static <T> double sum0(List<T> list, ToDoubleFunction<? super T> function) {
         double result = 0.0;
 
         for (T t : list)
             result += function.applyAsDouble(t);
 
-        return result / list.size();
+        return result;
+    }
+
+    private static <T> double avg0(List<T> list, ToDoubleFunction<? super T> function) {
+        return sum0(list, function) / list.size();
     }
 
     /**
@@ -1340,5 +1344,13 @@ public class Agg {
             }),
             s -> s.map(Objects::toString).orElse("")
         );
+    }
+
+    private static <T1, T2, R> Optional<R> mapAll(Tuple2<Optional<T1>, Optional<T2>> tuple, Function2<T1, T2, R> function) {
+        return tuple.v1.flatMap(v1 -> tuple.v2.map(v2 -> function.apply(v1, v2)));
+    }
+
+    private static <T1, T2, T3, R> Optional<R> mapAll(Tuple3<Optional<T1>, Optional<T2>, Optional<T3>> tuple, Function3<T1, T2, T3, R> function) {
+        return tuple.v1.flatMap(v1 -> tuple.v2.flatMap(v2 -> tuple.v3.map(v3 -> function.apply(v1, v2, v3))));
     }
 }

@@ -15,6 +15,11 @@
  */
 package org.jooq.lambda.tuple;
 
+import org.jooq.lambda.function.Function2;
+import org.jooq.lambda.function.Function3;
+
+import java.util.Optional;
+
 /**
  * @author Lukas Eder
  */
