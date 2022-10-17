@@ -1,0 +1,95 @@
+plugins {
+  id 'java-library'
+  id 'idea'
+  id 'maven-publish'
+  id 'net.ltgt.errorprone' version '+'
+  //id 'org.checkerframework' version '+'
+  //id 'io.franzbecker.gradle-lombok' version '+'
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+sourceCompatibility = 9
+
+javadoc {
+  options.encoding = 'UTF-8'
+  if(JavaVersion.current().isJava9Compatible()) {
+    options.addBooleanOption('html5', true)
+  }
+}
+
+gradle.projectsEvaluated {
+  tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xlint:all', '-parameters', '-g', '-Xmaxwarns', '999'])
+    options.release.set(9) // javac --release 7..18+
+    options.deprecation = true
+    options.annotationProcessorPath = configurations.errorprone
+
+    options.errorprone {
+      enabled = true
+      disableWarningsInGeneratedCode = true
+      excludedPaths = ".*/build/gen.*/.*"
+      //disable("ParameterName") disable("UnusedVariable") errorproneArgs = ["--illegal-access=warn"]
+      errorproneArgs = ["-XepExcludedPaths:.*/test/.*"]
+    }
+  }
+}
+
+publishing {
+  publications { // artifactId = folder name
+    maven(MavenPublication) {
+      from components.java
+    }
+  }
+}
+tasks.withType(GenerateModuleMetadata) {
+  enabled = false // don't generate Gradle's json metadata
+}
+// https://docs.gradle.org/current/userguide/publishing_maven.html
+java {
+  withSourcesJar()
+  withJavadocJar()
+}
+
+dependencies {
+  errorprone "com.google.errorprone:error_prone_core:latest.release"
+
+  //implementation 'org.checkerframework:checker-qual:3.+'
+
+  testImplementation 'junit:junit:4.+'
+  //testImplementation 'org.mockito:mockito-inline:+'
+  //testImplementation "com.google.truth:truth:+"
+  //testImplementation "com.google.truth.extensions:truth-java8-extension:+"
+  testRuntimeOnly 'org.slf4j:slf4j-api:2.+'
+  testRuntimeOnly 'org.slf4j:slf4j-simple:2.+'
+
+  testRuntimeOnly 'org.apache.logging.log4j:log4j-api:2.+'
+  testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.+'
+}
+
+idea {
+  module {
+    downloadJavadoc = true
+    downloadSources = true
+  }
+}
+
+test {
+  useJUnit()
+  maxHeapSize = "500m"
+  enableAssertions = true
+
+  testLogging.showStandardStreams = true // show standard out & err of the test JVM on the console
+
+  System.setProperty("slf4j.detectLoggerNameMismatch", "true")
+  System.setProperty("file.encoding", "UTF-8")
+}
+
+//lombok {
+//  version = "1.+"
+//  sha256 = "" // don't verify lombok.jar
+//}
