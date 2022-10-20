@@ -15,15 +15,10 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.lambda.tuple.Tuple2;
+
 import java.util.Collection;
 import java.util.Collections;
-
-import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.comparing;
-import static java.util.Collections.binarySearch;
-import static org.jooq.lambda.Seq.seq;
-import static org.jooq.lambda.tuple.Tuple.tuple;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +34,11 @@ import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.jooq.lambda.tuple.Tuple2;
+import static java.util.Collections.binarySearch;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static org.jooq.lambda.Seq.seq;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
  * @author Lukas Eder
@@ -213,7 +212,7 @@ class WindowImpl<T> implements Window<T> {
     
     @Override
     public long count() {
-        return 1 + upper() - lower();
+        return 1L + upper() - lower();
     }
 
     @Override
@@ -582,7 +581,7 @@ class WindowImpl<T> implements Window<T> {
         return toMap(keyMapper, Function.identity());
     }
 
-    @Override
+    @Override @SuppressWarnings("StreamToString")
     public String toString() {
         return partition.cacheIf(completePartition(), "toString", () -> window().toString());
     }

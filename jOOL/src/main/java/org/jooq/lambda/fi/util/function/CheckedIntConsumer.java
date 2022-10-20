@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.IntConsumer;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 /**
  * A {@link IntConsumer} that allows for checked exceptions.
@@ -36,21 +37,21 @@ public interface CheckedIntConsumer {
     void accept(int value) throws Throwable;
 
     /**
-     * @see {@link Sneaky#intConsumer(CheckedIntConsumer)}
+     * {@link Sneaky#intConsumer(CheckedIntConsumer)}
      */
     static IntConsumer sneaky(CheckedIntConsumer consumer) {
         return Sneaky.intConsumer(consumer);
     }
 
     /**
-     * @see {@link Unchecked#intConsumer(CheckedIntConsumer)}
+     * {@link Unchecked#intConsumer(CheckedIntConsumer)}
      */
     static IntConsumer unchecked(CheckedIntConsumer consumer) {
         return Unchecked.intConsumer(consumer);
     }
 
     /**
-     * @see {@link Unchecked#intConsumer(CheckedIntConsumer, Consumer)}
+     * {@link Unchecked#intConsumer(CheckedIntConsumer, Consumer)}
      */
     static IntConsumer unchecked(CheckedIntConsumer consumer, Consumer<Throwable> handler) {
         return Unchecked.intConsumer(consumer, handler);

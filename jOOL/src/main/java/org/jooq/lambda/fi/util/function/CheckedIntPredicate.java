@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.IntPredicate;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.IntPredicate;
 
 /**
  * A {@link IntPredicate} that allows for checked exceptions.
@@ -38,21 +39,21 @@ public interface CheckedIntPredicate {
     boolean test(int value) throws Throwable;
 
     /**
-     * @see {@link Sneaky#intPredicate(CheckedIntPredicate)}
+     * {@link Sneaky#intPredicate(CheckedIntPredicate)}
      */
     static IntPredicate sneaky(CheckedIntPredicate predicate) {
         return Sneaky.intPredicate(predicate);
     }
 
     /**
-     * @see {@link Unchecked#intPredicate(CheckedIntPredicate)}
+     * {@link Unchecked#intPredicate(CheckedIntPredicate)}
      */
     static IntPredicate unchecked(CheckedIntPredicate predicate) {
         return Unchecked.intPredicate(predicate);
     }
 
     /**
-     * @see {@link Unchecked#intPredicate(CheckedIntPredicate, Consumer)}
+     * {@link Unchecked#intPredicate(CheckedIntPredicate, Consumer)}
      */
     static IntPredicate unchecked(CheckedIntPredicate function, Consumer<Throwable> handler) {
         return Unchecked.intPredicate(function, handler);

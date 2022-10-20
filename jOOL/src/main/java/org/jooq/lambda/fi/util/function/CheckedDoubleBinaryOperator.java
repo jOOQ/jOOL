@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleBinaryOperator;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.DoubleBinaryOperator;
 
 /**
  * A {@link DoubleBinaryOperator} that allows for checked exceptions.
@@ -38,21 +39,21 @@ public interface CheckedDoubleBinaryOperator {
     double applyAsDouble(double left, double right) throws Throwable;
 
     /**
-     * @see {@link Sneaky#doubleBinaryOperator(CheckedDoubleBinaryOperator)}
+     * {@link Sneaky#doubleBinaryOperator(CheckedDoubleBinaryOperator)}
      */
     static DoubleBinaryOperator sneaky(CheckedDoubleBinaryOperator operator) {
         return Sneaky.doubleBinaryOperator(operator);
     }
 
     /**
-     * @see {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator)}
+     * {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator)}
      */
     static DoubleBinaryOperator unchecked(CheckedDoubleBinaryOperator operator) {
         return Unchecked.doubleBinaryOperator(operator);
     }
 
     /**
-     * @see {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator, Consumer)}
+     * {@link Unchecked#doubleBinaryOperator(CheckedDoubleBinaryOperator, Consumer)}
      */
     static DoubleBinaryOperator unchecked(CheckedDoubleBinaryOperator operator, Consumer<Throwable> handler) {
         return Unchecked.doubleBinaryOperator(operator, handler);

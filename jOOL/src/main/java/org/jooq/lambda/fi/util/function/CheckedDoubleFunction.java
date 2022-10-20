@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleFunction;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.DoubleFunction;
 
 /**
  * A {@link DoubleFunction} that allows for checked exceptions.
@@ -37,21 +38,21 @@ public interface CheckedDoubleFunction<R> {
     R apply(double value) throws Throwable;
 
     /**
-     * @see {@link Sneaky#doubleFunction(CheckedDoubleFunction)}
+     * {@link Sneaky#doubleFunction(CheckedDoubleFunction)}
      */
     static <R> DoubleFunction<R> sneaky(CheckedDoubleFunction<R> function) {
         return Sneaky.doubleFunction(function);
     }
 
     /**
-     * @see {@link Unchecked#doubleFunction(CheckedDoubleFunction)}
+     * {@link Unchecked#doubleFunction(CheckedDoubleFunction)}
      */
     static <R> DoubleFunction<R> unchecked(CheckedDoubleFunction<R> function) {
         return Unchecked.doubleFunction(function);
     }
 
     /**
-     * @see {@link Unchecked#doubleFunction(CheckedDoubleFunction, Consumer)}
+     * {@link Unchecked#doubleFunction(CheckedDoubleFunction, Consumer)}
      */
     static <R> DoubleFunction<R> unchecked(CheckedDoubleFunction<R> function, Consumer<Throwable> handler) {
         return Unchecked.doubleFunction(function, handler);

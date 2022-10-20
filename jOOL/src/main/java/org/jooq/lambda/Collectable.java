@@ -15,6 +15,23 @@
  */
 package org.jooq.lambda;
 
+import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple10;
+import org.jooq.lambda.tuple.Tuple11;
+import org.jooq.lambda.tuple.Tuple12;
+import org.jooq.lambda.tuple.Tuple13;
+import org.jooq.lambda.tuple.Tuple14;
+import org.jooq.lambda.tuple.Tuple15;
+import org.jooq.lambda.tuple.Tuple16;
+import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple3;
+import org.jooq.lambda.tuple.Tuple4;
+import org.jooq.lambda.tuple.Tuple5;
+import org.jooq.lambda.tuple.Tuple6;
+import org.jooq.lambda.tuple.Tuple7;
+import org.jooq.lambda.tuple.Tuple8;
+import org.jooq.lambda.tuple.Tuple9;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -32,23 +49,6 @@ import java.util.function.ToLongFunction;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.jooq.lambda.tuple.Tuple;
-import org.jooq.lambda.tuple.Tuple10;
-import org.jooq.lambda.tuple.Tuple11;
-import org.jooq.lambda.tuple.Tuple12;
-import org.jooq.lambda.tuple.Tuple13;
-import org.jooq.lambda.tuple.Tuple14;
-import org.jooq.lambda.tuple.Tuple15;
-import org.jooq.lambda.tuple.Tuple16;
-import org.jooq.lambda.tuple.Tuple2;
-import org.jooq.lambda.tuple.Tuple3;
-import org.jooq.lambda.tuple.Tuple4;
-import org.jooq.lambda.tuple.Tuple5;
-import org.jooq.lambda.tuple.Tuple6;
-import org.jooq.lambda.tuple.Tuple7;
-import org.jooq.lambda.tuple.Tuple8;
-import org.jooq.lambda.tuple.Tuple9;
 
 /**
  * A common super type for types like {@link Seq} or {@link Window} delegating
@@ -447,7 +447,7 @@ public interface Collectable<T> {
      * Get the minimum value.
      * <p>
      * This makes the unsafe assumption that
-     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     * <code>&lt;T extends Comparable&lt;? super T&gt;&gt;</code>
      */
     Optional<T> min();
     
@@ -480,7 +480,7 @@ public interface Collectable<T> {
      * Get the minimum values.
      * <p>
      * This makes the unsafe assumption that
-     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     * <code>&lt;T extends Comparable&lt;? super T&gt;&gt;</code>
      */
     Seq<T> minAll();
     
@@ -513,7 +513,7 @@ public interface Collectable<T> {
      * Get the maximum value.
      * <p>
      * This makes the unsafe assumption that
-     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     * <code>&lt;T extends Comparable&lt;? super T&gt;&gt;</code>
      */
     Optional<T> max();
 
@@ -546,7 +546,7 @@ public interface Collectable<T> {
      * Get the maximum values.
      * <p>
      * This makes the unsafe assumption that
-     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     * <code>&lt;T extends Comparable&lt;? super T&gt;&gt;</code>
      */
     Seq<T> maxAll();
 
@@ -579,7 +579,7 @@ public interface Collectable<T> {
      * Get the median value.
      * <p>
      * This makes the unsafe assumption that
-     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     * <code>&lt;T extends Comparable&lt;? super T&gt;&gt;</code>
      */
     Optional<T> median();
 
@@ -602,7 +602,7 @@ public interface Collectable<T> {
      * Get the discrete percentile value.
      * <p>
      * This makes the unsafe assumption that
-     * <code>&lt;T extends Comparable&lt;? super T>></code>
+     * <code>&lt;T extends Comparable&lt;? super T&gt;&gt;</code>
      */
     Optional<T> percentile(double percentile);
 

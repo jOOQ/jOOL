@@ -15,35 +15,37 @@
  */
 package org.jooq.lambda.function;
 
-import java.util.function.Predicate;
-
 import org.jooq.lambda.Seq;
+
+import java.util.function.Predicate;
 
 /**
  * @author Lukas Eder
  */
 public final class Functions {
+    private Functions () {}
+
 
     /**
      * Negate a predicate.
      */
-    public static final <T> Predicate<T> not(Predicate<T> predicate) {
+    public static <T> Predicate<T> not(Predicate<T> predicate) {
         return predicate.negate();
     }
 
     /**
-     * Negate a predicate.
+     * AND all predicates.
      */
     @SafeVarargs
-    public static final <T> Predicate<T> and(Predicate<T>... predicates) {
-        return Seq.of(predicates).reduce(t -> true, (t1, t2) -> t1.and(t2));
+    public static <T> Predicate<T> and(Predicate<T>... predicates) {
+        return Seq.of(predicates).reduce(t -> true, Predicate::and);
     }
 
     /**
-     * Negate a predicate.
+     * OR all predicates.
      */
     @SafeVarargs
-    public static final <T> Predicate<T> or(Predicate<T>... predicates) {
-        return Seq.of(predicates).reduce(t -> false, (t1, t2) -> t1.or(t2));
+    public static <T> Predicate<T> or(Predicate<T>... predicates) {
+        return Seq.of(predicates).reduce(t -> false, Predicate::or);
     }
 }

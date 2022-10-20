@@ -50,13 +50,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * Whether two ranges overlap.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).overlaps(range(2, 4))
      *
      * // false
      * range(1, 3).overlaps(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      *
      * @deprecated - Use {@link #overlaps(Range)} instead.
      */
@@ -68,13 +68,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * Whether two ranges overlap.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).overlaps(range(2, 4))
      *
      * // false
      * range(1, 3).overlaps(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      */
     public boolean overlaps(Range<T> other) {
         return (v1 == null
@@ -88,13 +88,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * Whether two ranges overlap.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).overlaps(2, 4)
      *
      * // false
      * range(1, 3).overlaps(5, 8)
-     * </pre></code>
+     * </code></pre>
      */
     public boolean overlaps(T lowerInclusive, T upperInclusive) {
         return overlaps(new Range<>(lowerInclusive, upperInclusive));
@@ -103,13 +103,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * The intersection of two ranges.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // (2, 3)
      * range(1, 3).intersect(range(2, 4))
      *
      * // none
      * range(1, 3).intersect(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      * @deprecated - Use {@link #intersect(Range)} instead.
      */
     public Optional<Range<T>> intersect(Tuple2<T, T> other) {
@@ -119,13 +119,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * The intersection of two ranges.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // (2, 3)
      * range(1, 3).intersect(range(2, 4))
      *
      * // none
      * range(1, 3).intersect(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      */
     public Optional<Range<T>> intersect(Range<T> other) {
         if (overlaps(other))
@@ -152,13 +152,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * The intersection of two ranges.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // (2, 3)
      * range(1, 3).intersect(2, 4)
      *
      * // none
      * range(1, 3).intersect(5, 8)
-     * </pre></code>
+     * </code></pre>
      */
     public Optional<Range<T>> intersect(T lowerInclusive, T upperInclusive) {
         return intersect(new Range<>(lowerInclusive, upperInclusive));
@@ -167,13 +167,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * Whether a value is contained in this range.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).contains(2)
      *
      * // false
      * range(1, 3).contains(4)
-     * </pre></code>
+     * </code></pre>
      */
     public boolean contains(T t) {
         return t != null
@@ -184,13 +184,13 @@ public class Range<T extends Comparable<T>> extends Tuple2<T, T> {
     /**
      * Whether a range is contained in this range.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).contains(range(2, 3))
      *
      * // false
      * range(1, 3).contains(range(2, 4))
-     * </pre></code>
+     * </code></pre>
      */
     public boolean contains(Range<T> other) {
         return (other.v1 == null && v1 == null || contains(other.v1))

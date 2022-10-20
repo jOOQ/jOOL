@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.LongSupplier;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.LongSupplier;
 
 /**
  * A {@link LongSupplier} that allows for checked exceptions.
@@ -36,21 +37,21 @@ public interface CheckedLongSupplier {
     long getAsLong() throws Throwable;
 
     /**
-     * @see {@link Sneaky#longSupplier(CheckedLongSupplier)}
+     * {@link Sneaky#longSupplier(CheckedLongSupplier)}
      */
     static LongSupplier sneaky(CheckedLongSupplier supplier) {
         return Sneaky.longSupplier(supplier);
     }
 
     /**
-     * @see {@link Unchecked#longSupplier(CheckedLongSupplier)}
+     * {@link Unchecked#longSupplier(CheckedLongSupplier)}
      */
     static LongSupplier unchecked(CheckedLongSupplier supplier) {
         return Unchecked.longSupplier(supplier);
     }
 
     /**
-     * @see {@link Unchecked#longSupplier(CheckedLongSupplier, Consumer)}
+     * {@link Unchecked#longSupplier(CheckedLongSupplier, Consumer)}
      */
     static LongSupplier unchecked(CheckedLongSupplier supplier, Consumer<Throwable> handler) {
         return Unchecked.longSupplier(supplier, handler);

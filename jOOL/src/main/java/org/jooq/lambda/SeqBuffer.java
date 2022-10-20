@@ -38,7 +38,7 @@ final class SeqBuffer<T> {
      *
      * This volatile field acts as a memory barrier for the contents of <code>source</code> and <code>buffer</code>:
      *
-     * @link http://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html#volatile
+     * <a href="http://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html#volatile">cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html</a>
      */
     private volatile boolean buffering = true;
 

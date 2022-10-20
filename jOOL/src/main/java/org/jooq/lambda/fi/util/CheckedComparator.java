@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util;
 
-import java.util.Comparator;
-import java.util.function.Consumer;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.Comparator;
+import java.util.function.Consumer;
 
 /**
  * A {@link Comparator} that allows for checked exceptions.
@@ -34,21 +35,21 @@ public interface CheckedComparator<T> {
     int compare(T o1, T o2) throws Throwable;
 
     /**
-     * @see {@link Sneaky#comparator(CheckedComparator)}
+     * {@link Sneaky#comparator(CheckedComparator)}
      */
     static <T> Comparator<T> sneaky(CheckedComparator<T> comparator) {
         return Sneaky.comparator(comparator);
     }
 
     /**
-     * @see {@link Unchecked#comparator(CheckedComparator)}
+     * {@link Unchecked#comparator(CheckedComparator)}
      */
     static <T> Comparator<T> unchecked(CheckedComparator<T> comparator) {
         return Unchecked.comparator(comparator);
     }
 
     /**
-     * @see {@link Unchecked#comparator(CheckedComparator, Consumer)}
+     * {@link Unchecked#comparator(CheckedComparator, Consumer)}
      */
     static <T> Comparator<T> unchecked(CheckedComparator<T> comparator, Consumer<Throwable> handler) {
         return Unchecked.comparator(comparator, handler);

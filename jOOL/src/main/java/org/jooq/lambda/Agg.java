@@ -15,25 +15,39 @@
  */
 package org.jooq.lambda;
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.naturalOrder;
-import static java.util.stream.Collectors.*;
-import static org.jooq.lambda.tuple.Tuple.collectors;
-import static org.jooq.lambda.tuple.Tuple.tuple;
-
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.TreeSet;
-import java.util.function.*;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
-
 import org.jooq.lambda.function.Function2;
 import org.jooq.lambda.function.Function3;
 import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple3;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.TreeSet;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.reducing;
+import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.toList;
+import static org.jooq.lambda.tuple.Tuple.collectors;
+import static org.jooq.lambda.tuple.Tuple.tuple;
 
 /**
  * A set of additional {@link Collector} implementations.
@@ -732,7 +746,7 @@ public class Agg {
 
                 return l1;
             },
-            l -> l[0] == -1 ? Optional.empty() : Optional.of((long) l[0])
+            l -> l[0] == -1 ? Optional.empty() : Optional.of(l[0])
         );
     }
 

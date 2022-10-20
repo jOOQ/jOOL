@@ -15,9 +15,10 @@
  */
 package org.jooq.lambda.function;
 
-import java.util.function.Supplier;
-
 import org.jooq.lambda.tuple.Tuple0;
+
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 /**
  * A function with 0 arguments.
@@ -25,7 +26,7 @@ import org.jooq.lambda.tuple.Tuple0;
  * @author Lukas Eder
  */
 @FunctionalInterface
-public interface Function0<R> extends Supplier<R> {
+public interface Function0<R> extends Supplier<R>, Callable<R> {
 
     /**
      * Apply this function to the arguments.
@@ -63,4 +64,7 @@ public interface Function0<R> extends Supplier<R> {
         return supplier::get;
     }
 
+    @Override default R call () {
+        return get();
+    }
 }

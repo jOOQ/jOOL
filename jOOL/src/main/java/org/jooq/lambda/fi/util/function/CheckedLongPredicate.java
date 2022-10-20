@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.LongPredicate;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.LongPredicate;
 
 /**
  * A {@link LongPredicate} that allows for checked exceptions.
@@ -38,21 +39,21 @@ public interface CheckedLongPredicate {
     boolean test(long value) throws Throwable;
 
     /**
-     * @see {@link Sneaky#longPredicate(CheckedLongPredicate)}
+     * {@link Sneaky#longPredicate(CheckedLongPredicate)}
      */
     static LongPredicate sneaky(CheckedLongPredicate predicate) {
         return Sneaky.longPredicate(predicate);
     }
 
     /**
-     * @see {@link Unchecked#longPredicate(CheckedLongPredicate)}
+     * {@link Unchecked#longPredicate(CheckedLongPredicate)}
      */
     static LongPredicate unchecked(CheckedLongPredicate predicate) {
         return Unchecked.longPredicate(predicate);
     }
 
     /**
-     * @see {@link Unchecked#longPredicate(CheckedLongPredicate, Consumer)}
+     * {@link Unchecked#longPredicate(CheckedLongPredicate, Consumer)}
      */
     static LongPredicate unchecked(CheckedLongPredicate function, Consumer<Throwable> handler) {
         return Unchecked.longPredicate(function, handler);

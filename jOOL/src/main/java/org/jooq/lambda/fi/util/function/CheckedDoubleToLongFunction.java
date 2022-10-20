@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleToLongFunction;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.DoubleToLongFunction;
 
 /**
  * A {@link DoubleToLongFunction} that allows for checked exceptions.
@@ -37,21 +38,21 @@ public interface CheckedDoubleToLongFunction {
     long applyAsLong(double value) throws Throwable;
 
     /**
-     * @see {@link Sneaky#doubleToLongFunction(CheckedDoubleToLongFunction)}
+     * {@link Sneaky#doubleToLongFunction(CheckedDoubleToLongFunction)}
      */
     static DoubleToLongFunction sneaky(CheckedDoubleToLongFunction function) {
         return Sneaky.doubleToLongFunction(function);
     }
 
     /**
-     * @see {@link Unchecked#doubleToLongFunction(CheckedDoubleToLongFunction)}
+     * {@link Unchecked#doubleToLongFunction(CheckedDoubleToLongFunction)}
      */
     static DoubleToLongFunction unchecked(CheckedDoubleToLongFunction function) {
         return Unchecked.doubleToLongFunction(function);
     }
 
     /**
-     * @see {@link Unchecked#doubleToLongFunction(CheckedDoubleToLongFunction, Consumer)}
+     * {@link Unchecked#doubleToLongFunction(CheckedDoubleToLongFunction, Consumer)}
      */
     static DoubleToLongFunction unchecked(CheckedDoubleToLongFunction function, Consumer<Throwable> handler) {
         return Unchecked.doubleToLongFunction(function, handler);

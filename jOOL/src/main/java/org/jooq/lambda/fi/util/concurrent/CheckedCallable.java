@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.concurrent;
 
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 /**
  * A {@link Callable} that allows for checked exceptions.
@@ -34,21 +35,21 @@ public interface CheckedCallable<T> {
     T call() throws Throwable;
 
     /**
-     * @see {@link Sneaky#callable(CheckedCallable)}
+     * {@link Sneaky#callable(CheckedCallable)}
      */
     static <T> Callable<T> sneaky(CheckedCallable<T> callable) {
         return Sneaky.callable(callable);
     }
 
     /**
-     * @see {@link Unchecked#callable(CheckedCallable)}
+     * {@link Unchecked#callable(CheckedCallable)}
      */
     static <T> Callable<T> unchecked(CheckedCallable<T> callable) {
         return Unchecked.callable(callable);
     }
 
     /**
-     * @see {@link Unchecked#callable(CheckedCallable, Consumer)}
+     * {@link Unchecked#callable(CheckedCallable, Consumer)}
      */
     static <T> Callable<T> unchecked(CheckedCallable<T> callable, Consumer<Throwable> handler) {
         return Unchecked.callable(callable, handler);

@@ -15,10 +15,11 @@
  */
 package org.jooq.lambda.fi.util.function;
 
-import java.util.function.Consumer;
-import java.util.function.ToDoubleBiFunction;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
+import java.util.function.ToDoubleBiFunction;
 
 /**
  * A {@link ToDoubleBiFunction} that allows for checked exceptions.
@@ -38,21 +39,21 @@ public interface CheckedToDoubleBiFunction<T, U> {
     double applyAsDouble(T t, U u) throws Throwable;
 
     /**
-     * @see {@link Sneaky#toDoubleBiFunction(CheckedToDoubleBiFunction)}
+     * {@link Sneaky#toDoubleBiFunction(CheckedToDoubleBiFunction)}
      */
     static <T, U> ToDoubleBiFunction<T, U> sneaky(CheckedToDoubleBiFunction<T, U> function) {
         return Sneaky.toDoubleBiFunction(function);
     }
 
     /**
-     * @see {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction)}
+     * {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction)}
      */
     static <T, U> ToDoubleBiFunction<T, U> unchecked(CheckedToDoubleBiFunction<T, U> function) {
         return Unchecked.toDoubleBiFunction(function);
     }
 
     /**
-     * @see {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction, Consumer)}
+     * {@link Unchecked#toDoubleBiFunction(CheckedToDoubleBiFunction, Consumer)}
      */
     static <T, U> ToDoubleBiFunction<T, U> unchecked(CheckedToDoubleBiFunction<T, U> function, Consumer<Throwable> handler) {
         return Unchecked.toDoubleBiFunction(function, handler);

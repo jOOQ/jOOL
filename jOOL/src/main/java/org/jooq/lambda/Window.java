@@ -24,7 +24,7 @@ import java.util.function.Function;
  * <p>
  * Window functions as exposed in this type are inspired by their counterparts
  * in SQL. They include:
- * <h3>Ranking functions</h3>
+ * <h2>Ranking functions</h2>
  * Ranking functions are useful to determine the "rank" of any given row within
  * the partition, given a specific ordering. The following table explains
  * individual ranking functions:
@@ -68,6 +68,7 @@ import java.util.function.Function;
  * <td>{@link #nthValue(long)}</td><td>Gets the nth value in the window,
  * counting from <code>0</code>.</td>
  * </tr>
+ * <caption></caption>
  * </table>
  * <p>
  * <strong>Note:</strong> In Java, indexes are always counted from
@@ -138,7 +139,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (1, 2, 3, 4, 5)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.rowNumber());
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.rowNumber());
      * </code></pre>
      */
     long rowNumber();
@@ -148,7 +149,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (1, 2, 2, 4, 5)
-     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -> w.rank());
+     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -&gt; w.rank());
      * </code></pre>
      */
     long rank();
@@ -158,7 +159,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (1, 2, 2, 3, 4)
-     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -> w.denseRank());
+     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -&gt; w.denseRank());
      * </code></pre>
      */
     long denseRank();
@@ -168,7 +169,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (0.0, 0.25, 0.25, 0.75, 1.0)
-     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -> w.percentRank());
+     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -&gt; w.percentRank());
      * </code></pre>
      */
     double percentRank();
@@ -178,7 +179,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (0, 0, 1, 1, 2)
-     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -> w.ntile(3));
+     * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -&gt; w.ntile(3));
      * </code></pre>
      */
     long ntile(long buckets);
@@ -190,7 +191,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (2, 2, 3, 4, empty)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lead());
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -&gt; w.lead());
      * </code></pre>
      */
     Optional<T> lead();
@@ -200,7 +201,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (2, 2, 3, 4, empty)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lead());
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -&gt; w.lead());
      * </code></pre>
      */
     Optional<T> lead(long lead);
@@ -212,7 +213,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (empty, 1, 2, 2, 3)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lag());
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -&gt; w.lag());
      * </code></pre>
      */
     Optional<T> lag();
@@ -222,7 +223,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (empty, 1, 2, 2, 3)
-     * Seq.of(1, 2, 2, 3, 4).window().map(w -> w.lag());
+     * Seq.of(1, 2, 2, 3, 4).window().map(w -&gt; w.lag());
      * </code></pre>
      */
     Optional<T> lag(long lag);
@@ -232,7 +233,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (1, 1, 1, 1, 1)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.firstValue());
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.firstValue());
      * </code></pre>
      */
     Optional<T> firstValue();
@@ -242,7 +243,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (1, 1, 1, 1, 1)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.firstValue());
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.firstValue());
      * </code></pre>
      */
     <U> Optional<U> firstValue(Function<? super T, ? extends U> function);
@@ -252,7 +253,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (3, 3, 3, 3, 3)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lastValue());
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.lastValue());
      * </code></pre>
      */
     Optional<T> lastValue();
@@ -262,7 +263,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (3, 3, 3, 3, 3)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.lastValue());
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.lastValue());
      * </code></pre>
      */
     <U> Optional<U> lastValue(Function<? super T, ? extends U> function);
@@ -272,7 +273,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (4, 4, 4, 4, 4)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.nthValue(2));
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.nthValue(2));
      * </code></pre>
      */
     Optional<T> nthValue(long n);
@@ -282,7 +283,7 @@ public interface Window<T> extends Collectable<T> {
      * <p>
      * <pre><code>
      * // (4, 4, 4, 4, 4)
-     * Seq.of(1, 2, 4, 2, 3).window().map(w -> w.nthValue(2));
+     * Seq.of(1, 2, 4, 2, 3).window().map(w -&gt; w.nthValue(2));
      * </code></pre>
      */
     <U> Optional<U> nthValue(long n, Function<? super T, ? extends U> function);

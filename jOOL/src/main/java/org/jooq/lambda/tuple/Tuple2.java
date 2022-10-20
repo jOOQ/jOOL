@@ -15,6 +15,8 @@
  */
 package org.jooq.lambda.tuple;
 
+import org.jooq.lambda.Seq;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -26,10 +28,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import org.jooq.lambda.Seq;                
-import org.jooq.lambda.function.Function1;
-import org.jooq.lambda.function.Function2;
 
 /**
  * A tuple of degree 2.
@@ -239,13 +237,13 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     /**
      * Whether two tuples overlap.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).overlaps(range(2, 4))
      *
      * // false
      * range(1, 3).overlaps(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      *
      * @deprecated - Use {@link Range#overlaps(Range)} instead.
      */
@@ -258,13 +256,13 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     /**
      * The intersection of two ranges.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // (2, 3)
      * range(1, 3).intersect(range(2, 4))
      *
      * // none
      * range(1, 3).intersect(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      * @deprecated - Use {@link Range#intersect(Range)} instead.
      */
     @Deprecated

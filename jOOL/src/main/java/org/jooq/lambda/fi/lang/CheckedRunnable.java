@@ -15,9 +15,10 @@
  */
 package org.jooq.lambda.fi.lang;
 
-import java.util.function.Consumer;
 import org.jooq.lambda.Sneaky;
 import org.jooq.lambda.Unchecked;
+
+import java.util.function.Consumer;
 
 /**
  * A {@link Runnable} that allows for checked exceptions.
@@ -33,21 +34,21 @@ public interface CheckedRunnable {
     void run() throws Throwable;
 
     /**
-     * @see {@link Sneaky#runnable(CheckedRunnable)}
+     * {@link Sneaky#runnable(CheckedRunnable)}
      */
     static Runnable sneaky(CheckedRunnable runnable) {
         return Sneaky.runnable(runnable);
     }
 
     /**
-     * @see {@link Unchecked#runnable(CheckedRunnable)}
+     * {@link Unchecked#runnable(CheckedRunnable)}
      */
     static Runnable unchecked(CheckedRunnable runnable) {
         return Unchecked.runnable(runnable);
     }
 
     /**
-     * @see {@link Unchecked#runnable(CheckedRunnable, Consumer)}
+     * {@link Unchecked#runnable(CheckedRunnable, Consumer)}
      */
     static Runnable unchecked(CheckedRunnable runnable, Consumer<Throwable> handler) {
         return Unchecked.runnable(runnable, handler);
