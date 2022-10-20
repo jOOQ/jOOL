@@ -15,27 +15,17 @@
  */
 package org.jooq.lambda;
 
-import static java.util.Arrays.asList;
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.reverseOrder;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.jooq.lambda.Agg.count;
-import static org.jooq.lambda.Agg.max;
-import static org.jooq.lambda.Agg.min;
-import static org.jooq.lambda.Seq.seq;
-import static org.jooq.lambda.Utils.assertThrows;
-import static org.jooq.lambda.tuple.Tuple.collectors;
-import static org.jooq.lambda.tuple.Tuple.tuple;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.jooq.lambda.exception.TooManyElementsException;
+import org.jooq.lambda.function.Function4;
+import org.jooq.lambda.tuple.Tuple;
+import org.jooq.lambda.tuple.Tuple2;
+import org.jooq.lambda.tuple.Tuple3;
+import org.jooq.lambda.tuple.Tuple4;
+import org.jooq.lambda.tuple.Tuple5;
+import org.jooq.lambda.tuple.Tuple6;
+import org.jooq.lambda.tuple.Tuple7;
+import org.jooq.lambda.tuple.Tuple8;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -45,7 +35,24 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.Random;
+import java.util.Spliterators;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -55,21 +62,24 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.jooq.lambda.exception.TooManyElementsException;
-import org.jooq.lambda.function.Function4;
 
-import org.jooq.lambda.tuple.Tuple;
-import org.jooq.lambda.tuple.Tuple2;
-import org.jooq.lambda.tuple.Tuple3;
-import org.jooq.lambda.tuple.Tuple4;
-import org.jooq.lambda.tuple.Tuple5;
-import org.jooq.lambda.tuple.Tuple6;
-import org.jooq.lambda.tuple.Tuple7;
-import org.jooq.lambda.tuple.Tuple8;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Ignore;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
+import static org.jooq.lambda.Agg.count;
+import static org.jooq.lambda.Agg.max;
+import static org.jooq.lambda.Agg.min;
+import static org.jooq.lambda.Seq.seq;
+import static org.jooq.lambda.Utils.assertThrows;
+import static org.jooq.lambda.tuple.Tuple.collectors;
+import static org.jooq.lambda.tuple.Tuple.tuple;
+import static org.junit.Assert.*;
 
 /**
  * @author Lukas Eder
@@ -1539,7 +1549,8 @@ public class SeqTest {
         Supplier<Seq<Integer>> s = () -> Seq.of(1, 2, 3);
 
         assertEquals(3, s.get().shuffle().toList().size());
-        assertThat(s.get().shuffle().toList(), hasItems(1, 2, 3));
+        List<Integer> lst = s.get().shuffle().toList();
+        assertTrue(lst.containsAll(Arrays.asList(1, 2, 3)));
 
         assertEquals(asList(2, 3, 1), s.get().shuffle(new Random(1)).toList());
 
@@ -2999,5 +3010,17 @@ public class SeqTest {
         // redundant call to iterator.hasNext() should not consume any more elements from source
         iterator.hasNext();
         assertEquals("extra element fetched due to redundant Iterator.hasNext() call", expectedCount, fetchedFromSource.size());
+    }
+
+
+    @Test
+    public void testSeqUtilsSeqs () {
+        Seq<Integer>[] s1 = SeqUtils.seqs(asList(1, 2, 3), asList(4, 5));
+        assertEquals("[123, 45]", Arrays.toString(s1));
+        Seq<Integer>[] s2 = SeqUtils.seqs(Stream.of(0, 2, 3), Stream.of(4, 5));
+        assertEquals("[023, 45]", Arrays.toString(s2));
+
+        assertNull(SeqUtils.seqs((Iterable<?>[]) null));
+        assertNull(SeqUtils.seqs((Stream<?>[]) null));
     }
 }

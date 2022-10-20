@@ -15,16 +15,24 @@
  */
 package org.jooq.lambda;
 
-import static java.util.Comparator.comparing;
-import static org.jooq.lambda.Seq.seq;
+import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.OptionalLong;
+import java.util.Spliterator;
+import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import org.jooq.lambda.tuple.Tuple2;
+import static java.util.Comparator.comparing;
+import static org.jooq.lambda.Seq.seq;
 
 /**
  * @author Lukas Eder
@@ -32,7 +40,7 @@ import org.jooq.lambda.tuple.Tuple2;
 class SeqUtils {
 
     @SafeVarargs
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "varargs"}) // Creating a stream from an array is safe
     static <T> Seq<T>[] seqs(Stream<? extends T>... streams) {
         if (streams == null)
             return null;
@@ -41,7 +49,7 @@ class SeqUtils {
     }
 
     @SafeVarargs
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "varargs"}) // Creating a stream from an array is safe
     static <T> Seq<T>[] seqs(Iterable<? extends T>... iterables) {
         if (iterables == null)
             return null;
@@ -117,7 +125,7 @@ class SeqUtils {
      * Sneaky throw any type of Throwable.
      */
     static void sneakyThrow(Throwable throwable) {
-        SeqUtils.<RuntimeException>sneakyThrow0(throwable);
+        SeqUtils.sneakyThrow0(throwable);
     }
 
     /**

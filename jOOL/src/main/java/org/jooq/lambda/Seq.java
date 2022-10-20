@@ -4318,6 +4318,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @see Stream#of(Object[])
      */
     @SafeVarargs
+    @SuppressWarnings("varargs") // Creating a stream from an array is safe
     static <T> Seq<T> of(T... values) {
         return values == null ? empty() : seq(Stream.of(values));
     }
@@ -4768,6 +4769,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Wrap multiple <code>Optional</code>'s into a <code>Seq</code>.
      */
     @SafeVarargs
+    @SuppressWarnings("varargs") // Creating a stream from an array is safe
     static <T> Seq<T> seq(Optional<? extends T>... optionals) {
         if (optionals == null)
             return Seq.empty();
@@ -9288,7 +9290,6 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3, 4, 5).skipUntil(i -&gt; i == 3)
      * </code></pre>
      */
-    @SuppressWarnings("unchecked")
     static <T> Seq<T> skipUntil(Stream<? extends T> stream, Predicate<? super T> predicate) {
         // [0]: true = we've skipped values until the predicate yielded true
         // [1]: true = there is at least one value that was considered for skipping
@@ -9639,38 +9640,35 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
         final LinkedList<T> buffer1 = new LinkedList<>();
         final LinkedList<T> buffer2 = new LinkedList<>();
 
-        class Partition implements Iterator<T> {
+        class BPartition implements Iterator<T> {
 
-            final boolean b;
+            final LinkedList<T> buf;
 
-            Partition(boolean b) {
-                this.b = b;
+            BPartition(LinkedList<T> defBuffer) {
+                buf = defBuffer;
             }
 
             void fetch() {
-                while (buffer(b).isEmpty() && it.hasNext()) {
+                while (buf.isEmpty() && it.hasNext()) {
                     T next = it.next();
-                    buffer(predicate.test(next)).offer(next);
+                    LinkedList<T> oBuf = predicate.test(next) ? buffer1 : buffer2;
+                    oBuf.offer(next);
                 }
-            }
-
-            LinkedList<T> buffer(boolean test) {
-                return test ? buffer1 : buffer2;
             }
 
             @Override
             public boolean hasNext() {
                 fetch();
-                return !buffer(b).isEmpty();
+                return !buf.isEmpty();
             }
 
             @Override
             public T next() {
-                return buffer(b).poll();
+                return buf.poll();
             }
         }
 
-        return tuple(seq(new Partition(true)), seq(new Partition(false)));
+        return tuple(seq(new BPartition(buffer1)), seq(new BPartition(buffer2)));
     }
 
     /**

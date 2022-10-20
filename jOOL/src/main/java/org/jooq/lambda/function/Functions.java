@@ -20,6 +20,7 @@ import org.jooq.lambda.Seq;
 import java.util.function.Predicate;
 
 /**
+ * Grouping operations on Predicates.
  * @author Lukas Eder
  */
 public final class Functions {

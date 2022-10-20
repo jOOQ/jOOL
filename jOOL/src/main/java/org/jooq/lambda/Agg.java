@@ -58,6 +58,8 @@ import static org.jooq.lambda.tuple.Tuple.tuple;
  * @author Jichen Lu
  */
 public class Agg {
+    private Agg () {}
+
 
     /**
      * Get a {@link Collector} that filters data passed to downstream collector.
@@ -561,7 +563,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
+    public static <T> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[] { Integer.MAX_VALUE },
             (s, v) -> s[0] = s[0] & function.applyAsInt(v),
             (s1, s2) -> {
@@ -576,7 +578,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
+    public static <T> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[] { Long.MAX_VALUE },
             (s, v) -> s[0] = s[0] & function.applyAsLong(v),
             (s1, s2) -> {
@@ -620,7 +622,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
+    public static <T> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[1],
             (s, v) -> s[0] = s[0] | function.applyAsInt(v),
             (s1, s2) -> {
@@ -635,7 +637,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
+    public static <T> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[1],
             (s, v) -> s[0] = s[0] | function.applyAsLong(v),
             (s1, s2) -> {
@@ -1060,14 +1062,14 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
      */
-    public static <T> Collector<Double, ?, Optional<Double>> stddevDouble() {
+    public static Collector<Double, ?, Optional<Double>> stddevDouble() {
         return stddevDouble(t -> t);
     }
 
     /**
      * Get a {@link Collector} that calculates the <code>STDDEV_POP()</code> function.
      */
-    public static <T, U> Collector<T, ?, Optional<Double>> stddevDouble(ToDoubleFunction<? super T> function) {
+    public static <T> Collector<T, ?, Optional<Double>> stddevDouble(ToDoubleFunction<? super T> function) {
         return collectingAndThen(toList(), l -> l.isEmpty() ? Optional.empty() : Optional.of(Math.sqrt(variance0(l, function))));
     }
 
