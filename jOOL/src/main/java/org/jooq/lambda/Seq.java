@@ -4756,13 +4756,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
     /**
      * Wrap an <code>Optional</code> into a <code>Seq</code>.
      */
+    @SuppressWarnings("unchecked")
     static <T> Seq<T> seq(Optional<? extends T> optional) {
         
         // [#245] For the special kind of ugly client code...
         if (optional == null)
             return Seq.empty();
         
-        return optional.map(Seq::of).orElseGet(Seq::empty);
+        return (Seq<T>) optional.map(Seq::of).orElseGet(Seq::empty);
     }
 
     /**
