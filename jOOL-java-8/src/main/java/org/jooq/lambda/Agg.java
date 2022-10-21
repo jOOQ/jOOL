@@ -1289,7 +1289,7 @@ public class Agg {
                 varianceDouble(functionX),
                 correlationDouble(functionX, functionY)
             ),
-            t -> mapAll(t, (v1, v2, v3) -> v1 == 0.0 ? null : v2 == 0.0 ? 1.0 : Math.pow(v3, 2))
+            t -> mapAll(t.limit2(), (v1, v2) -> v1 == 0.0 ? null : v2 == 0.0 ? 1.0 : t.v3.map(v3 -> Math.pow(v3, 2)).orElse(null))
         );
     }
 
