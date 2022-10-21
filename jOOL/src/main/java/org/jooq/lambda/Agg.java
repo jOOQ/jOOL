@@ -547,7 +547,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
+    public static <T> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[] { Integer.MAX_VALUE },
             (s, v) -> s[0] = s[0] & function.applyAsInt(v),
             (s1, s2) -> {
@@ -562,7 +562,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
+    public static <T> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[] { Long.MAX_VALUE },
             (s, v) -> s[0] = s[0] & function.applyAsLong(v),
             (s1, s2) -> {
@@ -606,7 +606,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
+    public static <T> Collector<T, ?, Integer> bitOrInt(ToIntFunction<? super T> function) {
         return Collector.of(() -> new int[1],
             (s, v) -> s[0] = s[0] | function.applyAsInt(v),
             (s1, s2) -> {
@@ -621,7 +621,7 @@ public class Agg {
      * Get a {@link Collector} that calculates the <code>BIT_OR()</code> for any
      * type of {@link Number}.
      */
-    public static <T, U> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
+    public static <T> Collector<T, ?, Long> bitOrLong(ToLongFunction<? super T> function) {
         return Collector.of(() -> new long[1],
             (s, v) -> s[0] = s[0] | function.applyAsLong(v),
             (s1, s2) -> {
