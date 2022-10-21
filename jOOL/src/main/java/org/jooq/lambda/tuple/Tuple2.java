@@ -239,13 +239,13 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     /**
      * Whether two tuples overlap.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // true
      * range(1, 3).overlaps(range(2, 4))
      *
      * // false
      * range(1, 3).overlaps(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      *
      * @deprecated - Use {@link Range#overlaps(Range)} instead.
      */
@@ -258,13 +258,13 @@ public class Tuple2<T1, T2> implements Tuple, Comparable<Tuple2<T1, T2>>, Serial
     /**
      * The intersection of two ranges.
      * <p>
-     * <code><pre>
+     * <pre><code>
      * // (2, 3)
      * range(1, 3).intersect(range(2, 4))
      *
      * // none
      * range(1, 3).intersect(range(5, 8))
-     * </pre></code>
+     * </code></pre>
      * @deprecated - Use {@link Range#intersect(Range)} instead.
      */
     @Deprecated

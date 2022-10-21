@@ -81,11 +81,11 @@ public final class Unchecked {
      * Wrap a {@link CheckedRunnable} in a {@link Runnable}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * new Thread(Unchecked.runnable(() -> {
      *     throw new Exception("Cannot run this thread");
      * })).start();
-     * </pre></code>
+     * </code></pre>
      */
     public static Runnable runnable(CheckedRunnable runnable) {
         return runnable(runnable, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -95,7 +95,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedRunnable} in a {@link Runnable} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * new Thread(Unchecked.runnable(
      *     () -> {
      *         throw new Exception("Cannot run this thread");
@@ -104,7 +104,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * )).start();
-     * </pre></code>
+     * </code></pre>
      */
     public static Runnable runnable(CheckedRunnable runnable, Consumer<Throwable> handler) {
         return () -> {
@@ -127,11 +127,11 @@ public final class Unchecked {
      * Wrap a {@link CheckedCallable<T>} in a {@link Callable<T>}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Executors.newFixedThreadPool(1).submit(Unchecked.callable(() -> {
      *     throw new Exception("Cannot execute this task");
      * })).get();
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Callable<T> callable(CheckedCallable<T> callable) {
         return callable(callable, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -141,7 +141,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedCallable<T>} in a {@link Callable<T>} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Executors.newFixedThreadPool(1).submit(Unchecked.callable(
      *     () -> {
      *         throw new Exception("Cannot execute this task");
@@ -150,7 +150,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * )).get();
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Callable<T> callable(CheckedCallable<T> callable, Consumer<Throwable> handler) {
         return () -> {
@@ -200,12 +200,12 @@ public final class Unchecked {
      * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBiConsumer} in a {@link BiConsumer}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.forEach(Unchecked.biConsumer((k, v) -> {
      *     if (k == null || v == null)
      *         throw new Exception("No nulls allowed in map");
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T, U> BiConsumer<T, U> biConsumer(CheckedBiConsumer<T, U> consumer) {
         return biConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -215,7 +215,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedBiConsumer} in a {@link BiConsumer} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.forEach(Unchecked.biConsumer(
      *     (k, v) -> {
      *         if (k == null || v == null)
@@ -225,7 +225,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T, U> BiConsumer<T, U> biConsumer(CheckedBiConsumer<T, U> consumer, Consumer<Throwable> handler) {
         return (t, u) -> {
@@ -317,14 +317,14 @@ public final class Unchecked {
      * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBiFunction} in a {@link BiFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.computeIfPresent("key", Unchecked.biFunction((k, v) -> {
      *     if (k == null || v == null)
      *         throw new Exception("No nulls allowed in map");
      *
      *     return 42;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T, U, R> BiFunction<T, U, R> biFunction(CheckedBiFunction<T, U, R> function) {
         return biFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -334,7 +334,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedBiFunction} in a {@link BiFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.computeIfPresent("key", Unchecked.biFunction(
      *     (k, v) -> {
      *         if (k == null || v == null)
@@ -346,7 +346,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T, U, R> BiFunction<T, U, R> biFunction(CheckedBiFunction<T, U, R> function, Consumer<Throwable> handler) {
         return (t, u) -> {
@@ -465,14 +465,14 @@ public final class Unchecked {
      * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBinaryOperator} in a {@link BinaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Stream.of("a", "b", "c").reduce(Unchecked.binaryOperator((s1, s2) -> {
      *     if (s2.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return s1 + s2;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> BinaryOperator<T> binaryOperator(CheckedBinaryOperator<T> operator) {
         return binaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -482,7 +482,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedBinaryOperator} in a {@link BinaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Stream.of("a", "b", "c").reduce(Unchecked.binaryOperator(
      *     (s1, s2) -> {
      *         if (s2.length() > 10)
@@ -494,7 +494,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> BinaryOperator<T> binaryOperator(CheckedBinaryOperator<T> operator, Consumer<Throwable> handler) {
         return (t1, t2) -> {
@@ -513,14 +513,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntBinaryOperator} in a {@link IntBinaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).reduce(Unchecked.intBinaryOperator((i1, i2) -> {
      *     if (i2 &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return i1 + i2;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntBinaryOperator intBinaryOperator(CheckedIntBinaryOperator operator) {
         return intBinaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -530,7 +530,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntBinaryOperator} in a {@link IntBinaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).reduce(Unchecked.intBinaryOperator(
      *     (i1, i2) -> {
      *         if (i2 &lt; 0)
@@ -542,7 +542,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static  IntBinaryOperator intBinaryOperator(CheckedIntBinaryOperator operator, Consumer<Throwable> handler) {
         return (i1, i2) -> {
@@ -561,14 +561,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongBinaryOperator} in a {@link LongBinaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).reduce(Unchecked.longBinaryOperator((l1, l2) -> {
      *     if (l2 &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return l1 + l2;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongBinaryOperator longBinaryOperator(CheckedLongBinaryOperator operator) {
         return longBinaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -578,7 +578,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongBinaryOperator} in a {@link LongBinaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).reduce(Unchecked.longBinaryOperator(
      *     (l1, l2) -> {
      *         if (l2 &lt; 0L)
@@ -590,7 +590,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongBinaryOperator longBinaryOperator(CheckedLongBinaryOperator operator, Consumer<Throwable> handler) {
         return (l1, l2) -> {
@@ -609,14 +609,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleBinaryOperator} in a {@link DoubleBinaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).reduce(Unchecked.doubleBinaryOperator((d1, d2) -> {
      *     if (d2 &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return d1 + d2;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleBinaryOperator doubleBinaryOperator(CheckedDoubleBinaryOperator operator) {
         return doubleBinaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -626,7 +626,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleBinaryOperator} in a {@link DoubleBinaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).reduce(Unchecked.doubleBinaryOperator(
      *     (d1, d2) -> {
      *         if (d2 &lt; 0.0)
@@ -638,7 +638,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleBinaryOperator doubleBinaryOperator(CheckedDoubleBinaryOperator operator, Consumer<Throwable> handler) {
         return (d1, d2) -> {
@@ -661,12 +661,12 @@ public final class Unchecked {
      * Wrap a {@link CheckedConsumer} in a {@link Consumer}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.asList("a", "b").stream().forEach(Unchecked.consumer(s -> {
      *     if (s.length() > 10)
      *         throw new Exception("Only short strings allowed");
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Consumer<T> consumer(CheckedConsumer<T> consumer) {
         return consumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -676,7 +676,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedConsumer} in a {@link Consumer} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.asList("a", "b").stream().forEach(Unchecked.consumer(
      *     s -> {
      *         if (s.length() > 10)
@@ -686,7 +686,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Consumer<T> consumer(CheckedConsumer<T> consumer, Consumer<Throwable> handler) {
         return t -> {
@@ -705,12 +705,12 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntConsumer} in a {@link IntConsumer}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.stream(new int[] { 1, 2 }).forEach(Unchecked.intConsumer(i -> {
      *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntConsumer intConsumer(CheckedIntConsumer consumer) {
         return intConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -720,7 +720,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntConsumer} in a {@link IntConsumer} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.stream(new int[] { 1, 2 }).forEach(Unchecked.intConsumer(
      *     i -> {
      *         if (i &lt; 0)
@@ -730,7 +730,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntConsumer intConsumer(CheckedIntConsumer consumer, Consumer<Throwable> handler) {
         return i -> {
@@ -749,12 +749,12 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongConsumer} in a {@link LongConsumer}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.stream(new long[] { 1L, 2L }).forEach(Unchecked.longConsumer(l -> {
      *     if (l &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongConsumer longConsumer(CheckedLongConsumer consumer) {
         return longConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -764,7 +764,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongConsumer} in a {@link LongConsumer} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.stream(new long[] { 1L, 2L }).forEach(Unchecked.longConsumer(
      *     l -> {
      *         if (l &lt; 0)
@@ -774,7 +774,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongConsumer longConsumer(CheckedLongConsumer consumer, Consumer<Throwable> handler) {
         return l -> {
@@ -793,12 +793,12 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleConsumer} in a {@link DoubleConsumer}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.stream(new double[] { 1.0, 2.0 }).forEach(Unchecked.doubleConsumer(d -> {
      *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleConsumer doubleConsumer(CheckedDoubleConsumer consumer) {
         return doubleConsumer(consumer, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -808,7 +808,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleConsumer} in a {@link DoubleConsumer} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Arrays.stream(new double[] { 1.0, 2.0 }).forEach(Unchecked.doubleConsumer(
      *     d -> {
      *         if (d &lt; 0.0)
@@ -818,7 +818,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleConsumer doubleConsumer(CheckedDoubleConsumer consumer, Consumer<Throwable> handler) {
         return d -> {
@@ -841,14 +841,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedFunction} in a {@link Function}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.computeIfAbsent("key", Unchecked.function(k -> {
      *     if (k.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return 42;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T, R> Function<T, R> function(CheckedFunction<T, R> function) {
         return function(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -858,7 +858,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedFunction} in a {@link Function} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.forEach(Unchecked.function(
      *     k -> {
      *         if (k.length() > 10)
@@ -870,7 +870,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T, R> Function<T, R> function(CheckedFunction<T, R> function, Consumer<Throwable> handler) {
         return t -> {
@@ -889,14 +889,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedToIntFunction} in a {@link ToIntFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.computeIfAbsent("key", Unchecked.toIntFunction(k -> {
      *     if (k.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return 42;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> ToIntFunction<T> toIntFunction(CheckedToIntFunction<T> function) {
         return toIntFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -906,7 +906,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedToIntFunction} in a {@link ToIntFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.forEach(Unchecked.toIntFunction(
      *     k -> {
      *         if (k.length() > 10)
@@ -918,7 +918,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> ToIntFunction<T> toIntFunction(CheckedToIntFunction<T> function, Consumer<Throwable> handler) {
         return t -> {
@@ -937,14 +937,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedToLongFunction} in a {@link ToLongFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.computeIfAbsent("key", Unchecked.toLongFunction(k -> {
      *     if (k.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return 42L;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> ToLongFunction<T> toLongFunction(CheckedToLongFunction<T> function) {
         return toLongFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -954,7 +954,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedToLongFunction} in a {@link ToLongFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.forEach(Unchecked.toLongFunction(
      *     k -> {
      *         if (k.length() > 10)
@@ -966,7 +966,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> ToLongFunction<T> toLongFunction(CheckedToLongFunction<T> function, Consumer<Throwable> handler) {
         return t -> {
@@ -985,14 +985,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedToDoubleFunction} in a {@link ToDoubleFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.computeIfAbsent("key", Unchecked.toDoubleFunction(k -> {
      *     if (k.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return 42.0;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> ToDoubleFunction<T> toDoubleFunction(CheckedToDoubleFunction<T> function) {
         return toDoubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1002,7 +1002,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedToDoubleFunction} in a {@link ToDoubleFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * map.forEach(Unchecked.toDoubleFunction(
      *     k -> {
      *         if (k.length() > 10)
@@ -1014,7 +1014,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> ToDoubleFunction<T> toDoubleFunction(CheckedToDoubleFunction<T> function, Consumer<Throwable> handler) {
         return t -> {
@@ -1033,14 +1033,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntFunction} in a {@link IntFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).mapToObj(Unchecked.intFunction(i -> {
      *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return "" + i;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static <R> IntFunction<R> intFunction(CheckedIntFunction<R> function) {
         return intFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1050,7 +1050,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntFunction} in a {@link IntFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).mapToObj(Unchecked.intFunction(
      *     i -> {
      *         if (i &lt; 0)
@@ -1062,7 +1062,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <R> IntFunction<R> intFunction(CheckedIntFunction<R> function, Consumer<Throwable> handler) {
         return t -> {
@@ -1081,14 +1081,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntToLongFunction} in a {@link IntToLongFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).mapToLong(Unchecked.intToLongFunction(i -> {
      *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (long) i;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static IntToLongFunction intToLongFunction(CheckedIntToLongFunction function) {
         return intToLongFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1098,7 +1098,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntToLongFunction} in a {@link IntToLongFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).mapToLong(Unchecked.intToLongFunction(
      *     i -> {
      *         if (i &lt; 0)
@@ -1110,7 +1110,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntToLongFunction intToLongFunction(CheckedIntToLongFunction function, Consumer<Throwable> handler) {
         return t -> {
@@ -1129,14 +1129,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntToDoubleFunction} in a {@link IntToDoubleFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).mapToDouble(Unchecked.intToDoubleFunction(i -> {
      *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (double) i;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static IntToDoubleFunction intToDoubleFunction(CheckedIntToDoubleFunction function) {
         return intToDoubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1146,7 +1146,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntToDoubleFunction} in a {@link IntToDoubleFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).mapToDouble(Unchecked.intToDoubleFunction(
      *     i -> {
      *         if (i &lt; 0)
@@ -1158,7 +1158,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntToDoubleFunction intToDoubleFunction(CheckedIntToDoubleFunction function, Consumer<Throwable> handler) {
         return t -> {
@@ -1177,14 +1177,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongFunction} in a {@link LongFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).mapToObj(Unchecked.longFunction(l -> {
      *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return "" + l;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static <R> LongFunction<R> longFunction(CheckedLongFunction<R> function) {
         return longFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1194,7 +1194,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongFunction} in a {@link LongFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).mapToObj(Unchecked.longFunction(
      *     l -> {
      *         if (l &lt; 0L)
@@ -1206,7 +1206,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <R> LongFunction<R> longFunction(CheckedLongFunction<R> function, Consumer<Throwable> handler) {
         return t -> {
@@ -1225,14 +1225,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongToIntFunction} in a {@link LongToIntFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToIntFunction(l -> {
      *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (int) l;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static LongToIntFunction longToIntFunction(CheckedLongToIntFunction function) {
         return longToIntFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1242,7 +1242,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongToIntFunction} in a {@link LongToIntFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToIntFunction(
      *     l -> {
      *         if (l &lt; 0L)
@@ -1254,7 +1254,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongToIntFunction longToIntFunction(CheckedLongToIntFunction function, Consumer<Throwable> handler) {
         return t -> {
@@ -1273,14 +1273,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongToDoubleFunction} in a {@link LongToDoubleFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToDoubleFunction(l -> {
      *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (double) l;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static LongToDoubleFunction longToDoubleFunction(CheckedLongToDoubleFunction function) {
         return longToDoubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1290,7 +1290,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongToDoubleFunction} in a {@link LongToDoubleFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).mapToInt(Unchecked.longToDoubleFunction(
      *     l -> {
      *         if (l &lt; 0L)
@@ -1302,7 +1302,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongToDoubleFunction longToDoubleFunction(CheckedLongToDoubleFunction function, Consumer<Throwable> handler) {
         return t -> {
@@ -1321,14 +1321,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleFunction} in a {@link DoubleFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToObj(Unchecked.doubleFunction(d -> {
      *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return "" + d;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static <R> DoubleFunction<R> doubleFunction(CheckedDoubleFunction<R> function) {
         return doubleFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1338,7 +1338,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleFunction} in a {@link DoubleFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToObj(Unchecked.doubleFunction(
      *     d -> {
      *         if (d &lt; 0.0)
@@ -1350,7 +1350,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <R> DoubleFunction<R> doubleFunction(CheckedDoubleFunction<R> function, Consumer<Throwable> handler) {
         return t -> {
@@ -1369,14 +1369,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleToIntFunction} in a {@link DoubleToIntFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToInt(Unchecked.doubleToIntFunction(d -> {
      *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (int) d;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleToIntFunction doubleToIntFunction(CheckedDoubleToIntFunction function) {
         return doubleToIntFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1386,7 +1386,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleToIntFunction} in a {@link DoubleToIntFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToInt(Unchecked.doubleToIntFunction(
      *     d -> {
      *         if (d &lt; 0.0)
@@ -1398,7 +1398,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleToIntFunction doubleToIntFunction(CheckedDoubleToIntFunction function, Consumer<Throwable> handler) {
         return t -> {
@@ -1417,14 +1417,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleToLongFunction} in a {@link DoubleToLongFunction}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToLong(Unchecked.doubleToLongFunction(d -> {
      *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return (long) d;
      * });
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleToLongFunction doubleToLongFunction(CheckedDoubleToLongFunction function) {
         return doubleToLongFunction(function, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1434,7 +1434,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleToLongFunction} in a {@link DoubleToLongFunction} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).mapToLong(Unchecked.doubleToLongFunction(
      *     d -> {
      *         if (d &lt; 0.0)
@@ -1446,7 +1446,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleToLongFunction doubleToLongFunction(CheckedDoubleToLongFunction function, Consumer<Throwable> handler) {
         return t -> {
@@ -1469,14 +1469,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedPredicate} in a {@link Predicate}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Stream.of("a", "b", "c").filter(Unchecked.predicate(s -> {
      *     if (s.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return true;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Predicate<T> predicate(CheckedPredicate<T> predicate) {
         return predicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1486,7 +1486,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedPredicate} in a {@link Predicate} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Stream.of("a", "b", "c").filter(Unchecked.predicate(
      *     s -> {
      *         if (s.length() > 10)
@@ -1498,7 +1498,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Predicate<T> predicate(CheckedPredicate<T> function, Consumer<Throwable> handler) {
         return t -> {
@@ -1517,14 +1517,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedPredicate} in a {@link IntPredicate}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).filter(Unchecked.intPredicate(i -> {
      *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return true;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntPredicate intPredicate(CheckedIntPredicate predicate) {
         return intPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1534,7 +1534,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedPredicate} in a {@link IntPredicate} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).filter(Unchecked.intPredicate(
      *     i -> {
      *         if (i &lt; 0)
@@ -1546,7 +1546,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntPredicate intPredicate(CheckedIntPredicate function, Consumer<Throwable> handler) {
         return i -> {
@@ -1565,14 +1565,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongPredicate} in a {@link LongPredicate}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).filter(Unchecked.longPredicate(l -> {
      *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return true;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongPredicate longPredicate(CheckedLongPredicate predicate) {
         return longPredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1582,7 +1582,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongPredicate} in a {@link LongPredicate} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).filter(Unchecked.longPredicate(
      *     l -> {
      *         if (l &lt; 0L)
@@ -1594,7 +1594,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongPredicate longPredicate(CheckedLongPredicate function, Consumer<Throwable> handler) {
         return l -> {
@@ -1613,14 +1613,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoublePredicate} in a {@link DoublePredicate}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).filter(Unchecked.doublePredicate(d -> {
      *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return true;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoublePredicate doublePredicate(CheckedDoublePredicate predicate) {
         return doublePredicate(predicate, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1630,7 +1630,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoublePredicate} in a {@link DoublePredicate} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * DoubleStream.of(1.0, 2.0, 3.0).filter(Unchecked.doublePredicate(
      *     d -> {
      *         if (d &lt; 0.0)
@@ -1642,7 +1642,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoublePredicate doublePredicate(CheckedDoublePredicate function, Consumer<Throwable> handler) {
         return d -> {
@@ -1665,10 +1665,10 @@ public final class Unchecked {
      * Wrap a {@link CheckedSupplier} in a {@link Supplier}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      * Stream.generate(Unchecked.supplier(() -> rs.getObject(1)));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Supplier<T> supplier(CheckedSupplier<T> supplier) {
         return supplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1678,7 +1678,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedSupplier} in a {@link Supplier} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      *
      * Stream.generate(Unchecked.supplier(
@@ -1687,7 +1687,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> Supplier<T> supplier(CheckedSupplier<T> supplier, Consumer<Throwable> handler) {
         return () -> {
@@ -1706,10 +1706,10 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntSupplier} in a {@link IntSupplier}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      * Stream.generate(Unchecked.intSupplier(() -> rs.getInt(1)));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntSupplier intSupplier(CheckedIntSupplier supplier) {
         return intSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1719,7 +1719,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntSupplier} in a {@link IntSupplier} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      *
      * Stream.generate(Unchecked.intSupplier(
@@ -1728,7 +1728,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntSupplier intSupplier(CheckedIntSupplier supplier, Consumer<Throwable> handler) {
         return () -> {
@@ -1747,10 +1747,10 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongSupplier} in a {@link LongSupplier}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      * Stream.generate(Unchecked.longSupplier(() -> rs.getLong(1)));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongSupplier longSupplier(CheckedLongSupplier supplier) {
         return longSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1760,7 +1760,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongSupplier} in a {@link LongSupplier} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      *
      * Stream.generate(Unchecked.longSupplier(
@@ -1769,7 +1769,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongSupplier longSupplier(CheckedLongSupplier supplier, Consumer<Throwable> handler) {
         return () -> {
@@ -1788,10 +1788,10 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleSupplier} in a {@link DoubleSupplier}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      * Stream.generate(Unchecked.doubleSupplier(() -> rs.getDouble(1)));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleSupplier doubleSupplier(CheckedDoubleSupplier supplier) {
         return doubleSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1801,7 +1801,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleSupplier} in a {@link DoubleSupplier} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      *
      * Stream.generate(Unchecked.doubleSupplier(
@@ -1810,7 +1810,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleSupplier doubleSupplier(CheckedDoubleSupplier supplier, Consumer<Throwable> handler) {
         return () -> {
@@ -1829,10 +1829,10 @@ public final class Unchecked {
      * Wrap a {@link org.jooq.lambda.fi.util.function.CheckedBooleanSupplier} in a {@link BooleanSupplier}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      * Stream.generate(Unchecked.booleanSupplier(() -> rs.getBoolean(1)));
-     * </pre></code>
+     * </code></pre>
      */
     public static BooleanSupplier booleanSupplier(CheckedBooleanSupplier supplier) {
         return booleanSupplier(supplier, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1842,7 +1842,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedBooleanSupplier} in a {@link BooleanSupplier} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * ResultSet rs = statement.executeQuery();
      *
      * Stream.generate(Unchecked.booleanSupplier(
@@ -1851,7 +1851,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static BooleanSupplier booleanSupplier(CheckedBooleanSupplier supplier, Consumer<Throwable> handler) {
         return () -> {
@@ -1874,14 +1874,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedUnaryOperator} in a {@link UnaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Stream.of("a", "b", "c").map(Unchecked.unaryOperator(s -> {
      *     if (s.length() > 10)
      *         throw new Exception("Only short strings allowed");
      *
      *     return s;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> UnaryOperator<T> unaryOperator(CheckedUnaryOperator<T> operator) {
         return unaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1891,7 +1891,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedUnaryOperator} in a {@link UnaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * Stream.of("a", "b", "c").map(Unchecked.unaryOperator(
      *     s -> {
      *         if (s.length() > 10)
@@ -1903,7 +1903,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static <T> UnaryOperator<T> unaryOperator(CheckedUnaryOperator<T> operator, Consumer<Throwable> handler) {
         return t -> {
@@ -1922,14 +1922,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntUnaryOperator} in a {@link IntUnaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).map(Unchecked.intUnaryOperator(i -> {
      *     if (i &lt; 0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return i;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntUnaryOperator intUnaryOperator(CheckedIntUnaryOperator operator) {
         return intUnaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1939,7 +1939,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedIntUnaryOperator} in a {@link IntUnaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * IntStream.of(1, 2, 3).map(Unchecked.intUnaryOperator(
      *     i -> {
      *         if (i &lt; 0)
@@ -1951,7 +1951,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static IntUnaryOperator intUnaryOperator(CheckedIntUnaryOperator operator, Consumer<Throwable> handler) {
         return t -> {
@@ -1970,14 +1970,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongUnaryOperator} in a {@link LongUnaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).map(Unchecked.longUnaryOperator(l -> {
      *     if (l &lt; 0L)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return l;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongUnaryOperator longUnaryOperator(CheckedLongUnaryOperator operator) {
         return longUnaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -1987,7 +1987,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedLongUnaryOperator} in a {@link LongUnaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1L, 2L, 3L).map(Unchecked.longUnaryOperator(
      *     l -> {
      *         if (l &lt; 0L)
@@ -1999,7 +1999,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static LongUnaryOperator longUnaryOperator(CheckedLongUnaryOperator operator, Consumer<Throwable> handler) {
         return t -> {
@@ -2018,14 +2018,14 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleUnaryOperator} in a {@link DoubleUnaryOperator}.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1.0, 2.0, 3.0).map(Unchecked.doubleUnaryOperator(d -> {
      *     if (d &lt; 0.0)
      *         throw new Exception("Only positive numbers allowed");
      *
      *     return d;
      * }));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleUnaryOperator doubleUnaryOperator(CheckedDoubleUnaryOperator operator) {
         return doubleUnaryOperator(operator, THROWABLE_TO_RUNTIME_EXCEPTION);
@@ -2035,7 +2035,7 @@ public final class Unchecked {
      * Wrap a {@link CheckedDoubleUnaryOperator} in a {@link DoubleUnaryOperator} with a custom handler for checked exceptions.
      * <p>
      * Example:
-     * <code><pre>
+     * <pre><code>
      * LongStream.of(1.0, 2.0, 3.0).map(Unchecked.doubleUnaryOperator(
      *     d -> {
      *         if (d &lt; 0.0)
@@ -2047,7 +2047,7 @@ public final class Unchecked {
      *         throw new IllegalStateException(e);
      *     }
      * ));
-     * </pre></code>
+     * </code></pre>
      */
     public static DoubleUnaryOperator doubleUnaryOperator(CheckedDoubleUnaryOperator operator, Consumer<Throwable> handler) {
         return t -> {

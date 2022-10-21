@@ -104,10 +104,10 @@
                     </plugin>
 
                     <plugin>
-                        <inherited>true</inherited>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.0-M1</version>
+                        <version>3.2.0</version>
+                        <inherited>true</inherited>
                         <executions>
                             <execution>
                                 <id>bundle-sources</id>
@@ -123,8 +123,9 @@
                             <show>protected</show>
                             <notree>true</notree>
 
-                            <!-- Avoid running into Java 8's very restrictive doclint issues -->
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <!-- [#13703] Validate at least HTML correctness -->
+                            <additionalparam>-Xdoclint:html</additionalparam>
+                            <additionalOptions>-Xdoclint:html</additionalOptions>
                         </configuration>
                     </plugin>
 
