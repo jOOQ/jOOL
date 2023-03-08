@@ -203,7 +203,7 @@ Download
 <dependency>
   <groupId>org.jooq</groupId>
   <artifactId>jool</artifactId>
-  <version>0.9.14</version>
+  <version>0.9.15</version>
 </dependency>
 ```
 
@@ -213,5 +213,5 @@ Download
 <dependency>
   <groupId>org.jooq</groupId>
   <artifactId>jool-java-8</artifactId>
-  <version>0.9.14</version>
+  <version>0.9.15</version>
 </dependency>
