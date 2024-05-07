@@ -40,13 +40,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <fork>true</fork>
                     <maxmem>512m</maxmem>
                     <meminitial>256m</meminitial>
                     <encoding>UTF-8</encoding>
-                    <release>9</release>
+                    <!-- [java-9] -->
+                    <release>11</release>
+                    <!-- [/java-9] -->
+
+                    <source>11</source>
+                    <target>11</target>
                     <debug>true</debug>
                     <debuglevel>lines,vars,source</debuglevel>
                 </configuration>
@@ -106,7 +111,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.6.3</version>
                         <inherited>true</inherited>
                         <executions>
                             <execution>
@@ -122,10 +127,12 @@
                             <encoding>UTF-8</encoding>
                             <show>protected</show>
                             <notree>true</notree>
+                            <!-- Explicit configuration of javadoc language to avoid defaulting to build system's configuration -->
+                            <locale>en</locale>
 
-                            <!-- [#13703] Validate at least HTML correctness -->
-                            <additionalparam>-Xdoclint:html</additionalparam>
-                            <additionalOptions>-Xdoclint:html</additionalOptions>
+                            <!-- Avoid running into Java 8's very restrictive doclint issues -->
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <additionalOptions>-Xdoclint:none</additionalOptions>
                         </configuration>
                     </plugin>
 
@@ -157,48 +164,96 @@
                     <plugin>
                         <groupId>com.google.code.maven-replacer-plugin</groupId>
                         <artifactId>replacer</artifactId>
-                        <version>1.5.2</version>
+                        <version>1.5.3</version>
                         <executions>
                             <execution>
+                                <id>replace-apidocs-jar</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>replace</goal>
                                 </goals>
+
+                                <configuration>
+                                    <ignoreErrors>true</ignoreErrors>
+                                    <basedir>${project.build.directory}/apidocs</basedir>
+                                    <includes>
+                                        <include>**/*.html</include>
+                                    </includes>
+                                    <replacements>
+                                        <replacement>
+                                            <token><![CDATA[</head>]]></token>
+                                            <value><![CDATA[
+                                                <meta name="robots" content="noindex">
+                                                <link rel="canonical" href="https://www.jooq.org/products/jOOX/javadoc/latest">
+                                                </head>
+                                            ]]></value>
+                                        </replacement>
+                                    </replacements>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>replace-apidocs-ga</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>replace</goal>
+                                </goals>
+
+                                <configuration>
+
+                                    <!-- There's an error when trying to find the top module's /target/apidocs-ga directory -->
+                                    <ignoreErrors>true</ignoreErrors>
+                                    <basedir>${project.build.directory}/apidocs-ga</basedir>
+                                    <includes>
+                                        <include>**/*.html</include>
+                                    </includes>
+                                    <replacements>
+                                        <replacement>
+                                            <token><![CDATA[</body>]]></token>
+                                            <value><![CDATA[
+                                                <!-- Google tag (gtag.js) -->
+                                                <script async src="https://www.googletagmanager.com/gtag/js?id=G-PB08BGF2SR"></script>
+                                                <script>
+                                                window.dataLayer = window.dataLayer || [];
+                                                function gtag(){dataLayer.push(arguments);}
+                                                gtag('js', new Date());
+
+                                                gtag('config', 'G-PB08BGF2SR');
+                                                </script>
+                                                </body>
+                                            ]]></value>
+                                        </replacement>
+                                    </replacements>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
+                    </plugin>
 
-                            <!-- There's an error when trying to find the top module's /target/apidocs-ga directory -->
-                            <ignoreErrors>true</ignoreErrors>
-                            <basedir>${project.build.directory}/apidocs-ga</basedir>
-                            <includes>
-                                <include>**/*.html</include>
-                            </includes>
-                            <replacements>
-                                <replacement>
-                                    <token><![CDATA[<body>]]></token>
-                                    <value><![CDATA[<body>
-                                        <script type="text/javascript">
-                                          var _gaq = _gaq || [];
-                                          _gaq.push(['_setAccount', 'UA-30716479-1']);
-                                          _gaq.push(['_trackPageview']);
-
-                                          (function() {
-                                            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                                            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                                          })();
-                                        </script>
-                                    ]]></value>
-                                </replacement>
-                            </replacements>
-                        </configuration>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>repack</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${project.build.directory}/${artifactId}-${version}-javadoc.jar"/>
+                                        <zip basedir="${project.build.directory}/apidocs" destfile="${project.build.directory}/${artifactId}-${version}-javadoc.jar"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.1</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -206,6 +261,12 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
