@@ -2878,6 +2878,40 @@ public class SeqTest {
     }
 
     @Test
+    public void testCloseContinuesAfterRepeatedException() {
+        testCloseExceptions(true);
+    }
+
+    @Test
+    public void testClosePreservesDistinctExceptions() {
+        testCloseExceptions(false);
+    }
+
+    private void testCloseExceptions(boolean repeatException) {
+        Consumer<Function4<Seq<Integer>, Seq<Integer>, Seq<Integer>, Seq<Integer>, Seq<?>>> test = f -> {
+            RuntimeException first = new RuntimeException("first");
+            RuntimeException second = repeatException ? first : new RuntimeException("second");
+            RuntimeException third = new RuntimeException("third");
+            AtomicBoolean closed = new AtomicBoolean();
+
+            Seq<Integer> s1 = Seq.of(1).onClose(() -> { throw first; });
+            Seq<Integer> s2 = Seq.of(2).onClose(() -> { throw second; });
+            Seq<Integer> s3 = Seq.of(3).onClose(() -> { throw third; });
+            Seq<Integer> s4 = Seq.of(4).onClose(() -> closed.set(true));
+
+            assertThrows(RuntimeException.class, () -> f.apply(s1, s2, s3, s4).close(), t -> {
+                org.junit.Assert.assertSame(first, t);
+                assertEquals(repeatException ? asList(third) : asList(second, third),
+                    asList(t.getSuppressed()));
+            });
+            assertTrue(closed.get());
+        };
+
+        test.accept((s1, s2, s3, s4) -> Seq.zip(s1, s2, s3, s4));
+        test.accept((s1, s2, s3, s4) -> Seq.zipAll(s1, s2, s3, s4, 0, 0, 0, 0));
+    }
+
+    @Test
     public void testTakeBehavesAsLimit() {
         assertTrue(Seq.range(1, 10).take(3).toList().equals(Seq.range(1, 10).limit(3).toList()));
     }

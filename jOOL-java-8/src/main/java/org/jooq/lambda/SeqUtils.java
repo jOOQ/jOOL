@@ -144,7 +144,7 @@ class SeqUtils {
                 catch (Throwable t1) {
                     if (t == null)
                         t = t1;
-                    else
+                    else if (t != t1)
                         t.addSuppressed(t1);
                 }
             }
