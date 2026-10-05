@@ -1011,8 +1011,7 @@ public class Agg {
 
     private static int percentileIndex(double percentile, int size) {
 
-        // x.5 should be rounded down
-        return (int) -Math.round(-(size * percentile + 0.5)) - 1;
+        return (int) Math.ceil(size * percentile) - 1;
     }
 
     /**
