@@ -40,6 +40,20 @@ import org.junit.Test;
 public class CollectorTests {
 
     @Test
+    public void testVerySmallPositivePercentile() {
+        for (double p : new double[] { Double.MIN_VALUE, 1e-20 }) {
+            assertEquals(Optional.of(1), Stream.of(3, 1, 2).collect(percentile(p)));
+        }
+    }
+
+    @Test
+    public void testVerySmallPositivePercentileAll() {
+        for (double p : new double[] { Double.MIN_VALUE, 1e-20 }) {
+            assertEquals(asList(1, 1), Stream.of(3, 1, 1, 2).collect(percentileAll(p)).toList());
+        }
+    }
+
+    @Test
     public void testMedian() {
         assertEquals(Optional.empty(), Stream.<Integer> of().collect(median()));
         assertEquals(Optional.of(1), Stream.of(1).collect(median()));
