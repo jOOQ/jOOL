@@ -26,8 +26,17 @@ abstract class Sum<N> {
     long count;
     
     void add(Sum<N> sum) {
-        add0(sum.result());
+        add0(sum);
         count += sum.count;
+    }
+
+    /**
+     * Add another partial sum to this sum. Implementations that keep more
+     * precision than the result type (in order to calculate an exact
+     * {@link #avg()}) override this to combine the more precise state.
+     */
+    void add0(Sum<N> sum) {
+        add0(sum.result());
     }
     
     void add(N value) {
@@ -85,39 +94,53 @@ abstract class Sum<N> {
     }
     
     static class OfByte extends Sum<Byte> {
-        byte result;
+
+        // The sum is kept in a long, such that avg() doesn't overflow
+        long sum;
 
         @Override
         void add0(Byte value) {
-            result += value;
+            sum += value;
+        }
+
+        @Override
+        void add0(Sum<Byte> other) {
+            sum += ((OfByte) other).sum;
         }
 
         @Override
         Byte result() {
-            return result;
+            return (byte) sum;
         }
 
         @Override
         void and0(Byte value) {
-            result &= value;
+            sum &= value;
         }
 
         @Override
         void or0(Byte value) {
-            result |= value;
+            sum |= value;
         }
 
         @Override
         Byte avg() {
-            return (byte) (result / count);
+            return (byte) (sum / count);
         }
     }
     static class OfShort extends Sum<Short> {
-        short sum;
+
+        // The sum is kept in a long, such that avg() doesn't overflow
+        long sum;
 
         @Override
         void add0(Short value) {
             sum += value;
+        }
+
+        @Override
+        void add0(Sum<Short> other) {
+            sum += ((OfShort) other).sum;
         }
 
         @Override
@@ -132,7 +155,7 @@ abstract class Sum<N> {
 
         @Override
         Short result() {
-            return sum;
+            return (short) sum;
         }
 
         @Override
@@ -141,11 +164,18 @@ abstract class Sum<N> {
         }
     }
     static class OfInt extends Sum<Integer> {
-        int sum;
+
+        // The sum is kept in a long, such that avg() doesn't overflow
+        long sum;
 
         @Override
         void add0(Integer value) {
             sum += value;
+        }
+
+        @Override
+        void add0(Sum<Integer> other) {
+            sum += ((OfInt) other).sum;
         }
 
         @Override
@@ -160,7 +190,7 @@ abstract class Sum<N> {
 
         @Override
         Integer result() {
-            return sum;
+            return (int) sum;
         }
          
         @Override
@@ -169,11 +199,35 @@ abstract class Sum<N> {
         }
     }
     static class OfLong extends Sum<Long> {
+
+        // The low 64 bits of the exact sum (this is also the result of sum(),
+        // which overflows like ordinary long arithmetic)
         long sum;
+
+        // The number of times the sum has overflowed (positive) or underflowed
+        // (negative), such that avg() can be calculated exactly
+        long overflows;
 
         @Override
         void add0(Long value) {
-            sum += value;
+            add1(value);
+        }
+
+        @Override
+        void add0(Sum<Long> other) {
+            add1(((OfLong) other).sum);
+            overflows += ((OfLong) other).overflows;
+        }
+
+        private void add1(long value) {
+            long r = sum + value;
+
+            // Hacker's Delight 2-12: Overflow iff both arguments have the
+            // opposite sign of the result
+            if (((sum ^ r) & (value ^ r)) < 0)
+                overflows += value > 0 ? 1 : -1;
+
+            sum = r;
         }
 
         @Override
@@ -193,7 +247,14 @@ abstract class Sum<N> {
 
         @Override
         Long avg() {
-            return sum / count;
+            if (overflows == 0)
+                return sum / count;
+            else
+                return BigInteger.valueOf(overflows)
+                                 .shiftLeft(64)
+                                 .add(BigInteger.valueOf(sum))
+                                 .divide(BigInteger.valueOf(count))
+                                 .longValueExact();
         }
     }
     static class OfFloat extends Sum<Float> {
