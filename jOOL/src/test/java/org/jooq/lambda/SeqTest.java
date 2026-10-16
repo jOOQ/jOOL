@@ -2656,6 +2656,47 @@ public class SeqTest {
     }
           
     @Test
+    public void testWindowFunctionSeqResultsOverWholePartition() {
+
+        // Results over the whole partition are cached. Each row must still get
+        // its own, consumable Seq
+        assertEquals(asList(asList(1), asList(1), asList(1)), Seq.of(1, 2, 3).window().map(w -> w.minAll().toList()).toList());
+        assertEquals(asList(asList(3), asList(3), asList(3)), Seq.of(1, 2, 3).window().map(w -> w.maxAll().toList()).toList());
+        assertEquals(asList(asList(1), asList(1), asList(1)), Seq.of(1, 2, 3).window().map(w -> w.minAll(naturalOrder()).toList()).toList());
+        assertEquals(asList(asList(3), asList(3), asList(3)), Seq.of(1, 2, 3).window().map(w -> w.maxAll(naturalOrder()).toList()).toList());
+        assertEquals(asList(asList(2), asList(2), asList(2)), Seq.of(1, 2, 2).window().map(w -> w.modeAll().toList()).toList());
+        assertEquals(asList(asList(3, 4), asList(3, 4)), Seq.of(3, 4).window().map(w -> w.modeAllBy(i -> 0).toList()).toList());
+
+        Function<Integer, Integer> f = i -> i % 2;
+        assertEquals(asList(asList(0), asList(0), asList(0)), Seq.of(1, 2, 3).window().map(w -> w.minAll(f).toList()).toList());
+        assertEquals(asList(asList(1, 3), asList(1, 3), asList(1, 3)), Seq.of(1, 2, 3).window().map(w -> w.maxAllBy(f).toList()).toList());
+
+        // The same window may be queried several times
+        Window<Integer> w0 = Seq.of(1, 2, 3).window().findFirst().get();
+        assertEquals(asList(1), w0.minAll().toList());
+        assertEquals(asList(1), w0.minAll().toList());
+    }
+
+    @Test
+    public void testWindowFunctionCollectionResultsAreNotShared() {
+        List<Window<Integer>> windows = Seq.of(1, 2, 3).window().toList();
+
+        windows.get(0).toList().add(99);
+        windows.get(0).toSet().add(99);
+        windows.get(0).toMap(i -> i).put(99, 99);
+        windows.get(0).toList(ArrayList::new).add(99);
+        windows.get(0).toSet(HashSet::new).add(99);
+        windows.get(0).toCollection(ArrayList::new).add(99);
+
+        assertEquals(asList(1, 2, 3), windows.get(1).toList());
+        assertEquals(new HashSet<>(asList(1, 2, 3)), windows.get(1).toSet());
+        assertEquals(Seq.of(1, 2, 3).toMap(i -> i), windows.get(1).toMap(i -> i));
+        assertEquals(asList(1, 2, 3), windows.get(1).toList(ArrayList::new));
+        assertEquals(new HashSet<>(asList(1, 2, 3)), windows.get(1).toSet(HashSet::new));
+        assertEquals(asList(1, 2, 3), windows.get(1).toCollection(ArrayList::new));
+    }
+
+    @Test
     public void testWindowFunctionCollect() {
         assertEquals(asList(
             asList(1, 2, 4, 2, 3), 
