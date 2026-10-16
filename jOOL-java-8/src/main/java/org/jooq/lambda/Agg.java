@@ -546,9 +546,12 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
+     * <p>
+     * The result for an empty stream is <code>-1</code> (all bits set), the
+     * identity of the bitwise <code>AND</code> operation.
      */
     public static <T> Collector<T, ?, Integer> bitAndInt(ToIntFunction<? super T> function) {
-        return Collector.of(() -> new int[] { Integer.MAX_VALUE },
+        return Collector.of(() -> new int[] { -1 },
             (s, v) -> s[0] = s[0] & function.applyAsInt(v),
             (s1, s2) -> {
                 s1[0] = s1[0] & s2[0];
@@ -561,9 +564,12 @@ public class Agg {
     /**
      * Get a {@link Collector} that calculates the <code>BIT_AND()</code> for any
      * type of {@link Number}.
+     * <p>
+     * The result for an empty stream is <code>-1L</code> (all bits set), the
+     * identity of the bitwise <code>AND</code> operation.
      */
     public static <T> Collector<T, ?, Long> bitAndLong(ToLongFunction<? super T> function) {
-        return Collector.of(() -> new long[] { Long.MAX_VALUE },
+        return Collector.of(() -> new long[] { -1L },
             (s, v) -> s[0] = s[0] & function.applyAsLong(v),
             (s1, s2) -> {
                 s1[0] = s1[0] & s2[0];
