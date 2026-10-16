@@ -1575,6 +1575,18 @@ public class SeqTest {
     }
 
     @Test
+    public void testCycleNegativeTimes() {
+        assertThrows(IllegalArgumentException.class, () -> Seq.of(1, 2).cycle(-1));
+        assertThrows(IllegalArgumentException.class, () -> Seq.of(1, 2).cycle(-2));
+        assertThrows(IllegalArgumentException.class, () -> Seq.of(1, 2).cycle(Long.MIN_VALUE));
+        assertThrows(IllegalArgumentException.class, () -> Seq.cycle(Stream.of(1, 2), -2));
+        assertThrows(IllegalArgumentException.class, () -> Seq.cycle(asList(1, 2), -2));
+
+        // Infinite cycling is still available through cycle()
+        assertEquals(asList(1, 2, 1, 2, 1), Seq.of(1, 2).cycle().limit(5).toList());
+    }
+
+    @Test
     public void testDistinct() {
         assertEquals(asList(1, 2, 3), Seq.of(1, 1, 2, -2, 3).distinct(Math::abs).toList());
     }

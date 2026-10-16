@@ -4865,7 +4865,7 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * </code></pre>
      */
     static <T> Seq<T> cycle(Seq<? extends T> stream) {
-        return cycle(stream, -1);
+        return SeqUtils.cycle(stream, -1);
     }
 
     /**
@@ -4922,42 +4922,14 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * Seq.of(1, 2, 3).cycle(3);
      * </code></pre>
      *
+     * @throws IllegalArgumentException If <code>times</code> is negative.
      * @see #cycle(Stream)
      */
-    @SuppressWarnings("unchecked")
     static <T> Seq<T> cycle(Seq<? extends T> stream, long times) {
-        if (times == 0)
-            return empty();
-        if (times == 1)
-            return (Seq<T>) stream;
-        
-        List<T> list = new ArrayList<>();
-        Spliterator<T>[] sp = new Spliterator[1];
-        long[] remaining = new long[] { times };
-        
-        return SeqUtils.transform(stream, (delegate, action) -> {
-            if (sp[0] == null) {
-                if (delegate.tryAdvance(t -> {
-                    list.add(t);
-                    action.accept(t);
-                }))
-                    return true;
-                else
-                    sp[0] = list.spliterator();
-            }
+        if (times < 0)
+            throw new IllegalArgumentException("The number of times must not be negative: " + times);
 
-            if (!sp[0].tryAdvance(action)) {
-                if (times != -1 && (remaining[0] = remaining[0] - 1) == 1)
-                    return false;
-                
-                sp[0] = list.spliterator();
-
-                if (!sp[0].tryAdvance(action))
-                    return false;
-            }
-
-            return true;
-        });
+        return SeqUtils.cycle(stream, times);
     }
 
     /**

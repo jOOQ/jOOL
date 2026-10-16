@@ -86,6 +86,45 @@ class SeqUtils {
             }
         }).onClose(stream::close);
     }
+
+    /**
+     * Repeat a stream <code>times</code> times, or infinitely if <code>times == -1</code>.
+     */
+    @SuppressWarnings("unchecked")
+    static <T> Seq<T> cycle(Seq<? extends T> stream, long times) {
+        if (times == 0)
+            return Seq.empty();
+        if (times == 1)
+            return (Seq<T>) stream;
+        
+        List<T> list = new ArrayList<>();
+        Spliterator<T>[] sp = new Spliterator[1];
+        long[] remaining = new long[] { times };
+        
+        return transform(stream, (delegate, action) -> {
+            if (sp[0] == null) {
+                if (delegate.tryAdvance(t -> {
+                    list.add(t);
+                    action.accept(t);
+                }))
+                    return true;
+                else
+                    sp[0] = list.spliterator();
+            }
+
+            if (!sp[0].tryAdvance(action)) {
+                if (times != -1 && (remaining[0] = remaining[0] - 1) == 1)
+                    return false;
+                
+                sp[0] = list.spliterator();
+
+                if (!sp[0].tryAdvance(action))
+                    return false;
+            }
+
+            return true;
+        });
+    }
     
     static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
         return seq(input).groupBy(
@@ -105,6 +144,7 @@ class SeqUtils {
         );
     }
 
+    @SuppressWarnings("unchecked")
     static <T> OptionalLong indexOf(Iterator<T> iterator, Predicate<? super T> predicate) {
         for (long index = 0; iterator.hasNext(); index++)
             if (predicate.test(iterator.next()))
