@@ -4332,9 +4332,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toExclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Byte> range(byte fromInclusive, byte toExclusive, int step) {
-        return toExclusive <= fromInclusive ? empty() : iterate(fromInclusive, t -> Byte.valueOf((byte) (t + step))).limitWhile(t -> t < toExclusive);
+        return SeqUtils.range(fromInclusive, toExclusive, step, false).map(Long::byteValue);
     }
 
     /**
@@ -4353,9 +4354,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toExclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Short> range(short fromInclusive, short toExclusive, int step) {
-        return toExclusive <= fromInclusive ? empty() : iterate(fromInclusive, t -> Short.valueOf((short) (t + step))).limitWhile(t -> t < toExclusive);
+        return SeqUtils.range(fromInclusive, toExclusive, step, false).map(Long::shortValue);
     }
 
     /**
@@ -4374,9 +4376,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toExclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Character> range(char fromInclusive, char toExclusive, int step) {
-        return toExclusive <= fromInclusive ? empty() : iterate(fromInclusive, t -> Character.valueOf((char) (t + step))).limitWhile(t -> t < toExclusive);
+        return SeqUtils.range(fromInclusive, toExclusive, step, false).map(t -> (char) t.longValue());
     }
 
     /**
@@ -4395,9 +4398,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toExclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Integer> range(int fromInclusive, int toExclusive, int step) {
-        return toExclusive <= fromInclusive ? empty() : iterate(fromInclusive, t -> Integer.valueOf(t + step)).limitWhile(t -> t < toExclusive);
+        return SeqUtils.range(fromInclusive, toExclusive, step, false).map(Long::intValue);
     }
 
     /**
@@ -4416,9 +4420,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toExclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Long> range(long fromInclusive, long toExclusive, long step) {
-        return toExclusive <= fromInclusive ? empty() : iterate(fromInclusive, t -> Long.valueOf(t + step)).limitWhile(t -> t < toExclusive);
+        return SeqUtils.range(fromInclusive, toExclusive, step, false);
     }
 
     /**
@@ -4437,9 +4442,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toExclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Instant> range(Instant fromInclusive, Instant toExclusive, Duration step) {
-        return toExclusive.compareTo(fromInclusive) <= 0 ? empty() : iterate(fromInclusive, t -> t.plus(step)).limitWhile(t -> t.compareTo(toExclusive) < 0);
+        return SeqUtils.range(fromInclusive, toExclusive, step, false);
     }
 
     /**
@@ -4458,9 +4464,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toInclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Byte> rangeClosed(byte fromInclusive, byte toInclusive, int step) {
-        return toInclusive < fromInclusive ? empty() : iterate(fromInclusive, t -> Byte.valueOf((byte) (t + step))).limitWhile(t -> t <= toInclusive);
+        return SeqUtils.range(fromInclusive, toInclusive, step, true).map(Long::byteValue);
     }
 
     /**
@@ -4479,9 +4486,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toInclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Short> rangeClosed(short fromInclusive, short toInclusive, int step) {
-        return toInclusive < fromInclusive ? empty() : iterate(fromInclusive, t -> Short.valueOf((short) (t + step))).limitWhile(t -> t <= toInclusive);
+        return SeqUtils.range(fromInclusive, toInclusive, step, true).map(Long::shortValue);
     }
 
     /**
@@ -4500,9 +4508,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toInclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Character> rangeClosed(char fromInclusive, char toInclusive, int step) {
-        return toInclusive < fromInclusive ? empty() : iterate(fromInclusive, t -> Character.valueOf((char) (t + step))).limitWhile(t -> t <= toInclusive);
+        return SeqUtils.range(fromInclusive, toInclusive, step, true).map(t -> (char) t.longValue());
     }
 
     /**
@@ -4521,9 +4530,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toInclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Integer> rangeClosed(int fromInclusive, int toInclusive, int step) {
-        return toInclusive < fromInclusive ? empty() : iterate(fromInclusive, t -> Integer.valueOf(t + step)).limitWhile(t -> t <= toInclusive);
+        return SeqUtils.range(fromInclusive, toInclusive, step, true).map(Long::intValue);
     }
 
     /**
@@ -4542,9 +4552,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toInclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Long> rangeClosed(long fromInclusive, long toInclusive, long step) {
-        return toInclusive < fromInclusive ? empty() : iterate(fromInclusive, t -> Long.valueOf(t + step)).limitWhile(t -> t <= toInclusive);
+        return SeqUtils.range(fromInclusive, toInclusive, step, true);
     }
 
     /**
@@ -4563,9 +4574,10 @@ public interface Seq<T> extends Stream<T>, Iterable<T>, Collectable<T> {
      * @param fromInclusive The lower bound
      * @param toInclusive The upper bound
      * @param step The increase between two values
+     * @throws IllegalArgumentException If <code>step</code> is not positive.
      */
     static Seq<Instant> rangeClosed(Instant fromInclusive, Instant toInclusive, Duration step) {
-        return toInclusive.compareTo(fromInclusive) < 0 ? empty() : iterate(fromInclusive, t -> t.plus(step)).limitWhile(t -> t.compareTo(toInclusive) <= 0);
+        return SeqUtils.range(fromInclusive, toInclusive, step, true);
     }
 
     /**
