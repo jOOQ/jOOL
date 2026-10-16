@@ -22,6 +22,8 @@ import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.Comparator;
@@ -1195,6 +1197,27 @@ public class CollectorTests {
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(max()));
         assertEquals(Optional.of(3), Seq.of(1, 2, 3).collect(minBy(i -> -i)));
         assertEquals(Optional.of(1), Seq.of(1, 2, 3).collect(maxBy(i -> -i)));
+    }
+
+    @Test
+    public void testMinAllMaxAllInParallel() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i <= 10000; i++)
+            list.add(i % 100 == 0 ? 0 : i);
+        list.add(10000);
+        list.add(10000);
+
+        assertEquals(asList(10000, 10000), list.parallelStream().collect(maxAll()).toList());
+        assertEquals(Seq.generate(0).limit(100).toList(), list.parallelStream().collect(minAll()).toList());
+        assertEquals(asList(10000, 10000), list.parallelStream().collect(maxAllBy(i -> i)).toList());
+        assertEquals(Seq.generate(0).limit(100).toList(), list.parallelStream().collect(minAllBy(i -> i)).toList());
+        assertEquals(asList(10000, 10000), list.parallelStream().collect(maxAll(Comparator.naturalOrder())).toList());
+        assertEquals(asList(10000, 10000), list.parallelStream().collect(maxAll(i -> i)).toList());
+
+        // percentile(1.0) is implemented using maxAllBy()
+        assertEquals(Optional.of(10000), list.parallelStream().collect(percentile(1.0)));
+        assertEquals(asList(10000, 10000), list.parallelStream().collect(percentileAll(1.0)).toList());
+        assertEquals(Seq.generate(0).limit(100).toList(), list.parallelStream().collect(percentileAll(0.0)).toList());
     }
 
     @Test
