@@ -2466,6 +2466,32 @@ public class SeqTest {
     }
     
     @Test
+    public void testWindowFunctionFirstValueAndLastValueWithFramesExceedingThePartition() {
+
+        // Frames that exceed the partition on both ends contain the whole partition
+        assertEquals(optional(1, 1, 1), Seq.of(1, 2, 3).window(-5, 5).map(Window::firstValue).toList());
+        assertEquals(optional(3, 3, 3), Seq.of(1, 2, 3).window(-5, 5).map(Window::lastValue).toList());
+        assertEquals(optional(1, 1, 1), Seq.of(1, 2, 3).window(naturalOrder(), -5, 5).map(Window::firstValue).toList());
+        assertEquals(optional(3, 3, 3), Seq.of(1, 2, 3).window(naturalOrder(), -5, 5).map(Window::lastValue).toList());
+        assertEquals(optional(1, 2, 1, 2), Seq.of(1, 2, 3, 4).window(i -> i % 2, -5, 5).map(Window::firstValue).toList());
+        assertEquals(optional(3, 4, 3, 4), Seq.of(1, 2, 3, 4).window(i -> i % 2, -5, 5).map(Window::lastValue).toList());
+        assertEquals(optional(1), Seq.of(1).window(-1, 1).map(Window::firstValue).toList());
+        assertEquals(optional(1), Seq.of(1).window(-1, 1).map(Window::lastValue).toList());
+
+        // Frames that exceed the partition on one end only
+        assertEquals(optional(1, 1, 2), Seq.of(1, 2, 3).window(-1, 5).map(Window::firstValue).toList());
+        assertEquals(optional(3, 3, 3), Seq.of(1, 2, 3).window(-1, 5).map(Window::lastValue).toList());
+        assertEquals(optional(1, 1, 1), Seq.of(1, 2, 3).window(-5, 1).map(Window::firstValue).toList());
+        assertEquals(optional(2, 3, 3), Seq.of(1, 2, 3).window(-5, 1).map(Window::lastValue).toList());
+
+        // Frames that are entirely outside of the partition are empty
+        assertEquals(optional(2, 3, null), Seq.of(1, 2, 3).window(1, 5).map(Window::firstValue).toList());
+        assertEquals(optional(3, 3, null), Seq.of(1, 2, 3).window(1, 5).map(Window::lastValue).toList());
+        assertEquals(optional(null, 1, 1), Seq.of(1, 2, 3).window(-5, -1).map(Window::firstValue).toList());
+        assertEquals(optional(null, 1, 2), Seq.of(1, 2, 3).window(-5, -1).map(Window::lastValue).toList());
+    }
+
+    @Test
     public void testWindowFunctionNthValue() {
         
         // N = 0
