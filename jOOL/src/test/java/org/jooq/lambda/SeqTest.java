@@ -2107,6 +2107,30 @@ public class SeqTest {
     }
     
     @Test
+    public void testAvgWithoutOverflow() {
+        assertEquals(Optional.of((byte) 100), Seq.of((byte) 100, (byte) 100).avg());
+        assertEquals(Optional.of((byte) -100), Seq.of((byte) -100, (byte) -100).avg());
+        assertEquals(Optional.of((short) 20000), Seq.of((short) 20000, (short) 20000).avg());
+        assertEquals(Optional.of((short) -20000), Seq.of((short) -20000, (short) -20000).avg());
+        assertEquals(Optional.of(Integer.MAX_VALUE), Seq.of(Integer.MAX_VALUE, Integer.MAX_VALUE).avg());
+        assertEquals(Optional.of(Integer.MIN_VALUE), Seq.of(Integer.MIN_VALUE, Integer.MIN_VALUE).avg());
+        assertEquals(Optional.of(Long.MAX_VALUE), Seq.of(Long.MAX_VALUE, Long.MAX_VALUE).avg());
+        assertEquals(Optional.of(Long.MIN_VALUE), Seq.of(Long.MIN_VALUE, Long.MIN_VALUE).avg());
+        assertEquals(Optional.of(Long.MAX_VALUE - 1), Seq.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE - 3).avg());
+        assertEquals(Optional.of(0L), Seq.of(Long.MAX_VALUE, Long.MAX_VALUE, Long.MIN_VALUE, Long.MIN_VALUE, 2L).avg());
+
+        // Sums keep their existing semantics, which wrap like ordinary arithmetic
+        assertEquals(Optional.of(-2), Seq.of(Integer.MAX_VALUE, Integer.MAX_VALUE).sum());
+        assertEquals(Optional.of(-2L), Seq.of(Long.MAX_VALUE, Long.MAX_VALUE).sum());
+
+        // Partial sums are combined without loss of precision in parallel streams
+        List<Integer> ints = Collections.nCopies(10000, Integer.MAX_VALUE);
+        assertEquals(Optional.of(Integer.MAX_VALUE), ints.parallelStream().collect(Agg.avg()));
+        List<Long> longs = Collections.nCopies(10000, Long.MAX_VALUE);
+        assertEquals(Optional.of(Long.MAX_VALUE), longs.parallelStream().collect(Agg.avg()));
+    }
+
+    @Test
     public void testBitAnd() {
         int value = 31 & 15 & 7 & 3;
         
