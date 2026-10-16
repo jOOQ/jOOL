@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.*;
 import static org.jooq.lambda.tuple.Tuple.collectors;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -1017,7 +1019,14 @@ public class Agg {
 
     private static int percentileIndex(double percentile, int size) {
 
-        return (int) Math.ceil(size * percentile) - 1;
+        // Calculate size * percentile in decimal arithmetic. In binary floating
+        // point arithmetic, the product may be slightly larger than the exact
+        // value, e.g. 25 * 0.28 == 7.000000000000001, which CEIL() would then
+        // round up to the wrong index.
+        return BigDecimal.valueOf(percentile)
+                         .multiply(BigDecimal.valueOf(size))
+                         .setScale(0, RoundingMode.CEILING)
+                         .intValueExact() - 1;
     }
 
     /**
