@@ -100,7 +100,9 @@ public class Agg {
                     l.add(v);
             },
             (l1, l2) -> {
-                l1.addAll(l2);
+                if (l1.size() < n)
+                    l1.addAll(l2.subList(0, (int) Math.min(l2.size(), n - l1.size())));
+
                 return l1;
             },
             Seq::seq
@@ -113,24 +115,42 @@ public class Agg {
      */
     public static <T> Collector<T, ?, Seq<T>> dropping(long n) {
         class Accumulator {
-            List<T> list = new ArrayList<>();
-            long index;
+
+            // The first (up to n) elements, which may still be dropped
+            List<T> head = new ArrayList<>();
+
+            // The remaining elements, which are never dropped
+            List<T> tail = new ArrayList<>();
+
+            void add(T t) {
+                if (head.size() < n)
+                    head.add(t);
+                else
+                    tail.add(t);
+            }
         }
 
         return Collector.of(
             Accumulator::new,
-            (a, v) -> {
-                if (a.index >= n)
-                    a.list.add(v);
-                else
-                    a.index++;
-            },
+            Accumulator::add,
             (a1, a2) -> {
-                a1.list.addAll(a2.list);
-                a1.index += a2.index;
+                if (a1.head.size() < n) {
+
+                    // Elements of a2 may still be dropped, if a1 contains
+                    // fewer than n elements
+                    for (T t : a2.head)
+                        a1.add(t);
+
+                    a1.tail.addAll(a2.tail);
+                }
+                else {
+                    a1.tail.addAll(a2.head);
+                    a1.tail.addAll(a2.tail);
+                }
+
                 return a1;
             },
-            a -> Seq.seq(a.list)
+            a -> Seq.seq(a.tail)
         );
     }
 
@@ -189,7 +209,11 @@ public class Agg {
                     s[0].add(function.apply(v));
             },
             (s1, s2) -> {
-                s1[0].add(s2[0]);
+                if (s1[0] == null)
+                    return s2;
+                else if (s2[0] != null)
+                    s1[0].add(s2[0]);
+
                 return s1;
             },
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
@@ -219,7 +243,11 @@ public class Agg {
                     s[0].add(function.apply(v));
             },
             (s1, s2) -> {
-                s1[0].add(s2[0]);
+                if (s1[0] == null)
+                    return s2;
+                else if (s2[0] != null)
+                    s1[0].add(s2[0]);
+
                 return s1;
             },
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].avg())
@@ -481,7 +509,11 @@ public class Agg {
                     a[0] = a[0] && predicate.test(t);
             },
             (a1, a2) -> {
-                a1[0] = a1[0] && a2[0];
+                if (a1[0] == null)
+                    return a2;
+                else if (a2[0] != null)
+                    a1[0] = a1[0] && a2[0];
+
                 return a1;
             },
             a -> a[0] == null || a[0]
@@ -538,7 +570,11 @@ public class Agg {
                     s[0].and(function.apply(v));
             },
             (s1, s2) -> {
-                s1[0].and(s2[0]);
+                if (s1[0] == null)
+                    return s2;
+                else if (s2[0] != null)
+                    s1[0].and(s2[0]);
+
                 return s1;
             },
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
@@ -603,7 +639,11 @@ public class Agg {
                     s[0].or(function.apply(v));
             },
             (s1, s2) -> {
-                s1[0].or(s2[0]);
+                if (s1[0] == null)
+                    return s2;
+                else if (s2[0] != null)
+                    s1[0].or(s2[0]);
+
                 return s1;
             },
             s -> s[0] == null ? Optional.empty() : Optional.of(s[0].result())
@@ -659,7 +699,7 @@ public class Agg {
             () -> new LinkedHashMap<T, Long>(),
             (m, v) -> m.compute(v, (k1, v1) -> v1 == null ? 1L : v1 + 1L),
             (m1, m2) -> {
-                m1.putAll(m2);
+                m2.forEach((k, v) -> m1.merge(k, v, Long::sum));
                 return m1;
             },
             m -> Seq.seq(m).transform(transformer)
