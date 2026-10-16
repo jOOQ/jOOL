@@ -2117,6 +2117,24 @@ public class SeqTest {
     }
     
     @Test
+    public void testBitAndWithNegativeValues() {
+        assertEquals(-1, (int) Seq.of(-1, -1).bitAndInt(t -> t));
+        assertEquals(-8, (int) Seq.of(-8).bitAndInt(t -> t));
+        assertEquals(-8 & -3, (int) Seq.of(-8, -3).bitAndInt(t -> t));
+        assertEquals(-1L, (long) Seq.of(-1L, -1L).bitAndLong(t -> t));
+        assertEquals(-8L, (long) Seq.of(-8L).bitAndLong(t -> t));
+        assertEquals(Long.MIN_VALUE, (long) Seq.of(Long.MIN_VALUE).bitAndLong(t -> t));
+
+        // The identity of AND is "all bits set"
+        assertEquals(-1, (int) Seq.<Integer>of().bitAndInt(t -> t));
+        assertEquals(-1L, (long) Seq.<Long>of().bitAndLong(t -> t));
+
+        // Consistent with the boxed variant
+        assertEquals(Optional.of(-8 & -3), Seq.of(-8, -3).bitAnd());
+        assertEquals(-8 & -3, (int) Seq.of(-8, -3).collect(Agg.bitAndInt(t -> t)));
+    }
+
+    @Test
     public void testBitOr() {
         int value = 1 | 2 | 4 | 8;
         
