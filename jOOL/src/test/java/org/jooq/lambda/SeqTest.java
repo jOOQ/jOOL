@@ -2490,6 +2490,30 @@ public class SeqTest {
     }
     
     @Test
+    public void testWindowFunctionWithFramesOutsideOfThePartition() {
+
+        // ROWS BETWEEN 2 FOLLOWING AND 3 FOLLOWING
+        assertEquals(asList(1L, 0L, 0L), Seq.of(1, 2, 3).window(2, 3).map(Window::count).toList());
+        assertEquals(asList(asList(3), asList(), asList()), Seq.of(1, 2, 3).window(2, 3).map(w -> w.window().toList()).toList());
+        assertEquals(optional(3, null, null), Seq.of(1, 2, 3).window(2, 3).map(Window::sum).toList());
+        assertEquals(optional(3, null, null), Seq.of(1, 2, 3).window(2, 3).map(Window::max).toList());
+        assertEquals(optional(3, null, null), Seq.of(1, 2, 3).window(2, 3).map(w -> w.nthValue(0)).toList());
+        assertEquals(asList("3", "", ""), Seq.of(1, 2, 3).window(2, 3).map(w -> w.toString()).toList());
+
+        // ROWS BETWEEN 3 PRECEDING AND 2 PRECEDING
+        assertEquals(asList(0L, 0L, 1L), Seq.of(1, 2, 3).window(-3, -2).map(Window::count).toList());
+        assertEquals(asList(asList(), asList(), asList(1)), Seq.of(1, 2, 3).window(-3, -2).map(w -> w.window().toList()).toList());
+        assertEquals(optional(null, null, 1), Seq.of(1, 2, 3).window(-3, -2).map(Window::sum).toList());
+        assertEquals(optional(null, null, 1), Seq.of(1, 2, 3).window(-3, -2).map(Window::min).toList());
+        assertEquals(optional(null, null, 1), Seq.of(1, 2, 3).window(-3, -2).map(w -> w.nthValue(0)).toList());
+
+        // Frames that never overlap with the partition
+        assertEquals(asList(0L, 0L), Seq.of(1, 2).window(5, 10).map(Window::count).toList());
+        assertEquals(asList(0L, 0L), Seq.of(1, 2).window(-10, -5).map(Window::count).toList());
+        assertEquals(asList(0L, 0L), Seq.of(1, 2).window(i -> i % 2, -10, -5).map(Window::count).toList());
+    }
+
+    @Test
     public void testWindowFunctionSum() {
         assertEquals(optional(12, 12, 12, 12, 12), Seq.of(1, 2, 4, 2, 3).window().map(Window::sum).toList());
         assertEquals(optional(3, 7, 8, 9, 5), Seq.of(1, 2, 4, 2, 3).window(-1, 1).map(Window::sum).toList());
