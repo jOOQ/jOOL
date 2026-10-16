@@ -54,6 +54,26 @@ public class CollectorTests {
     }
 
     @Test
+    public void testPercentileWithoutFloatingPointRoundingErrors() {
+
+        // 25 * 0.28 == 7.000000000000001 in double arithmetic
+        assertEquals(Optional.of(7), Seq.rangeClosed(1, 25).collect(percentile(0.28)));
+        assertEquals(asList(7), Seq.rangeClosed(1, 25).collect(percentileAll(0.28)).toList());
+
+        // PERCENTILE_DISC(p) is the smallest value whose cumulative distribution
+        // (i / n for the i-th of n sorted values) is >= p
+        for (int n = 1; n <= 200; n++) {
+            for (int k = 1; k < 100; k++) {
+                double p = k / 100.0;
+                int expected = (k * n + 99) / 100;
+
+                assertEquals("n = " + n + ", p = " + p, Optional.of(expected), Seq.rangeClosed(1, n).collect(percentile(p)));
+                assertEquals("n = " + n + ", p = " + p, asList(expected), Seq.rangeClosed(1, n).collect(percentileAll(p)).toList());
+            }
+        }
+    }
+
+    @Test
     public void testMedian() {
         assertEquals(Optional.empty(), Stream.<Integer> of().collect(median()));
         assertEquals(Optional.of(1), Stream.of(1).collect(median()));
