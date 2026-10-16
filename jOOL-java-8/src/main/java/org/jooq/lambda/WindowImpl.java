@@ -325,32 +325,32 @@ class WindowImpl<T> implements Window<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Seq<T> minAll() {
-        return partition.cacheIf(completePartition(), "minAll", () -> window().minAll((Comparator) naturalOrder()));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), "minAll", () -> window().minAll((Comparator) naturalOrder()).toList()));
     }
 
     @Override
     public Seq<T> minAll(Comparator<? super T> comparator) {
-        return partition.cacheIf(completePartition(), () -> tuple("minAll", comparator), () -> window().minAll(comparator));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), () -> tuple("minAll", comparator), () -> window().minAll(comparator).toList()));
     }
 
     @Override
     public <U extends Comparable<? super U>> Seq<U> minAll(Function<? super T, ? extends U> function) {
-        return partition.cacheIf(completePartition(), () -> tuple("minAll", function), () -> window().minAll(function));
+        return Seq.seq(partition.<List<? extends U>>cacheIf(completePartition(), () -> tuple("minAll", function), () -> window().minAll(function).toList()));
     }
 
     @Override
     public <U> Seq<U> minAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return partition.cacheIf(completePartition(), () -> tuple("minAll", function, comparator), () -> window().minAll(function, comparator));
+        return Seq.seq(partition.<List<? extends U>>cacheIf(completePartition(), () -> tuple("minAll", function, comparator), () -> window().minAll(function, comparator).toList()));
     }
 
     @Override
     public <U extends Comparable<? super U>> Seq<T> minAllBy(Function<? super T, ? extends U> function) {
-        return partition.cacheIf(completePartition(), () -> tuple("minAllBy", function), () -> window().minAllBy(function));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), () -> tuple("minAllBy", function), () -> window().minAllBy(function).toList()));
     }
 
     @Override
     public <U> Seq<T> minAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return partition.cacheIf(completePartition(), () -> tuple("minAllBy", function, comparator), () -> window().minAllBy(function, comparator));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), () -> tuple("minAllBy", function, comparator), () -> window().minAllBy(function, comparator).toList()));
     }
 
     @Override
@@ -387,32 +387,32 @@ class WindowImpl<T> implements Window<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Seq<T> maxAll() {
-        return partition.cacheIf(completePartition(), "maxAll", () -> window().maxAll((Comparator) naturalOrder()));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), "maxAll", () -> window().maxAll((Comparator) naturalOrder()).toList()));
     }
 
     @Override
     public Seq<T> maxAll(Comparator<? super T> comparator) {
-        return partition.cacheIf(completePartition(), () -> tuple("maxAll", comparator), () -> window().maxAll(comparator));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), () -> tuple("maxAll", comparator), () -> window().maxAll(comparator).toList()));
     }
 
     @Override
     public <U extends Comparable<? super U>> Seq<U> maxAll(Function<? super T, ? extends U> function) {
-        return partition.cacheIf(completePartition(), () -> tuple("maxAll", function), () -> window().maxAll(function));
+        return Seq.seq(partition.<List<? extends U>>cacheIf(completePartition(), () -> tuple("maxAll", function), () -> window().maxAll(function).toList()));
     }
 
     @Override
     public <U> Seq<U> maxAll(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return partition.cacheIf(completePartition(), () -> tuple("maxAll", function, comparator), () -> window().maxAll(function, comparator));
+        return Seq.seq(partition.<List<? extends U>>cacheIf(completePartition(), () -> tuple("maxAll", function, comparator), () -> window().maxAll(function, comparator).toList()));
     }
 
     @Override
     public <U extends Comparable<? super U>> Seq<T> maxAllBy(Function<? super T, ? extends U> function) {
-        return partition.cacheIf(completePartition(), () -> tuple("maxAllBy", function), () -> window().maxAllBy(function));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), () -> tuple("maxAllBy", function), () -> window().maxAllBy(function).toList()));
     }
 
     @Override
     public <U> Seq<T> maxAllBy(Function<? super T, ? extends U> function, Comparator<? super U> comparator) {
-        return partition.cacheIf(completePartition(), () -> tuple("maxAllBy", function, comparator), () -> window().maxAllBy(function, comparator));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), () -> tuple("maxAllBy", function, comparator), () -> window().maxAllBy(function, comparator).toList()));
     }
 
     @Override
@@ -469,12 +469,12 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public Seq<T> modeAll() {
-        return partition.cacheIf(completePartition(), "modeAll", () -> window().modeAll());
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), "modeAll", () -> window().modeAll().toList()));
     }
 
     @Override
     public <U> Seq<T> modeAllBy(Function<? super T, ? extends U> function) {
-        return partition.cacheIf(completePartition(), tuple("modeAllBy", function), () -> window().modeAllBy(function));
+        return Seq.seq(partition.<List<T>>cacheIf(completePartition(), tuple("modeAllBy", function), () -> window().modeAllBy(function).toList()));
     }
 
     @Override
@@ -539,12 +539,12 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public List<T> toList() {
-        return partition.cacheIf(completePartition(), "toList", () -> window().toList());
+        return window().toList();
     }
     
     @Override
     public <L extends List<T>> L toList(Supplier<L> factory) {
-        return partition.cacheIf(completePartition(), () -> tuple("toList", factory), () -> window().toList(factory));
+        return window().toList(factory);
     }
 
     @Override
@@ -554,12 +554,12 @@ class WindowImpl<T> implements Window<T> {
     
     @Override
     public Set<T> toSet() {
-        return partition.cacheIf(completePartition(), "toSet", () -> window().toSet());
+        return window().toSet();
     }
 
     @Override
     public <S extends Set<T>> S toSet(Supplier<S> factory) {
-        return partition.cacheIf(completePartition(), () -> tuple("toSet", factory), () -> window().toSet(factory));
+        return window().toSet(factory);
     }
 
     @Override
@@ -569,12 +569,12 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public <C extends Collection<T>> C toCollection(Supplier<C> factory) {
-        return partition.cacheIf(completePartition(), () -> tuple("toCollection", factory), () -> window().toCollection(factory));
+        return window().toCollection(factory);
     }
     
     @Override
     public <K, V> Map<K, V> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends V> valueMapper) {
-        return partition.cacheIf(completePartition(), () -> tuple("toMap", keyMapper, valueMapper), () -> window().toMap(keyMapper, valueMapper));
+        return window().toMap(keyMapper, valueMapper);
     }
 
     @Override
