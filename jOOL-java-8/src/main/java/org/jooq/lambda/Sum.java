@@ -17,7 +17,7 @@ package org.jooq.lambda;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
+import java.math.MathContext;
 
 /**
  * @author Lukas Eder
@@ -366,7 +366,17 @@ abstract class Sum<N> {
 
         @Override
         BigDecimal avg() {
-            return sum.divide(BigDecimal.valueOf(count), RoundingMode.HALF_EVEN);
+            BigDecimal divisor = BigDecimal.valueOf(count);
+
+            // Prefer an exact result, e.g. AVG(1, 2) = 1.5. Only if the result
+            // has a non-terminating decimal expansion, round it, e.g.
+            // AVG(1, 1, 2) = 1.333333333333333333333333333333333
+            try {
+                return sum.divide(divisor);
+            }
+            catch (ArithmeticException e) {
+                return sum.divide(divisor, MathContext.DECIMAL128);
+            }
         }
     }
 }

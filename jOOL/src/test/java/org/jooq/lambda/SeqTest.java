@@ -2081,6 +2081,16 @@ public class SeqTest {
     }
     
     @Test
+    public void testAvgBigDecimal() {
+        assertEquals(Optional.of(new BigDecimal("1.5")), Seq.of(BigDecimal.ONE, new BigDecimal("2")).avg());
+        assertEquals(Optional.of(new BigDecimal("2")), Seq.of(BigDecimal.ONE, new BigDecimal("3")).avg());
+        assertEquals(Optional.of(new BigDecimal("2.50")), Seq.of(new BigDecimal("2.00"), new BigDecimal("3.00")).avg());
+        assertEquals(Optional.of(new BigDecimal("0.005")), Seq.of(new BigDecimal("0.01"), new BigDecimal("0.00")).avg());
+        assertEquals(Optional.of(new BigDecimal("1.333333333333333333333333333333333")), Seq.of(BigDecimal.ONE, BigDecimal.ONE, new BigDecimal("2")).avg());
+        assertEquals(Optional.of(new BigDecimal("1.5")), Stream.of(BigDecimal.ONE, new BigDecimal("2")).collect(Agg.avg()));
+    }
+
+    @Test
     public void testSum() {
         assertEquals(Optional.empty(), Seq.of().sum());
         
