@@ -131,7 +131,10 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public double percentRank() {
-        return ((double) rank()) / ((double) (partition.list.size() - 1));
+        int size = partition.list.size();
+
+        // Like SQL PERCENT_RANK(), a single row has a percent rank of 0
+        return size <= 1 ? 0.0 : ((double) rank()) / ((double) (size - 1));
     }
 
     @Override
