@@ -50,7 +50,9 @@ import java.util.function.Function;
  * </tr>
  * <tr>
  * <td>{@link #ntile(long)}</td><td>Divides the partition in equal buckets and
- * assigns values between <code>0</code> and <code>buckets - 1</code>.</td>
+ * assigns values between <code>0</code> and <code>buckets - 1</code>. If the
+ * partition cannot be divided evenly, the first buckets contain one more row
+ * than the last ones.</td>
  * </tr>
  * <tr>
  * <td>{@link #lead()}</td><td>Gets the value after the current row.</td>
@@ -176,10 +178,19 @@ public interface Window<T> extends Collectable<T> {
     /**
      * The bucket number ("ntile") of the current row within the partition.
      * <p>
+     * Like SQL's <code>NTILE()</code>, this divides the partition into
+     * <code>buckets</code> buckets whose sizes differ by at most one row, with
+     * the larger buckets coming first.
+     * <p>
      * <pre><code>
      * // (0, 0, 1, 1, 2)
      * Seq.of(1, 2, 2, 3, 4).window(naturalOrder()).map(w -> w.ntile(3));
+     *
+     * // (0, 0, 0, 1, 1, 1, 2, 2, 3, 3)
+     * Seq.rangeClosed(1, 10).window(naturalOrder()).map(w -> w.ntile(4));
      * </code></pre>
+     *
+     * @throws IllegalArgumentException If <code>buckets</code> is not positive.
      */
     long ntile(long buckets);
     

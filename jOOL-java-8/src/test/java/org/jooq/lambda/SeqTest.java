@@ -2334,15 +2334,41 @@ public class SeqTest {
         
         assertEquals(asList(0L, 0L, 1L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(4)).toList());
         assertEquals(asList(0L, 0L, 3L, 1L, 2L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(4)).toList());
-        assertEquals(asList(0L, 0L, 1L, 2L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(4)).toList());
-        assertEquals(asList(0L, 0L, 2L, 1L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(4)).toList());
+        assertEquals(asList(0L, 0L, 1L, 2L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(4)).toList());
+        assertEquals(asList(0L, 0L, 2L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(4)).toList());
         
         assertEquals(asList(0L, 1L, 2L, 3L, 4L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(5)).toList());
         assertEquals(asList(0L, 1L, 4L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(5)).toList());
-        assertEquals(asList(0L, 0L, 1L, 3L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(5)).toList());
-        assertEquals(asList(0L, 0L, 3L, 1L, 2L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(5)).toList());
+        assertEquals(asList(0L, 0L, 1L, 2L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2).map(w -> w.ntile(5)).toList());
+        assertEquals(asList(0L, 0L, 2L, 1L, 1L), Seq.of(1, 2, 4, 2, 3).window(i -> i % 2, naturalOrder()).map(w -> w.ntile(5)).toList());
     }
     
+    @Test
+    public void testWindowFunctionNtileDistributesRowsLikeSQL() {
+        assertEquals(asList(0L, 0L, 0L, 1L, 1L, 1L, 2L, 2L, 3L, 3L), Seq.rangeClosed(1, 10).window(naturalOrder()).map(w -> w.ntile(4)).toList());
+        assertEquals(asList(0L, 0L, 0L, 1L, 1L, 2L, 2L), Seq.rangeClosed(1, 7).window(naturalOrder()).map(w -> w.ntile(3)).toList());
+        assertEquals(asList(0L, 0L, 1L, 1L, 2L, 2L), Seq.rangeClosed(1, 6).window(naturalOrder()).map(w -> w.ntile(3)).toList());
+        assertEquals(asList(0L, 1L, 2L), Seq.rangeClosed(1, 3).window(naturalOrder()).map(w -> w.ntile(10)).toList());
+        assertEquals(asList(0L), Seq.of(1).window().map(w -> w.ntile(Long.MAX_VALUE)).toList());
+
+        // Every bucket size differs by at most 1 and larger buckets come first
+        for (int size = 1; size <= 30; size++) {
+            for (long b = 1; b <= 35; b++) {
+                long buckets = b;
+                List<Long> ntiles = Seq.rangeClosed(1, size).window(naturalOrder()).map(w -> w.ntile(buckets)).toList();
+                Map<Long, Long> sizes = Seq.seq(ntiles).groupBy(t -> t, LinkedHashMap::new, Collectors.counting());
+                List<Long> expected = Seq.range(0L, Math.min(size, buckets)).toList();
+
+                assertEquals(expected, new ArrayList<>(sizes.keySet()));
+                assertEquals(Seq.seq(sizes.values()).sorted(reverseOrder()).toList(), new ArrayList<>(sizes.values()));
+                assertTrue(Seq.seq(sizes.values()).max().get() - Seq.seq(sizes.values()).min().get() <= 1L);
+            }
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> Seq.of(1).window().map(w -> w.ntile(0)).toList());
+        assertThrows(IllegalArgumentException.class, () -> Seq.of(1).window().map(w -> w.ntile(-1)).toList());
+    }
+
     @Test
     public void testWindowFunctionLead() {
         assertEquals(optional(2, 4, 2, 3, null), Seq.of(1, 2, 4, 2, 3).window().map(Window::lead).toList());
