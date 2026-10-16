@@ -81,7 +81,13 @@ class WindowImpl<T> implements Window<T> {
     
     @Override
     public Seq<T> window() {
-        return Seq.seq(partition.list.subList(lower(), upper() + 1)).map(t -> t.v1);
+        int lower = lower();
+        int upper = upper();
+
+        // Frames that lie entirely before or after the partition are empty
+        return lower <= upper
+             ? Seq.seq(partition.list.subList(lower, upper + 1)).map(t -> t.v1)
+             : Seq.empty();
     }
 
     // Utilities
@@ -199,7 +205,7 @@ class WindowImpl<T> implements Window<T> {
     
     @Override
     public long count() {
-        return 1 + upper() - lower();
+        return Math.max(0L, 1L + upper() - lower());
     }
 
     @Override
