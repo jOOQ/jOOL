@@ -46,7 +46,7 @@ import java.util.function.Function;
  * </tr>
  * <tr>
  * <td>{@link #percentRank()}</td><td>Relative rank of a row:
- * {@link #rank()} / {@link #count()}.</td>
+ * {@link #rank()} / (partition size - 1).</td>
  * </tr>
  * <tr>
  * <td>{@link #ntile(long)}</td><td>Divides the partition in equal buckets and
@@ -165,6 +165,11 @@ public interface Window<T> extends Collectable<T> {
     
     /**
      * The precent rank of the current row within the partition.
+     * <p>
+     * <p>
+     * Like SQL's <code>PERCENT_RANK()</code>, this is calculated as
+     * <code>rank() / (partition size - 1)</code>, or <code>0.0</code> if the
+     * partition contains only one row.
      * <p>
      * <pre><code>
      * // (0.0, 0.25, 0.25, 0.75, 1.0)

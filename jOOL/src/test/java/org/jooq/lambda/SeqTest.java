@@ -2316,6 +2316,14 @@ public class SeqTest {
     }
     
     @Test
+    public void testWindowFunctionPercentRankWithSingleRowPartitions() {
+        assertEquals(asList(0.0), Seq.of(1).window(naturalOrder()).map(Window::percentRank).toList());
+        assertEquals(asList(0.0), Seq.of(1).window().map(Window::percentRank).toList());
+        assertEquals(asList(0.0, 0.0, 0.0), Seq.of(1, 2, 3).window(i -> i, naturalOrder()).map(Window::percentRank).toList());
+        assertEquals(asList(0.0, 0.5, 0.0, 1.0), Seq.of(1, 2, 3, 4).window(i -> i % 3 == 0, naturalOrder()).map(Window::percentRank).toList());
+    }
+
+    @Test
     public void testWindowFunctionNtile() {
         assertEquals(asList(0L, 0L, 0L, 0L, 0L), Seq.of(1, 2, 4, 2, 3).window().map(w -> w.ntile(1)).toList());
         assertEquals(asList(0L, 0L, 0L, 0L, 0L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(w -> w.ntile(1)).toList());
