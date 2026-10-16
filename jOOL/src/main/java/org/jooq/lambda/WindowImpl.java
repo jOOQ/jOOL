@@ -92,19 +92,9 @@ class WindowImpl<T> implements Window<T> {
         return lower == Long.MIN_VALUE ? 0 : (int) Math.max(0L, index + lower);
     }
     
-    private boolean lowerInPartition() {
-        // TODO: What about under/overflows?
-        return lower == Long.MIN_VALUE || (index + lower >= 0L && index + lower < partition.list.size());
-    }
-    
     private int upper() {
         // TODO: What about under/overflows?
         return upper == Long.MAX_VALUE ? partition.list.size() - 1 : (int) Math.min(partition.list.size() - 1, (index + upper));
-    }
-    
-    private boolean upperInPartition() {
-        // TODO: What about under/overflows?
-        return upper == Long.MAX_VALUE || (index + upper >= 0L && index + upper < partition.list.size());
     }
     
     private boolean completePartition() {
@@ -175,10 +165,8 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public <U> Optional<U> firstValue(Function<? super T, ? extends U> function) {
-        return lowerInPartition()
+        return lower() <= upper()
              ? Optional.of(function.apply(partition.list.get(lower()).v1))
-             : upperInPartition()
-             ? Optional.of(function.apply(partition.list.get(0).v1))
              : Optional.empty();
     }
 
@@ -189,10 +177,8 @@ class WindowImpl<T> implements Window<T> {
 
     @Override
     public <U> Optional<U> lastValue(Function<? super T, ? extends U> function) {
-        return upperInPartition()
+        return lower() <= upper()
              ? Optional.of(function.apply(partition.list.get(upper()).v1))
-             : lowerInPartition()
-             ? Optional.of(function.apply(partition.list.get(partition.list.size() - 1).v1))
              : Optional.empty();
     }
 
