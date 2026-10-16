@@ -1932,6 +1932,45 @@ public class SeqTest {
     }
 
     @Test
+    public void testRangeWithoutOverflow() {
+
+        // limit(10) prevents infinite streams in case of overflow
+        assertEquals(asList(Integer.MAX_VALUE - 1, Integer.MAX_VALUE), Seq.rangeClosed(Integer.MAX_VALUE - 1, Integer.MAX_VALUE).limit(10).toList());
+        assertEquals(asList(Integer.MAX_VALUE - 1), Seq.range(Integer.MAX_VALUE - 1, Integer.MAX_VALUE).limit(10).toList());
+        assertEquals(asList(0, 1 << 30), Seq.range(0, Integer.MAX_VALUE, 1 << 30).limit(10).toList());
+        assertEquals(asList(0, 1 << 30), Seq.rangeClosed(0, Integer.MAX_VALUE, 1 << 30).limit(10).toList());
+        assertEquals(asList(Integer.MIN_VALUE, -1, Integer.MAX_VALUE - 1), Seq.rangeClosed(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE).limit(10).toList());
+
+        assertEquals(asList(Long.MAX_VALUE - 1, Long.MAX_VALUE), Seq.rangeClosed(Long.MAX_VALUE - 1, Long.MAX_VALUE).limit(10).toList());
+        assertEquals(asList(Long.MAX_VALUE - 1), Seq.range(Long.MAX_VALUE - 1, Long.MAX_VALUE).limit(10).toList());
+        assertEquals(asList(Long.MIN_VALUE, -1L, Long.MAX_VALUE - 1), Seq.rangeClosed(Long.MIN_VALUE, Long.MAX_VALUE, Long.MAX_VALUE).limit(10).toList());
+
+        assertEquals(asList((byte) 126, (byte) 127), Seq.rangeClosed((byte) 126, (byte) 127).limit(10).toList());
+        assertEquals(asList((byte) 120), Seq.rangeClosed((byte) 120, (byte) 127, 100).limit(10).toList());
+        assertEquals(asList((short) 32766, (short) 32767), Seq.rangeClosed((short) 32766, (short) 32767).limit(10).toList());
+        assertEquals(asList((char) 0xFFFE, (char) 0xFFFF), Seq.rangeClosed((char) 0xFFFE, (char) 0xFFFF).limit(10).toList());
+
+        assertEquals(asList(Instant.MAX.minusSeconds(1), Instant.MAX), Seq.rangeClosed(Instant.MAX.minusSeconds(1), Instant.MAX).limit(10).toList());
+        assertEquals(asList(Instant.MAX.minusSeconds(1)), Seq.rangeClosed(Instant.MAX.minusSeconds(1), Instant.MAX, Duration.ofDays(1)).limit(10).toList());
+    }
+
+    @Test
+    public void testRangeWithNonPositiveStep() {
+        assertThrows(IllegalArgumentException.class, () -> Seq.range((byte) 0, (byte) 5, 0));
+        assertThrows(IllegalArgumentException.class, () -> Seq.range((short) 0, (short) 5, -1));
+        assertThrows(IllegalArgumentException.class, () -> Seq.range('a', 'e', 0));
+        assertThrows(IllegalArgumentException.class, () -> Seq.range(0, 5, -1));
+        assertThrows(IllegalArgumentException.class, () -> Seq.range(0L, 5L, 0L));
+        assertThrows(IllegalArgumentException.class, () -> Seq.range(Instant.EPOCH, Instant.EPOCH.plusSeconds(5), Duration.ZERO));
+        assertThrows(IllegalArgumentException.class, () -> Seq.rangeClosed((byte) 0, (byte) 5, 0));
+        assertThrows(IllegalArgumentException.class, () -> Seq.rangeClosed((short) 0, (short) 5, -1));
+        assertThrows(IllegalArgumentException.class, () -> Seq.rangeClosed('a', 'e', 0));
+        assertThrows(IllegalArgumentException.class, () -> Seq.rangeClosed(0, 5, -1));
+        assertThrows(IllegalArgumentException.class, () -> Seq.rangeClosed(0L, 5L, 0L));
+        assertThrows(IllegalArgumentException.class, () -> Seq.rangeClosed(Instant.EPOCH, Instant.EPOCH.plusSeconds(5), Duration.ofSeconds(-1)));
+    }
+
+    @Test
     public void testRangeClosed() {
         assertEquals(Arrays.asList(), Seq.rangeClosed((byte) 0, (byte) -1).toList());
         assertEquals(Arrays.asList((byte) 0), Seq.rangeClosed((byte) 0, (byte) 0).toList());
