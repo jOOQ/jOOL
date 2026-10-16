@@ -450,9 +450,9 @@ public class Agg {
                 int compare = comparator.compare(a1.u, a2.u);
 
                 if (compare < 0)
-                    return a1;
-                else if (compare > 0)
                     return a2;
+                else if (compare > 0)
+                    return a1;
 
                 a1.t.addAll(a2.t);
                 return a1;
