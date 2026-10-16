@@ -22,6 +22,8 @@ import static org.jooq.lambda.Utils.assertThrows;
 import static org.jooq.lambda.tuple.Tuple.tuple;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.Comparator;
@@ -1323,6 +1325,96 @@ public class CollectorTests {
         assertEquals(Seq.of(4, 5).toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(3)).toList());
         assertEquals(Seq.of().toList(), Seq.of(1, 2, 3, 4, 5).collect(Agg.dropping(6)).toList());
         assertEquals(Seq.of("c", "d").toList(), Seq.of("a", "b", "c", "d").collect(Agg.dropping(2)).toList());
+    }
+
+    /**
+     * Collect a list by accumulating chunks of the list separately and then
+     * combining the partial results, like a parallel stream would, but
+     * deterministically.
+     */
+    @SuppressWarnings("unchecked")
+    private static <T, A, R> R collectInChunks(Collector<T, A, R> collector, List<T> list, int chunkSize) {
+        List<A> partials = new ArrayList<>();
+
+        // Empty chunks are possible in parallel streams as well, e.g. with filter()
+        partials.add(collector.supplier().get());
+
+        for (int i = 0; i < list.size(); i += chunkSize) {
+            A a = collector.supplier().get();
+
+            for (T t : list.subList(i, Math.min(list.size(), i + chunkSize)))
+                collector.accumulator().accept(a, t);
+
+            partials.add(a);
+            partials.add(collector.supplier().get());
+        }
+
+        A result = partials.get(0);
+        for (A a : partials.subList(1, partials.size()))
+            result = collector.combiner().apply(result, a);
+
+        return collector.finisher().apply(result);
+    }
+
+    @Test
+    public void testCombinersWithChunks() {
+        List<Integer> list = asList(5, 1, 2, 2, 3, 1, 3, 3, 4, 2, 3, 0, 5, 5, 5, 5);
+
+        for (int chunkSize = 1; chunkSize <= list.size(); chunkSize++) {
+            String m = "chunk size " + chunkSize;
+
+            assertEquals(m, Optional.of(5), collectInChunks(mode(), list, chunkSize));
+            assertEquals(m, asList(5), collectInChunks(modeAll(), list, chunkSize).toList());
+
+            assertEquals(m, asList(5, 1, 2), collectInChunks(taking(3), list, chunkSize).toList());
+            assertEquals(m, list, collectInChunks(taking(100), list, chunkSize).toList());
+            assertEquals(m, asList(), collectInChunks(taking(0), list, chunkSize).toList());
+
+            assertEquals(m, list.subList(3, list.size()), collectInChunks(dropping(3), list, chunkSize).toList());
+            assertEquals(m, list, collectInChunks(dropping(0), list, chunkSize).toList());
+            assertEquals(m, asList(), collectInChunks(dropping(100), list, chunkSize).toList());
+
+            assertEquals(m, Optional.of(49), collectInChunks(sum(), list, chunkSize));
+            assertEquals(m, Optional.of(3), collectInChunks(avg(), list, chunkSize));
+            assertEquals(m, Optional.of(0), collectInChunks(bitAnd(), list, chunkSize));
+            assertEquals(m, Optional.of(7), collectInChunks(bitOr(), list, chunkSize));
+            assertEquals(m, true, collectInChunks(allMatch(i -> i >= 0), list, chunkSize));
+            assertEquals(m, false, collectInChunks(allMatch(i -> i > 0), list, chunkSize));
+            assertEquals(m, true, collectInChunks(anyMatch(i -> i == 4), list, chunkSize));
+            assertEquals(m, true, collectInChunks(noneMatch(i -> i > 5), list, chunkSize));
+        }
+
+        // Only empty chunks
+        assertEquals(Optional.empty(), collectInChunks(sum(), asList(), 1));
+        assertEquals(Optional.empty(), collectInChunks(avg(), asList(), 1));
+        assertEquals(Optional.empty(), collectInChunks(bitAnd(), asList(), 1));
+        assertEquals(Optional.empty(), collectInChunks(bitOr(), asList(), 1));
+        assertEquals(true, collectInChunks(allMatch(i -> false), asList(), 1));
+        assertEquals(asList(), collectInChunks(dropping(1), asList(), 1).toList());
+    }
+
+    @Test
+    public void testCollectorsInParallelStreams() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10000; i++)
+            list.add(i % 10 == 0 ? 0 : 1000 + i);
+        for (int i = 0; i < 300; i++)
+            list.add(7);
+
+        // 0 is the mode, although 7 is more frequent within a single chunk
+        assertEquals(Optional.of(0), list.parallelStream().collect(mode()));
+        assertEquals(asList(0), list.parallelStream().collect(modeAll()).toList());
+        assertEquals(list.subList(0, 3), list.parallelStream().collect(taking(3)).toList());
+        assertEquals(list.subList(3, list.size()), list.parallelStream().collect(dropping(3)).toList());
+
+        // Most chunks are empty after filtering
+        assertEquals(Optional.of(5001), list.parallelStream().collect(filter(i -> i == 5001, sum())));
+        assertEquals(Optional.of(5001), list.parallelStream().collect(filter(i -> i == 5001, avg())));
+        assertEquals(Optional.of(5001), list.parallelStream().collect(filter(i -> i == 5001, bitAnd())));
+        assertEquals(Optional.of(5001), list.parallelStream().collect(filter(i -> i == 5001, bitOr())));
+        assertEquals(true, list.parallelStream().collect(filter(i -> i == 5001, allMatch(i -> i > 0))));
+        assertEquals(true, list.parallelStream().collect(filter(i -> i == 5001, anyMatch(i -> i > 0))));
+        assertEquals(false, list.parallelStream().collect(filter(i -> i == 5001, noneMatch(i -> i > 0))));
     }
 
     @Test
