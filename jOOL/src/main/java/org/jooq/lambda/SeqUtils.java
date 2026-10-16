@@ -18,6 +18,9 @@ package org.jooq.lambda;
 import static java.util.Comparator.comparing;
 import static org.jooq.lambda.Seq.seq;
 
+import java.time.DateTimeException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -113,6 +116,69 @@ class SeqUtils {
         return OptionalLong.empty();
     }
     
+    /**
+     * A range of <code>long</code> values that stops at the upper bound, or
+     * when the next value would overflow.
+     */
+    static Seq<Long> range(long fromInclusive, long to, long step, boolean toInclusive) {
+        if (step <= 0L)
+            throw new IllegalArgumentException("The step must be positive: " + step);
+        if (toInclusive ? to < fromInclusive : to <= fromInclusive)
+            return Seq.empty();
+
+        long[] next = { fromInclusive };
+        boolean[] done = { false };
+
+        return Seq.seq((FunctionalSpliterator<Long>) action -> {
+            if (done[0])
+                return false;
+
+            long current = next[0];
+            long n = current + step;
+
+            // n < current only if the addition overflowed, as step > 0
+            if (n < current || (toInclusive ? n > to : n >= to))
+                done[0] = true;
+            else
+                next[0] = n;
+
+            action.accept(current);
+            return true;
+        });
+    }
+
+    /**
+     * A range of {@link Instant} values that stops at the upper bound, or
+     * when the next value would exceed {@link Instant#MAX}.
+     */
+    static Seq<Instant> range(Instant fromInclusive, Instant to, Duration step, boolean toInclusive) {
+        if (step.isZero() || step.isNegative())
+            throw new IllegalArgumentException("The step must be positive: " + step);
+        if (toInclusive ? to.isBefore(fromInclusive) : !to.isAfter(fromInclusive))
+            return Seq.empty();
+
+        Instant[] next = { fromInclusive };
+
+        return Seq.seq((FunctionalSpliterator<Instant>) action -> {
+            Instant current = next[0];
+
+            if (current == null)
+                return false;
+
+            Instant n;
+            try {
+                n = current.plus(step);
+            }
+            catch (DateTimeException | ArithmeticException e) {
+                n = null;
+            }
+
+            next[0] = n == null || (toInclusive ? n.isAfter(to) : !n.isBefore(to)) ? null : n;
+            action.accept(current);
+            return true;
+        });
+    }
+
     /**
      * Sneaky throw any type of Throwable.
      */
