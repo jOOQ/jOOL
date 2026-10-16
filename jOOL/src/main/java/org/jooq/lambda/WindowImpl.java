@@ -131,8 +131,21 @@ class WindowImpl<T> implements Window<T> {
     }
 
     @Override
-    public long ntile(long bucket) {
-        return (bucket * rowNumber() / partition.list.size());
+    public long ntile(long buckets) {
+        if (buckets <= 0L)
+            throw new IllegalArgumentException("The number of buckets must be positive: " + buckets);
+
+        // Like SQL NTILE(), distribute the rows as evenly as possible, with
+        // the larger buckets (if any) coming first
+        long size = partition.list.size();
+        long row = rowNumber();
+        long smallBucketSize = size / buckets;
+        long largeBuckets = size % buckets;
+        long rowsInLargeBuckets = largeBuckets * (smallBucketSize + 1L);
+
+        return row < rowsInLargeBuckets
+             ? row / (smallBucketSize + 1L)
+             : largeBuckets + (row - rowsInLargeBuckets) / smallBucketSize;
     }
 
     @Override
