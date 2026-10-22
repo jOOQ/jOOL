@@ -16,7 +16,6 @@
 package org.jooq.lambda;
 
 import static java.util.Comparator.comparing;
-import static org.jooq.lambda.Seq.seq;
 
 import java.time.DateTimeException;
 import java.time.Duration;
@@ -24,7 +23,6 @@ import java.time.Instant;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import org.jooq.lambda.tuple.Tuple2;
@@ -130,21 +128,23 @@ class SeqUtils {
     }
     
     static <T> Map<?, Partition<T>> partitions(WindowSpecification<T> window, List<Tuple2<T, Long>> input) {
-        return seq(input).groupBy(
-            window.partition().compose(t -> t.v1), 
-            Collector.<
-                Tuple2<T, Long>,
-                Collection<Tuple2<T, Long>>,
-                Partition<T>
-            >of(
-                () -> window.order().isPresent()
-                    ? new TreeSet<>(comparing((Tuple2<T, Long> t) -> t.v1, window.order().get()).thenComparing(t -> t.v2))
-                    : new ArrayList<>(),
-                Collection::add,
-                (s1, s2) -> { s1.addAll(s2); return s1; },
-                Partition::new
-            )
-        );
+
+        // Collectors.groupingBy() doesn't support null keys, but like in SQL,
+        // PARTITION BY expressions may produce NULL, which forms a partition of its own
+        Map<Object, Collection<Tuple2<T, Long>>> groups = new HashMap<>();
+
+        for (Tuple2<T, Long> t : input)
+            groups.computeIfAbsent(window.partition().apply(t.v1), k ->
+                window.order().isPresent()
+                    ? new TreeSet<>(comparing((Tuple2<T, Long> x) -> x.v1, window.order().get()).thenComparing(x -> x.v2))
+                    : new ArrayList<>()
+            ).add(t);
+
+        Map<Object, Partition<T>> result = new HashMap<>();
+        for (Map.Entry<Object, Collection<Tuple2<T, Long>>> e : groups.entrySet())
+            result.put(e.getKey(), new Partition<>(e.getValue()));
+
+        return result;
     }
 
     @SuppressWarnings("unchecked")

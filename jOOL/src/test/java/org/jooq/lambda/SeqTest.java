@@ -2393,6 +2393,19 @@ public class SeqTest {
     }
     
     @Test
+    public void testWindowFunctionWithNullPartitionKeys() {
+        Function<String, Integer> length = s -> s == null ? null : s.length();
+
+        assertEquals(asList(2L, 1L, 2L), Seq.of("a", null, "b").window(length).map(Window::count).toList());
+        assertEquals(asList(0L, 0L, 1L), Seq.of("a", null, "b").window(length).map(Window::rowNumber).toList());
+        assertEquals(asList(0L, 0L, 1L, 1L), Seq.of("a", null, "b", null).window(length).map(Window::rowNumber).toList());
+        assertEquals(asList(asList("a", "b"), asList(null, null), asList("a", "b"), asList(null, null)),
+            Seq.of("a", null, "b", null).window(length).map(w -> w.window().toList()).toList());
+        assertEquals(asList(1L, 0L, 0L), Seq.of("b", null, "a").window(length, Comparator.nullsFirst(naturalOrder())).map(Window::rowNumber).toList());
+        assertEquals(asList(0L, 1L), Seq.of(1, 2).window(i -> null).map(Window::rowNumber).toList());
+    }
+
+    @Test
     public void testWindowFunctionRowNumber() {
         assertEquals(asList(0L, 1L, 2L, 3L, 4L), Seq.of(1, 2, 4, 2, 3).window().map(Window::rowNumber).toList());
         assertEquals(asList(0L, 1L, 4L, 2L, 3L), Seq.of(1, 2, 4, 2, 3).window(naturalOrder()).map(Window::rowNumber).toList());
